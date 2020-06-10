@@ -183,6 +183,21 @@ root@e5c0493ee155:/#
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>docker run -dit --name<span style="color: #666666">=</span>alpine alpine:3.10
 <span style="color: #B8860B">$ </span>docker <span style="color: #AA22FF">exec</span> -it alpine /bin/sh
 </pre></div>
+
+
+<h3 id="_1">拷贝文件</h3>
+<p>拷贝文件或文件夹。从容器拷贝到主机。</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">$ docker cp container-name:/etc/nginx/conf.d ./
+</pre></div>
+
+
+<p>从主机拷贝到容器。</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">$ docker cp  ./conf.d container-name:/etc/nginx/conf.d
+</pre></div>
+
+
+<h3 id="docker-nginx-php-fpm-mysql">使用 Docker 搭建 nginx + php-fpm + mysql 运行环境</h3>
+<p>https://zhuanlan.zhihu.com/p/59863793</p>
 	<hr/>
 	<h6>Post by <a href="../author/joey-huang.html">Joey Huang</a> under <a href="../category/notes.html">notes</a> on 2019-10-24(Thursday) 03:21.</h6>
 </article>
@@ -236,29 +251,29 @@ root@e5c0493ee155:/#
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-4"><a href="../tag/nlp.html">nlp</a></li>
-										<li class="tag-2"><a href="../tag/flask.html">flask</a></li>
-										<li class="tag-4"><a href="../tag/contacts.html">contacts</a></li>
-										<li class="tag-4"><a href="../tag/decorator.html">decorator</a></li>
-										<li class="tag-4"><a href="../tag/contacts-provider.html">contacts provider</a></li>
-										<li class="tag-4"><a href="../tag/wekzeug.html">wekzeug</a></li>
-										<li class="tag-4"><a href="../tag/github.html">github</a></li>
 										<li class="tag-1"><a href="../tag/thought.html">thought</a></li>
-										<li class="tag-4"><a href="../tag/socketserver.html">SocketServer</a></li>
-										<li class="tag-2"><a href="../tag/markdown.html">markdown</a></li>
-										<li class="tag-4"><a href="../tag/react.html">react</a></li>
 										<li class="tag-4"><a href="../tag/patchrom.html">patchrom</a></li>
-										<li class="tag-1"><a href="../tag/machine-learning.html">machine-learning</a></li>
-										<li class="tag-2"><a href="../tag/tools.html">tools</a></li>
-										<li class="tag-4"><a href="../tag/miui.html">miui</a></li>
-										<li class="tag-4"><a href="../tag/ebook.html">ebook</a></li>
-										<li class="tag-2"><a href="../tag/weapp.html">weapp</a></li>
-										<li class="tag-4"><a href="../tag/uml.html">uml</a></li>
-										<li class="tag-2"><a href="../tag/android.html">android</a></li>
-										<li class="tag-3"><a href="../tag/web.html">web</a></li>
-										<li class="tag-3"><a href="../tag/pelican.html">pelican</a></li>
-										<li class="tag-1"><a href="../tag/python.html">python</a></li>
+										<li class="tag-4"><a href="../tag/nlp.html">nlp</a></li>
 										<li class="tag-3"><a href="../tag/sublime.html">sublime</a></li>
+										<li class="tag-4"><a href="../tag/wekzeug.html">wekzeug</a></li>
+										<li class="tag-4"><a href="../tag/decorator.html">decorator</a></li>
+										<li class="tag-4"><a href="../tag/react.html">react</a></li>
+										<li class="tag-2"><a href="../tag/tools.html">tools</a></li>
+										<li class="tag-2"><a href="../tag/flask.html">flask</a></li>
+										<li class="tag-4"><a href="../tag/socketserver.html">SocketServer</a></li>
+										<li class="tag-1"><a href="../tag/machine-learning.html">machine-learning</a></li>
+										<li class="tag-2"><a href="../tag/android.html">android</a></li>
+										<li class="tag-1"><a href="../tag/python.html">python</a></li>
+										<li class="tag-4"><a href="../tag/contacts.html">contacts</a></li>
+										<li class="tag-2"><a href="../tag/markdown.html">markdown</a></li>
+										<li class="tag-4"><a href="../tag/miui.html">miui</a></li>
+										<li class="tag-2"><a href="../tag/weapp.html">weapp</a></li>
+										<li class="tag-4"><a href="../tag/contacts-provider.html">contacts provider</a></li>
+										<li class="tag-3"><a href="../tag/pelican.html">pelican</a></li>
+										<li class="tag-3"><a href="../tag/web.html">web</a></li>
+										<li class="tag-4"><a href="../tag/uml.html">uml</a></li>
+										<li class="tag-4"><a href="../tag/ebook.html">ebook</a></li>
+										<li class="tag-4"><a href="../tag/github.html">github</a></li>
 								</ul>
 							</div>
 

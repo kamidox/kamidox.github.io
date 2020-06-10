@@ -268,6 +268,147 @@ Categories=Development;
 <ol>
 <li>启用 dotfile ，让 bash 更友好</li>
 </ol>
+<h2 id="docker">使用 Docker 交叉编译</h2>
+<p>确保安装了 Docker 环境，运行如下命令：</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">docker run -it -v /Users/kamidox/work/raspberry:/build --name pi-cc mitchallen/pi-cross-compile /bin/bash
+</pre></div>
+
+
+<p>如果没有下载过 <code>mitchallen/pi-cross-compile</code>，则需要一定的时间下载 raspberry pi 交叉编译需要的 docker image，大概有 1.5GB。如果已经下载过，则会直接运行这个 image，并且命名为 <code>pi-cc</code>。同时，还会把本地目录 <code>/Users/kamidox/work/raspberry</code> 映射到 container 的 <code>/build</code> 目录下。</p>
+<p>之后，就可以在 container shell 下通过 make 进行交叉编译了。如果已经运行过上面的命令，则直接通过下面的命令启动名字为 <code>pi-cc</code> 的 container，然后进入这个 container 的 shell 环境进行编译就可以了。</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">$ docker start pi-cc
+pi-cc
+
+$ docker exec -it pi-cc /bin/bash
+root@6b7ac5b17190:/build#
+</pre></div>
+
+
+<h3 id="rootfs">配置交叉编译的 rootfs</h3>
+<p>交叉编译时，需要依赖第三方库和头文件。这些头文件可以从 Raspberry Pi 板子上拷贝过来。</p>
+<table class="codehilitetable"><tr><td><div class="linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><pre style="line-height: 125%">1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #008800; font-style: italic">#!/bin/sh</span>
+
+mkdir -p ~/work/raspberrypi/rootfs
+rsync -avz --delete-after --safe-links pi@192.168.31.100:/lib ~/work/raspberry/rootfs
+rsync -avz --delete-after --safe-links pi@192.168.31.100:/usr/include ~/work/raspberry/rootfs/usr
+rsync -avz --delete-after --safe-links pi@192.168.31.100:/usr/lib ~/work/raspberry/rootfs/usr
+rsync -avz --delete-after --safe-links pi@192.168.31.100:/usr/local/include ~/work/raspberry/rootfs/usr/local
+rsync -avz --delete-after --safe-links pi@192.168.31.100:/usr/local/lib ~/work/raspberry/rootfs/usr/local
+</pre></div>
+</td></tr></table>
+
+<p>交叉编译时，可以通过配置编译命令，让编译系统从 <code>~/work/raspberry/rootfs</code> 目录下查找头文件及需要链接的库。</p>
+<h3 id="_5">配置交叉编译工具链</h3>
+<p>从 https://github.com/abhiTronix/raspberry-pi-cross-compilers#d-toolchain-binaries-downloads 下载工具链，根据当前 raspberry pi 操作系统选择版本，比如当前选择的是 Stretch/6.3.0 的版本。</p>
+<p>不要使用官方的交叉编译工具 https://github.com/raspberrypi/tools ，这个版本的 gcc 太旧了，会有编译错误。</p>
+<p>通过 -I, -B, -Wl,-rpath-link 配置交叉编译工具链，其中：</p>
+<ul>
+<li>-I 指定额外的头文件查找目录</li>
+<li>-B 指定额外的库查找目录</li>
+<li>-Wl,-rpath-link 给链接器 ld 传递库查找目录</li>
+</ul>
+<p>可以运行 <code>/build/tools/cross-pi-gcc-6.3.0-2/bin/arm-linux-gnueabihf-gcc --sysroot=/build/rootfs -print-search-dirs</code> 来查看 gcc 的查找目录。</p>
+<p>一个可用的示例如下：</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">SYSROOT</span><span style="color: #666666">=</span>/build/rootfs
+<span style="color: #B8860B">CC</span><span style="color: #666666">=</span>/build/tools/cross-pi-gcc-6.3.0-2/bin/arm-linux-gnueabihf-gcc
+<span style="color: #B8860B">CFLAGS</span> <span style="color: #666666">+=</span> --sysroot<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">$(</span>SYSROOT<span style="color: #AA22FF; font-weight: bold">)</span> <span style="color: #BB6622; font-weight: bold">\</span>
+          -I<span style="color: #AA22FF; font-weight: bold">$(</span>SYSROOT<span style="color: #AA22FF; font-weight: bold">)</span>/usr/include/arm-linux-gnueabihf
+<span style="color: #B8860B">LDFLAGS</span> <span style="color: #666666">+=</span> -B<span style="color: #AA22FF; font-weight: bold">$(</span>SYSROOT<span style="color: #AA22FF; font-weight: bold">)</span>/usr/lib/arm-linux-gnueabihf <span style="color: #BB6622; font-weight: bold">\</span>
+           -Wl,-rpath-link,<span style="color: #AA22FF; font-weight: bold">$(</span>SYSROOT<span style="color: #AA22FF; font-weight: bold">)</span>/lib/arm-linux-gnueabihf <span style="color: #BB6622; font-weight: bold">\</span>
+           -Wl,-rpath-link,<span style="color: #AA22FF; font-weight: bold">$(</span>SYSROOT<span style="color: #AA22FF; font-weight: bold">)</span>/usr/lib/arm-linux-gnueabihf
+
+<span style="color: #00A000">all</span><span style="color: #666666">:</span> capturer_mmap capturer_read viewer
+
+<span style="color: #00A000">capturer_mmap</span><span style="color: #666666">:</span> capturer_mmap.c
+    <span style="color: #AA22FF; font-weight: bold">$(</span>CC<span style="color: #AA22FF; font-weight: bold">)</span> -O2 -o capturer_mmap capturer_mmap.c
+
+<span style="color: #00A000">capturer_read</span><span style="color: #666666">:</span> capturer_read.c
+    <span style="color: #AA22FF; font-weight: bold">$(</span>CC<span style="color: #AA22FF; font-weight: bold">)</span> -O2 <span style="color: #AA22FF; font-weight: bold">$(</span>CFLAGS<span style="color: #AA22FF; font-weight: bold">)</span> <span style="color: #AA22FF; font-weight: bold">$(</span>LDFLAGS<span style="color: #AA22FF; font-weight: bold">)</span> -o capturer_read capturer_read.c
+
+<span style="color: #00A000">viewer</span><span style="color: #666666">:</span> viewer.c
+    <span style="color: #AA22FF; font-weight: bold">$(</span>CC<span style="color: #AA22FF; font-weight: bold">)</span> -O2 <span style="color: #AA22FF; font-weight: bold">$(</span>CFLAGS<span style="color: #AA22FF; font-weight: bold">)</span> <span style="color: #AA22FF; font-weight: bold">$(</span>LDFLAGS<span style="color: #AA22FF; font-weight: bold">)</span> -lX11 -lXext -o viewer viewer.c
+
+<span style="color: #00A000">clean</span><span style="color: #666666">:</span>
+    rm -f capturer_mmap
+    rm -f capturer_read
+    rm -f viewer
+</pre></div>
+
+
+<p>如果在 MacOS 上交叉编译，可以使用 Docker 运行任何一个 ubuntu 镜像，然后安装交叉编译工具和 rootfs 就可以。但实际上，实测下来，使用 Docker 交叉编译比使用 Raspberry PI 硬件编译还慢。</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">root@6b7ac5b17190:/build/v4l2/v4l2_sample# time make
+/build/tools/cross-pi-gcc-6.3.0-2/bin/arm-linux-gnueabihf-gcc -O2 -o capturer_mmap capturer_mmap.c
+/build/tools/cross-pi-gcc-6.3.0-2/bin/arm-linux-gnueabihf-gcc -O2 --sysroot=/build/rootfs -I/build/rootfs/usr/include/arm-linux-gnueabihf -B/build/rootfs/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/build/rootfs/lib/arm-linux-gnueabihf -Wl,-rpath-link,/build/rootfs/usr/lib/arm-linux-gnueabihf -o capturer_read capturer_read.c
+/build/tools/cross-pi-gcc-6.3.0-2/bin/arm-linux-gnueabihf-gcc -O2 --sysroot=/build/rootfs -I/build/rootfs/usr/include/arm-linux-gnueabihf -B/build/rootfs/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/build/rootfs/lib/arm-linux-gnueabihf -Wl,-rpath-link,/build/rootfs/usr/lib/arm-linux-gnueabihf -lX11 -lXext -o viewer viewer.c
+
+real    0m5.079s
+user    0m0.410s
+sys     0m0.610s
+</pre></div>
+
+
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">pi@raspberrypi:~/work/V4l2_samples-0.4.1 $ time make
+gcc -O2 -o capturer_mmap capturer_mmap.c
+gcc -O2 -I/build/rootfs/usr/include -L/build/rootfs/lib -L/build/rootfs/usr/lib -o capturer_read capturer_read.c
+gcc -O2 -I/build/rootfs/usr/include -L/build/rootfs/lib -L/build/rootfs/usr/lib -lX11 -lXext -o viewer viewer.c
+
+real    0m2.584s
+user    0m2.408s
+sys 0m0.157s
+</pre></div>
+
+
+<p>由此可见，交叉编译只在 ubuntu 真机上有效，通过 docker 意义不大。</p>
+<h3 id="_6">添加交叉编译环境依赖库</h3>
+<p>比如，某个程序依赖 <code>Xlib.h</code>，在交叉编译环境下提示找不到该文件:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">viewer.c:28:22: fatal error: X11/Xlib.h: No such file or directory
+</pre></div>
+
+
+<p><code>Xlib.h</code> 这个头文件在 <code>libx11-dev</code> 包里。可以通过以下步骤来解决。</p>
+<ol>
+<li>在 Raspberry Pi 目标板上通过 <code>apt install libx11-dev</code> 安装。</li>
+<li>把 <code>libx11-dev</code> 安装的头文件和动态库文件从 Raspberry Pi 目标板上拷贝到 Docker 编译环境里。</li>
+</ol>
+<p>比如，<code>libx11-dev</code> 的头文件放在目标板的 <code>/usr/include/X11</code> 目录下，动态库在 <code>/usr/lib</code> 目录下，通过下面命令拷贝到和 Docker 共享目录：</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">rsync -rl --delete-after --safe-links pi@192.168.31.100:/{usr/lib,usr/include/X11} /Users/kamidox/work/raspberry/rootfs/
+</pre></div>
+
+
+<p>然后进入 Docker 的 shell 控制台，拷贝到交叉编译的 sysroot 目录下:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">cp -a /build/rootfs/usr/include/* /pitools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/arm-linux-gnueabihf/libc/usr/include/
+cp -a /build/rootfs/usr/lib/* /pitools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/arm-linux-gnueabihf/libc/lib/
+</pre></div>
+
+
+<p>当发现交叉编译时，缺少某个标准库时，可以用上述方法安装。</p>
+<p>参考文档：</p>
+<ol>
+<li>https://visp-doc.inria.fr/doxygen/visp-3.1.0/tutorial-install-crosscompiling-raspberry.html</li>
+<li>https://www.raspberrypi.org/forums/viewtopic.php?t=22260</li>
+<li>https://github.com/HesselM/rpicross_notes/blob/master/04-xc-setup.md</li>
+</ol>
+<h2 id="camera">Camera</h2>
+<p>安装完 Camera 模组，可以运行 <code>raspstill -o ~/Desktop/1.jpg</code> 来拍照，如果一切正常，将保存 <code>1.jpg</code> 图片到桌面上。</p>
+<p>可参阅官方文档：</p>
+<p>https://www.raspberrypi.org/documentation/usage/camera/<br />
+https://www.raspberrypi.org/documentation/usage/camera/raspicam/raspistill.md</p>
+<h3 id="devvideo0">无法找到 <code>/dev/video0</code> 设备</h3>
+<p>运行 <code>sudo modprobe bcm2835-v4l2</code> 来手动加载 v4l2 驱动。成功后，就会生成 <code>/dev/video0</code> 设备。</p>
+<p>安装完 <code>/dev/video0</code> 设备，就可以使用标准的基于 v4l2 的应用程序。典型地，可以通过 vnc 远程桌面，运行 v4l2 示例程序来查看实时视频：</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">cd ~/work/v4l2_sample
+./capturer_mmap -D /dev/video0 -w 320*240 -p 0 | ./viewer -w 320*240 -p 0
+</pre></div>
+
+
+<p>为了开机时，自动创建 v4l2 设备节点，可以把 <code>bcm2835-v4l2</code> 加到 <code>/etc/modules</code> 文件里，这样开机就会自动加载 v4l2 模块驱动。</p>
 <h2 id="know-issues">Know Issues</h2>
 <ol>
 <li>volume was not unmounted cleanly</li>
@@ -329,29 +470,29 @@ Categories=Development;
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-4"><a href="../tag/nlp.html">nlp</a></li>
-										<li class="tag-2"><a href="../tag/flask.html">flask</a></li>
-										<li class="tag-4"><a href="../tag/contacts.html">contacts</a></li>
-										<li class="tag-4"><a href="../tag/decorator.html">decorator</a></li>
-										<li class="tag-4"><a href="../tag/contacts-provider.html">contacts provider</a></li>
-										<li class="tag-4"><a href="../tag/wekzeug.html">wekzeug</a></li>
-										<li class="tag-4"><a href="../tag/github.html">github</a></li>
 										<li class="tag-1"><a href="../tag/thought.html">thought</a></li>
-										<li class="tag-4"><a href="../tag/socketserver.html">SocketServer</a></li>
-										<li class="tag-2"><a href="../tag/markdown.html">markdown</a></li>
-										<li class="tag-4"><a href="../tag/react.html">react</a></li>
 										<li class="tag-4"><a href="../tag/patchrom.html">patchrom</a></li>
-										<li class="tag-1"><a href="../tag/machine-learning.html">machine-learning</a></li>
-										<li class="tag-2"><a href="../tag/tools.html">tools</a></li>
-										<li class="tag-4"><a href="../tag/miui.html">miui</a></li>
-										<li class="tag-4"><a href="../tag/ebook.html">ebook</a></li>
-										<li class="tag-2"><a href="../tag/weapp.html">weapp</a></li>
-										<li class="tag-4"><a href="../tag/uml.html">uml</a></li>
-										<li class="tag-2"><a href="../tag/android.html">android</a></li>
-										<li class="tag-3"><a href="../tag/web.html">web</a></li>
-										<li class="tag-3"><a href="../tag/pelican.html">pelican</a></li>
-										<li class="tag-1"><a href="../tag/python.html">python</a></li>
+										<li class="tag-4"><a href="../tag/nlp.html">nlp</a></li>
 										<li class="tag-3"><a href="../tag/sublime.html">sublime</a></li>
+										<li class="tag-4"><a href="../tag/wekzeug.html">wekzeug</a></li>
+										<li class="tag-4"><a href="../tag/decorator.html">decorator</a></li>
+										<li class="tag-4"><a href="../tag/react.html">react</a></li>
+										<li class="tag-2"><a href="../tag/tools.html">tools</a></li>
+										<li class="tag-2"><a href="../tag/flask.html">flask</a></li>
+										<li class="tag-4"><a href="../tag/socketserver.html">SocketServer</a></li>
+										<li class="tag-1"><a href="../tag/machine-learning.html">machine-learning</a></li>
+										<li class="tag-2"><a href="../tag/android.html">android</a></li>
+										<li class="tag-1"><a href="../tag/python.html">python</a></li>
+										<li class="tag-4"><a href="../tag/contacts.html">contacts</a></li>
+										<li class="tag-2"><a href="../tag/markdown.html">markdown</a></li>
+										<li class="tag-4"><a href="../tag/miui.html">miui</a></li>
+										<li class="tag-2"><a href="../tag/weapp.html">weapp</a></li>
+										<li class="tag-4"><a href="../tag/contacts-provider.html">contacts provider</a></li>
+										<li class="tag-3"><a href="../tag/pelican.html">pelican</a></li>
+										<li class="tag-3"><a href="../tag/web.html">web</a></li>
+										<li class="tag-4"><a href="../tag/uml.html">uml</a></li>
+										<li class="tag-4"><a href="../tag/ebook.html">ebook</a></li>
+										<li class="tag-4"><a href="../tag/github.html">github</a></li>
 								</ul>
 							</div>
 
