@@ -179,11 +179,11 @@
 <article>
 	<h2>读懂 mjlab CartPole 的 Observations 与 Rewards</h2>
 	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>本文对应 <a href="https://github.com/mujocolab/mjlab/blob/main/src/mjlab/tasks/cartpole/cartpole_env_cfg.py">CartPole 环境配置</a>。目标是用通俗的方式解释两件事：策略每一步看到了什么（observations），以及训练算法如何判断这一步做得好不好（rewards）。</p>
+<p>本文对应 <a href="https://github.com/mujocolab/mjlab/blob/main/src/mjlab/tasks/cartpole/cartpole_env_cfg.py">src/mjlab/tasks/cartpole/cartpole_env_cfg.py</a>。目标是用通俗的方式解释两件事：策略每一步看到了什么（observations），以及训练算法如何判断这一步做得好不好（rewards）。</p>
 <p>CartPole 装置由一辆沿水平轨道移动的小车和一根铰接在小车上的杆组成。策略只能对小车施加水平力，却要让杆摆到竖直向上并保持平衡。如下面视频所示。</p>
 <div>
    <video style="width:80%; display:block; margin:0 auto;" autoplay loop muted playsinline>
-     <source src="https://github.com/mujocolab/mjlab/blob/main/docs/source/_static/tutorials/cartpole_swingup.mp4" type="video/mp4">
+     <source src="https://raw.githubusercontent.com/mujocolab/mjlab/main/docs/source/_static/tutorials/cartpole_swingup.mp4" type="video/mp4">
    </video>
    <p style="text-align:center; color:#666; font-size:0.9em; margin-top:0.5em;">
      A trained agent performing the swingup task.

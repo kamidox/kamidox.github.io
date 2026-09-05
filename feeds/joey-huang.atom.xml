@@ -414,11 +414,11 @@ max_iterations&lt;span style="color: #666666"&gt;=5_000&lt;/span&gt;
 &lt;/ol&gt;
 &lt;p&gt;沿这条链路看，CartPole 任务的本质很清楚：策略读取状态，控制小车，物理引擎更新杆的
 运动，奖励评价“直立且省力”，PPO 再用大量并行轨迹不断改进策略。&lt;/p&gt;</content><category term="ai"></category><category term="ai"></category></entry><entry><title>读懂 mjlab CartPole 的 Observations 与 Rewards</title><link href="http://kamidox.github.io/mjlab-cardpole-swingup.html" rel="alternate"></link><published>2026-09-05T11:43:00+08:00</published><updated>2026-09-05T11:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-05:/mjlab-cardpole-swingup.html</id><summary type="html">&lt;p&gt;使用 mjlab 训练一个倒立摆 CartPole 立起来，并保持平衡。到底它的观察项和奖励函数是如何设计的？有什么物理意义？&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;写在前面&lt;a class="headerlink" href="#_1" title="Permanent link"&gt;&amp;para;&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;本文对应 &lt;a href="https://github.com/mujocolab/mjlab/blob/main/src/mjlab/tasks/cartpole/cartpole_env_cfg.py"&gt;CartPole 环境配置&lt;/a&gt;。目标是用通俗的方式解释两件事：策略每一步看到了什么（observations），以及训练算法如何判断这一步做得好不好（rewards）。&lt;/p&gt;
+&lt;p&gt;本文对应 &lt;a href="https://github.com/mujocolab/mjlab/blob/main/src/mjlab/tasks/cartpole/cartpole_env_cfg.py"&gt;src/mjlab/tasks/cartpole/cartpole_env_cfg.py&lt;/a&gt;。目标是用通俗的方式解释两件事：策略每一步看到了什么（observations），以及训练算法如何判断这一步做得好不好（rewards）。&lt;/p&gt;
 &lt;p&gt;CartPole 装置由一辆沿水平轨道移动的小车和一根铰接在小车上的杆组成。策略只能对小车施加水平力，却要让杆摆到竖直向上并保持平衡。如下面视频所示。&lt;/p&gt;
 &lt;div&gt;
    &lt;video style="width:80%; display:block; margin:0 auto;" autoplay loop muted playsinline&gt;
-     &lt;source src="https://github.com/mujocolab/mjlab/blob/main/docs/source/_static/tutorials/cartpole_swingup.mp4" type="video/mp4"&gt;
+     &lt;source src="https://raw.githubusercontent.com/mujocolab/mjlab/main/docs/source/_static/tutorials/cartpole_swingup.mp4" type="video/mp4"&gt;
    &lt;/video&gt;
    &lt;p style="text-align:center; color:#666; font-size:0.9em; margin-top:0.5em;"&gt;
      A trained agent performing the swingup task.
