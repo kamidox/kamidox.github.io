@@ -20,7 +20,7 @@
 		<!-- Feeds -->
 
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+		<script type="text/javascript" src="/MathJax/MathJax.js"></script>
 		<script>
 		MathJax.Hub.Config({
 		  config: ["MMLorHTML.js"],
@@ -66,17 +66,23 @@
 				<!-- mobile side bar nav -->
 				<aside class="left-off-canvas-menu">
 					<ul class="off-canvas-list">
-							<li><a href="http://blog.kamidox.com">Home</a></li>
-							<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+							<li><a href="http://kamidox.com">Home</a></li>
+							<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						<li><label>Categories</label></li>
+							<li ><a href="./category/ai.html">ai</a></li>
 							<li ><a href="./category/android.html">android</a></li>
+							<li ><a href="./category/daily.html">daily</a></li>
+							<li ><a href="./category/edge.html">edge</a></li>
 							<li ><a href="./category/essay.html">essay</a></li>
 							<li ><a href="./category/flask.html">flask</a></li>
+							<li ><a href="./category/history.html">history</a></li>
 							<li ><a href="./category/ml.html">ml</a></li>
 							<li ><a href="./category/nlp.html">nlp</a></li>
+							<li ><a href="./category/notes.html">notes</a></li>
 							<li ><a href="./category/python.html">python</a></li>
 							<li class="active"><a href="./category/tools.html">tools</a></li>
+							<li ><a href="./category/wealth.html">wealth</a></li>
 							<li ><a href="./category/weapp.html">weapp</a></li>
 							<li ><a href="./category/web.html">web</a></li>
 							<li ><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -85,6 +91,35 @@
 
 
 						<li><label>Monthly Archives</label></li>
+									<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+									<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+									<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+									<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+									<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+									<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+									<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+									<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+									<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+									<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+									<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+									<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+									<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+									<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+									<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+									<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+									<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+									<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+									<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+									<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+									<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+									<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+									<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+									<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+									<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+									<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+									<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+									<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+									<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 									<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 									<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 									<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>
@@ -129,8 +164,8 @@
 
 					<section class="top-bar-section">
 						<ul class="left">
-								<li><a href="http://blog.kamidox.com">Home</a></li>
-								<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+								<li><a href="http://kamidox.com">Home</a></li>
+								<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						</ul>
 					</section>
@@ -174,237 +209,218 @@
 <li><a href="#_18">最佳实践</a></li>
 </ul>
 </div>
-<h2 id="_1">摘要</h2>
+<h2 id="_1">摘要<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>本文包含两部分内容：</p>
 <ol>
 <li>在sublime里安装Markdown Preview插件来实现markdown文件的预览</li>
 <li>介绍markdown常用的语法，让初次接触markdown的人可以在短时间内掌握常用的语法和句法</li>
 </ol>
-<h2 id="markdown">什么是markdown</h2>
+<h2 id="markdown">什么是markdown<a class="headerlink" href="#markdown" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>Markdown 是一种轻量级标记语言，它允许人们使用<strong>易读易写</strong>的<strong>纯文本格式</strong>编写文档，然后转换成<strong>格式丰富的HTML页面</strong>。    —— <a href="https://zh.wikipedia.org/wiki/Markdown">维基百科</a></p>
 </blockquote>
-<h2 id="markdown-preview">安装Markdown Preview插件</h2>
+<h2 id="markdown-preview">安装Markdown Preview插件<a class="headerlink" href="#markdown-preview" title="Permanent link">&para;</a></h2>
 <p>推荐的安装方法是通过<a href="https://sublime.wbond.net/">Package Control</a>来安装：</p>
 <ol>
 <li>如果你的sublime还没有安装<a href="https://sublime.wbond.net/">Package Control</a>，需要先点击<a href="https://sublime.wbond.net/">这里</a>查看安装方法</li>
 <li>使用 <code>ctrl + shift + P</code> 来打开命令窗口，输入并选择 <code>Package Control: Install Package</code></li>
 <li>在弹出的窗口里，输入 <code>Markdown Preview</code>并按回车来完成安装</li>
 </ol>
-<h2 id="markdown-preview_1">配置Markdown Preview插件</h2>
-<h3 id="_2">配置快捷键</h3>
+<h2 id="markdown-preview_1">配置Markdown Preview插件<a class="headerlink" href="#markdown-preview_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">配置快捷键<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>通过 <code>Preferences -&gt; Key Bindings - User</code>打开sublime的快捷键配置文件，把下面内容复制到这个设置文件里保存。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">{ <span style="color: #008000; font-weight: bold">&quot;keys&quot;</span>: [<span style="color: #BB4444">&quot;alt+m&quot;</span>], <span style="color: #008000; font-weight: bold">&quot;command&quot;</span>: <span style="color: #BB4444">&quot;markdown_preview&quot;</span>, <span style="color: #008000; font-weight: bold">&quot;args&quot;</span>: {<span style="color: #008000; font-weight: bold">&quot;target&quot;</span>: <span style="color: #BB4444">&quot;browser&quot;</span>, <span style="color: #008000; font-weight: bold">&quot;parser&quot;</span>:<span style="color: #BB4444">&quot;markdown&quot;</span>} }
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>{<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">&quot;keys&quot;</span>:<span style="color: #bbbbbb"> </span>[<span style="color: #BB4444">&quot;alt+m&quot;</span>],<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">&quot;command&quot;</span>:<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;markdown_preview&quot;</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">&quot;args&quot;</span>:<span style="color: #bbbbbb"> </span>{<span style="color: #008000; font-weight: bold">&quot;target&quot;</span>:<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;browser&quot;</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">&quot;parser&quot;</span>:<span style="color: #BB4444">&quot;markdown&quot;</span>}<span style="color: #bbbbbb"> </span>}
+</code></pre></div>
 
 <p>配置完成后，按下<code>alt + m</code>即可直接在浏览器里预览markdown的写作效果。</p>
-<h3 id="_3">代码高亮</h3>
+<h3 id="_3">代码高亮<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>markdown里嵌入的代码在生成html文档时，支持根据语言高亮显示。通过 <code>Preferences -&gt; Package Settings -&gt; Markdown Preview -&gt; Settings-User</code> 来打开用户设置文件，加入如下内容即可打开代码高亮功能。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">{
-    <span style="color: #008000; font-weight: bold">&quot;enable_highlight&quot;</span>: <span style="color: #AA22FF; font-weight: bold">true</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>{
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&quot;enable_highlight&quot;</span>:<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">true</span>
 }
-</pre></div>
-
+</code></pre></div>
 
 <p>如果需要更高级的高亮显示，比如指定代码高亮的风格(emacs, vim etc.)，则可以自定义 <code>codehilite</code> 扩展来实现。在Markdown Preview用户设置文件里加入如下内容即可。本文就是使用 <code>emacs</code> 高亮风格来显示代码的。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">{
-    <span style="color: #008000; font-weight: bold">&quot;enabled_extensions&quot;</span>: [
-            <span style="color: #BB4444">&quot;extra&quot;</span>,
-            <span style="color: #BB4444">&quot;github&quot;</span>,
-            <span style="color: #BB4444">&quot;toc&quot;</span>,
-            <span style="color: #BB4444">&quot;headerid&quot;</span>,
-            <span style="color: #BB4444">&quot;meta&quot;</span>,
-            <span style="color: #BB4444">&quot;sane_lists&quot;</span>,
-            <span style="color: #BB4444">&quot;smarty&quot;</span>,
-            <span style="color: #BB4444">&quot;wikilinks&quot;</span>,
-            <span style="color: #BB4444">&quot;admonition&quot;</span>,
-            <span style="color: #BB4444">&quot;codehilite(guess_lang=False,pygments_style=emacs)&quot;</span>
-        ]
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>{
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&quot;enabled_extensions&quot;</span>:<span style="color: #bbbbbb"> </span>[
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;extra&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;github&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;toc&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;headerid&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;meta&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;sane_lists&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;smarty&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;wikilinks&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;admonition&quot;</span>,
+<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot;codehilite(guess_lang=False,pygments_style=emacs)&quot;</span>
+<span style="color: #bbbbbb">        </span>]
 }
-</pre></div>
-
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">关于pygments</p>
 <p>pygments_style可以用来指定代码高亮的风格。Markdown Preview使用pygments来完成代码高亮。关于pygments以及更多可用的内置代码高亮风格，可访问<a href="http://pygments.org/docs/styles/">pygments官网</a>查阅相关文档。</p>
 </div>
-<h3 id="css">配置css文件</h3>
-<p>Markdown Preview生成的HTML文件，在浏览器里查看时其默认的宽度为45em，如果你觉得生成的网页太窄，可以修改一下css文件。<br />
+<h3 id="css">配置css文件<a class="headerlink" href="#css" title="Permanent link">&para;</a></h3>
+<p>Markdown Preview生成的HTML文件，在浏览器里查看时其默认的宽度为45em，如果你觉得生成的网页太窄，可以修改一下css文件。
 打开Markdown Preview的安装目录，找到markdown.css和github.css文件，查找下面的内容：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">    <span style="color: #008000; font-weight: bold">body</span> {
-      <span style="color: #AA22FF; font-weight: bold">width</span><span style="color: #666666">:</span> <span style="color: #666666">45em</span>;
-      <span style="color: #AA22FF; font-weight: bold">border</span><span style="color: #666666">:</span> <span style="color: #666666">1px</span> <span style="color: #AA22FF; font-weight: bold">solid</span> <span style="color: #666666">#ddd</span>;
-      <span style="color: #AA22FF; font-weight: bold">outline</span><span style="color: #666666">:</span> <span style="color: #666666">1300px</span> <span style="color: #AA22FF; font-weight: bold">solid</span> <span style="color: #666666">#fff</span>;
-      <span style="color: #AA22FF; font-weight: bold">margin</span><span style="color: #666666">:</span> <span style="color: #666666">16px</span> <span style="color: #AA22FF; font-weight: bold">auto</span>;
-    }
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">body</span><span style="color: #bbbbbb"> </span>{
+<span style="color: #bbbbbb">      </span><span style="color: #AA22FF; font-weight: bold">width</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">45</span><span style="color: #00BB00; font-weight: bold">em</span>;
+<span style="color: #bbbbbb">      </span><span style="color: #AA22FF; font-weight: bold">border</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">1</span><span style="color: #00BB00; font-weight: bold">px</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">solid</span><span style="color: #bbbbbb"> </span><span style="color: #666666">#ddd</span>;
+<span style="color: #bbbbbb">      </span><span style="color: #AA22FF; font-weight: bold">outline</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">1300</span><span style="color: #00BB00; font-weight: bold">px</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">solid</span><span style="color: #bbbbbb"> </span><span style="color: #666666">#fff</span>;
+<span style="color: #bbbbbb">      </span><span style="color: #AA22FF; font-weight: bold">margin</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">16</span><span style="color: #00BB00; font-weight: bold">px</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">auto</span>;
+<span style="color: #bbbbbb">    </span>}
+</code></pre></div>
 
 <p>把里面的<strong>45em</strong>修改为<strong>80%</strong>或者你认为合适的尺寸即可。</p>
 <div class="admonition hint">
 <p class="admonition-title">sublime安装包目录与格式</p>
 <ul>
-<li><strong>Linux环境</strong><br />
+<li><strong>Linux环境</strong>
 通过 <code>Package Control: List Packages</code> ，在己安装的Packages里选择 <code>Markdown Preview</code> 会直接打开Markdown Preview的安装目录，在打开的目录中直接可以找到markdown.css和github.css。</li>
-<li><strong>Windows环境</strong><br />
+<li><strong>Windows环境</strong>
 在sublime安装目录下，找到 <code>Data\Installed Packages</code> 目录，这个目录就是安装包的目录。如果已经安装好Markdown Preview，可以看到文件 <code>Markdown Preview.sublime-package</code> 。这个其实是一个zip包。直接用系统里的压缩工具打开，然后在压缩包的根目录下查找markdown.css和github.css，按照上述方法修改即可。<strong>修改完成需要保存回压缩包</strong>。在打开压缩包修改的时候，必须关闭sublime，否则无法修改成功。</li>
 </ul>
 </div>
-<h2 id="markdown_1">几个常用的markdown语法示例</h2>
-<h3 id="_4">标题</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">标题1
-=====
+<h2 id="markdown_1">几个常用的markdown语法示例<a class="headerlink" href="#markdown_1" title="Permanent link">&para;</a></h2>
+<h3 id="_4">标题<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #000080; font-weight: bold">标题1</span>
+<span style="color: #000080; font-weight: bold">=====</span>
 
-#标题1
+<span style="color: #000080; font-weight: bold">#标题1</span>
 
-##标题2
+<span style="color: #800080; font-weight: bold">##标题2</span>
 
-###标题3
-</pre></div>
+<span style="color: #800080; font-weight: bold">###标题3</span>
+</code></pre></div>
 
+<h3 id="_5">列表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #800080; font-weight: bold">###无序列表1</span>
 
-<h3 id="_5">列表</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">###无序列表1
+<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>列表1
+<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>列表2
+<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>列表3
 
-* 列表1
-* 列表2
-* 列表3
+<span style="color: #800080; font-weight: bold">###无序列表2</span>
 
-###无序列表2
+<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>列表1
+<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span><span style="font-weight: bold">**列表2**</span>
+<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>列表3
 
-- 列表1
-- **列表2**
-- 列表3
+<span style="color: #800080; font-weight: bold">###有序列表</span>
 
-###有序列表
+<span style="color: #AA22FF; font-weight: bold">1.</span> 列表1
+<span style="color: #AA22FF; font-weight: bold">2.</span> 列表2
+<span style="color: #AA22FF; font-weight: bold">3.</span> 列表3
+</code></pre></div>
 
-1. 列表1
-2. 列表2
-3. 列表3
-</pre></div>
-
-
-<h3 id="_6">弹出式注释</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">把鼠标停留在**HTML**和**W3C**上看会发生什么。
+<h3 id="_6">弹出式注释<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>把鼠标停留在**HTML**和**W3C**上看会发生什么。
 
 *[HTML]: Hyper Text Markup Language
 *[W3C]: World Wide Web Consortium
-</pre></div>
+</code></pre></div>
 
-
-<h3 id="_7">定义列表</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">Apple
+<h3 id="_7">定义列表<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Apple
 :   Pomaceous fruit of plants of the genus Malus in
     the family Rosaceae.
 
 Orange
 :   The fruit of an evergreen tree of the genus Citrus.
-</pre></div>
+</code></pre></div>
 
-
-<h3 id="_8">代码片段</h3>
+<h3 id="_8">代码片段<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>GitHub格式的代码片段：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">```python
-#!python
-# -*- coding: utf-8 -*-
-from flask import Flask, render_template
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">```python</span>
+<span style="color: #008800; font-style: italic">#!python</span>
+<span style="color: #008800; font-style: italic"># -*- coding: utf-8 -*-</span>
+<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">flask</span> <span style="color: #AA22FF; font-weight: bold">import</span> Flask, render_template
 
-app = Flask(__name__)
-app.debug = APP_DEBUG
+app <span style="color: #666666">=</span> Flask(<span style="color: #B8860B">__name__</span>)
+app<span style="color: #666666">.</span>debug <span style="color: #666666">=</span> APP_DEBUG
 
-#homepage just for fun
-@app.route(&#39;/&#39;)
-def home():
-    return render_template(&#39;index.html&#39;)
-```
-</pre></div>
-
+<span style="color: #008800; font-style: italic">#homepage just for fun</span>
+<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>route(<span style="color: #BB4444">&#39;/&#39;</span>)
+<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">home</span>():
+    <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&#39;index.html&#39;</span>)
+<span style="color: #BB4444">```</span>
+</code></pre></div>
 
 <p>Markdown官方推荐的代码片段格式是直接缩进4个空格：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">    #!python
-    # -*- coding: utf-8 -*-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    #!python
+    # -<span style="font-style: italic">*- coding: utf-8 -*</span>-
 
-    if __name__ == &#39;__main__&#39;:
+    if <span style="font-weight: bold">__name__</span> == &#39;<span style="font-weight: bold">__main__</span>&#39;:
         print(&#39;Hello World&#39;)
-</pre></div>
-
+</code></pre></div>
 
 <p>如果不显示代码行号，则可使用下面的格式：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">    :::python
-    # -*- coding: utf-8 -*-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>    :::python
+    # -<span style="font-style: italic">*- coding: utf-8 -*</span>-
 
-    if __name__ == &#39;__main__&#39;:
+    if <span style="font-weight: bold">__name__</span> == &#39;<span style="font-weight: bold">__main__</span>&#39;:
         print(&#39;Hello World&#39;)
-</pre></div>
-
+</code></pre></div>
 
 <p>关于代码片段及高亮以及行号显示，可参阅<a href="https://pythonhosted.org/Markdown/extensions/code_hilite.html">codehilite</a>扩展的官方文档。</p>
-<h3 id="_9">角注</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">Footnotes[^1] have a label[^@#$%] and the footnote&#39;s content.
+<h3 id="_9">角注<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Footnotes[^1] have a label[^@#$%] and the footnote&#39;s content.
 
-[^1]: This is a footnote content.
-[^@#$%]: A footnote on the label: &quot;@#$%&quot;.
-</pre></div>
+[<span style="color: #A0A000">^1</span>]: <span style="color: #BB4444">This is a footnote content.</span>
+[<span style="color: #A0A000">^@#$%</span>]: <span style="color: #BB4444">A footnote on the label: &quot;@#$%&quot;.</span>
+</code></pre></div>
 
-
-<h3 id="_10">表格</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">First Header  | Second Header
+<h3 id="_10">表格<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>First Header  | Second Header
 --------------|--------------
 Content Cell  | Content Cell
 Content Cell  | Content Cell
-</pre></div>
+</code></pre></div>
 
-
-<h3 id="_11">警告</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">####hint类型的警告
+<h3 id="_11">警告<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #800080; font-weight: bold">####hint类型的警告</span>
 !!! hint &quot;subject of hint&quot;
     Any number of other indented markdown elements.
 
-####note类型的警告
+<span style="color: #800080; font-weight: bold">####note类型的警告</span>
 !!! note &quot;subject of note&quot;
     Any number of other indented markdown elements.
-</pre></div>
-
+</code></pre></div>
 
 <p>警告有多种类型，类型不同生成的html文档样式也不一样，可用的样式有 <code>hint, attention, caution, danger, question, note</code>。</p>
-<h3 id="_12">强调</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">这是**黑体**写法
+<h3 id="_12">强调<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>这是**黑体**写法
 这是*斜体*的写法
-</pre></div>
+</code></pre></div>
 
-
-<h3 id="_13">超链接</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">这是一个[链接](https://github.com/kamidox/blogs)
+<h3 id="_13">超链接<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>这是一个[链接](https://github.com/kamidox/blogs)
 这是另外一种[链接][1]的形式
 
-[1]: https://pythonhosted.org/Markdown/extensions/index.html
-</pre></div>
+[<span style="color: #A0A000">1</span>]: <span style="color: #BB4444">https://pythonhosted.org/Markdown/extensions/index.html</span>
+</code></pre></div>
 
+<h3 id="_14">引用<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">&gt; </span><span style="font-style: italic">引用的文字内容</span>
+<span style="color: #AA22FF; font-weight: bold">&gt; </span><span style="font-style: italic">这是另外的引用内容</span>
+</code></pre></div>
 
-<h3 id="_14">引用</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">&gt; 引用的文字内容
-&gt; 这是另外的引用内容
-</pre></div>
+<h3 id="_15">图片<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>![<span style="color: #008000; font-weight: bold">图片描述</span>](<span style="color: #BB4444">https://raw.githubusercontent.com/kamidox/blogs/master/kamidox_icon.png</span>)
+</code></pre></div>
 
+<h3 id="_16">目录<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>[TOC]
+</code></pre></div>
 
-<h3 id="_15">图片</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">![图片描述](https://raw.githubusercontent.com/kamidox/blogs/master/kamidox_icon.png)
-</pre></div>
-
-
-<h3 id="_16">目录</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">[TOC]
-</pre></div>
-
-
-<h2 id="_17">练习</h2>
+<h2 id="_17">练习<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
 <ol>
 <li>直接在配置好的sublime里新建一个readme.md，把上面的markdown语法拷贝进去练习一下。</li>
 <li>推荐一个做得相当不错的markdown在线编辑器<a href="http://maxiang.info/">马克飞象</a>。</li>
 <li>本文就是用markdown编写的。右键点击<a href="https://raw.githubusercontent.com/kamidox/blogs/master/tools/write_markdown_using_sublime.md">这里</a>，另存到本地即可。</li>
 </ol>
-<h2 id="_18">最佳实践</h2>
+<h2 id="_18">最佳实践<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h2>
 <p>Windows下可以使用sublime对markdown进行编辑预览。但Linux下要让sublime支持中文输入还需要折腾一番。个人认为最佳实践是这样的。</p>
 <ol>
 <li>Windows下，使用sublime对markdown进行编辑，预览。</li>
@@ -415,22 +431,6 @@ Content Cell  | Content Cell
 </article>
 
 <hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'kamidox';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-</div>
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
@@ -438,7 +438,7 @@ Content Cell  | Content Cell
 							<div class="panel">
 								<h5>Places</h5>
 								<ul class="side-nav">
-										<li><a href="http://blog.kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
+										<li><a href="http://kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
 
 								</ul>
 							</div>
@@ -447,13 +447,19 @@ Content Cell  | Content Cell
 							<div class="panel">
 								<h5>Categories</h5>
 								<ul class="side-nav">
+										<li><a href="./category/ai.html">ai</a></li>
 										<li><a href="./category/android.html">android</a></li>
+										<li><a href="./category/daily.html">daily</a></li>
+										<li><a href="./category/edge.html">edge</a></li>
 										<li><a href="./category/essay.html">essay</a></li>
 										<li><a href="./category/flask.html">flask</a></li>
+										<li><a href="./category/history.html">history</a></li>
 										<li><a href="./category/ml.html">ml</a></li>
 										<li><a href="./category/nlp.html">nlp</a></li>
+										<li><a href="./category/notes.html">notes</a></li>
 										<li><a href="./category/python.html">python</a></li>
 										<li><a href="./category/tools.html">tools</a></li>
+										<li><a href="./category/wealth.html">wealth</a></li>
 										<li><a href="./category/weapp.html">weapp</a></li>
 										<li><a href="./category/web.html">web</a></li>
 										<li><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -463,35 +469,41 @@ Content Cell  | Content Cell
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-1"><a href="./tag/python.html">python</a></li>
-										<li class="tag-4"><a href="./tag/decorator.html">decorator</a></li>
-										<li class="tag-3"><a href="./tag/web.html">web</a></li>
-										<li class="tag-4"><a href="./tag/react.html">react</a></li>
-										<li class="tag-2"><a href="./tag/tools.html">tools</a></li>
-										<li class="tag-4"><a href="./tag/miui.html">miui</a></li>
-										<li class="tag-4"><a href="./tag/contacts.html">contacts</a></li>
-										<li class="tag-1"><a href="./tag/machine-learning.html">machine-learning</a></li>
-										<li class="tag-4"><a href="./tag/uml.html">uml</a></li>
-										<li class="tag-2"><a href="./tag/android.html">android</a></li>
-										<li class="tag-1"><a href="./tag/thought.html">thought</a></li>
-										<li class="tag-4"><a href="./tag/ebook.html">ebook</a></li>
-										<li class="tag-4"><a href="./tag/contacts-provider.html">contacts provider</a></li>
-										<li class="tag-2"><a href="./tag/weapp.html">weapp</a></li>
-										<li class="tag-2"><a href="./tag/flask.html">flask</a></li>
-										<li class="tag-3"><a href="./tag/pelican.html">pelican</a></li>
-										<li class="tag-2"><a href="./tag/markdown.html">markdown</a></li>
-										<li class="tag-4"><a href="./tag/wekzeug.html">wekzeug</a></li>
-										<li class="tag-4"><a href="./tag/socketserver.html">SocketServer</a></li>
-										<li class="tag-4"><a href="./tag/nlp.html">nlp</a></li>
-										<li class="tag-3"><a href="./tag/sublime.html">sublime</a></li>
-										<li class="tag-4"><a href="./tag/github.html">github</a></li>
-										<li class="tag-4"><a href="./tag/patchrom.html">patchrom</a></li>
 								</ul>
 							</div>
 
 							<div class="panel">
 								<h5>Monthly Archives</h5>
 								<ul class="side-nav">
+											<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+											<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+											<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+											<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+											<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+											<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+											<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+											<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+											<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+											<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+											<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+											<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+											<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+											<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+											<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+											<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+											<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+											<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+											<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+											<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+											<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+											<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+											<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+											<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+											<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+											<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+											<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+											<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+											<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 											<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 											<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 											<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>

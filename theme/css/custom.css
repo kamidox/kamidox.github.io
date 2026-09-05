@@ -473,6 +473,16 @@
   margin-bottom: 16px;
 }
 
+p,
+blockquote,
+ul,
+ol,
+dl,
+table,
+pre {
+ font-size: 17px;
+}
+
  hr {
   height: 4px;
   padding: 0;
@@ -968,7 +978,7 @@
 
 @media only screen and (min-width: 768px) {
    {
-    font-size:16px;
+    font-size:17px;
   }
 }
 

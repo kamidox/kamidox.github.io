@@ -1,0 +1,38 @@
+#
+# To enable ssl by using self-signed certification, please generate the ssl certification first
+# sudo mkdir /etc/nginx/ssl
+# sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+#
+# To enable a free trusted certification:
+# 1. generate a free certification: https://letsencrypt.org
+# 2. tools to use: https://certbot.eff.org
+# 3. config ngnix server
+#   3.1 https://community.letsencrypt.org/t/nginx-installation/3502
+#   3.2 https://www.nginx.com/blog/free-certificates-lets-encrypt-and-nginx/
+#
+# More information about config ssl certification please refer to https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=10_4
+#
+# To enable the 443 port for certification renew:
+# 1. modify /etc/letsencrypt/renewal/weapp.jingdu999.com.conf to change authenticator from webroot to standalone by flooiwing:
+#    authenticator = standalone
+#    standalone-supported-challenges = tls-sni-01
+# 2. stop nginx server
+# 3. run '/opt/letsencrypt/certbot-auto renew'
+
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+    charset utf-8;
+
+    root /home/ubuntu/blogs;
+    index index.html index.htm;
+
+    location /.well-known/acme-challenge {
+        root /var/www/letsencrypt;
+    }
+
+    location /MathJax/ {
+        alias /home/ubuntu/MathJax/;
+    }
+}
+

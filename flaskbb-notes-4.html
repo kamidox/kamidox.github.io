@@ -20,7 +20,7 @@
 		<!-- Feeds -->
 
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+		<script type="text/javascript" src="/MathJax/MathJax.js"></script>
 		<script>
 		MathJax.Hub.Config({
 		  config: ["MMLorHTML.js"],
@@ -66,17 +66,23 @@
 				<!-- mobile side bar nav -->
 				<aside class="left-off-canvas-menu">
 					<ul class="off-canvas-list">
-							<li><a href="http://blog.kamidox.com">Home</a></li>
-							<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+							<li><a href="http://kamidox.com">Home</a></li>
+							<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						<li><label>Categories</label></li>
+							<li ><a href="./category/ai.html">ai</a></li>
 							<li ><a href="./category/android.html">android</a></li>
+							<li ><a href="./category/daily.html">daily</a></li>
+							<li ><a href="./category/edge.html">edge</a></li>
 							<li ><a href="./category/essay.html">essay</a></li>
 							<li class="active"><a href="./category/flask.html">flask</a></li>
+							<li ><a href="./category/history.html">history</a></li>
 							<li ><a href="./category/ml.html">ml</a></li>
 							<li ><a href="./category/nlp.html">nlp</a></li>
+							<li ><a href="./category/notes.html">notes</a></li>
 							<li ><a href="./category/python.html">python</a></li>
 							<li ><a href="./category/tools.html">tools</a></li>
+							<li ><a href="./category/wealth.html">wealth</a></li>
 							<li ><a href="./category/weapp.html">weapp</a></li>
 							<li ><a href="./category/web.html">web</a></li>
 							<li ><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -85,6 +91,35 @@
 
 
 						<li><label>Monthly Archives</label></li>
+									<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+									<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+									<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+									<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+									<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+									<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+									<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+									<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+									<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+									<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+									<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+									<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+									<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+									<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+									<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+									<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+									<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+									<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+									<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+									<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+									<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+									<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+									<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+									<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+									<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+									<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+									<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+									<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+									<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 									<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 									<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 									<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>
@@ -129,8 +164,8 @@
 
 					<section class="top-bar-section">
 						<ul class="left">
-								<li><a href="http://blog.kamidox.com">Home</a></li>
-								<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+								<li><a href="http://kamidox.com">Home</a></li>
+								<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						</ul>
 					</section>
@@ -155,107 +190,104 @@
 <li><a href="#_2">结束语</a></li>
 </ul>
 </div>
-<h2 id="_1">开篇</h2>
+<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p><a href="http://pytest.org/latest/contents.html#toc">FlaskBB</a>是用Flask框架实现的一个轻量级的论坛社区软件，代码托管在GitHub上。本系列文章通过阅读FlaskBB的源代码来深入学习Flask框架，以及在一个产品级的Flask应用里的一些最佳实践规则。</p>
 <p>本文是本系列文章的第四篇，通过分析FlaskBB的自动测试代码，进而介绍Python下的自动化测试工具pytest。自动化测试在开发和重构过程中有着非常重要的地位。甚至还流行一种测试优先的编程方法，即针对一个功能模块，先写测试例，再去实现功能模块。</p>
-<h2 id="flaskbb">FlaskBB的测试代码</h2>
+<h2 id="flaskbb">FlaskBB的测试代码<a class="headerlink" href="#flaskbb" title="Permanent link">&para;</a></h2>
 <p>FlaskBB的测试代码在tests目录下：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">tests/
-├── conftest.py
-├── fixtures
-│   ├── app.py
-│   ├── forum.py
-│   ├── __init__.py
-│   └── user.py
-├── __init__.py
-└── unit
-    ├── __init__.py
-    ├── __pycache__
-    ├── test_forum_models.py
-    └── utils
-        ├── __init__.py
-        ├── __pycache__
-        ├── test_helpers.py
-        ├── test_permissions.py
-        ├── test_populate.py
-        └── test_widgets.py
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>tests/
+├──<span style="color: #bbbbbb"> </span>conftest.py
+├──<span style="color: #bbbbbb"> </span>fixtures
+│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>app.py
+│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>forum.py
+│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
+│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>user.py
+├──<span style="color: #bbbbbb"> </span>__init__.py
+└──<span style="color: #bbbbbb"> </span>unit
+<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>__init__.py
+<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>__pycache__
+<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>test_forum_models.py
+<span style="color: #bbbbbb">    </span>└──<span style="color: #bbbbbb"> </span>utils
+<span style="color: #bbbbbb">        </span>├──<span style="color: #bbbbbb"> </span>__init__.py
+<span style="color: #bbbbbb">        </span>├──<span style="color: #bbbbbb"> </span>__pycache__
+<span style="color: #bbbbbb">        </span>├──<span style="color: #bbbbbb"> </span>test_helpers.py
+<span style="color: #bbbbbb">        </span>├──<span style="color: #bbbbbb"> </span>test_permissions.py
+<span style="color: #bbbbbb">        </span>├──<span style="color: #bbbbbb"> </span>test_populate.py
+<span style="color: #bbbbbb">        </span>└──<span style="color: #bbbbbb"> </span>test_widgets.py
+</code></pre></div>
 
 <p>在FlaskBB项目目录下执行<code>py.test tests</code>输出以下测试结果：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #666666">(</span>.venv<span style="color: #666666">)</span>kamidox@kamidox-laptop:~/code/flaskbb<span style="color: #B8860B">$ </span>py.test <span style="color: #B8860B">tests</span>
-<span style="color: #666666">=============================</span> <span style="color: #AA22FF">test </span>session <span style="color: #B8860B">starts</span> <span style="color: #666666">==============================</span>
-platform linux2 -- Python 2.7.6 -- py-1.4.25 -- pytest-2.6.3 -- /home/kamidox/co
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #666666">(</span>.venv<span style="color: #666666">)</span>kamidox@kamidox-laptop:~/code/flaskbb$<span style="color: #bbbbbb"> </span>py.test<span style="color: #bbbbbb"> </span><span style="color: #B8860B">tests</span>
+<span style="color: #666666">=============================</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF">test</span><span style="color: #bbbbbb"> </span>session<span style="color: #bbbbbb"> </span><span style="color: #B8860B">starts</span><span style="color: #bbbbbb"> </span><span style="color: #666666">==============================</span>
+platform<span style="color: #bbbbbb"> </span>linux2<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>Python<span style="color: #bbbbbb"> </span><span style="color: #666666">2</span>.7.6<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>py-1.4.25<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>pytest-2.6.3<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>/home/kamidox/co
 de/flaskbb/.venv/bin/python
-Tests are shuffled using seed number 362536085265.
-plugins: cov, random
-collecting ... collected <span style="color: #666666">42</span> items
+Tests<span style="color: #bbbbbb"> </span>are<span style="color: #bbbbbb"> </span>shuffled<span style="color: #bbbbbb"> </span>using<span style="color: #bbbbbb"> </span>seed<span style="color: #bbbbbb"> </span>number<span style="color: #bbbbbb"> </span><span style="color: #666666">362536085265</span>.
+plugins:<span style="color: #bbbbbb"> </span>cov,<span style="color: #bbbbbb"> </span>random
+collecting<span style="color: #bbbbbb"> </span>...<span style="color: #bbbbbb"> </span>collected<span style="color: #bbbbbb"> </span><span style="color: #666666">42</span><span style="color: #bbbbbb"> </span>items
 
-tests/unit/test_forum_models.py::test_topic_save PASSED
-tests/unit/test_forum_models.py::test_topic_move PASSED
-tests/unit/utils/test_permissions.py::test_super_moderator_permissions PASSED
-tests/unit/test_forum_models.py::test_topic_url PASSED
-tests/unit/utils/test_permissions.py::test_can_moderate_without_permission PASSED
-tests/unit/test_forum_models.py::test_topic_merge PASSED
-tests/unit/test_forum_models.py::test_forum_update_read PASSED
-tests/unit/test_forum_models.py::test_forum_url PASSED
-tests/unit/utils/test_helpers.py::test_slugify PASSED
-tests/unit/test_forum_models.py::test_forum_save PASSED
-tests/unit/test_forum_models.py::test_forum_get_topics PASSED
-tests/unit/test_forum_models.py::test_forum_slugify PASSED
-tests/unit/test_forum_models.py::test_forum_delete PASSED
-tests/unit/utils/test_helpers.py::test_forum_is_unread PASSED
-tests/unit/utils/test_permissions.py::test_moderator_permissions_without_forum PASSED
-tests/unit/test_forum_models.py::test_category_delete_with_forum PASSED
-tests/unit/test_forum_models.py::test_topic_merge_other_forum PASSED
-tests/unit/test_forum_models.py::test_category_get_forums PASSED
-tests/unit/test_forum_models.py::test_topic_slug PASSED
-tests/unit/utils/test_permissions.py::test_normal_permissions PASSED
-tests/unit/utils/test_widgets.py::test_select_date_widget PASSED
-tests/unit/test_forum_models.py::test_forumsread PASSED
-tests/unit/test_forum_models.py::test_topic_tracker_needs_update_cleared PASSED
-tests/unit/test_forum_models.py::test_category_save PASSED
-tests/unit/test_forum_models.py::test_category_get_all PASSED
-tests/unit/utils/test_permissions.py::test_moderator_permissions_in_forum PASSED
-tests/unit/test_forum_models.py::test_forum_update_read_two_topics PASSED
-tests/unit/test_forum_models.py::test_category_delete PASSED
-tests/unit/utils/test_permissions.py::test_admin_permissions PASSED
-tests/unit/test_forum_models.py::test_topicsread PASSED
-tests/unit/test_forum_models.py::test_forum_delete_with_user_and_topic PASSED
-tests/unit/test_forum_models.py::test_post_save PASSED
-tests/unit/test_forum_models.py::test_category_delete_with_user PASSED
-tests/unit/test_forum_models.py::test_topic_delete PASSED
-tests/unit/test_forum_models.py::test_post_delete PASSED
-tests/unit/test_forum_models.py::test_topic_update_read PASSED
-tests/unit/test_forum_models.py::test_topic_move_same_forum PASSED
-tests/unit/utils/test_populate.py::test_create_default_groups PASSED
-tests/unit/test_forum_models.py::test_forum_get_forum PASSED
-tests/unit/test_forum_models.py::test_topic_tracker_needs_update PASSED
-tests/unit/test_forum_models.py::test_report PASSED
-tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color: #B8860B">PASSED</span>
+tests/unit/test_forum_models.py::test_topic_save<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_move<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_super_moderator_permissions<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_url<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_can_moderate_without_permission<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_merge<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_update_read<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_url<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_helpers.py::test_slugify<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_save<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_get_topics<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_slugify<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_delete<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_helpers.py::test_forum_is_unread<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_moderator_permissions_without_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_delete_with_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_merge_other_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_get_forums<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_slug<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_normal_permissions<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_widgets.py::test_select_date_widget<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forumsread<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_tracker_needs_update_cleared<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_save<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_get_all<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_moderator_permissions_in_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_update_read_two_topics<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_delete<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_permissions.py::test_admin_permissions<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topicsread<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_delete_with_user_and_topic<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_post_save<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_category_delete_with_user<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_delete<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_post_delete<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_update_read<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_move_same_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/utils/test_populate.py::test_create_default_groups<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_get_forum<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_topic_tracker_needs_update<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_report<span style="color: #bbbbbb"> </span>PASSED
+tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: #bbbbbb"> </span><span style="color: #B8860B">PASSED</span>
 
-<span style="color: #666666">==========================</span> <span style="color: #666666">42</span> passed in 20.21 <span style="color: #B8860B">seconds</span> <span style="color: #666666">==========================</span>
-</pre></div>
-
+<span style="color: #666666">==========================</span><span style="color: #bbbbbb"> </span><span style="color: #666666">42</span><span style="color: #bbbbbb"> </span>passed<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">in</span><span style="color: #bbbbbb"> </span><span style="color: #666666">20</span>.21<span style="color: #bbbbbb"> </span><span style="color: #B8860B">seconds</span><span style="color: #bbbbbb"> </span><span style="color: #666666">==========================</span>
+</code></pre></div>
 
 <p>我们可以看到总共有42个测试例，全部测试通过了。</p>
-<h2 id="pytest">通过实例来看pytest的运行机制</h2>
+<h2 id="pytest">通过实例来看pytest的运行机制<a class="headerlink" href="#pytest" title="Permanent link">&para;</a></h2>
 <p><code>tests/unit/test_forum_modules.py</code>里有个删除讨论区版块的单元测试函数：</p>
-<table class="codehilitetable"><tr><td><div class="linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><pre style="line-height: 125%">1
-2
-3
-4
-5
-6
-7</pre></div></td><td class="code"><div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">test_forum_delete</span>(forum):
-    <span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Test the delete forum method.&quot;&quot;&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">test_forum_delete</span>(forum):
+<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Test the delete forum method.&quot;&quot;&quot;</span>
     forum<span style="color: #666666">.</span>delete()
 
     forum <span style="color: #666666">=</span> Forum<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(<span style="color: #AA22FF">id</span><span style="color: #666666">=</span>forum<span style="color: #666666">.</span>id)<span style="color: #666666">.</span>first()
 
-    <span style="color: #AA22FF; font-weight: bold">assert</span> forum <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF">None</span>
-</pre></div>
-</td></tr></table>
+    <span style="color: #AA22FF; font-weight: bold">assert</span> forum <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">None</span>
+</code></pre></div></td></tr></table></div>
 
 <p>代码很简单，先调用<code>forum.delete()</code>来删除一个讨论区版块，接着从<code>Forum</code>里查询这个讨论区版块，应该是查询不到的，因为这个版块已经被删除了。</p>
 <p>问题来了：</p>
@@ -265,21 +297,20 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 <li>pytest怎么发现<code>test_forum_delete(forum)</code>单元测试函数并执行它的？</li>
 </ol>
 <p>要回答这些问题，必须介绍pytest的fixtures的概念。</p>
-<h2 id="fixtures">什么是fixtures</h2>
+<h2 id="fixtures">什么是fixtures<a class="headerlink" href="#fixtures" title="Permanent link">&para;</a></h2>
 <p>fixtures是指测试的上下文，单元测试函数在运行之前，必须为其创建有效的运行时上下文信息。在xUnit测试框架里，每个测试例运行时都有setup/teardown方法与之匹配，pytest不但支持经典的setup/teardown方法，借助python强大的自省功能，它支持通过测试函数的参数为单元测试函数创建运行时的上下文信息。在上例中，函数参数<code>forum</code>就是一个fixtures，它定义在<code>tests/fixtures/forum.py</code>里：</p>
-<table class="codehilitetable"><tr><td><div class="linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><pre style="line-height: 125%">1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #AA22FF">@pytest.fixture</span>
+<div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@pytest</span><span style="color: #666666">.</span>fixture
 <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">forum</span>(category, default_settings):
-    <span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;A single forum in a category.&quot;&quot;&quot;</span>
+<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;A single forum in a category.&quot;&quot;&quot;</span>
     forum <span style="color: #666666">=</span> Forum(title<span style="color: #666666">=</span><span style="color: #BB4444">&quot;Test Forum&quot;</span>, category_id<span style="color: #666666">=</span>category<span style="color: #666666">.</span>id)
     forum<span style="color: #666666">.</span>save()
     <span style="color: #AA22FF; font-weight: bold">return</span> forum
-</pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
 <p><code>@pytest.fixture</code>装饰器告诉pytest，这是一个fixture。函数体很简单，就是创建一个forum，并保存在数据库里，最后返回这个forum实例。我们可以简单地理解成，在执行<code>test_forum_delete(forum)</code>之前，单元测试例的函数参数<code>forum</code>就是通过调用定义在<code>tests/fixtures/forum.py</code>里的fixture函数<code>forum()</code>创建出来并返回的。而作为fixture函数的<code>forum()</code>本身也引用了名字叫<code>category</code>和<code>default_settings</code>的fixtures。</p>
 <p>到此我们可以总结一下fixtures的特点：</p>
@@ -289,19 +320,19 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 <li>fixtures可以支持简单的单元测试以及复杂的功能测试，还可以配置在不同的测试例之间共用fixture。</li>
 </ol>
 <p>FlaskBB的自动测试程序里，其所有的fixtures都定义在<code>tests/fixtures</code>目录下的三个文件里<code>app.py</code>，<code>forum.py</code>和<code>user.py</code>，其他的fixture都很好理解，定义在<code>app.py</code>里的<code>application</code>代码有点特殊：</p>
-<table class="codehilitetable"><tr><td><div class="linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><pre style="line-height: 125%"> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #AA22FF">@pytest.yield_fixture</span>(autouse<span style="color: #666666">=</span><span style="color: #AA22FF">True</span>)
+<div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 3</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 4</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 5</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 6</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 7</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@pytest</span><span style="color: #666666">.</span>yield_fixture(autouse<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
 <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">application</span>():
-    <span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;application with context.&quot;&quot;&quot;</span>
+<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;application with context.&quot;&quot;&quot;</span>
     app <span style="color: #666666">=</span> create_app(Config)
 
     ctx <span style="color: #666666">=</span> app<span style="color: #666666">.</span>app_context()
@@ -310,11 +341,10 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
     <span style="color: #AA22FF; font-weight: bold">yield</span> app
 
     ctx<span style="color: #666666">.</span>pop()
-</pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
 <p>这里使用<code>@pytest.yield_fixture</code>来定义一个生成器fixture。其次注意到使用了<code>autouse=True</code>的参数，这个参数表示这个fixture在运行任何一个单元测试函数之前都必须先调用。即所有的单元测试函数都信赖这个fixture。从函数内容来看，它创建一个Flask APP的实例，以这个实例作为单元测试的上下文。</p>
-<h2 id="pytest_1">pytest标准的测试例收集流程</h2>
+<h2 id="pytest_1">pytest标准的测试例收集流程<a class="headerlink" href="#pytest_1" title="Permanent link">&para;</a></h2>
 <p>pytest在运行测试例前，必须通过一套规则来收集所有的测试例。默认情况下，pytest的测试例收集流程如下：</p>
 <ol>
 <li>在运行<code>py.test</code>命令的当前目录或其后第一个参数（可以上目录，或模块名）所指定的位置开始收集测试例</li>
@@ -325,53 +355,35 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 </ol>
 <p>当然，这个测试例收集规则是可以定制的，具体可参阅pytest的<a href="http://pytest.org/latest/contents.html#toc">官方文档</a>。</p>
 <p>FlaskBB的单元测试代码都放在<code>tests/unit</code>目录下。所有以<code>test_</code>打头的文件都会被import进测试的上下文。同时所有python文件里以<code>test_</code>打头的函数都被作为单元测试函数被收集起来测试。这样我们前文提到的<code>test_forum_delete(forum)</code>函数就被作为一个单元测试函数收集起来了。</p>
-<h2 id="conftestpy">conftest.py</h2>
+<h2 id="conftestpy">conftest.py<a class="headerlink" href="#conftestpy" title="Permanent link">&para;</a></h2>
 <p>pytest在执行任何一个单元测试的时候，最靠近执行目录下的那个<code>conftest.py</code>将被自动执行。针对FlaskBB，其内容为：</p>
-<table class="codehilitetable"><tr><td><div class="linenodiv" style="background-color: #f0f0f0; padding-right: 10px"><pre style="line-height: 125%">1
-2
-3</pre></div></td><td class="code"><div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">tests.fixtures.app</span> <span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #666666">*</span>
+<div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">tests.fixtures.app</span> <span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #666666">*</span>
 <span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">tests.fixtures.forum</span> <span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #666666">*</span>
 <span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">tests.fixtures.user</span> <span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #666666">*</span>
-</pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 
 <p>从代码来看，它import了我们定义的所有的fixtures。除了自定义的fixtures之外，系统也有一些内置的fixtures，可以运行<code>py.test --fixtures</code>来查阅所有的可用fixtures。</p>
-<h2 id="pytestini">pytest.ini</h2>
+<h2 id="pytestini">pytest.ini<a class="headerlink" href="#pytestini" title="Permanent link">&para;</a></h2>
 <p>pytest在执行时，会读取命令运行目录下的pytest.ini文件，通过这个文件可以定制py.test命令的一些行为。FlaskBB的里pytest.ini的内容为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #AA22FF; font-weight: bold">[pytest]</span>
-<span style="color: #BB4444">norecursedirs</span> <span style="color: #666666">=</span> <span style="color: #BB4444">docs flaskbb logs migrations whoosh_index</span>
-<span style="color: #BB4444">addopts</span> <span style="color: #666666">=</span> <span style="color: #BB4444">--strict --random -vvl</span>
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">[pytest]</span>
+<span style="color: #BB4444">norecursedirs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">docs flaskbb logs migrations whoosh_index</span>
+<span style="color: #BB4444">addopts</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">--strict --random -vvl</span>
+</code></pre></div>
 
 <p>其中<code>norecursedirs</code>表示在递归查找测试例时，忽略docs flaskbb等目录。<code>addopts</code>为py.test命令添加一些自定义的选项。</p>
 <div class="admonition note">
 <p class="admonition-title">py.test运行方式</p>
 <p>笔者在第一次运行FlaskBB测试程序时，使用<code>py.test</code>直接运行，结果发现执行花了很长的时间，而且很多失败项。经查，原来在笔者的环境里，通过virtualenv把<code>.venv</code>目录放在了项目的根目录下，所以默认情况下pytest会从<code>.venv</code>里收集其他包的测试例来测试。所以，虽然可以定义<code>norecursedirs</code>目录，但还是推荐使用<code>py.test tests</code>这种后面直接跟着测试代码目录的方式来运行测试例。</p>
 </div>
-<h2 id="_2">结束语</h2>
+<h2 id="_2">结束语<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>通过上文的分析，可以轻松理解FlaskBB里的自动测试代码。在Quara上看到过一篇介绍Quara的continuous development的文章，Quara的网站每天会更新上百次，这是怎么做到的呢？如果没有自动化测试和自动化布署的工具，这是不可想象的。如果做黑盒测试，光回归测试就要累死人。有兴趣的同学可以<a href="http://engineering.quora.com/Continuous-Deployment-at-Quora">点击这里</a>看一下高大上的互联网公司是怎么做自动化测试和布署的。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/flask.html">flask</a> on 2014-12-21(Sunday) 23:00. Tags: <a href="./tag/python.html">python</a>, <a href="./tag/flask.html">flask</a>, </h6>
 </article>
 
 <hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'kamidox';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-</div>
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
@@ -379,7 +391,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 							<div class="panel">
 								<h5>Places</h5>
 								<ul class="side-nav">
-										<li><a href="http://blog.kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
+										<li><a href="http://kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
 
 								</ul>
 							</div>
@@ -388,13 +400,19 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 							<div class="panel">
 								<h5>Categories</h5>
 								<ul class="side-nav">
+										<li><a href="./category/ai.html">ai</a></li>
 										<li><a href="./category/android.html">android</a></li>
+										<li><a href="./category/daily.html">daily</a></li>
+										<li><a href="./category/edge.html">edge</a></li>
 										<li><a href="./category/essay.html">essay</a></li>
 										<li><a href="./category/flask.html">flask</a></li>
+										<li><a href="./category/history.html">history</a></li>
 										<li><a href="./category/ml.html">ml</a></li>
 										<li><a href="./category/nlp.html">nlp</a></li>
+										<li><a href="./category/notes.html">notes</a></li>
 										<li><a href="./category/python.html">python</a></li>
 										<li><a href="./category/tools.html">tools</a></li>
+										<li><a href="./category/wealth.html">wealth</a></li>
 										<li><a href="./category/weapp.html">weapp</a></li>
 										<li><a href="./category/web.html">web</a></li>
 										<li><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -404,35 +422,41 @@ tests/unit/test_forum_models.py::test_forum_update_last_post <span style="color:
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-1"><a href="./tag/python.html">python</a></li>
-										<li class="tag-4"><a href="./tag/decorator.html">decorator</a></li>
-										<li class="tag-3"><a href="./tag/web.html">web</a></li>
-										<li class="tag-4"><a href="./tag/react.html">react</a></li>
-										<li class="tag-2"><a href="./tag/tools.html">tools</a></li>
-										<li class="tag-4"><a href="./tag/miui.html">miui</a></li>
-										<li class="tag-4"><a href="./tag/contacts.html">contacts</a></li>
-										<li class="tag-1"><a href="./tag/machine-learning.html">machine-learning</a></li>
-										<li class="tag-4"><a href="./tag/uml.html">uml</a></li>
-										<li class="tag-2"><a href="./tag/android.html">android</a></li>
-										<li class="tag-1"><a href="./tag/thought.html">thought</a></li>
-										<li class="tag-4"><a href="./tag/ebook.html">ebook</a></li>
-										<li class="tag-4"><a href="./tag/contacts-provider.html">contacts provider</a></li>
-										<li class="tag-2"><a href="./tag/weapp.html">weapp</a></li>
-										<li class="tag-2"><a href="./tag/flask.html">flask</a></li>
-										<li class="tag-3"><a href="./tag/pelican.html">pelican</a></li>
-										<li class="tag-2"><a href="./tag/markdown.html">markdown</a></li>
-										<li class="tag-4"><a href="./tag/wekzeug.html">wekzeug</a></li>
-										<li class="tag-4"><a href="./tag/socketserver.html">SocketServer</a></li>
-										<li class="tag-4"><a href="./tag/nlp.html">nlp</a></li>
-										<li class="tag-3"><a href="./tag/sublime.html">sublime</a></li>
-										<li class="tag-4"><a href="./tag/github.html">github</a></li>
-										<li class="tag-4"><a href="./tag/patchrom.html">patchrom</a></li>
 								</ul>
 							</div>
 
 							<div class="panel">
 								<h5>Monthly Archives</h5>
 								<ul class="side-nav">
+											<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+											<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+											<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+											<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+											<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+											<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+											<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+											<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+											<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+											<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+											<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+											<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+											<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+											<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+											<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+											<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+											<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+											<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+											<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+											<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+											<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+											<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+											<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+											<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+											<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+											<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+											<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+											<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+											<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 											<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 											<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 											<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>

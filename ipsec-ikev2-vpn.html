@@ -20,7 +20,7 @@
 		<!-- Feeds -->
 
 
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js"></script>
+		<script type="text/javascript" src="/MathJax/MathJax.js"></script>
 		<script>
 		MathJax.Hub.Config({
 		  config: ["MMLorHTML.js"],
@@ -66,17 +66,23 @@
 				<!-- mobile side bar nav -->
 				<aside class="left-off-canvas-menu">
 					<ul class="off-canvas-list">
-							<li><a href="http://blog.kamidox.com">Home</a></li>
-							<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+							<li><a href="http://kamidox.com">Home</a></li>
+							<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						<li><label>Categories</label></li>
+							<li ><a href="./category/ai.html">ai</a></li>
 							<li ><a href="./category/android.html">android</a></li>
+							<li ><a href="./category/daily.html">daily</a></li>
+							<li ><a href="./category/edge.html">edge</a></li>
 							<li ><a href="./category/essay.html">essay</a></li>
 							<li ><a href="./category/flask.html">flask</a></li>
+							<li ><a href="./category/history.html">history</a></li>
 							<li ><a href="./category/ml.html">ml</a></li>
 							<li ><a href="./category/nlp.html">nlp</a></li>
+							<li ><a href="./category/notes.html">notes</a></li>
 							<li ><a href="./category/python.html">python</a></li>
 							<li class="active"><a href="./category/tools.html">tools</a></li>
+							<li ><a href="./category/wealth.html">wealth</a></li>
 							<li ><a href="./category/weapp.html">weapp</a></li>
 							<li ><a href="./category/web.html">web</a></li>
 							<li ><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -85,6 +91,35 @@
 
 
 						<li><label>Monthly Archives</label></li>
+									<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+									<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+									<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+									<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+									<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+									<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+									<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+									<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+									<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+									<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+									<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+									<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+									<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+									<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+									<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+									<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+									<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+									<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+									<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+									<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+									<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+									<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+									<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+									<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+									<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+									<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+									<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+									<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+									<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 									<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 									<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 									<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>
@@ -129,8 +164,8 @@
 
 					<section class="top-bar-section">
 						<ul class="left">
-								<li><a href="http://blog.kamidox.com">Home</a></li>
-								<li><a href="http://blog.kamidox.com/about.html">About</a></li>
+								<li><a href="http://kamidox.com">Home</a></li>
+								<li><a href="http://kamidox.com/about.html">About</a></li>
 
 						</ul>
 					</section>
@@ -146,7 +181,7 @@
 	<blockquote>
 <p>升级到 iOS 10 和 macOS Sierra 后，发现原来的 pptp vpn 没了。那是因为 Apple 因为安全原因，禁用的 pptp vpn ，这里可以查阅到 <a href="https://support.apple.com/en-us/HT206844">Apple 官方声明</a>。你需要搭建一个支持 IPSec/IKEv2 的 VPN 服务器。本文使用 AWS 的 Ubuntu 服务器搭建一个支持 IPSec/IKEv2 的 VPN 服务器。</p>
 </blockquote>
-<h2 id="_1">写在前面</h2>
+<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>你需要一个 AWS Ubuntu 服务器。国内访问的话，建议申请日本的服务器，速度最快。如果不知道怎么申请 AWS 服务器，请用 Baidu Google 一下。</p>
 <p>搭建支持 IPSec/IKEv2 的 VPN 服务器总共分几步：</p>
 <ul>
@@ -156,134 +191,113 @@
 <li>客户端配置 VPN</li>
 </ul>
 <p>本文重点描述后面三个步骤。</p>
-<h2 id="vpn">安装并配置 VPN 服务器</h2>
+<h2 id="vpn">安装并配置 VPN 服务器<a class="headerlink" href="#vpn" title="Permanent link">&para;</a></h2>
 <p>这本来是一个很繁琐的步骤，具体可参阅 <a href="https://hjc.im/shi-yong-strongswanda-jian-ipsecikev2-vpn/">使用 Strongswan 搭建 IPSec/IKEv2 VPN</a>。有心人把文章里描述的步骤写了个 <a href="https://github.com/magic282/One-Key-L2TP-IKEV2-Setup">shell 脚本</a>并放在了 github 上。这样我们执行脚本即可完成软件安装以及配置工作。</p>
-<h3 id="step-1">STEP 1 下载脚本</h3>
+<h3 id="step-1">STEP 1 下载脚本<a class="headerlink" href="#step-1" title="Permanent link">&para;</a></h3>
 <p>使用 ssh 登录 aws ubuntu 主机，执行下面命令下载脚本：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>wget https://raw.githubusercontent.com/magic282/One-Key-L2TP-IKEV2-Setup/master/l2tp_setup.sh
-</pre></div>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>wget<span style="color: #bbbbbb"> </span>https://raw.githubusercontent.com/magic282/One-Key-L2TP-IKEV2-Setup/master/l2tp_setup.sh
+</code></pre></div>
 
+<p>如果你无法使用 ssh 登录 aws ubuntu 主机，请确认 aws 上的 ec2 设置了正常的网络安全参数。默认情况下，ec2 是不允许任意主机通过 ssh 连接它的。需要修改 Security Groups 的设置，允许任意主机进行 ssh 连接。</p>
+<p>l2tp_setup.sh 文件比较旧，没有维护了。可以到 https://download.strongswan.org 查看，把 strongswan 的版本改为最新的，比如 5.8.4。之前的版本 5.2.2 太旧，编译会出错。</p>
+<p>这个脚本目前在 ubuntu 16.04 上可用。在 ubuntu 18.04 及 20.04 验证不可用。原因之一是，脚本里获取 IP 地址的 shell 命令 <code>ifconfig | grep 'inet addr:'| grep -v '127.0.0.*' | cut -d: -f2 | awk '{ print $1}' | head -1</code>，在 ubuntu 20.04 上无法获取到 IP 地址。原因是 <code>ifconfig</code> 命令输出格式有变化。</p>
+<h3 id="step-2">STEP 2 添加可执行权限<a class="headerlink" href="#step-2" title="Permanent link">&para;</a></h3>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span>a+x<span style="color: #bbbbbb"> </span>l2tp_setup.sh
+</code></pre></div>
 
-<h3 id="step-2">STEP 2 添加可执行权限</h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>chmod a+x l2tp_setup.sh
-</pre></div>
-
-
-<h3 id="step-3">STEP 3 安装软件</h3>
+<h3 id="step-3">STEP 3 安装软件<a class="headerlink" href="#step-3" title="Permanent link">&para;</a></h3>
 <p>运行脚本，需要注意，需要使用 root 用户运行这个脚本。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>sudo ./l2tp_setup.sh
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>./l2tp_setup.sh
+</code></pre></div>
 
 <p>出现下面的提示时，输入 1</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">&quot;#################################&quot;
-&quot;What do you want to do:&quot;
-&quot;1) Install l2tp&quot;
-&quot;2) Add an account&quot;
-&quot;#################################&quot;
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;#################################&quot;</span>
+<span style="color: #BB4444">&quot;What do you want to do:&quot;</span>
+<span style="color: #BB4444">&quot;1) Install l2tp&quot;</span>
+<span style="color: #BB4444">&quot;2) Add an account&quot;</span>
+<span style="color: #BB4444">&quot;#################################&quot;</span>
+</code></pre></div>
 
 <p>出现下面的提示时，输入 PSK 密码，<strong>这个密码后面客户端登录时要用到</strong>，注意保管好：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">Please <span style="color: #AA22FF">set </span>the secretkey<span style="color: #666666">(</span>Pre Shared Key<span style="color: #666666">)</span>:
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Please<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">set</span><span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>secretkey<span style="color: #666666">(</span>Pre<span style="color: #bbbbbb"> </span>Shared<span style="color: #bbbbbb"> </span>Key<span style="color: #666666">)</span>:
+</code></pre></div>
 
 <p>出现下面提示时，输入 2</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">&quot;##################&quot;
-&quot;What type is your VPS?&quot;
-&quot;1) OpenVZ&quot;
-&quot;2) others&quot;
-##################&quot;
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;##################&quot;</span>
+<span style="color: #BB4444">&quot;What type is your VPS?&quot;</span>
+<span style="color: #BB4444">&quot;1) OpenVZ&quot;</span>
+<span style="color: #BB4444">&quot;2) others&quot;</span>
+<span style="border: 1px solid #FF0000">##################&quot;</span>
+</code></pre></div>
 
 <p><strong>特别注意</strong>：这里需要确认一下你的主机是 OpenVZ 还是其他，如 xen 。然后做出相应的选择。一个简单的方法是运行 <code>ls /proc | grep vz</code> ，如果输出 <code>vz</code> 就选择 1，否则就选择 2。针对 AWS 上的 ubuntu 选择 2 即可。</p>
 <p>接下来，脚本会下载 Strongswan 软件包，并编译安装。过程可能要几分钟时间。如果没有错误的话，脚本接着会输出如下内容：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #008800; font-style: italic">##################</span>
-Please <span style="color: #AA22FF">set </span>a password to <span style="color: #AA22FF">export </span>the key
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">##################</span>
+Please<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">set</span><span style="color: #bbbbbb"> </span>a<span style="color: #bbbbbb"> </span>password<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">export</span><span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>key
 <span style="color: #008800; font-style: italic">##################</span>
-Enter Export Password:
-Verifying - Enter Export Password:
-</pre></div>
-
+Enter<span style="color: #bbbbbb"> </span>Export<span style="color: #bbbbbb"> </span>Password:
+Verifying<span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span>Enter<span style="color: #bbbbbb"> </span>Export<span style="color: #bbbbbb"> </span>Password:
+</code></pre></div>
 
 <p>可以直接按两个回车，即使用空的密钥导出密码。不出意外的话，最终会安装成功，并输出下面的成功信息：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #008800; font-style: italic">################################################</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">################################################</span>
 Success!
-Use this to connect your L2TP service.
-IP: xxx.xxx.xxx.xxx <span style="color: #666666">(</span>你的虚拟主机的 IP 地址<span style="color: #666666">)</span>
-Secretkey: xxxxxx <span style="color: #666666">(</span>你的 PSK 密码<span style="color: #666666">)</span>
-CA cert: /root/l2tpInstall/ca.cert.pem
-Don<span style="border: 1px solid #FF0000">&#39;</span>t forget to add a new user later, LOL.
+Use<span style="color: #bbbbbb"> </span>this<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>connect<span style="color: #bbbbbb"> </span>your<span style="color: #bbbbbb"> </span>L2TP<span style="color: #bbbbbb"> </span>service.
+IP:<span style="color: #bbbbbb"> </span>xxx.xxx.xxx.xxx<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>你的虚拟主机的<span style="color: #bbbbbb"> </span>IP<span style="color: #bbbbbb"> </span>地址<span style="color: #666666">)</span>
+Secretkey:<span style="color: #bbbbbb"> </span>xxxxxx<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>你的<span style="color: #bbbbbb"> </span>PSK<span style="color: #bbbbbb"> </span>密码<span style="color: #666666">)</span>
+CA<span style="color: #bbbbbb"> </span>cert:<span style="color: #bbbbbb"> </span>/root/l2tpInstall/ca.cert.pem
+Don<span style="border: 1px solid #FF0000">&#39;</span>t<span style="color: #bbbbbb"> </span>forget<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>add<span style="color: #bbbbbb"> </span>a<span style="color: #bbbbbb"> </span>new<span style="color: #bbbbbb"> </span>user<span style="color: #bbbbbb"> </span>later,<span style="color: #bbbbbb"> </span>LOL.
 <span style="color: #008800; font-style: italic">################################################</span>
-</pre></div>
+</code></pre></div>
 
-
-<h3 id="step-4">STEP 4 添加用户</h3>
+<p>异常情况一：Strongswan 编译失败
+解决方法：可以编辑 l2tp_setup.sh 脚本。改成直接从 ubuntu 软件源安装，或者修改为更新的版本。</p>
+<p>异常情况二：使用 ubuntu 软件源时，出现 <code>/usr/sbin/ipsec: unknown command pki (ipsec --help for list)</code>
+解决方法：<code>apt-get install strongswan-pki</code>。参考 https://www.zhihu.com/question/21618405</p>
+<h3 id="step-4">STEP 4 添加用户<a class="headerlink" href="#step-4" title="Permanent link">&para;</a></h3>
 <p>运行脚本</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>sudo ./l2tp_setup.sh
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>./l2tp_setup.sh
+</code></pre></div>
 
 <p>出现下面的提示时，输入 2</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">&quot;#################################&quot;
-&quot;What do you want to do:&quot;
-&quot;1) Install l2tp&quot;
-&quot;2) Add an account&quot;
-&quot;#################################&quot;
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;#################################&quot;</span>
+<span style="color: #BB4444">&quot;What do you want to do:&quot;</span>
+<span style="color: #BB4444">&quot;1) Install l2tp&quot;</span>
+<span style="color: #BB4444">&quot;2) Add an account&quot;</span>
+<span style="color: #BB4444">&quot;#################################&quot;</span>
+</code></pre></div>
 
 <p>接着在相应的提示下输入用户名和密码：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">Please input an new username:
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Please<span style="color: #bbbbbb"> </span>input<span style="color: #bbbbbb"> </span>an<span style="color: #bbbbbb"> </span>new<span style="color: #bbbbbb"> </span>username:
 &lt;在这里输入用户名&gt;
-Please input the password:
+Please<span style="color: #bbbbbb"> </span>input<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>password:
 &lt;在这里输入密码&gt;
-</pre></div>
-
+</code></pre></div>
 
 <p>这样就成功添加了一个用户。我们可以在客户端使用这个用户和密码以及 PSK 来登录了。</p>
-<h3 id="step-5">STEP 5 配置数据包转发</h3>
-<p>编辑 <code>/etc/sysctl.conf</code>，将 <code>net.ipv4.ip_forward=1</code> 一行前面的 <code>#</code> 号去掉，保存后执行 <code>sysctl -p</code>。</p>
-<h2 id="vpn_1">启动 VPN 服务</h2>
+<h3 id="step-5">STEP 5 配置数据包转发<a class="headerlink" href="#step-5" title="Permanent link">&para;</a></h3>
+<p>编辑 <code>sudo vim /etc/sysctl.conf</code>，将 <code>net.ipv4.ip_forward=1</code> 一行前面的 <code>#</code> 号去掉，保存后执行 <code>sudo sysctl -p</code>。</p>
+<p>也可以通过下面命令检查数据转发是否有效：<code>cat /proc/sys/net/ipv4/ip_forward</code> 。输出 1 表示有效。</p>
+<h2 id="vpn_1">启动 VPN 服务<a class="headerlink" href="#vpn_1" title="Permanent link">&para;</a></h2>
 <p>这一步不注意就会漏掉，如果漏掉这一步，不会有出错信息，但客户端就是连接不上。即，我们需要手动启动 VPN 服务：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%">sudo ipsec start
-</pre></div>
-
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>ipsec<span style="color: #bbbbbb"> </span>start
+</code></pre></div>
 
 <p>可以使用 <code>ps</code> 命令确认服务是否正常运行起来了</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span style="color: #B8860B">$ </span>ps -ax | grep ipsec
- <span style="color: #666666">1861</span> ?        Ss     0:00 /usr/local/libexec/ipsec/starter --daemon charon
- <span style="color: #666666">1862</span> ?        Ssl    0:00 /usr/local/libexec/ipsec/charon --use-syslog
-</pre></div>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>ps<span style="color: #bbbbbb"> </span>-ax<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>ipsec
+<span style="color: #bbbbbb"> </span><span style="color: #666666">1861</span><span style="color: #bbbbbb"> </span>?<span style="color: #bbbbbb">        </span>Ss<span style="color: #bbbbbb">     </span><span style="color: #666666">0</span>:00<span style="color: #bbbbbb"> </span>/usr/local/libexec/ipsec/starter<span style="color: #bbbbbb"> </span>--daemon<span style="color: #bbbbbb"> </span>charon
+<span style="color: #bbbbbb"> </span><span style="color: #666666">1862</span><span style="color: #bbbbbb"> </span>?<span style="color: #bbbbbb">        </span>Ssl<span style="color: #bbbbbb">    </span><span style="color: #666666">0</span>:00<span style="color: #bbbbbb"> </span>/usr/local/libexec/ipsec/charon<span style="color: #bbbbbb"> </span>--use-syslog
+</code></pre></div>
 
-
-<h2 id="vpn_2">客户端配置 VPN</h2>
+<h2 id="vpn_2">客户端配置 VPN<a class="headerlink" href="#vpn_2" title="Permanent link">&para;</a></h2>
 <p>在 macOS 上，新建一个 VPN，<code>VPN Type</code> 选择 <code>Cisco IPSec</code>。输入 VPN 服务器地址或域名，以及用户名和密码 (STEP 4 里添加的用户名和密码)。点击 <code>Authentication Settings ...</code> ，在弹出的窗口里的 <code>Shared Secret</code> 里输出 PSK (STEP 3 里设置的密码)。这样就可以上网了。</p>
 <p>在 iOS 上，进入 <code>设置 -&gt; 通用 -&gt; VPN -&gt; 添加 VPN 配置...</code>，类型选择 <code>IPSec</code>，输入用户名密码以及 PSK 即可完成配置。</p>
-<h2 id="_2">尽情冲浪吧~~~</h2>
+<h2 id="_2">尽情冲浪吧~~~<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/tools.html">tools</a> on 2016-11-01(Tuesday) 23:22. Tags: <a href="./tag/tools.html">tools</a>, </h6>
 </article>
 
 <hr/>
-<div class="row">
-	<div class="small-12 columns">
-		<h3>Comments</h3>
-		<div id="disqus_thread"></div>
-		<script type="text/javascript">
-			var disqus_shortname = 'kamidox';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-		</script>
-		<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-		<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-	</div>
-</div>
 						</div>
 						<!-- End Main Content -->
 						<!-- Sidebar -->
@@ -291,7 +305,7 @@ Please input the password:
 							<div class="panel">
 								<h5>Places</h5>
 								<ul class="side-nav">
-										<li><a href="http://blog.kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
+										<li><a href="http://kamidox.com/feeds/rss.xml" rel="alternate">RSS Feed</a></li>
 
 								</ul>
 							</div>
@@ -300,13 +314,19 @@ Please input the password:
 							<div class="panel">
 								<h5>Categories</h5>
 								<ul class="side-nav">
+										<li><a href="./category/ai.html">ai</a></li>
 										<li><a href="./category/android.html">android</a></li>
+										<li><a href="./category/daily.html">daily</a></li>
+										<li><a href="./category/edge.html">edge</a></li>
 										<li><a href="./category/essay.html">essay</a></li>
 										<li><a href="./category/flask.html">flask</a></li>
+										<li><a href="./category/history.html">history</a></li>
 										<li><a href="./category/ml.html">ml</a></li>
 										<li><a href="./category/nlp.html">nlp</a></li>
+										<li><a href="./category/notes.html">notes</a></li>
 										<li><a href="./category/python.html">python</a></li>
 										<li><a href="./category/tools.html">tools</a></li>
+										<li><a href="./category/wealth.html">wealth</a></li>
 										<li><a href="./category/weapp.html">weapp</a></li>
 										<li><a href="./category/web.html">web</a></li>
 										<li><a href="./category/werkzeug.html">werkzeug</a></li>
@@ -316,35 +336,41 @@ Please input the password:
 							<div class="panel">
 								<h5>Tags</h5>
 								<ul class="tag-cloud">
-										<li class="tag-1"><a href="./tag/python.html">python</a></li>
-										<li class="tag-4"><a href="./tag/decorator.html">decorator</a></li>
-										<li class="tag-3"><a href="./tag/web.html">web</a></li>
-										<li class="tag-4"><a href="./tag/react.html">react</a></li>
-										<li class="tag-2"><a href="./tag/tools.html">tools</a></li>
-										<li class="tag-4"><a href="./tag/miui.html">miui</a></li>
-										<li class="tag-4"><a href="./tag/contacts.html">contacts</a></li>
-										<li class="tag-1"><a href="./tag/machine-learning.html">machine-learning</a></li>
-										<li class="tag-4"><a href="./tag/uml.html">uml</a></li>
-										<li class="tag-2"><a href="./tag/android.html">android</a></li>
-										<li class="tag-1"><a href="./tag/thought.html">thought</a></li>
-										<li class="tag-4"><a href="./tag/ebook.html">ebook</a></li>
-										<li class="tag-4"><a href="./tag/contacts-provider.html">contacts provider</a></li>
-										<li class="tag-2"><a href="./tag/weapp.html">weapp</a></li>
-										<li class="tag-2"><a href="./tag/flask.html">flask</a></li>
-										<li class="tag-3"><a href="./tag/pelican.html">pelican</a></li>
-										<li class="tag-2"><a href="./tag/markdown.html">markdown</a></li>
-										<li class="tag-4"><a href="./tag/wekzeug.html">wekzeug</a></li>
-										<li class="tag-4"><a href="./tag/socketserver.html">SocketServer</a></li>
-										<li class="tag-4"><a href="./tag/nlp.html">nlp</a></li>
-										<li class="tag-3"><a href="./tag/sublime.html">sublime</a></li>
-										<li class="tag-4"><a href="./tag/github.html">github</a></li>
-										<li class="tag-4"><a href="./tag/patchrom.html">patchrom</a></li>
 								</ul>
 							</div>
 
 							<div class="panel">
 								<h5>Monthly Archives</h5>
 								<ul class="side-nav">
+											<li><a href="/posts/2026/09/index.html">September 2026 (1)</a></li>
+											<li><a href="/posts/2026/04/index.html">April 2026 (1)</a></li>
+											<li><a href="/posts/2025/10/index.html">October 2025 (1)</a></li>
+											<li><a href="/posts/2024/12/index.html">December 2024 (1)</a></li>
+											<li><a href="/posts/2023/11/index.html">November 2023 (1)</a></li>
+											<li><a href="/posts/2023/10/index.html">October 2023 (2)</a></li>
+											<li><a href="/posts/2023/07/index.html">July 2023 (1)</a></li>
+											<li><a href="/posts/2023/03/index.html">March 2023 (2)</a></li>
+											<li><a href="/posts/2023/02/index.html">February 2023 (1)</a></li>
+											<li><a href="/posts/2022/12/index.html">December 2022 (2)</a></li>
+											<li><a href="/posts/2022/11/index.html">November 2022 (1)</a></li>
+											<li><a href="/posts/2022/10/index.html">October 2022 (1)</a></li>
+											<li><a href="/posts/2022/09/index.html">September 2022 (7)</a></li>
+											<li><a href="/posts/2022/08/index.html">August 2022 (1)</a></li>
+											<li><a href="/posts/2022/06/index.html">June 2022 (3)</a></li>
+											<li><a href="/posts/2022/05/index.html">May 2022 (2)</a></li>
+											<li><a href="/posts/2022/04/index.html">April 2022 (3)</a></li>
+											<li><a href="/posts/2022/03/index.html">March 2022 (22)</a></li>
+											<li><a href="/posts/2022/02/index.html">February 2022 (6)</a></li>
+											<li><a href="/posts/2022/01/index.html">January 2022 (3)</a></li>
+											<li><a href="/posts/2021/12/index.html">December 2021 (2)</a></li>
+											<li><a href="/posts/2021/11/index.html">November 2021 (1)</a></li>
+											<li><a href="/posts/2021/08/index.html">August 2021 (3)</a></li>
+											<li><a href="/posts/2021/06/index.html">June 2021 (1)</a></li>
+											<li><a href="/posts/2021/05/index.html">May 2021 (3)</a></li>
+											<li><a href="/posts/2021/04/index.html">April 2021 (1)</a></li>
+											<li><a href="/posts/2021/01/index.html">January 2021 (3)</a></li>
+											<li><a href="/posts/2020/08/index.html">August 2020 (3)</a></li>
+											<li><a href="/posts/2020/07/index.html">July 2020 (2)</a></li>
 											<li><a href="/posts/2019/07/index.html">July 2019 (1)</a></li>
 											<li><a href="/posts/2018/03/index.html">March 2018 (1)</a></li>
 											<li><a href="/posts/2017/05/index.html">May 2017 (2)</a></li>
