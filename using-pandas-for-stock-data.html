@@ -179,11 +179,11 @@
 <article>
 	<h2>使用 pandas 玩转股票数据</h2>
 	<p>pandas 是数据分析的瑞士军刀。我们今天使用 pandas 来玩一下股票数据，看看能从数据里得到哪些有意思的信息。</p>
-<h2 id="pandas">pandas 教程<a class="headerlink" href="#pandas" title="Permanent link">&para;</a></h2>
+<h2 id="pandas">pandas 教程<a class="headerlink" href="#pandas" title="Permanent link"> </a></h2>
 <p>如果你熟悉 Python 的话，官网上的 <a href="http://pandas.pydata.org/pandas-docs/stable/10min.html">10 Minutes to pandas</a> 可以让你在短时间内了解 pandas 能干什么事以及是怎么干的。针对每个主题，都可以横向查到大量的资料和例子。</p>
 <p>如果你 Python 不熟，但又想用 pandas 玩转数据分析的话，<a href="http://book.douban.com/subject/25717197/">Python for Data Analysis</a> 是本不错的书。书里作者使用美国新生儿的名字得出了一些很有意思的结论。还分析了 movielen 的电影评分数据。熟悉 SQL 的同学应该对这些分析会深有感触，相信这些人用 SQL 写出过这些分析过程类似的代码。这本书的缺点是有点啰嗦，如果你熟悉 Python 又想快速学习的话，看第二章就够了。但这本书很适合不熟悉 Python 的人，书的最后一章还附了 Python 的教程，即如果只玩 pandas 的话，掌握这些 Python 知识就够了，真够贴心。而且本书的作者就是 pandas 的作者。</p>
 <p>另外补充一点，最好使用 <a href="http://ipython.org">ipython</a> 环境来玩转数据分析。特别是 ipython notebook ，熟悉快捷键后，用起来会很顺手。本文玩转的股票数据就是使用 ipython notebook。</p>
-<h2 id="_1">股票数据下载<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">股票数据下载<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>搜索 ghancn 可以免费下载 2009 年之前的 5 分钟数据和 1 分钟数据。坦白讲，数据质量不高，里面有不少错误。但不影响我们玩这些数据。数据是以年为单位分不同的文件夹保存的。</p>
 <p>我们先看一下某个股票的数据长什么样：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">pandas</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">pd</span>
@@ -240,7 +240,7 @@ date
 
 <p>这里只是为了玩这些数据，如果你真的需要股票日数据，雅虎财经网站上有质量非常高的日交易数据可供下载。</p>
 <p>按照上述方法，可以把一个股票几年的数据合并起来，生成一个包含所有年份的历史日交易数据。具体可以参阅 <a href="https://github.com/kamidox/stock-data/blob/master/stock.py">stock.py</a> 里的 <code>minutes_to_days_batch</code> 函数。</p>
-<h2 id="_2">股票波动率<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">股票波动率<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>什么股票是好股票？要回答这个问题，先要把最简单的问题说清楚。炒股就是<strong>低买高卖，实现获利</strong>。那么好股票的标准就是在你的持股周期内，波动最大的股票。这很好理解吧，波动最大，我们才有可能在相对低点买入，在相对高点卖出，获利最大。</p>
 <p>在一定的时间周期内，衡量股票波动的指标定义为 最高价/最低价。以我们表格中的数据，就是 ceiling_price/floor_price。这个比率最大的股票就是好股票。关于时间周期，这个和炒股策略有关。有些人喜欢做短线，可能就持股几天，或一两周。有些人习惯做长线，可能持股几个月甚至几年。也有些人本来打算做短线，做着做着变成长线，再做着做着，变成了股东。</p>
 <p>为了简单起见，我们拿波动周期为 30 个自然日来计算，即如果某个股票停牌，那么他的价格就一直没有变化，则波动为 0。
@@ -259,7 +259,7 @@ date
 </code></pre></div>
 
 <p>我们发现数据中间有空洞，即周末和停牌时间里是没有数据的。我们把这些数据填充完整，我们看看 pandas 如何处理 missing data 。</p>
-<h3 id="_3">填充数据<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">填充数据<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>我们先生成一段连续的日期数据作为索引：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 填充数据：生成日期索引</span>
 l <span style="color: #666666">=</span> <span style="color: #AA22FF">len</span>(qdhr)
@@ -296,7 +296,7 @@ data<span style="color: #666666">.</span>head()
 </code></pre></div>
 
 <p>我们可以看到，06， 07 两天的数据被正确地填充了。</p>
-<h3 id="_4">分组计算<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_4">分组计算<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <p>我们需要计算 30 个自然日里的股票平均波动周期。这样，我们必须以 30 天为单位，对所有的历史数据进行分组。然后逐个分组计算其波动率。</p>
 <p><strong>生成分组索引</strong></p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 定义产生分组索引的函数，比如我们要计算的周期是 20 天，则按照日期，20 个交易日一组</span>
@@ -431,8 +431,8 @@ group_index
 
 <p>看来下跌的平均值比上涨的还大呀。</p>
 <p>我们针对每个股票都使用上述方法计算其平均波动，这样我们就可以从一系列股票里找出那些波动最大的股票了。当然，上涨波动越大，下跌波动也越大，正所谓风险和机遇并存嘛。具体可参阅 <a href="https://github.com/kamidox/stock-data/blob/master/stock.py">stock.py</a> 里的 <code>stock_ripples_batch</code> 函数。</p>
-<h2 id="_5">其他玩法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<h3 id="_6">计算涨跌幅<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h2 id="_5">其他玩法<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
+<h3 id="_6">计算涨跌幅<a class="headerlink" href="#_6" title="Permanent link"> </a></h3>
 <p>我们注意到原始数据里没有涨跌幅的数据。涨跌幅定义为今日收盘价减去昨日收盘价。我们换个股票，取出原始数据。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>data <span style="color: #666666">=</span> pd<span style="color: #666666">.</span>read_csv(<span style="color: #BB4444">&#39;test-data/SZ000565.csv&#39;</span>, index_col<span style="color: #666666">=</span><span style="color: #BB4444">&#39;date&#39;</span>, parse_dates<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
 data<span style="color: #666666">.</span>head()
@@ -463,7 +463,7 @@ date
 </code></pre></div>
 
 <p>注意到第一条记录的涨跌幅为 <code>NaN</code>，因为第一条记录的昨日是没有数据的。感兴趣的同学可以再计算一下涨跌百分比，其定义为当日的涨跌幅除以昨日的收盘价。</p>
-<h3 id="_7">计算指定时间点之前的一段时间内波动最大的股票<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_7">计算指定时间点之前的一段时间内波动最大的股票<a class="headerlink" href="#_7" title="Permanent link"> </a></h3>
 <p>有时我们关心某个时间点之前的一段时间变化最剧烈的股票。比如最近一周涨幅最大的，最近一周跌幅最大的，或者最近一个月交易量变化最大的等等。</p>
 <p>我们看一下 000565 这个股票在 2008-12-31 之前 30 个自然日里的波动率。</p>
 <p><strong>选定数据</strong></p>
@@ -516,7 +516,7 @@ ripple_radio
 </code></pre></div>
 
 <p>最后，遍历所有的股票，计算其指定日期之前的一段时间的波动值，选出波动最大的股票，即是我们关注的股票。比如，经历股票大跌，我们判断会反弹，我们想抢反弹，抢哪个股票呢？答案是抢大跌中下跌最多的，因为下跌最多的股票往往反弹也最多。这部分代码可参阅 <a href="https://github.com/kamidox/stock-data/blob/master/stock.py">stock.py</a> 里的 <code>recent_ripples</code> 函数。</p>
-<h2 id="pandas_1">为什么要用 pandas 玩转股票数据<a class="headerlink" href="#pandas_1" title="Permanent link">&para;</a></h2>
+<h2 id="pandas_1">为什么要用 pandas 玩转股票数据<a class="headerlink" href="#pandas_1" title="Permanent link"> </a></h2>
 <p>答案应该已经比较明显了，虽然很多数据股票软件里都有。但一些高级的数据筛选方式其实这些股票软件都不支持的。最后，需要补充一句，大家都是成年人，文章里的任何策略是个人的思路，不构成投资建议啊，后果自负啊。</p>
 <p>最最后，感兴趣的可以看一下 <a href="https://github.com/kamidox/stock-data/blob/master/stock.ipynb">stock.ipynb</a>，这个是本文在 ipython notebook 环境下的所有代码。</p>
 	<hr/>

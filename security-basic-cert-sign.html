@@ -178,9 +178,9 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>网络安全的基础 - 数字证书及签名</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>你哼着小曲，打开招商银行的网站，想查查看今年的奖金到账了没有。突然，一个想法惊出你一身冷汗：万一打开的是李鬼的招商银行网站，一输入密码登录，不是密码全被不法分子窃取了么？浏览器怎么判断这是一个可信的网站，而不是某李鬼网站呢？要回答这个问题，得从数字证书及数字签名的原理谈起。实际上，本文要介绍的这些知识，也是当前火热的区域链技术的基础。</p>
-<h2 id="_2">摘要算法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">摘要算法<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>要谈清楚这些问题，需要先了解一下摘要算法。摘要算法根据输入计算出摘要。</p>
 <p><img alt="摘要算法" src="../../images/digest.png" /></p>
 <p>它的特点是：</p>
@@ -189,16 +189,16 @@
 <li>碰撞概率低：绝对不碰撞是不可能的，但好的摘要算法能做到非常低的碰撞概率。从应用的角度来看，基本上可以理解为一个输入对应一个输出，当输入改变了，输出也跟着改变。</li>
 <li>单向性：摘要算法是不可逆的。一个输入对应着一个输出，但从输出无法倒推出输入。</li>
 </ol>
-<h2 id="_3">数据指纹<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">数据指纹<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>摘要算法的这个特点经常被用来计算数据的指纹，然后进行指纹验证。常用的摘要算法有 SHA1, SHA256, MD5 等等。SHA256 摘要算法的输出是 32 个字节，MD5 的摘要算法是 16 字节。比如，网站登录时，用户会网页上输入密码，服务器端要对输入的密码进行验证。此时网页前端不必把密码直接发送给服务器去验证，而是使用摘要算法计算密码的指纹，并把这个摘要信息发送给服务器进行验证（这样可以减少密码被人截获的风险），这样服务器只要拿相同的摘要算法也算一下密码的摘要，对比两个摘要是否相同即可知道用户输入的密码是否正确。</p>
 <p><em>备注：服务器的规范做法，不会保存密码的原文在数据库里的，一般通用的做法是生成一个随机的盐值，称为 salt，然后计算并保存密码加盐的摘要。</em></p>
 <p>另外一个常用的场景是，对文件的完整性进行验证。比如，你从网站上下载了一个文件，下载提供方还会提供这个文件的 MD5 摘要信息，你把这个文件下载下来后，可以计算一下这个文件的 MD5 摘要，然后和网站提供的 MD5 对比，如果一样，说明下载下来的文件是完整的；如果不一致，说明下载下来的文件是不完整的。</p>
-<h2 id="_4">非对称加密算法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">非对称加密算法<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>非对称加密算法和摘要算法，构成了数字签名和数字证书的基础。非对称加密算法的最大特点是：<strong>加密时使用的密钥和解密时使用的密钥是不一样的</strong>。即，非对称加密算法有两套密码，分别称为<strong>私钥</strong>和<strong>公钥</strong>，私钥私密保存，只有自己知道；公钥可以发给通信的对端。私钥加密的数据，只有对应的公钥能解密，公钥加密的信息，只有私钥能解密。用大白话，使用非对称加密算法来加密通信的数据后，我对外发的信息别人都能解读（因为公钥任何人都可以得到，是公开的），但别人给我发的信息，只有我能解读（因为只有我自己有私钥，能解密）。</p>
 <p><img alt="加密" src="../../images/rsa_encrypt.png" /></p>
 <p><img alt="解密" src="../../images/rsa_decrypt.png" /></p>
 <p><em>备注：与非对称加密算法对应的是对称加密算法。对称加密算法的密码只有一个，通信双方共享这个密码。常用的对称加密算法有 AES, DES 等。</em></p>
-<h2 id="_5">数字签名<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">数字签名<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>常用的非对称加密算法有 RSA 和 ECC 等。非对称算法最经典的应用，是结合摘要算法对数据进行签名。现实生活中，签名的物理意义，是表示签下名字的主体认可被签名数据的有效性。比如，纸面签名是使用笔写上自己的名字，在签名认证时，通过确认笔迹来进行确认。那么，在数字世界中，怎么样进行数字签名呢？数字签名的步骤如下：</p>
 <ol>
 <li>选择合适的摘要算法（如 SHA256）计算出待签名数据的摘要</li>
@@ -213,7 +213,7 @@
 </ol>
 <p><img alt="签名检查" src="../../images/digital_sign_verify.png" /></p>
 <p>假设，有人偷偷篡改了数据，由于数字签名是没办法改变的，因为数字签名是经过私密保存的<strong>私钥</strong>加密过的，别人没有私钥，故无法对数字签名进行修改。在验证签名时，上述步骤 2 算出来的摘要（被篡改后的数据算出来的摘要）和步骤 1 算出来的摘要（用公钥直接解密的，原数据的摘要）必定不相同，这样就可以验证出来数据被人篡改了。</p>
-<h2 id="_6">证书签名<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">证书签名<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <p>有了数字签名的算法，我们就可以对实体颁发数字证书，然后让有公信力的机构对数字证书进行签名，这样就可以证明实体的真实身份。数字证书的主体内容包含三部分主要内容：</p>
 <ol>
 <li>证书基本信息：如证书的实体的名称，邮件地址，签发者，有效期等</li>
@@ -227,9 +227,9 @@
 <p><img alt="证书链" src="../../images/cert_chain.png" /></p>
 <p>从图中可以看到，招商银行的证书是由 Symantec Class 3 EV SSL CA - G3 这个 CA 证书签名的，而这个 CA 证书又是由 VeriSign Class 3 Public Primary Certification Authority - G5 这个证书签名的。这样也就不难理解，为什么 VeriSign 在给你的网站的数字证书进行签名时需要收取费用：实际上这是一个名誉背书的费用。技术角度来看，运行一条指令就可以对你的数字证书进行签名，没有任何的成本，但 VeriSign 必须在法律层面保证，他们签名的对象是个可信的实体。</p>
 <p>实际上，你完全可以生成一个自签名的证书，即用你自己生成的证书的私钥给你自己的证书签名。这是完全合法的，但浏览器往往不认可这种自签名证书，并且提示用户说，这个网站的证书是不可信的。</p>
-<h2 id="_7">实践出真知<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_7">实践出真知<a class="headerlink" href="#_7" title="Permanent link"> </a></h2>
 <p>如果你对技术细节不感兴趣，这篇文章阅读到此就可以结束了。本节演示如何使用 openssl 工具包，对数据进行数字签名及验证，以及对证书进行签名。</p>
-<h3 id="_8">信息摘要<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<h3 id="_8">信息摘要<a class="headerlink" href="#_8" title="Permanent link"> </a></h3>
 <p>我们先把要计算摘要的数据保存到 <code>data.txt</code> 文件里：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is real words from Joey.&quot;</span><span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>data.txt
 </code></pre></div>
@@ -248,7 +248,7 @@ MD5<span style="color: #666666">(</span>data.txt<span style="color: #666666">)=<
 </code></pre></div>
 
 <p>从输出不难看出，SHA256 的摘要输出是 32 个字节（f1 是第一个字节，b1 是第二个字节，依此类推），MD5 的摘要输出是 16 字节。</p>
-<h3 id="_9">非对称加密算法<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<h3 id="_9">非对称加密算法<a class="headerlink" href="#_9" title="Permanent link"> </a></h3>
 <p>我们先生成一个 2048 bit 的 RSA 算法私钥：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>genrsa<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span><span style="color: #666666">2048</span>
 </code></pre></div>
@@ -287,8 +287,8 @@ EQIDAQAB
 -----END PUBLIC KEY-----
 </code></pre></div>
 
-<h3 id="_10">证书及签名<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<h4 id="_11">生成自签名证书<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<h3 id="_10">证书及签名<a class="headerlink" href="#_10" title="Permanent link"> </a></h3>
+<h4 id="_11">生成自签名证书<a class="headerlink" href="#_11" title="Permanent link"> </a></h4>
 <p>使用已有 RSA 算法的私钥生成自签名证书：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>req<span style="color: #bbbbbb"> </span>-new<span style="color: #bbbbbb"> </span>-x509<span style="color: #bbbbbb"> </span>-days<span style="color: #bbbbbb"> </span><span style="color: #666666">365</span><span style="color: #bbbbbb"> </span>-key<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert.crt<span style="color: #bbbbbb"> </span>-subj<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com&quot;</span>
 </code></pre></div>
@@ -350,7 +350,7 @@ EQIDAQAB
          bb:42:73:7a
 </code></pre></div>
 
-<h4 id="_12">生成签名请求文件<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<h4 id="_12">生成签名请求文件<a class="headerlink" href="#_12" title="Permanent link"> </a></h4>
 <p>当需要申请使用 CA 证书对证书进行签名时，需要生成签名请求文件。使用己有的 RSA 私钥生成签名请求文件的命令为：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>req<span style="color: #bbbbbb"> </span>-new<span style="color: #bbbbbb"> </span>-key<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert.csr<span style="color: #bbbbbb"> </span>-subj<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com</span>
 </code></pre></div>
@@ -405,14 +405,14 @@ Certificate<span style="color: #bbbbbb"> </span>Request:
 </code></pre></div>
 
 <p>细心的读者可以发现，证书签名请求文件和自签名的证书文件相比，少了 Issuer（颁发者），Serial Number，Validity（有效期）等信息。</p>
-<h4 id="ca-csr">使用 CA 证书对 CSR 文件进行签名<a class="headerlink" href="#ca-csr" title="Permanent link">&para;</a></h4>
+<h4 id="ca-csr">使用 CA 证书对 CSR 文件进行签名<a class="headerlink" href="#ca-csr" title="Permanent link"> </a></h4>
 <p>要使用 CA 证书对签名请求文件进行签名，你必须有 CA 证书文件以及 CA 证书的私钥文件。有了这两个文件，可以使用下面的命令进行签名：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>x509<span style="color: #bbbbbb"> </span>-req<span style="color: #bbbbbb"> </span>-days<span style="color: #bbbbbb"> </span><span style="color: #666666">3650</span><span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>cert.csr<span style="color: #bbbbbb"> </span>-CA<span style="color: #bbbbbb"> </span>ca.crt<span style="color: #bbbbbb"> </span>-CAkey<span style="color: #bbbbbb"> </span>ca.key<span style="color: #bbbbbb"> </span>-passin<span style="color: #bbbbbb"> </span>pass:yourpwd<span style="color: #bbbbbb"> </span>-CAcreateserial<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert_ca_signed.crt
 </code></pre></div>
 
 <p>-days 表示证书的有效期，此处指定 3650 表示 10 年有效期；-in 表示输入文件，此处是指证书请求签名文件的文件名；-CA 指定 CA 证书的文件名；-CAkey 指定 CA 证书的私钥文件；-passin 指定 CA 证书的私钥文件的加密密码，如果以明文保存的私钥文件，则此参数可省略。-CAcreateserial 参数指定给签名后的证书创建序列号；-out 参数指明输出的签名后的数字证书文件的文件名。</p>
 <p>当然，这里你完全可以使用自签名的证书文件及其对应的私钥文件给其他的证书请求文件进行签名。</p>
-<h3 id="_13">数字签名及验证<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<h3 id="_13">数字签名及验证<a class="headerlink" href="#_13" title="Permanent link"> </a></h3>
 <p>本小节将演示对一段文本内容进行签名，然后验证签名的正确性。</p>
 <p>我们先生成待签名的数字内容：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is real words from Joey.&quot;</span><span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>data.txt

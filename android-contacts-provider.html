@@ -214,7 +214,7 @@
 <li><a href="#_14">结语</a></li>
 </ul>
 </div>
-<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>Contact Provider是Android系统提供的一个功能强大且灵活的系统组件，用来管理系统里的所有联系人数据。我们在Android手机是看到的联系人信息的数据来源就是由Contact Provider提供的，我们也可以自己写程序来访问这些联系人数据，也可以把这些数据和我们自己的网络服务进行同步和备份。由于Contact Provider管理了相当多类型的数据源，对一个联系人又同时管理着非常多的信息，结果就导致Contact Provider组织结构异常复杂。本文包含以下内容来介绍Contact Provider：</p>
 <ul>
 <li>Contact Provider的基础数据结构</li>
@@ -223,7 +223,7 @@
 <li>怎么样写一个同步适配器(sync adapter)来实现联系人数据的同步</li>
 </ul>
 <p>本文假设你已经了解了Android的content provider机制。Android自带的一个示例程序SampleSyncAdapter很好地演示了如何写一个同步适配器，来把联系人数据同步到部署在Google Web Service上网络服务上。</p>
-<h2 id="contact-provider">Contact Provider结构<a class="headerlink" href="#contact-provider" title="Permanent link">&para;</a></h2>
+<h2 id="contact-provider">Contact Provider结构<a class="headerlink" href="#contact-provider" title="Permanent link"> </a></h2>
 <p>Contact Provider是Android里的一个content provider组件。针对一个联系人，它维护三种类型的数据，分别用三个表来维护这些数据。三个表都定义在类<code>ContactsContract</code>里，它定义了每个表的content URL，列名称等常量。</p>
 <ul>
 <li>ContactsContract.Contacts
@@ -235,10 +235,10 @@
 </ul>
 <p>定义在<code>ContactsContract</code>里的其他表，用来辅助实现Contact Provider的其他功能。三个核心的表Contacts, RawContacts, Data的相互关系如下图所示：</p>
 <p><img alt="contacts_structure" src="../../images/contacts_structure.png" /></p>
-<h3 id="rawcontacts">RawContacts表<a class="headerlink" href="#rawcontacts" title="Permanent link">&para;</a></h3>
+<h3 id="rawcontacts">RawContacts表<a class="headerlink" href="#rawcontacts" title="Permanent link"> </a></h3>
 <p>一个raw contacts表示一个来自特定帐户类型和名称的联系人数据。因为Contact Provider允许多个在线服务作为数据的来源，所以Contact Provider允许多个raw contacts来对应同一个联系人。用户也可以从多个帐户中合并多个raw contacts来生成一个联系人数据。</p>
 <p>raw contact的大部分数据不保存在<code>RawContacts</code>表里，而是通过一行或多行数据保存在<code>ContactsContract.Data</code>表里。<code>Data</code>表里的每行数据都有一个<code>Data.RAW_CONTACT_ID</code>，它与表<code>RawContacts</code>的<code>RawContacts._ID</code>是对应的。即表<code>Data</code>里所有满足<code>Data.RAW_CONTACT_ID == RawContacts._ID</code>的记录，都属于表<code>RawContacts</code>里由<code>RawContacts._ID</code>指定的这条记录的数据。</p>
-<h4 id="raw-contact">raw contact的重要字段<a class="headerlink" href="#raw-contact" title="Permanent link">&para;</a></h4>
+<h4 id="raw-contact">raw contact的重要字段<a class="headerlink" href="#raw-contact" title="Permanent link"> </a></h4>
 <p>下表是raw contact的表的一些重要字段。</p>
 <table>
 <thead>
@@ -266,14 +266,14 @@
 </tr>
 </tbody>
 </table>
-<h4 id="_2">注意事项<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h4>
+<h4 id="_2">注意事项<a class="headerlink" href="#_2" title="Permanent link"> </a></h4>
 <p>下面是关于<code>RawContacts</code>表的重要的注意事项：</p>
 <ul>
 <li>联系人名称并不保存在<code>ContactsContract.RawContacts</code>表里，而是保存在<code>ContactsContract.Data</code>表里。它的数据类型是<code>ContactsContract.CommonDataKinds.StructuredName</code>。而且每个联系人在Data表里只有一行表示联系人名字的数据。</li>
 <li>要在raw contact表里保存属于指定帐户数据，必须先通过<code>AccountManager</code>注册帐户。可以通过提示用户添加帐户类型和帐户名称到系统里来实现注册帐户的目的。如果你不这样做，Contact Provider会自动删除raw contact表里属于这个帐户的数据。
   例如，如果你需要你的应用程序维护来自你的网络服务<code>"com.example.dataservice"</code>的联系人数据，帐户的用户名是<code>"user@dataservice.example.com"</code>。用户必须先在手机里新建一个帐户，其帐户类型是<code>"com.example.dataservice"</code>，帐户名是<code>"user@dataservice.example.com"</code>。添加帐户成功后，你的应用程序才能添加属于这个帐户的联系人数据到raw contact表里。</li>
 </ul>
-<h4 id="_3">一个例子<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h4 id="_3">一个例子<a class="headerlink" href="#_3" title="Permanent link"> </a></h4>
 <p>为了更好的理解raw contact的机制，我们假设有个用户叫&rdquo;Emily Dickinson&rdquo;，她在设备里添加了下面三个帐户：</p>
 <ul>
 <li><code>emily.dickinson@gmail.com</code></li>
@@ -288,10 +288,10 @@
 <li>第二个是和<code>emilyd@gmail.com</code>帐户关联的叫&rdquo;Thomas Higginson&rdquo;的raw contact。这个联系人的帐户类型也是Google。虽然第二个联系人和第一个的名字一样，但它属于另外一个帐户名下的联系人。</li>
 <li>第三个是和Twitter帐户&rdquo;belle_of_amherst&rdquo;关联的叫&rdquo;Thomas Higginson&rdquo;的联系人。它的帐户类型是Twitter.</li>
 </ul>
-<h3 id="data">Data表<a class="headerlink" href="#data" title="Permanent link">&para;</a></h3>
+<h3 id="data">Data表<a class="headerlink" href="#data" title="Permanent link"> </a></h3>
 <p>前面提过，Data表是用来保存联系人数据的，通过<code>Data.RAW_CONTACT_ID</code>和raw contact里的<code>RawContacts._ID</code>关联起来。这样就允许一个raw contact可以有多个相同类型的数据保存在Data表里，比如一个联系人可以有多个电子邮件地址，多个电话号码等。例如，属于<code>emilyd@gmail.com</code>帐户的联系人&rdquo;Thomas Higginson&rdquo;有一个家庭电子邮件<code>thigg@gmail.com</code>以及一个工作电子邮件<code>thomas.higginson@gmail.com</code>，Contact Provider保存这两个电子邮件地址在Data表里，并通过<code>Data.RAW_CONTACT_ID</code>和<code>RawContacts</code>表里的数据关联。</p>
 <p>需要注意，不同类型的数据全部保存在<code>Data</code>表里。联系人名字，邮件地址，电话号码，照片，网址等等，全部是保存在<code>Data</code>表里的。为了实现这样的目的，Data表里包含一些描述性的字段来描述数据。还包含了一些真正的用来保存数据的字段。</p>
-<h4 id="_4">描述性字段<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<h4 id="_4">描述性字段<a class="headerlink" href="#_4" title="Permanent link"> </a></h4>
 <ul>
 <li>RAW_CONTACT_ID
   用来和<code>RawContacts._ID</code>字段进行关联，以表示行数据是属于哪个raw contact的。</li>
@@ -300,11 +300,11 @@
 <li>IS_PRIMARY
   如果一个数据类型可以出现多次，则这个字段用来标示出这种数据类型的主数据。比如一个联系人有多个电话号码，则其中一个的IS_PRIMARY可以设置为非零值，则这个号码就是主电话号码。有些应用程序可以利用这一特性地优先选择主电话号码来拨号等。</li>
 </ul>
-<h4 id="_5">通用数据字段<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h4 id="_5">通用数据字段<a class="headerlink" href="#_5" title="Permanent link"> </a></h4>
 <p>一个Data表里的记录，总共有15个通用数据字段，从DATA1到DATA15。同时还有4个只能给同步适配器使用的字段SYNC1到SYNC4。</p>
 <p>DATA1字段会被索引起来，Contact Provider默认问题认为这个字段保存的是最经常被访问的数据，比如对Email数据而言，这个字段保存的就是Email地址。</p>
 <p>通常情况下，DATA15被用来保存二进制数据(BLOB)，比如照片的二进制数据等。</p>
-<h4 id="_6">类型相关的字段<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<h4 id="_6">类型相关的字段<a class="headerlink" href="#_6" title="Permanent link"> </a></h4>
 <p>DATA表里的每一行保存一种类型的数据，为了方便地访问不同类型的数据，Contact Provider也提供了访问具体类型数据的字段的方法，这些类型相关的字段别名由定义在<code>ContactsContract.CommonDataKinds</code>里的子类来定义。</p>
 <p>例如，<code>ContactsContract.CommonDataKinds.Email</code>类定义了MIME Type为<code>Email.CONTENT_ITEM_TYPE</code>的数据，要访问Email地址时，可以直接访问<code>Email.ADDRESS</code>，它的值其实就是&rdquo;data1&rdquo;，就是通用数据字段的DATA1字段。</p>
 <div class="admonition caution">
@@ -313,7 +313,7 @@
 </div>
 <p>下图就是类型相关字段别名和通用数据字段的关联关系图：</p>
 <p><img alt="data_columns" src="../../images/data_columns.png" /></p>
-<h4 id="_7">类型相关的字段名类<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<h4 id="_7">类型相关的字段名类<a class="headerlink" href="#_7" title="Permanent link"> </a></h4>
 <p>下表列出了最常用的类型相关的别名字段类</p>
 <table>
 <thead>
@@ -346,7 +346,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="contacts">Contacts表<a class="headerlink" href="#contacts" title="Permanent link">&para;</a></h3>
+<h3 id="contacts">Contacts表<a class="headerlink" href="#contacts" title="Permanent link"> </a></h3>
 <p>Contact Provider会从RawContacts和Data表里收集数据，组合生成一个记录放在Contacts表里。Contact Provider负责在这个表里生成记录，合并数据。应用程序和同步适配器都不能向这个表里添加记录，Contacts表里的一些字段还是只读的。</p>
 <div class="admonition hint">
 <p class="admonition-title">注意</p>
@@ -357,7 +357,7 @@
 <p><code>ContactsContract.Contacts</code>表还包含了一个<code>LOOKUP_KEY</code>字段，这个字段永久地和某个特定的联系人关联起来。这个字段存在的意义在于，Contacts表是由Contacts Provider自动维护的，当发生数据合并或同步适配器修改raw contacts时，Contacts._ID的值是会发生变化的。而<code>Contacts.LOOKUP_KEY</code>在这个过程中，是不会发生变化的。<code>Contacts.CONTENT_LOOKUP_URI</code>和<code>LOOKUP_KEY</code>字段组合起来所代表的联系人依然指向了原来的联系人。所以，我们可以用<code>LOOKUP_KEY</code>来连接一个我们感兴趣的联系人。</p>
 <p>下图阐明了三个主要的表之间的关系：</p>
 <p><img alt="contacts_tables" src="../../images/contacts_tables.png" /></p>
-<h3 id="_8">从同步适配器来的数据<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<h3 id="_8">从同步适配器来的数据<a class="headerlink" href="#_8" title="Permanent link"> </a></h3>
 <p>用户可以在设备里直接输入联系人数据，联系人数据也可以通过同步适配器自动地在设备和云端进行同步。同步适配器在系统后台运行，由系统控制，通过ContentResolver来管理数据。</p>
 <p>在Android系统上，同步适配器的云端服务是由帐户类型来区分的。一个同步适配器对应一个帐户类型。但同步适配器可以支持同一个帐户类型下的多个帐户名，就象可以在设备上登录多个Google帐户一样。下面的文字描述了帐户类型和帐户名称与同步适配器的关系。</p>
 <ul>
@@ -368,7 +368,7 @@
 </ul>
 <p>帐户类型可以不唯一，即一个设备里可以有多个相同帐户类型的帐户。比如，设备可以登录多个Google帐户。帐户名称一般是唯一的，至少在同一个帐户类型里必须是唯一的。帐户类型和帐户名称结合起来，通过同步适配器，共同标识了一个在Contact Provider和云端服务之间的一个特定同步数据流。</p>
 <p>如果你想在你的云端服务和Contact Provider之间同步数据，你必须实现一个同步适配器。后面章节的文章会提到这个话题。</p>
-<h3 id="_9">需要的权限<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<h3 id="_9">需要的权限<a class="headerlink" href="#_9" title="Permanent link"> </a></h3>
 <p>需要访问Contact Provider的应用程序必须取得下面的权限：</p>
 <ul>
 <li>读权限
@@ -377,7 +377,7 @@
   需要在应用程序的AndroidManifest.xml里，添加<code>&lt;uses-permission android:name="android.permission.WRITE_CONTACTS"&gt;</code></li>
 </ul>
 <p>这两个权限不包含User Profile数据的读写。user profile使用单独的权限来控制读写。</p>
-<h3 id="user-profile">User Profile<a class="headerlink" href="#user-profile" title="Permanent link">&para;</a></h3>
+<h3 id="user-profile">User Profile<a class="headerlink" href="#user-profile" title="Permanent link"> </a></h3>
 <p>User Profile就是在设备联系人应用程序里看到的&rdquo;我的个人资料&rdquo;，用来描述本设备所有人信息的一个数据。<code>ContactsContract.Contacts</code>表里有一行数据用来表现user profile。这个数据用来描述设备所有人本身，而不是设备所有人的联系人。</p>
 <p>读写user profile除了读写联系人数据外，还需要额外的权限，他们是&rdquo;android.permission.READ_PROFILE&rdquo;和&rdquo;android.permission.WRITE_PROFILE&rdquo;。这两个都是在API 14的时候才加进去的。</p>
 <p>要获取user profile，可以使用ContentResolver通过<code>ContactsContract.Profile.CONTENT_URI</code>来获取，下面是获取user profile的示例代码：</p>
@@ -399,7 +399,7 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <span style="color: #bbbbbb">                </span><span style="color: #AA22FF; font-weight: bold">null</span>);
 </code></pre></div>
 
-<h3 id="contacts-provider">Contacts Provider元数据<a class="headerlink" href="#contacts-provider" title="Permanent link">&para;</a></h3>
+<h3 id="contacts-provider">Contacts Provider元数据<a class="headerlink" href="#contacts-provider" title="Permanent link"> </a></h3>
 <p>Contacts Provider管理了本地的所有联系人数据，追踪他们的状态。这些元数据就是为了实现这些功能所需要的。这些元数据保存在RawContacts，Contacts, Data等表格记录里，同时还保存在<code>ContactsContract.Settings</code>和<code>ContactsContract.SyncState</code>表里。下面汇总了这些元数据的位置及其作用。</p>
 <table>
 <thead>
@@ -455,7 +455,7 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 </tr>
 </tbody>
 </table>
-<h2 id="contacts-provider_1">读写Contacts Provider<a class="headerlink" href="#contacts-provider_1" title="Permanent link">&para;</a></h2>
+<h2 id="contacts-provider_1">读写Contacts Provider<a class="headerlink" href="#contacts-provider_1" title="Permanent link"> </a></h2>
 <p>本节内容描述如何访问Contacts Provider的数据，主要集中在下面几个话题：</p>
 <ul>
 <li>联系人记录查询</li>
@@ -464,7 +464,7 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <li>数据完整性检查</li>
 </ul>
 <p>通过同步适配器修改联系人数据将在下面的章节中单独描述。</p>
-<h3 id="_10">查询记录<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h3 id="_10">查询记录<a class="headerlink" href="#_10" title="Permanent link"> </a></h3>
 <p>因为Contacts Provider数据是按照三个核心表(Contacts, RawContacts, Data)按照层次结构组织起来的，应用程序经常需要获取一个联系人的所有信息，这就需要从这三个表里里去联合查询。比如从Contacts表里找到一个记录，然后根据Contacts._ID从RawContacts表里关联RawContacts.CONTACT_ID去查询与这个Contacts记录关联的RawContacts记录。接着，再根据找到的关联的RawContacts记录的RawContacts._ID的值从Data表里，根据Data.RAW_CONTACTS_ID去查询所有的关联记录。再把这些记录组合起来，最后得到了一个完整的联系人信息。为了达成这个目的，Contact Provider提供了<em>ContactsContract.Contacts.Entity</em>类来实现这个功能，自动实现了这些表的联合查询。</p>
 <p>一个entity表是从Contacts, RawContacts, Data三个表里把关联的记录合并起来，从中选择一些列来组合起来的。当从entity表里查询数据时，需要提供一个感兴趣的字段列表(projection)，查询结果是一个游标(cursor)，里面包含一个个联系人的所有信息数据。例如，指定一个联系人的名字，查询出这个联系人的所有电子邮件，那么你将得到包含一行数据的游标，这行数据里有名字以及多个电子邮件的数据。</p>
 <p>entity表让查询操作更简单。你可以一次从不同的表里获取出联系人的所有信息。而不需要先从父表里查询数据，得到ID，再根据ID去子表里查询。而且，Contacts Provider把这些联合查询操作在一个事务里完成，这样保证了查询到的数据的一致性。</p>
@@ -539,13 +539,13 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 </code></pre></div>
 
 <p>当数据加载结束，LoaderManager 会调用 Activity 的 onLoadFinish() 回调函数。这个回调函数的参数之一是 Cursor 对象，它包含了查询的结果集。应用程序可以从 Cursor 对象里获取数据并显示出来。</p>
-<h3 id="_11">批量操作<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<h3 id="_11">批量操作<a class="headerlink" href="#_11" title="Permanent link"> </a></h3>
 <p>在操作电话数据的增加，删除，修改时，尽量使用批量操作，通过创建一个 ArrayList 列表，列表里放 ContactProviderOperation 类的实例，最后再调用 ContentResolver.applyPatch() 方法来执行批量操作。Contact Provider 将把一次 applyPatch() 里的所有操作当成一个事务来执行，这样你的修改就不会造成数据不一致性。新建一个电话本记录时，批量操作也会把插入 RawContact 表里的数据和插入 Data 表里的数据放在一个事务里执行，确保数据的一致性。</p>
-<h4 id="_12">释放点<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<h4 id="_12">释放点<a class="headerlink" href="#_12" title="Permanent link"> </a></h4>
 <p>当指操作包含大量的操作时，执行起来虽然不会阻塞 UI 纯种，但系统整体很繁忙，会阻塞其它的进程。这样就会导致用户体验下降。一个解决方法是把所有操作通过合理的安排，放进几个独立的 ArrayList 对象里，同时为了不阻塞其他进程，可以在操作之间放一个<strong>释放点</strong>，释放点也是一个 ContentProviderOperation 实例，它的 isyieldAllowed() 会返回 true 。当 Contact Provider 执行这些操作时，遇到释放点后，它会停止事务，暂停操作，以便让其他程序运行。等到 Contact Provider 再次运行时，它将创建新的事务从上次暂停的地方继续执行操作。</p>
 <p>释放点会导致在一批操作被分隔成多个事务。正因为如此，你需要把释放点放在一批相关数据操作的结尾处。比如，你需要把释放点放在添加 RawContact 记录和添加相应的 Data 记录之后。以确保释放点之间的操作的数据一致性。</p>
 <p>释放点之间也是一个原子操作单元。所有在释放点之间的操作要么全部成功要么全部失败。如果没有设置释放点，那么整个批量操作都将作为一个原子操作，要么全部成功要么全部失败。使用释放点可以避免让系统性能受到挑战，同时又兼顾了数据操作的原子性。</p>
-<h4 id="_13">反向引用<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<h4 id="_13">反向引用<a class="headerlink" href="#_13" title="Permanent link"> </a></h4>
 <p>当你把向 RawContact 里插入一条记录，以及把其相应的数据插入到 Data 表里作为一个批量操作时，你需要把 Data 表里的 RAW_CONTACT_ID 的值填成 RawContact 表里新插入的记录的 ID 值。而由于你还没有让 Contact Provider 去执行这个批量操作，即记录还没有在 RawContact 里生成，它的 ID 值是不可用的。为了解决这个问题， ContentProviderOperation.Builder 类提供了 withValueBackReference() 方法，用来让前一个操作的返回值作为当前操作的某个字段的值。</p>
 <p>withValueBackReference() 方法有两个参数：</p>
 <ul>
@@ -797,7 +797,7 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <span style="color: #bbbbbb">        </span>}
 </code></pre></div></td></tr></table></div>
 
-<h2 id="_14">结语<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h2 id="_14">结语<a class="headerlink" href="#_14" title="Permanent link"> </a></h2>
 <p>联系人的数据结构特别复杂。把握住了本文介绍的这几个核心数据结构及操作。基本上原电话本就会有一个全面的了解。下一篇关于电话本的文章，我们将结合 Android 的示例程序 SampleSyncAdapter 来介绍如何做一个电话本同步服务器以及如何在手机端添加一个同步适配器来同步自己的电话本数据。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/android.html">android</a> on 2014-11-27(Thursday) 22:00. Tags: <a href="./tag/android.html">android</a>, <a href="./tag/contacts.html">contacts</a>, <a href="./tag/contacts-provider.html">contacts provider</a>, </h6>

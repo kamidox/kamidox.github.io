@@ -178,9 +178,9 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>微信小程序离线开发文档</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>程序员开发过程中离不开开发文档，微信小程序也不例外。开发微信小程序的常规姿势是边写代码，边开着微信小程序开发文档的网页，来回切换。这里有一个更优雅的解决方案。</p>
-<h2 id="_2">微信小程序离线开发文档<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">微信小程序离线开发文档<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <ul>
 <li>安装 <a href="https://kapeli.com/dash">Dash</a>。如果你不知道 Dash，是时候了解一下了，绝对会有相见恨晚的感觉。</li>
 <li>下载 <a href="https://github.com/kamidox/html2Dash/releases/download/minapp-docset-V0.1/minapp.docset.v0.1.tar.gz">minapp-docset</a>，导入 Dash 即可。</li>
@@ -188,7 +188,7 @@
 <p>Windows 用户可以使用 <a href="http://velocity.silverlakesoftware.com/">velocity</a>，Linux 用户可以使用 <a href="http://zealdocs.org/">Zeal</a> 作为 Dash 的替代品。</p>
 <p>最后的效果图长这样：</p>
 <p><img alt="Dash 效果图" src="http://upload-images.jianshu.io/upload_images/184896-d08314fbc56d99f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" /></p>
-<h2 id="_3">背后的原理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">背后的原理<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>知其然知其所以然。背后的原理其实不复杂。先使用 wget 把整个微信小程序的开发文档全部下载下来，再用一个 Python 脚本生成 Dash 格式的 docset。感兴趣的同学可以看看 <a href="https://github.com/kamidox/html2Dash">html2Dash</a>，我分享到 Github 上了。</p>
 <p>话说 wget 简直逆天，一个命令可以把一个网站全下载下来。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>wget<span style="color: #bbbbbb"> </span>-r<span style="color: #bbbbbb"> </span>-p<span style="color: #bbbbbb"> </span>-k<span style="color: #bbbbbb"> </span>-np<span style="color: #bbbbbb"> </span>http://www.jianshu.com

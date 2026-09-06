@@ -178,9 +178,9 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>MacOS Monterey 下启用 core dump</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>在 MacOS Monterey 下，应用程序崩溃时，可以用 core dump 来调试。</p>
-<h2 id="core-dump">启用 core dump<a class="headerlink" href="#core-dump" title="Permanent link">&para;</a></h2>
+<h2 id="core-dump">启用 core dump<a class="headerlink" href="#core-dump" title="Permanent link"> </a></h2>
 <p>启用 core dump 功能：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo sysctl kern.coredump=1
 </code></pre></div>
@@ -201,7 +201,7 @@ File Doesn&#39;t Exist, Will Create: tmp.entitlements
 </code></pre></div>
 
 <p>上述准备工作只需要做一次即可。</p>
-<h2 id="core-dump_1">产生 core dump<a class="headerlink" href="#core-dump_1" title="Permanent link">&para;</a></h2>
+<h2 id="core-dump_1">产生 core dump<a class="headerlink" href="#core-dump_1" title="Permanent link"> </a></h2>
 <p>编写一个测试程序：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800">#include</span><span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic">&lt;stdlib.h&gt;</span>
 
@@ -235,7 +235,7 @@ drwxr-xr-x<span style="color: #bbbbbb">  </span><span style="color: #666666">20<
 -r--------<span style="color: #bbbbbb">   </span><span style="color: #666666">1</span><span style="color: #bbbbbb"> </span>kamidox<span style="color: #bbbbbb">  </span>admin<span style="color: #bbbbbb">  </span><span style="color: #666666">2968027136</span><span style="color: #bbbbbb"> </span>Jan<span style="color: #bbbbbb"> </span><span style="color: #666666">30</span><span style="color: #bbbbbb"> </span><span style="color: #666666">10</span>:50<span style="color: #bbbbbb"> </span>core.15049
 </code></pre></div>
 
-<h2 id="core-dump_2">分析 core dump<a class="headerlink" href="#core-dump_2" title="Permanent link">&para;</a></h2>
+<h2 id="core-dump_2">分析 core dump<a class="headerlink" href="#core-dump_2" title="Permanent link"> </a></h2>
 <p>使用 lldb 分析 core dump：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lldb<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span>c<span style="color: #bbbbbb"> </span><span style="color: #666666">/</span>cores<span style="color: #666666">/</span>core<span style="color: #666666">.15049</span>
 (lldb)<span style="color: #bbbbbb"> </span>target<span style="color: #bbbbbb"> </span>create<span style="color: #bbbbbb"> </span><span style="color: #666666">--</span>core<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/cores/core.15049&quot;</span>
@@ -249,7 +249,7 @@ Core<span style="color: #bbbbbb"> </span>file<span style="color: #bbbbbb"> </spa
 </code></pre></div>
 
 <p>从输出 <code>test.c:7:8</code> 可以看到，第 7 行的程序导致程序崩溃。</p>
-<h2 id="_2">参考资料<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">参考资料<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <ol>
 <li>https://blog.csdn.net/justidle/article/details/108459488</li>
 <li>https://stackoverflow.com/questions/70643336/core-dumps-arent-written-to-cores-on-mac-os-monterey</li>

@@ -192,7 +192,7 @@
 <li><a href="#_6">结束语</a></li>
 </ul>
 </div>
-<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="https://github.com/sh4nks/flaskbb">FlaskBB</a>是用Flask框架实现的一个轻量级的论坛社区软件，代码托管在GitHub上。本系列文章通过阅读FlaskBB的源代码来深入学习Flask框架，以及在一个产品级的Flask应用里的一些最佳实践规则。</p>
 <p>本文是这系列文章的第一遍。本文分析FlaskBB的主程序<code>app.py</code>的源码。我们从<code>create_app()</code>函数入手，分析FlaskBB的软件结构。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
@@ -242,7 +242,7 @@
     <span style="color: #AA22FF; font-weight: bold">return</span> app
 </code></pre></div></td></tr></table></div>
 
-<h2 id="_2">配置<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">配置<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>FlaskBB使用下面典型的配置代码了加载应用程序的配置信息。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -261,7 +261,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <p><code>Flask.config.from_envvar()</code>用来从环境变量指定的文件中导入设置信息，比如上例中，可以设置<code>FLASKBB_SETTINGS</code>的环境变量指向<em>/path/to/python/config/file.py</em>，这样程序就会从这个文件里导入配置信息。</p>
 <p>需要注意的是，最后导入的配置信息可覆盖前面导入的信息。所以，一般会有三个层次：一是默认配置；二是应用程序创建时传入的参数；最后再从环境变量里导入。</p>
 <p>FlaskBB提供了不少配置信息，比如<code>SEND_LOGS</code>表示是不是要把错误信息发送给网站管理员邮箱；<code>SQLALCHEMY_DATABASE_URI</code>表示ORM数据库路径等等。具体参阅<code>flaskbb.configs.default.DefaultConfig</code>类。</p>
-<h2 id="blueprint">Blueprint<a class="headerlink" href="#blueprint" title="Permanent link">&para;</a></h2>
+<h2 id="blueprint">Blueprint<a class="headerlink" href="#blueprint" title="Permanent link"> </a></h2>
 <p>Blueprint是Flask提供的模块化设计组件。FlaskBB通过<code>configure_blueprints()</code>来初始化Blueprint</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -285,7 +285,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <li>management
   后台管理模块，由<code>flaskbb.management.views.management</code>Blueprint实现，默认其挂载的URL是<code>/admin</code></li>
 </ol>
-<h2 id="flaskbbflask">FlaskBB用到的Flask扩展<a class="headerlink" href="#flaskbbflask" title="Permanent link">&para;</a></h2>
+<h2 id="flaskbbflask">FlaskBB用到的Flask扩展<a class="headerlink" href="#flaskbbflask" title="Permanent link"> </a></h2>
 <p>有大量的第三方开发者为Flask构架开发扩展，在<a href="http://flask.pocoo.org/extensions/">这里</a>可以找到官方收录的所有Flask扩展。FlaskBB通过<code>configure_extensions()</code>函数来初始化用到的扩展。这些扩展的简要信息汇总如下：</p>
 <ol>
 <li><a href="http://github.com/mitsuhiko/flask-sqlalchemy/">Flask-SQLAlchemy</a>
@@ -313,7 +313,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <li><a href="http://github.com/techniq/flask-script/">Flask-Script</a>
   给Flask应用程序提供外部脚本支持。比如运行开发服务器，初始化数据库，等命令行相关的任务。对FlaskBB而言，<code>python manage.py runserver</code>和<code>python manage.py createall</code>等命令就是通过这个扩展实现的。</li>
 </ol>
-<h2 id="jinja2">自定义的Jinja2过滤器<a class="headerlink" href="#jinja2" title="Permanent link">&para;</a></h2>
+<h2 id="jinja2">自定义的Jinja2过滤器<a class="headerlink" href="#jinja2" title="Permanent link"> </a></h2>
 <p>Jinja2提供了<a href="http://jinja.pocoo.org/docs/dev/api/#custom-filters">自定义过滤器</a>的功能，可以在Jinja2模板里灵活使用。FlaskBB通过函数<code>configure_template_filters()</code>定义了一系列过滤器，其中<code>is_online</code>过滤器是这样定义的：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>app<span style="color: #666666">.</span>jinja_env<span style="color: #666666">.</span>filters[<span style="color: #BB4444">&#39;is_online&#39;</span>] <span style="color: #666666">=</span> is_online
 </code></pre></div>
@@ -343,7 +343,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 </code></pre></div>
 
 <p>上面Jinja2模板里<code>user|is_online</code>脚本会导致<code>is_online(user)</code>被调用来判断用户是否在线。</p>
-<h2 id="_3">向模板注入设置信息<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">向模板注入设置信息<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>FlaskBB通过调用<code>configure_context_processors()</code>向模板注入设置信息。代码如下：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
@@ -368,7 +368,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 
 <p>使用<code>context_processor</code>装饰器来装饰<code>inject_flaskbb_config()</code>函数，这样这个函数会被Flask记录起来，每次要渲染模板时，会先调用这个函数更新一下模板上下文信息。这样，在模板里就可以访问这里注入的上下文信息。上下文处理器函数必须返回一个<code>dict</code>实例。Flask官方文档对<a href="http://flask.pocoo.org/docs/0.10/templating/#context-processors">context_processor</a>有详细的描述。</p>
 <p>例如，返回的<code>dict</code>里包含&rsquo;name: kamidox&rsquo;这样的值，则在Jinja2模板里可以直接用<code>{% name %}</code>来访问<code>name</code>变量，其值为<code>kamidox</code>。</p>
-<h2 id="_4">更新用户在线信息<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">更新用户在线信息<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>FlaskBB通过<code>configure_before_handlers()</code>函数来注册每个请求之前的动作，以记录用户的在线信息。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
@@ -400,7 +400,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 </code></pre></div></td></tr></table></div>
 
 <p>这里，<code>before_request</code>装饰器将把<code>update_lastseen()</code>函数注册进Flask，Flask在处理请求之前都会调用这个函数。FlaskBB使用这个机制来记录最后一次看到用户的时间。结合会话的超时机制，就可以判断用户是否在线。</p>
-<h2 id="_5">自定义错误处理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">自定义错误处理<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>通过<code>configure_errorhandlers()</code>来实现自定义错误处理。其中，HTTP 403, 404及500的错误处理定义如下</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
@@ -436,7 +436,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 </code></pre></div></td></tr></table></div>
 
 <p>这样当发生这些http错误时，错误网页将从服务器返回自定义的错误网页，而不是浏览器客户端默认的错误页面。</p>
-<h2 id="log">LOG配置<a class="headerlink" href="#log" title="Permanent link">&para;</a></h2>
+<h2 id="log">LOG配置<a class="headerlink" href="#log" title="Permanent link"> </a></h2>
 <p>通过<code>configure_logging()</code>来配置系统的LOG。FlaskBB的LOG主要保存在应用程序根目录下的<em>logs</em>目录里，分两个文件保存，一个是INFO级别的LOG，另外一个是ERROR级别的LOG。同时还支持把ERROR级别的LOG通过邮件的方式发送给网站管理员。</p>
 <p>下面代码配置了INFO级别的LOG：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
@@ -504,7 +504,7 @@ app<span style="color: #666666">.</span>logger<span style="color: #666666">.</sp
     app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>addHandler(mail_handler)
 </code></pre></div></td></tr></table></div>
 
-<h2 id="_6">结束语<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">结束语<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <p>通过对主程序<code>app.py</code>的代码分析，我们基本上知道了FlaskBB的主体框架，模块划分，用到的外部扩展等信息。下一篇将分模块深入阅读各个Blueprint模块的实现以及数据库设计方面的内容。</p>
 <p>[5]:　http://github.com/mattupstate/flask-mail/</p>
 	<hr/>

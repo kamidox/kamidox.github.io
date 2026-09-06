@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>Android 内存与性能</h2>
-	<h3 id="_1">官方教程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+	<h3 id="_1">官方教程<a class="headerlink" href="#_1" title="Permanent link"> </a></h3>
 <ol>
 <li><a href="https://www.udacity.com/course/ud825">Android Performance</a> 是 GOOGLE 近期发布在 Udacity 上的官方教程
    不方便科学上网的同学可以从我的<a href="http://pan.baidu.com/s/1sjPZbxr">百度网盘</a>里下载。</li>
@@ -189,7 +189,7 @@
 <p class="admonition-title">Notes</p>
 <p>看来 Android 生态圈的性能和电量消耗等问题，已经严重到让 Google 不得不重视的地步啦 ~~</p>
 </div>
-<h3 id="_2">关于内存的几个理论知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h3 id="_2">关于内存的几个理论知识<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
 <p><strong>GC 的工作机制</strong>
 当 GC 工作时，虚拟机停止其他工作。频繁地触发 GC 进行内存回收，会导致系统性能严重下降。</p>
 <p><strong>内存抖动</strong>
@@ -209,7 +209,7 @@ Java 语言的内存泄漏概念和 C/C++ 不太一样，在 Java 里是指不�
 <li>尽量别在 View 的 onDraw 函数里分配内存</li>
 <li>实在无法避免在这些场景里分配内存时，考虑使用对象池 (Object Pool)</li>
 </ul>
-<h3 id="_3">两个简单的实例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">两个简单的实例<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p><strong>内存抖动</strong></p>
 <p>通过一个非常简单的例子来演示内存抖动。这个例子里，在自定义 View 的 onDraw 方法里大量分配内存来演示内存抖动和性能之间的关系。</p>
 <p>版本一：</p>
@@ -264,7 +264,7 @@ Java 语言的内存泄漏概念和 C/C++ 不太一样，在 Java 里是指不�
 <img alt="memory_tracker" src="../../images/memory_leak.png" /></p>
 <p>利用 <a href="http://www.eclipse.org/mat/downloads.php">MAT</a> 工具进行专业分析。这是个很大的话题。几乎可以独立成几个章节来讲。可以参阅 MAT 本身自带的 Tutorials 来学习。另外，<a href="http://android-developers.blogspot.hk/2011/03/memory-analysis-for-android.html">这篇文章</a>里的分析方法是个不错的开始。</p>
 <p>示例代码使用 Android Studio 开发环境，可以从<a href="http://pan.baidu.com/s/1sj3Exsx">这里</a>下载。</p>
-<h3 id="mat">利用 MAT 分析内存问题<a class="headerlink" href="#mat" title="Permanent link">&para;</a></h3>
+<h3 id="mat">利用 MAT 分析内存问题<a class="headerlink" href="#mat" title="Permanent link"> </a></h3>
 <p><strong>内存泄漏</strong></p>
 <p>一个典型的问题是 Android 系统越用越慢。这种典型地是由内存泄漏引起的。一个很有用的解决这种问题的办法是：比较前后两个阶段的内存的使用情况。一般流程如下：</p>
 <ol>
@@ -291,9 +291,9 @@ Java 语言的内存泄漏概念和 C/C++ 不太一样，在 Java 里是指不�
 <p>从上图可以找到，本次 dump 出来的内存里，确实有很多个这个类的实例。在图上右击任何一个实例，右击，选择 <code>Paths to GC roots</code>，可以找到这个实例是被谁引用的。</p>
 <p><img alt="mat_gc_root.png" src="../../images/mat_gc_root.png" /></p>
 <p>从上图可以看出来，这个内存是被 MainActivity 里的 sCache 引用的。通过阅读代码，我们就可以找到这个漏洞了。即每次都往 sCache 里保存一个引用。</p>
-<h3 id="_4">总结<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_4">总结<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <p>Google 视频介绍的内容是硬知识，了解这些知识可以帮助我们写出高质量，高性能的代码。而 MAT, HPROF, Memory Monitor, Allocation Tracker 提供了一个“破案”的工具给我们。我们利用这些工具，倒回来去发现代码里的问题。</p>
-<h3 id="_5">延伸阅读<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_5">延伸阅读<a class="headerlink" href="#_5" title="Permanent link"> </a></h3>
 <p>关于 Android 性能优化，网络上有几篇比较好的文章，基本按照 GOOGLE 的官方教程翻译过来的，质量比较高。可以参考一下。</p>
 <ol>
 <li><a href="http://hukai.me/android-performance-memory/">Android 性能优化内存篇</a>－<a href="http://hukai.me">胡凯的博客</a></li>

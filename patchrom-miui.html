@@ -195,11 +195,11 @@
 <li><a href="#_4">结语</a></li>
 </ul>
 </div>
-<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>MIUI 使用代码插桩的方式来移植。即 MIUI 把他们基于 AOSP 的修改的代码全部用 smali 开放出来。这样我们通过对比 MIUI 的 smali 代码和 AOSP 的 smali　代码就可以知道 MIUI 修改了哪些内容，把这些内容移植过去即可完成 MIUI的移植。本文以 jellybean42-mtk 为例，描述使用 patchrom 移植 MIUI的方法以及在过程中遇到的问题及其调试方法。</p>
-<h2 id="_2">移植过程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">移植过程<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>可以查阅 <a href="http://pan.baidu.com/s/1o6yq4I2">MIUI 移植的文档</a>了解一些背景知识。这里将主体步骤描述如下：</p>
-<h3 id="miui-patchrom">下载 MIUI patchrom<a class="headerlink" href="#miui-patchrom" title="Permanent link">&para;</a></h3>
+<h3 id="miui-patchrom">下载 MIUI patchrom<a class="headerlink" href="#miui-patchrom" title="Permanent link"> </a></h3>
 <p>下载 repo 工具</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #bbbbbb"> </span>~/bin
 curl<span style="color: #bbbbbb"> </span>https://storage.googleapis.com/git-repo-downloads/repo<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>~/bin/repo
@@ -215,7 +215,7 @@ repo<span style="color: #bbbbbb"> </span>sync
 
 <p><code>repo sync</code> 命令需要很长的时间才能把代码下载完，代码总量大于10G。所以，基本上可以玩儿去了，不要傻傻地等了。</p>
 <p>代码下载完成后，我们就可以开始移植工作了。实际的代码目录树结构和内容和文档里描述的会有出入，我们可以忽略文档里的，以实际代码为准。本文使用2014-12-04下载的代码为准。</p>
-<h3 id="_3">准备移植目录<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">准备移植目录<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>在 patchrom 根目录下创建一个产品的工作目录用来移植时使用。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~/work/patchrom
 <span style="color: #AA22FF">source</span><span style="color: #bbbbbb"> </span>build/envsetup.sh
@@ -223,7 +223,7 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>mtk6582
 </code></pre></div>
 
-<h3 id="ota">准备一个 OTA 升级包<a class="headerlink" href="#ota" title="Permanent link">&para;</a></h3>
+<h3 id="ota">准备一个 OTA 升级包<a class="headerlink" href="#ota" title="Permanent link"> </a></h3>
 <p>我们直接拿一个要当作底包的 OTA 升级包来作为 stockrom.zip。对这个底包有以下的要求：</p>
 <ol>
 <li>这个底包必须是 user 版本且足够稳定。因为根据底包移植完的软件是直接拿来当产品使用的。</li>
@@ -241,7 +241,7 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <li>把步骤 1 删除掉的 3 个 jar 包放回 zip 包里。然后运行下面命令对zip包进行重新签名 <code>java -Xmx2048m -jar signapk.jar -w testkey.x509.pem testkey.pk8 stockrom.zip stockrom-signed.zip</code>。</li>
 <li>把新生成的 ota zip 包放在手机 SD 卡里，进 recovery 模式进行升级。确保制作出来的包没有问题。</li>
 </ol>
-<h3 id="makefile">准备一个 makefile<a class="headerlink" href="#makefile" title="Permanent link">&para;</a></h3>
+<h3 id="makefile">准备一个 makefile<a class="headerlink" href="#makefile" title="Permanent link"> </a></h3>
 <p>下面的 makefile 可以作为模板，里面有详细的注释说明每个字段的含义。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#</span>
 <span style="color: #008800; font-style: italic"># Makefile for mtk6582</span>
@@ -312,7 +312,7 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>shell<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span><span style="color: #666666">644</span><span style="color: #bbbbbb"> </span>/system/app/<span style="color: #B8860B">$*</span>
 </code></pre></div>
 
-<h3 id="make-workspace">make workspace<a class="headerlink" href="#make-workspace" title="Permanent link">&para;</a></h3>
+<h3 id="make-workspace">make workspace<a class="headerlink" href="#make-workspace" title="Permanent link"> </a></h3>
 <p>在 patchrom/mtk6582 目录下运行 <code>make workspace</code> 命令。这个命令会把 stockrom.zip 文件解压，并且反编译里面的 jar/apk 来作为移植的基础。在上述 makefile 内容下，会生成下面几个文件夹：</p>
 <ol>
 <li>android.policy.jar.out</li>
@@ -326,7 +326,7 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <p class="admonition-title">深入理解make workspace</p>
 <p>可以阅读 patchrom/build　目录下的 makefile 文件来深入理解 patchrom　的编译系统。对 <code>make workspace</code> 命令，实际上是根据 jellybean42-mtk.mk 里的 private-miui-jars，以及 framework-res.apk　和 makefile　里定义的 local-modified-apps 来决定反编译哪些内容的。</p>
 </div>
-<h3 id="make-firstpatch">make firstpatch<a class="headerlink" href="#make-firstpatch" title="Permanent link">&para;</a></h3>
+<h3 id="make-firstpatch">make firstpatch<a class="headerlink" href="#make-firstpatch" title="Permanent link"> </a></h3>
 <p>在 patchrom/mtk6582 目录下运行 <code>make firstpatch</code> 命令。这个命令偿试自动合并 smali 文件。如果无法合并，会在 reject 目录下生成有冲突的文件。所以，运行这个命令后，我们只需要合并 reject 目录下的有冲突的文件即可完成 MIUI ROM 的移植工作。</p>
 <p>这个命令在 patchrom/mtk6582/temp 目录下生成的文件树如下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>├──<span style="color: #bbbbbb"> </span>dst_smali_orig<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic"># 这个是底包 stockrom.zip 里反编译出来的系统 smali 文件</span>
@@ -365,7 +365,7 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <p class="admonition-title">关于自动合并</p>
 <p>自动合并会把一些差异自动合并进 dst_smali_patched 目录。这个合并过程是怎么样的呢？可以阅读 patchrom/tools/patch_miui_framework.sh 文件来获取详细信息。这里总结自动合并的过程如下：1) 用 diff 命令计算 old_smali 和 new_smali 两个文件夹下的每个文件的补丁 .diff 文件。2) 用 patch 命令把计算出来的 .diff 文件逐个给 dst_smali_orig 目录下的对应文件打补丁，自动合并成功的文件最终生成成 dst_smali_patched 目录下。</p>
 </div>
-<h3 id="reject">手动合并 reject 目录<a class="headerlink" href="#reject" title="Permanent link">&para;</a></h3>
+<h3 id="reject">手动合并 reject 目录<a class="headerlink" href="#reject" title="Permanent link"> </a></h3>
 <p>看起来好简单，其实挑战刚刚开始，要手动合并 reject 目录下的内容不是件容易的事情。即使合并完，后面的调试过程也是痛苦异常。不过也别灰心。办法总比困难多。掌握了基本原理，那么合并过程和调试过程其实还是有规律可以遵循的。在开始这个痛苦过程前，需要先掌握 smali 语法以及 Dalvik　虚拟机的字节码的函义。关于 Dalvik 虚拟机字节码，这个<a href="http://pallergabor.uw.hu/androidblog/dalvik_opcodes.html">文档</a>可以查阅。</p>
 <p>手动合并 smali 代码的流程是这样的：</p>
 <ol>
@@ -377,9 +377,9 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 </ol>
 <p>这个过程刚做很痛苦，但有做几次积累一定经验后，就轻松了。过程中可能还要结合 AOSP 的 JAVA 源码阅读来理解逻辑。</p>
 <p>目标 smali 代码合并进 dst_smali_patched 之后，还需要把这个结果合并回 patchrom/mtk6582 目录下的相应 smali 文件里。比如，需要把 patchrom/mtk6582/android.policy.jar.out 目录和 patchrom/mtk6582/temp/dst_smali_patched/android.policy.jar.out 目录相比较，把最终结果合并进 patchrom/mtk6582/android.policy.jar.out　里。因为 patchrom 编译工具在生成这些需要合并的文件时，把 smali 文件里的行号删除了。这样有利于自动合并和手动合并，而不会被行号干扰。而我们合并完真正进行编译时，实际上参加编译的是 patchrom/mtk6582/android.policy.jar.out 下的 smali 文件。所以必须合并回去才能真正把 MIUI 合并过去。</p>
-<h3 id="make-fullota">make fullota<a class="headerlink" href="#make-fullota" title="Permanent link">&para;</a></h3>
+<h3 id="make-fullota">make fullota<a class="headerlink" href="#make-fullota" title="Permanent link"> </a></h3>
 <p>合并完成后，可以在 patchrom/mtk6582 目录下运行 <code>make fullota</code> 来生成目标文件 MIUI_MTK6582.zip。如果你人品足够好，那么可能一步就生成了。但基本上没有这么好的运气。过程中会有 smali 错误。需要根据提示去做适当的修改。编译通过后，就可以把 MIUI_MTK6582.zip 文件通过 recovery 方式升级到手机看移植后的效果。</p>
-<h2 id="_4">结语<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">结语<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>本文分析了使用 patchrom 移植 MIUI 的全过程，详细解释了 patchrom 编译系统及步骤。这个对理解 patchrom 移植的原理有比较大的帮助。移植过程中可能会碰到各种各样的问题。这些问题都需要一些丰富的知识去识别和解决。下一篇准备介绍一下移植过程中遇到的一些问题，解决方法以及找到解决方法的分析过程。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/android.html">android</a> on 2014-12-06(Saturday) 23:00. Tags: <a href="./tag/android.html">android</a>, <a href="./tag/patchrom.html">patchrom</a>, <a href="./tag/miui.html">miui</a>, </h6>

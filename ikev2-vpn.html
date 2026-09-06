@@ -178,11 +178,11 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>一键构建 IKEv2 VPN 服务器</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>大概 6 年前，写了个<a href="http://kamidox.com/ipsec-ikev2-vpn.html">博客</a>，记录了如何使用一个脚本，基于 strongswan 构建 IPSec 的 VPN 服务器。时过镜迁，这个脚本构建出来的 VPN 竟然无法工作。客户端可以成功登录 VPN，但无法上网。</p>
 <p>痛定思痛，参考 <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-22-04">How to Set Up an IKEv2 VPN Server with StrongSwan on Ubuntu 22.04</a>，编写了一个脚本，用来构建一个 IKEv2 VPN 服务器。</p>
 <p>下面进入正文。</p>
-<h2 id="ikev2-vpn">构建 IKEv2 VPN 服务器<a class="headerlink" href="#ikev2-vpn" title="Permanent link">&para;</a></h2>
+<h2 id="ikev2-vpn">构建 IKEv2 VPN 服务器<a class="headerlink" href="#ikev2-vpn" title="Permanent link"> </a></h2>
 <p>你需要先有一个虚拟主机，安装好 ubuntu 22.04 操作系统，下面的步骤都在这个系统上验证通过。至于如何拥有一个虚拟主机，不在本文讨论范围。</p>
 <p>依次执行以下脚本，根据提示，安装 strongswan 服务器，以及添加 VPN 账户。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~
@@ -199,7 +199,7 @@ $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>.
 <span style="color: #B8860B">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;#################################&quot;</span>
 </code></pre></div>
 
-<h2 id="vpn">验证 VPN 服务器<a class="headerlink" href="#vpn" title="Permanent link">&para;</a></h2>
+<h2 id="vpn">验证 VPN 服务器<a class="headerlink" href="#vpn" title="Permanent link"> </a></h2>
 <p>主要有几个步骤。首先，安装 VPN 服务器的 ca 证书。其次，创建 VPN 连接。</p>
 <p>参阅 <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-22-04">Step 7 — Testing the VPN Connection on Windows, macOS, Ubuntu, iOS, and Android</a> 。</p>
 <p>简述如下。</p>
@@ -245,8 +245,8 @@ dJ4PX<span style="color: #666666">+</span>MUJO<span style="color: #666666">/</sp
 <li>Enter your username and password in the Authentication section, then tap Done.</li>
 <li>Select the VPN connection that you just created, tap the switch on the top of the page, and you’ll be connected.</li>
 </ul>
-<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h2>
-<h3 id="tpm-20">TPM 2.0 报错<a class="headerlink" href="#tpm-20" title="Permanent link">&para;</a></h3>
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link"> </a></h2>
+<h3 id="tpm-20">TPM 2.0 报错<a class="headerlink" href="#tpm-20" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Setup<span style="color: #bbbbbb"> </span>pki<span style="color: #bbbbbb"> </span>...
 TPM<span style="color: #bbbbbb"> </span><span style="color: #666666">2</span>.0<span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span>could<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>load<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;libtss2-tcti-tabrmd.so.0&quot;</span>
 plugin<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;tpm&#39;</span>:<span style="color: #bbbbbb"> </span>failed<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>load<span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span>tpm_plugin_create<span style="color: #bbbbbb"> </span>returned<span style="color: #bbbbbb"> </span>NULL
@@ -258,7 +258,7 @@ plugin<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;tpm
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>apt<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>libtss2-tcti-tabrmd0
 </code></pre></div>
 
-<h3 id="ike-received-proposals-unacceptable">IKE received proposals unacceptable<a class="headerlink" href="#ike-received-proposals-unacceptable" title="Permanent link">&para;</a></h3>
+<h3 id="ike-received-proposals-unacceptable">IKE received proposals unacceptable<a class="headerlink" href="#ike-received-proposals-unacceptable" title="Permanent link"> </a></h3>
 <p>遇到过一个问题，一个 macOS Sonoma 版本，无法连接 VPN，但其他客户端，包括 iOS 手机，另外的一台 macOS 都可以。</p>
 <p>从 VPN 服务器，看到的错误如下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>tail<span style="color: #bbbbbb"> </span>-f<span style="color: #bbbbbb"> </span>/var/log/syslog

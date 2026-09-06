@@ -179,7 +179,7 @@
 <article>
 	<h2>线性回归算法</h2>
 	<p>本文总结了线性回归算法里用到的一些微积分知识，接着根据最小均方差推导出梯度下降算法以及优化后的随机梯度下降算法。</p>
-<h2 id="_1">微积分基本运算法则<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">微积分基本运算法则<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <ul>
 <li><strong>法则一</strong>：对 $y(x)=cx^n$ ，其针对 x 的偏导数为 $\frac{\partial}{\partial x}f(x)=cnx^{n-1}$</li>
 <li><strong>法则二</strong>：常数的微分为 0</li>
@@ -188,7 +188,7 @@
 <li><strong>法则五</strong>：计算偏导数时，把求导变量当作变量，其他的变量当作常数，比如对方程 $f(x, y) = ax^n + by^m$，则 $$\frac{\partial}{\partial x}f(x, y) = na x^{n-1}$$ 因为是对 x 求导，所以可以把 y 当成常数，即 $by^m$ 整个算子就是一个常数，根据第二个法则，常数的导数为 0。同理，$$\frac{\partial}{\partial y}f(x, y) = mby^{m-1}$$</li>
 </ul>
 <p>维基百科上有教程可以参考，比如 <a href="https://en.wikipedia.org/wiki/Chain_rule">Chain Rule</a> 和 <a href="https://en.wikipedia.org/wiki/Partial_derivatives">Partial Derivatives</a>。</p>
-<h2 id="_2">线性回归算法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">线性回归算法<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>假设我们<strong>训练数据集 (training data set)</strong> 有 m 个数据 $(x_0, y_0), (x_1, y_1), &hellip; (x_m, y_m)$ ，我们用线性方程 $h(x) = \theta_0 + \theta_1 x$ 来拟合这组数据，怎么样来选取参数 $\theta_0$ 和 $\theta_1$ 来最优拟合这组数据呢？</p>
 <p>我们可以把这 m 个点画在二维坐标系里，然后计算这 m 个点到我们的线性方程所描述的直线的最短距离，当这些点到我们的拟合直线的距离总和最小时，那么我们就找到了最优的拟合方案了。所以，问题转化为求下面函数的最小值：</p>
 <p>$$
@@ -255,7 +255,7 @@ $$</p>
 <li><strong>确认成本函数是否收敛</strong>
   拿新的成本和旧的成本进行比较，看成本是不是变得越来越小。如果两次成本之间的差异小于误差范围，即说明我们已经非常靠近最小成本附近了。就可以近似地认为我们找到了最小成本了。如果两次成本之间的差异在误差范围之外，重复步骤 3 继续计算下一组参数 $\theta$。直到找到我们的最优解。</li>
 </ul>
-<h2 id="_3">随机梯度下降算法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">随机梯度下降算法<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>批量梯度下降算法对参数进行一次迭代运算，就需要遍历所有的训练数据集。当训练数据集比较大时，这个算法的效率会很低。考虑另外一个算法：</p>
 <p>$$
 \theta_j = \theta_j - \alpha \left(\left(h(x^{(i)}) - y^{(i)}\right) x_j^{(i)}\right)

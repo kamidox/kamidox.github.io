@@ -179,8 +179,8 @@
 <article>
 	<h2>使用 Markdown + MathJax 在博客里插入数学公式</h2>
 	<p>在书写数值计算类文章，特别是机器学习相关算法时，难免需要插入复杂的数学公式。一种是用图片在网页上展示，另外一种是使用 <a href="https://www.mathjax.org">MathJax</a> 来展示复杂的数学公式。它直接使用 Javascript 使用矢量字库或 SVG 文件来显示数学公式。优点是效果好，比如在 Retina 屏幕上也不会变得模糊。并且可以直接把公式写在 Markdown 文章里。本文介绍使用 MathJax 在 Markdown 文件里直接插入数学公式。并且附带一个简单的书写数学公式的 LaTex 教程。</p>
-<h2 id="_1">工具<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<h3 id="markdown-preview-mathjax">配置 Markdown Preview 来支持 MathJax<a class="headerlink" href="#markdown-preview-mathjax" title="Permanent link">&para;</a></h3>
+<h2 id="_1">工具<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
+<h3 id="markdown-preview-mathjax">配置 Markdown Preview 来支持 MathJax<a class="headerlink" href="#markdown-preview-mathjax" title="Permanent link"> </a></h3>
 <p>使用 Sublime + Markdown Preview 插件来写博客时。需要开启 Markdown Preview 对 MathJax 的支持，这样在预览界面才能正确地显示数学公式。方法是打开在 Markdown Preview 的用户配置文件 (Package Settings -&gt; Markdown Preview -&gt; Setting) 里添加如下内容：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;enable_mathjax&quot;</span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">true</span>,
 <span style="color: #BB4444">&quot;js&quot;</span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>[
@@ -218,7 +218,7 @@
 </code></pre></div>
 
 <p>只要打开 <code>Option + P</code> 就可以打开预览。</p>
-<h3 id="pelican-mathjax">配置 Pelican 主题模板来支持 MathJax<a class="headerlink" href="#pelican-mathjax" title="Permanent link">&para;</a></h3>
+<h3 id="pelican-mathjax">配置 Pelican 主题模板来支持 MathJax<a class="headerlink" href="#pelican-mathjax" title="Permanent link"> </a></h3>
 <p>我使用的主题是 <code>foundation-default-colours</code>，它默认是支持 MathJax 的。我们可以在模板 <code>base.html</code> 找到如下内容：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>&lt;<span style="color: #008000; font-weight: bold">script</span> <span style="color: #BB4444">type</span><span style="color: #666666">=</span><span style="color: #BB4444">&quot;text/javascript&quot;</span> <span style="color: #BB4444">src</span><span style="color: #666666">=</span><span style="color: #BB4444">&quot;https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js&quot;</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">script</span>&gt;
 &lt;<span style="color: #008000; font-weight: bold">script</span>&gt;
@@ -251,7 +251,7 @@ MathJax.Hub.Config({
 </code></pre></div>
 
 <p>如果模板不支持，也可以直接添加上面的脚本来支持 MathJax。</p>
-<h3 id="mathjax">在本地部署 MathJax<a class="headerlink" href="#mathjax" title="Permanent link">&para;</a></h3>
+<h3 id="mathjax">在本地部署 MathJax<a class="headerlink" href="#mathjax" title="Permanent link"> </a></h3>
 <p>上述配置上，使用的是 <code>cdnjs.cloudflare.com</code> CDN 服务器上的 MathJax。有时候，这个 CDN 在国内可能访问不稳定，此时，你可能想在自己的服务器上部署 MathJax。这是可行的，只是要注意，MathJax 的字库文件将近 130MB，还是比较大的。本地部署 MathJax 的步骤如下：</p>
 <ol>
 <li>阅读<a href="http://docs.mathjax.org/en/latest/web/hosting.html">官方文档</a>，这是最权威的信息。</li>
@@ -272,8 +272,8 @@ MathJax.Hub.Config({
 <ol>
 <li>重启 nginx 服务器： <code>sudo service nginx restart</code>，然后在浏览器里确保能访问 <code>http://kamidox.com/MathJax/package.json</code>，说明配置成功了。</li>
 </ol>
-<h2 id="latex">LaTex 简明教程<a class="headerlink" href="#latex" title="Permanent link">&para;</a></h2>
-<h3 id="_2">例子<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h2 id="latex">LaTex 简明教程<a class="headerlink" href="#latex" title="Permanent link"> </a></h2>
+<h3 id="_2">例子<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
 <p>先来看个例子：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$$
 J(\theta) = \frac 1 2 \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})^2
@@ -285,7 +285,7 @@ $$
 J(\theta) = \frac 1 2 \sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})^2
 $$</p>
 <p>这个公式是线性回归算法里的成本函数。</p>
-<h3 id="_3">规则<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">规则<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>关于在 Markdown 书写 LaTex 数学公式有几个规则常用规则需要记住：</p>
 <p><strong>行内公式</strong>
 行内公式使用 <code>$</code> 号作为公式的左右边界，如 $h(x) = \theta_0 + \theta_1 x$ 公式的 LaTex 内容如下</p>
@@ -342,7 +342,7 @@ $$
 </tbody>
 </table>
 <p>记住这几个就差不多了，倒回去看一下线性回归算法的成本函数的公式及其 LaTex 代码，对着练习个10分钟基本就可以掌握常用公式的写法了。要特别注意公式里空格和 <code>{}</code> 的运用规则。基本原则是，空格可加可不加，但如果会引起歧义，最好加上空格。<code>{}</code> 是用来组成群组的。比如写一个分式时，分母是一个复杂公式时，可以用 <code>{}</code> 包含起来，这样整个复杂公式都会变成分母了。</p>
-<h3 id="_4">几个非常有用的资源<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_4">几个非常有用的资源<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <ul>
 <li>这是一篇质量很高的<a href="http://mlworks.cn/posts/introduction-to-mathjax-and-latex-expression/">介绍 MathJax 的中文博客文章</a>，需要注意的是如果是用 markdown 编写 MathJax 公式，当公式里需要两个斜杠 \ 时要写四个斜杠 \。因为 \ 会被 markdown 转义一次。</li>
 <li>Github 上有个<a href="https://kerzol.github.io/markdown-mathjax/editor.html">在线 Markdown MathJax 编辑器</a>，可以在这里练习，平时写公式时也可以在这里先写好再拷贝到文章里</li>

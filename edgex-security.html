@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>EdgeX 安全组件</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="https://www.edgexfoundry.org">EdgeX</a> 是 Linux 软件基金会旗下的一个开源的，应用在边缘计算设备上的，针对 IoT 网关的软件系统。它使用 Go 语言实现，基于微服务框架。</p>
 <p>作为大厂出品的开源 IoT 边缘计算框架，肯定不会像国内一些小的智能家居公司那样，谈到安全，就是报文加个密了事。EdgeX 的安全，涉及部署环境，安全存储，安全通信，API 权限认证等等方方面面。在 EdgeX Ireland (v2.0.0) 版本上，才最终实现了其完整的安全方案。</p>
 <p>如果你想了解 EdgeX 关于安全的一些一手资料，以下是一些有用的链接：</p>
@@ -190,7 +190,7 @@
 <p>如果你懒得花这么多时间精力啃上述硬骨头，那么本文的 step-by-step 介绍，可以帮助你简单理解 EdgeX 的安全机制。</p>
 <p>读到这，你还没有放弃，说明你真感兴趣，那就让我们就出发吧。</p>
 <p>读完本文，你发会现，安全方案简直就是个俄罗斯套娃，一层套一层，最后那个最小的套娃，放在 TPM 芯片里，变成安全的根 (root of security)。</p>
-<h2 id="_2">第一层套娃：直接访问<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">第一层套娃：直接访问<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>EdgeX 基于微服务架构，每个核心功能，都被设计成一个单独的服务，并且对外提供 REST API 接口服务。假设你在电脑上，直接运行了 EdgeX 的服务，通过 HTTP REST API 可以直接访问其服务：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>curl http://localhost:59881/api/v2/ping
 </code></pre></div>
@@ -204,7 +204,7 @@
 </ol>
 <p>上述细节说明信息量很大，其目的是为了给想进一步了解 EdgeX 的读者提供一些有用的资料。这些内容和本文要讨论的主题无关，不感兴趣的可直接忽略。</p>
 <p>总之，这一节，你只要记住一个事实：EdgeX 核心服务的 API 处于“祼奔”状态，可以在不提供任何鉴权凭证的情况下，直接访问。</p>
-<h2 id="api-gateway">第二层套娃：API Gateway<a class="headerlink" href="#api-gateway" title="Permanent link">&para;</a></h2>
+<h2 id="api-gateway">第二层套娃：API Gateway<a class="headerlink" href="#api-gateway" title="Permanent link"> </a></h2>
 <p>这么祼奔肯定不行，EdgeX 干的第一件事情，就是给这些服务套上一层外壳，名叫 API Gateway。简单来讲，要调用这些服务的 REST API，必须把请求发送给 API Gateway，由 API Gateway 对请求进行身份检查，允许访问的，把请求转发给对应的服务，并把结果返回。不允许访问的，直接拒绝访问。</p>
 <p>上面是大白话，不想了解技术细节的高级技术经理们都看得懂。下面就是干货了。</p>
 <p>EdgeX 使用了 <a href="https://docs.konghq.com/gateway-oss/">Kong Gateway</a> 来实现其 API Gateway 功能。强烈建议想要阅读 EdgeX 源码，了解其实现细节的读者，至少花 1 小时，熟悉一下 Kong Gateway 的 <a href="https://docs.konghq.com/gateway-oss/2.5.x/getting-started/quickstart/">Getting Started</a> 文档。</p>
@@ -231,7 +231,7 @@ curl<span style="color: #bbbbbb"> </span>-k<span style="color: #bbbbbb"> </span>
 <p>答案是，通过 Docker compose 网络隔离实现的。在 <a href="https://github.com/edgexfoundry/edgex-compose/blob/main/docker-compose.yml">EdgeX docker compose 文件</a>中，通过配置 Docker 的虚拟网络，使得这些 EdgeX 服务，只允许 Kong Gateway 访问，不允许 Docker 之外的服务访问。这就是为什么 EdgeX 官网提到，不能直接在生产服务器上运行 EdgeX Native Service，而必须部署在 Docker Container 中运行的原因。</p>
 <p>问题二：上述步骤提到，使用 Kong Gateway Admin API 时，需要用到一个 JWT 作为凭证，这个 JWT 要保存在哪里？如果随便保存在一个位置，不怀好意的人拿到了，可以修改 Kong Gateway 的配置，从而绕过 REST API 安全检查。</p>
 <p>这个问题的答案就没那么简单了。为了搞清楚这个问题，我们必须再翻开一层俄罗斯套娃。</p>
-<h2 id="_3">第三层套娃：安全存储<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">第三层套娃：安全存储<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>为了管理这些敏感信息，包括上文提到的 Kong Gateway Admin API 的访问凭证 JWT，以及 redis 数据库用户名密码，系统私钥等等，EdgeX 使用 <a href="https://www.hashicorp.com/products/vault">Vault</a> 来实现安全存储。</p>
 <p><a href="https://github.com/hashicorp/vault">Vault</a> 使用 Go 语言实现，即有商业版，也有开源版。它的核心功能包括：</p>
 <ol>
@@ -284,7 +284,7 @@ Initial Root Token: s.KkNJYWF5g0pomcCLEmDdOVCW
 
 <p>Vault 的初始化以及上述 Vault Unseal Key 的处理，都在 EdgeX <a href="https://github.com/edgexfoundry/edgex-go/tree/main/cmd/security-secretstore-setup">security-secretstore-setup</a> 里实现。对实现细节感兴趣的读者，可以进一步阅读源码。</p>
 <p>读到这，你可能还是有点困惑。不是开玩笑吧？好不容易整了个 Vault 这个保险箱来管理敏感数据，最后却把保险箱的钥匙直接挂在了门口？猜得出来，EdgeX 肯定不会这么大意。要揭开这个谜底，我们需要再剥开一层套娃。</p>
-<h2 id="tpm">第四层套娃：TPM 安全存储<a class="headerlink" href="#tpm" title="Permanent link">&para;</a></h2>
+<h2 id="tpm">第四层套娃：TPM 安全存储<a class="headerlink" href="#tpm" title="Permanent link"> </a></h2>
 <p>实际上，EdgeX 提供了 <code>IKM_HOOK</code> 这个环境变量，来实现加密保存 Vault Unseal Key。<code>IKM_HOOK</code> 环境变量指向一个可执行文件，当其不为空时，EdgeX 会执行这个命令，读取这个命令在 stdout 的输出，并以这个输出（hex 编码）作为生成密钥的原材料，通过选定的 KDF 算法为每个 Vault Unseal Key 生成密钥，使用 AES-GCM 256 算法分别加密存储。</p>
 <p>加密后的数据还是放在 <code>/vault/config/assets/resp-init.json</code>，大概长这样：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>{

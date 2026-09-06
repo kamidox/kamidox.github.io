@@ -178,21 +178,21 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>使用 wireguard 创建私有 VPN 服务器</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>本文档记录了在 ubuntu 22.04 上安装 wireguard VPN 服务器的过程，并在 MacOS 上使用。</p>
 <p>之前使用 strongswan 搭建过 IPsec VPN 服务器，配置过程比较复杂，且在 MacOS 上使用时经常出现连接问题。相比之下，wireguard 的配置过程非常简单，且性能优越。</p>
-<h2 id="_2">前置条件<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">前置条件<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <ol>
 <li>你必须有一台海外的服务器，且有 root 权限。我选择的是 AWS 新加坡的服务 EC2 服务器。</li>
 <li>服务器的防火墙允许 UDP 端口 51820 的流量通过。</li>
 </ol>
-<h2 id="_3">服务器端操作<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="wireguard">安装 WireGuard<a class="headerlink" href="#wireguard" title="Permanent link">&para;</a></h3>
+<h2 id="_3">服务器端操作<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
+<h3 id="wireguard">安装 WireGuard<a class="headerlink" href="#wireguard" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>apt<span style="color: #bbbbbb"> </span>update
 sudo<span style="color: #bbbbbb"> </span>apt<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>wireguard<span style="color: #bbbbbb"> </span>-y
 </code></pre></div>
 
-<h3 id="_4">生成密钥对<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_4">生成密钥对<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>wg<span style="color: #bbbbbb"> </span>genkey<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>tee<span style="color: #bbbbbb"> </span>/etc/wireguard/private.key
 sudo<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span><span style="color: #B8860B">go</span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>/etc/wireguard/private.key
 sudo<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>/etc/wireguard/private.key<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>wg<span style="color: #bbbbbb"> </span>pubkey<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>tee<span style="color: #bbbbbb"> </span>/etc/wireguard/public.key
@@ -204,7 +204,7 @@ sudo<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </sp
 sudo<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>/etc/wireguard/peer_private.key<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>wg<span style="color: #bbbbbb"> </span>pubkey<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>tee<span style="color: #bbbbbb"> </span>/etc/wireguard/peer_public.key
 </code></pre></div>
 
-<h3 id="wireguard_1">配置 WireGuard<a class="headerlink" href="#wireguard_1" title="Permanent link">&para;</a></h3>
+<h3 id="wireguard_1">配置 WireGuard<a class="headerlink" href="#wireguard_1" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>vim<span style="color: #bbbbbb"> </span>/etc/wireguard/wg0.conf
 </code></pre></div>
 
@@ -225,7 +225,7 @@ sudo<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span
 </code></pre></div>
 
 <p>注意这里的网口是 ens5，而不是 eth0。到底是哪个网口，可以用 <code>ip addr</code> 命令查看。在 AWS EC2 Ubuntu 26.04 上是 ens5。</p>
-<h3 id="ip">启用 IP 转发<a class="headerlink" href="#ip" title="Permanent link">&para;</a></h3>
+<h3 id="ip">启用 IP 转发<a class="headerlink" href="#ip" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 1. 建一个独立 drop-in 文件，99- 前缀保证最后加载、不被覆盖</span>
 <span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;net.ipv4.ip_forward = 1&#39;</span><span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>tee<span style="color: #bbbbbb"> </span>/etc/sysctl.d/99-ip-forward.conf
 
@@ -238,17 +238,17 @@ sysctl<span style="color: #bbbbbb"> </span>net.ipv4.ip_forward
 </code></pre></div>
 
 <p>IPv6 如果需要一并转，<code>/etc/sysctl.d/99-ip-forward.conf</code> 再加一行 <code>net.ipv6.conf.all.forwarding = 1</code>。再运行 <code>sudo sysctl --system</code>。</p>
-<h3 id="wireguard_2">启动 WireGuard 服务器<a class="headerlink" href="#wireguard_2" title="Permanent link">&para;</a></h3>
+<h3 id="wireguard_2">启动 WireGuard 服务器<a class="headerlink" href="#wireguard_2" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>systemctl<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">enable</span><span style="color: #bbbbbb"> </span>wg-quick@wg0
 sudo<span style="color: #bbbbbb"> </span>systemctl<span style="color: #bbbbbb"> </span>start<span style="color: #bbbbbb"> </span>wg-quick@wg0
 </code></pre></div>
 
-<h2 id="_5">客户端操作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<h3 id="wireguard_3">安装 WireGuard 命令行工具<a class="headerlink" href="#wireguard_3" title="Permanent link">&para;</a></h3>
+<h2 id="_5">客户端操作<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
+<h3 id="wireguard_3">安装 WireGuard 命令行工具<a class="headerlink" href="#wireguard_3" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>brew<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>wireguard-tools
 </code></pre></div>
 
-<h3 id="wireguard-tools">配置 wireguard-tools<a class="headerlink" href="#wireguard-tools" title="Permanent link">&para;</a></h3>
+<h3 id="wireguard-tools">配置 wireguard-tools<a class="headerlink" href="#wireguard-tools" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 创建文件夹</span>
 sudo<span style="color: #bbbbbb"> </span>mkdir<span style="color: #bbbbbb"> </span>/etc/wireguard
 sudo<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span><span style="color: #666666">777</span><span style="color: #bbbbbb"> </span>/etc/wireguard
@@ -270,14 +270,14 @@ sudo<span style="color: #bbbbbb"> </span>vim<span style="color: #bbbbbb"> </span
 <span style="color: #BB4444">PersistentKeepalive</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">25</span>
 </code></pre></div>
 
-<h3 id="wireguard_4">连接 WireGuard 服务器<a class="headerlink" href="#wireguard_4" title="Permanent link">&para;</a></h3>
+<h3 id="wireguard_4">连接 WireGuard 服务器<a class="headerlink" href="#wireguard_4" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>sudo<span style="color: #bbbbbb"> </span>wg-quick<span style="color: #bbbbbb"> </span>up<span style="color: #bbbbbb"> </span>wg0
 </code></pre></div>
 
-<h3 id="wireguard_5">WireGuard 图形界面<a class="headerlink" href="#wireguard_5" title="Permanent link">&para;</a></h3>
+<h3 id="wireguard_5">WireGuard 图形界面<a class="headerlink" href="#wireguard_5" title="Permanent link"> </a></h3>
 <p>由于 AppStore 上的 WireGuard 客户端，只有美国区账户才能下载。我们可以从 Github 上<a href="https://github.com/vaardan/wireguard-macos-app">下载 WireGuard 客户端</a>。</p>
 <p>添加客户端的步骤，可参考命令行方式。</p>
-<h2 id="_6">错误诊断<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">错误诊断<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <p>在服务器上运行 <code>sudo wg show wg0</code> 检查是否有 latest handshake 和 transfer 包计数。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>ubuntu@ip-172-31-31-207:~$<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>wg<span style="color: #bbbbbb"> </span>show<span style="color: #bbbbbb"> </span>wg0
 interface:<span style="color: #bbbbbb"> </span>wg0
@@ -292,7 +292,7 @@ peer:<span style="color: #bbbbbb"> </span>&lt;peer-public-key&gt;
 <span style="color: #bbbbbb">  </span>transfer:<span style="color: #bbbbbb"> </span><span style="color: #666666">20</span>.68<span style="color: #bbbbbb"> </span>MiB<span style="color: #bbbbbb"> </span>received,<span style="color: #bbbbbb"> </span><span style="color: #666666">217</span>.36<span style="color: #bbbbbb"> </span>MiB<span style="color: #bbbbbb"> </span>sent
 </code></pre></div>
 
-<h3 id="_7">运营商屏蔽接口<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_7">运营商屏蔽接口<a class="headerlink" href="#_7" title="Permanent link"> </a></h3>
 <p>51820 端口可能会被运动商屏蔽掉。现象就是，客户端发送握手消息，但收不到任何应答。服务器收到握手消息后，应答无法送达客户端。这个问题的解决办法，就是把 51820 端口换掉，比如换成 51822 端口即可。</p>
 <ol>
 <li>停止 WireGuard 服务 <code>sudo systemctl stop wg-quick@wg0</code></li>
@@ -312,7 +312,7 @@ sudo<span style="color: #bbbbbb"> </span>systemctl<span style="color: #bbbbbb"> 
 sudo<span style="color: #bbbbbb"> </span>wg<span style="color: #bbbbbb"> </span>show<span style="color: #bbbbbb"> </span>wg0
 </code></pre></div>
 
-<h3 id="nat">NAT 转发规则错误<a class="headerlink" href="#nat" title="Permanent link">&para;</a></h3>
+<h3 id="nat">NAT 转发规则错误<a class="headerlink" href="#nat" title="Permanent link"> </a></h3>
 <p>有 handshake，服务器收到很多数据（38.43 KB），但发送数据很少（188 B）。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>ubuntu@ip-172-31-38-8:~$<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>wg<span style="color: #bbbbbb"> </span>show<span style="color: #bbbbbb"> </span>wg0
 interface:<span style="color: #bbbbbb"> </span>wg0

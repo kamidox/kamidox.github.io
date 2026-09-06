@@ -192,15 +192,15 @@
 <li><a href="#_8">结束语</a></li>
 </ul>
 </div>
-<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="http://www.w3school.com.cn/sql/sql_join.asp">FlaskBB</a>是用Flask框架实现的一个轻量级的论坛社区软件，代码托管在GitHub上。本系列文章通过阅读FlaskBB的源代码来深入学习Flask框架，以及在一个产品级的Flask应用里的一些最佳实践规则。</p>
 <p>本文是本系列文章的第三篇，将介绍ORM基础知识，分析Flask-SQLAlchemy及sqlalchemy ORM引擎的一些常用方法，进而介绍FlaskBB用户管理模块的数据库设计。</p>
-<h2 id="orm">什么是 ORM<a class="headerlink" href="#orm" title="Permanent link">&para;</a></h2>
+<h2 id="orm">什么是 ORM<a class="headerlink" href="#orm" title="Permanent link"> </a></h2>
 <blockquote>
 <p>对象关系映射（英语：Object Relational Mapping，简称ORM，或O/RM，或O/R mapping），是一种程序技术，用于实现面向对象编程语言里不同类型系统的数据之间的转换。从效果上说，它其实是创建了一个可在编程语言里使用的“虚拟对象数据库”。-百度百科</p>
 </blockquote>
 <p>简单地说，使用 ORM 来操作数据库，我们基本上不用跟 SQL 打交道了。直接用程序语言的对象来打交道即可。Flask-SQLAlchemy 是 ORM 引擎 sqlalchemy 针对 Flask 的扩展。</p>
-<h2 id="_2">定义表<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">定义表<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>定义一个表只需要继承自 <code>db.Model</code> 即可。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -220,7 +220,7 @@
 </code></pre></div></td></tr></table></div>
 
 <p>这样我们就定义了一个叫 <code>users</code> 的表格，表格的名称由 <code>__tablename__</code> 指定。这样任何对表格的操作，都可以转化为对 <code>User</code> 类的操作。代码里的 <code>db</code> 对象是什么呢？在 extensions.py 里创建了 db 对象 <code>db = SQLAlchemy()</code>。然后在 app.py 里初始化这个 db 对象 <code>db.init_app(app)</code>。</p>
-<h2 id="_3">定义一对多关系<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">定义一对多关系<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>一个论坛用户会对应多个论坛主题。论坛主题由类 <code>Topic</code> 表达。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
@@ -294,7 +294,7 @@
 <li><code>dynamic</code>
   针对一对多关系里，数据量比较大时，这是个特殊且有用的类型。它不会一次性把所有的关系数据都从数据库里读出来，相反它会返回一个查询对象，在需要数据时，从这个查询对象时进行二次查询，才能获得需要的数据。这种类型可以提高程序性能。</li>
 </ul>
-<h2 id="_4">定义多对多关系<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">定义多对多关系<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>一个用户可以属于多个组，而一个组里也会有多个用户。针对这种多对多的关系，我们需要第三个表来保存这种多对多关系。</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -338,7 +338,7 @@
 </code></pre></div></td></tr></table></div>
 
 <p>其中 LINE 10 - 15 使用 <code>db.relationship</code> 来定义多对多关系。第一个参数表示多对多关系的类为 Group，第二个参数 <code>secondary=groups_users</code> 表示需要从第三个叫 <code>groups_users</code> 的表里获取多对多关系，第三个参数 <code>primaryjoin=(groups_users.c.user_id == id)</code> 表示连接查询时的条件。第四个参数 <code>backref=db.backref('users', lazy='dynamic')</code> 会在 Group 类里创建一个成员叫 users，其中 <code>db.backref</code> 的 <code>lazy</code> 参数为 <code>dynamic</code> 表示 Group.users 为一个查询对象。第五个参数 <code>lazy='dynamic'</code> 表示 User.secondary_groups 为一个查询对象，其实这里可以不要使用 <code>dynamic</code>，因为一个用户所属的组是很有限的，不可能很多，可以一次性全部加载进来。</p>
-<h2 id="_5">插入及修改记录<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">插入及修改记录<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>插入记录时，不用再写 SQL 语句了，直接使用类对象来操作即可。用户注册成功后，需要向 users 表插入一条记录。在 <code>flaskbb.auth.RegisterForm.save()</code> 里实现：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -415,7 +415,7 @@
 <p class="admonition-title">关于db.session.commit()</p>
 <p>User.save() 方法里，当 groups 参数不为空时，会有两个 db.session.commit() 的调用。把一个操作分成两个事务，就达不到保证数据一致性的目的了。这里的代码写法应该可以再考量一下。</p>
 </div>
-<h2 id="_6">删除记录<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">删除记录<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <p>当我们需要从 users 表里删除记录里，调用 <code>User.delete()</code> 方法即可，它的代码是这样的：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 2</span>
@@ -443,7 +443,7 @@
 </code></pre></div></td></tr></table></div>
 
 <p>LINE 9 - 10 是用来从 users 表里删除一条记录。LINE 5-7 是用来在删除用户之前，把一些用户相关的数据也一并删除掉。</p>
-<h2 id="_7">查询记录<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_7">查询记录<a class="headerlink" href="#_7" title="Permanent link"> </a></h2>
 <p>继承自 <code>db.Model</code> 的类会引入 <code>query</code> 属性，这是个可查询对象 <code>Query</code> 的实例。其常用的方法有 <code>query.filter()</code>，<code>query.filter_by()</code>，<code>query.order_by()</code>，<code>query.limit()</code>，<code>query.get()</code>等等。这些函数只是指定了查询的条件，查询真正开始是在调用 <code>query.first()</code>，<code>query.all()</code> 等方法后才发生的。</p>
 <p>例如，获取用户的主题个数 <code>User.topic_count()</code>：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
@@ -488,7 +488,7 @@ db<span style="color: #666666">.</span>session<span style="color: #666666">.</sp
     <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&quot;user/profile.html&quot;</span>, user<span style="color: #666666">=</span>user)
 </code></pre></div></td></tr></table></div>
 
-<h2 id="mvc">MVC 代码结构<a class="headerlink" href="#mvc" title="Permanent link">&para;</a></h2>
+<h2 id="mvc">MVC 代码结构<a class="headerlink" href="#mvc" title="Permanent link"> </a></h2>
 <p>介绍完 ORM，我们可以看一下 FlaskBB 项目 <code>flaskbb/flaskbb</code> 目录下的核心代码的 MVC 代码结构。它把每个模块封装成一个独立的 bluepoint，每个模块又分为 model，view，form 三个模块。这样整体代码结构非常清晰。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>flaskbb
 ├──<span style="color: #bbbbbb"> </span>__init__.py
@@ -536,7 +536,7 @@ db<span style="color: #666666">.</span>session<span style="color: #666666">.</sp
 <span style="color: #bbbbbb">    </span>└──<span style="color: #bbbbbb"> </span>widgets.py
 </code></pre></div>
 
-<h2 id="_8">结束语<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h2 id="_8">结束语<a class="headerlink" href="#_8" title="Permanent link"> </a></h2>
 <p>本文简单介绍了 ORM 操作数据库的概念和一些基本的用法。可参考的资料很多，这里强烈推荐官方文档，深入浅出。关于入门资料，可参阅 <a href="http://flask-sqlalchemy.pocoo.org/2.0">Flask-SQLAlchemy 官方文档</a>。深入阅读可以参考 <a href="http://docs.sqlalchemy.org/en/latest/orm">sqlalchemy 官方文档</a>。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/flask.html">flask</a> on 2014-12-07(Sunday) 23:00. Tags: <a href="./tag/python.html">python</a>, <a href="./tag/flask.html">flask</a>, </h6>

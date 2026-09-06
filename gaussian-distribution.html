@@ -178,19 +178,19 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>异常检测</h2>
-	<h2 id="_1">异常检测模型和实例<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">异常检测模型和实例<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>给定一组数据 $x^{(1)}, x^{(2)}, &hellip; , x^{(m)}$，我们建立一个模型 $p(x)$，当有一个新的实例 $x_{test}$ 时，如果 $p(x_{test}) \le \epsilon$ 我们就认为 $x_{test}$ 是异常的。</p>
 <p>异常检测在网站防盗等领域有广泛的应用，比如我们可以提取用户的一些特征，$x_1$ 代表用户的登录次数，$x_2$ 表示用户游览的页面个数，$x_3$ 表示用户的打字速度，$x_4$ 表示用户的交易次数等等，建立完特征，根据用户的历史数据建立一个模型，当某次用户的行为偏离这个模型较远时，这个用户的帐户可能是被盗了。</p>
 <p>另外一个应用领域是在工业制造。比如某个制造飞机引擎的公司，从飞机引擎提取出一系列的特征值，并且训练出一个模型。当新制造出来的引擎符合这个模型时，就可认为是良品，如果偏离这个模型较远时，就可以认为可能有缺陷，需要进一步的检测。</p>
 <p>异常检测还在数据中心有广泛的应用，比如可以从一台服务器上提取出一系列特征，如内存占用，CPU 使用率，网络吞吐量，磁盘访问频率等等。利用这些特征建立一个模型。当某个服务器偏离这个模型较远时，可能这台机器快要死机了，就可以进一步查看这台机器的情况以便做出相应的处理。</p>
-<h2 id="_2">高斯分布<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">高斯分布<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>高斯分布也称为正态分布。高斯分布有两个参数，一个是平均值 $\mu$，另外一个是方差 $\sigma^2$ ($\sigma$ 称为标准差)，给定一个数值 X 作为横轴，它出现在不同位置的概率作为 Y 轴，在二维坐标上画出的图形是一个“钟形”的图形。</p>
 <p><img alt="Gaussian Distribution" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Normal_Distribution_PDF.svg/700px-Normal_Distribution_PDF.svg.png" /></p>
 <p>用数据公式给出高斯分布的公式如下：</p>
 <p>$$
 p(x; \mu, \sigma^2) = \frac{1}{\sigma \sqrt{2\pi}} exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right)
 $$</p>
-<h3 id="_3">参数计算<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">参数计算<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>假设我们有一个数据集 $x^{(1)}, x^{(2)}, &hellip; , x^{(m)}$，其中 $x^{(i)} \in R$。且 $x^{(i)}$ 满足高斯分布，记作 $x^{(i)} \sim N(\mu, \sigma^2)$，如何算出高斯分布的参数 $\mu, \sigma^2$ 呢？</p>
 <p>算法可以用下面的公式给出：</p>
 <p>$$
@@ -200,7 +200,7 @@ $$</p>
 \sigma^2 = \frac{1}{m} \sum_{i=1}^m (x^{(i)} - \mu)^2
 $$</p>
 <p>这个实际上就是概率论里的极大似然法来估计参数。另外需要提一点，计算方差 $\sigma^2$ 的公式里，一些概率论书本里分母是用 $m-1$，但机器学习领域喜欢直接用 $m$ ，虽然这是两个不同版本的公式，但在实际应用中，如果样例个数足够多，即 m 很大的话，实际计算结果差别不大。</p>
-<h2 id="_4">异常检测算法<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">异常检测算法<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>假设我们有一个数据集 $x^{(1)}, x^{(2)}, &hellip; , x^{(m)}$，其中 $x^{(i)} \in R^n$，其中每个特征都独立地满足高斯分布，即 $x_j^{(i)} \sim N(\mu_j, \sigma_j^2)$。那么高斯分布的概率密度函数为：</p>
 <p>$$
 p(x) = \prod_{j=1}^n p(x_j; \mu_j, \sigma_j^2)
@@ -226,7 +226,7 @@ $$</p>
 <ul>
 <li>选定一个较小的常数 $\epsilon$，如果 $p(x) \le \epsilon$ 则表示新的实例 $x$ 是异常的。</li>
 </ul>
-<h3 id="_5">异常检测算法的性能评价<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_5">异常检测算法的性能评价<a class="headerlink" href="#_5" title="Permanent link"> </a></h3>
 <p>怎么样评价一个异常检测算法的性能是否达到要求呢？</p>
 <p>假设我们拿飞机引擎制造作为例子，我们有 10,000 个正常的引擎数据，20 个异常的引擎数据。这样我们把数据分成三份：</p>
 <ul>
@@ -264,7 +264,7 @@ $$</p>
 <p>TruePosition: 真阳性，即真实结果是真，算法的预测结果也是真
 FalsePositive: 假阳性，即真实结果是假，算法的预测结果是真
 FalseNegative: 假阴性，即真实结果是真，算法的预测结果是假</p>
-<h3 id="_6">异常检测与监督学习的区别<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h3 id="_6">异常检测与监督学习的区别<a class="headerlink" href="#_6" title="Permanent link"> </a></h3>
 <p>上一节介绍的飞机引擎异常检测算法里，我们有正常的数据，有异常的数据，为什么不直接用逻辑回归或神经网络算法来对一个新引擎进行直接预测呢？实际上异常检测和监督学习有其不同的适用范围。</p>
 <p><strong>异常检测适用范围</strong></p>
 <ul>
@@ -296,7 +296,7 @@ FalseNegative: 假阴性，即真实结果是真，算法的预测结果是假</
 </tr>
 </tbody>
 </table>
-<h3 id="_7">异常检测中的特征选择<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_7">异常检测中的特征选择<a class="headerlink" href="#_7" title="Permanent link"> </a></h3>
 <p><strong>非高斯分布特征的转换</strong></p>
 <p>使用高斯分布来作为异常检测模型时，有个前提，即每个特征都需要独立地呈现高斯分布。如果我们获得的特征数据可视化后发现他不是一个高斯分布的钟形图形怎么办呢？我们可以用 octave 的 <code>hist</code> 命令来画出特征的柱状图，然后对特征进行转换，比如画出 $log(x)$ 的图形，或画出 $x^{0.5}$ 或 $x^{0.1}$ 的柱状图。看图形的形状来判断是否符合高斯分布。然后选择转换后的特征来加入我们的异常检测算法中来。</p>
 <p><img alt="特征转换" src="../../images/ml_gd_feature_transform.png" /></p>

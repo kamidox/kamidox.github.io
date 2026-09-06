@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>正则化</h2>
-	<h2 id="_1">线性回归里的欠拟合和过拟合<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">线性回归里的欠拟合和过拟合<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <ul>
 <li>欠拟合 (underfitting)
   也叫做高偏差 (high bias) 。使用的特征过少导致成本函数过高。模型不能很好地拟合训练数据。</li>
@@ -205,7 +205,7 @@
 </li>
 </ul>
 <p>这就是正则化的目的，为了解决特征过多时的过拟合问题。</p>
-<h2 id="_2">正则化<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">正则化<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>$$
 J(\theta) = \frac{1}{2m} \left[ \sum_{i=1}^m \left( h_\theta(x^{(i)}) - y^{(i)} \right)^2 \right] + \lambda \sum_{j=1}^n \theta_j^2
 $$</p>
@@ -220,7 +220,7 @@ $$</p>
 \end{align}
 $$</p>
 <p>$(1 - \alpha \frac{\lambda}{m})$ 因子在每次迭代时都将把 $\theta_j$ 收缩一点点。因为 $\alpha$ 和 $\lambda$ 是正数，而 m 是训练样例的个数，是个比较大的正整数。<strong>为什么要对 $\theta_j$ 进行收缩呢</strong>？因为加入正则项的成本函数和 $\theta_j^2$ 成正比，所以迭代时需要不断地试图减小 $\theta_j$ 的值。</p>
-<h2 id="_3">通用方程的正则化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">通用方程的正则化<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>$$
 \theta = (X^T X)^{-1} X^T y
 $$</p>
@@ -241,7 +241,7 @@ Z =
 $$</p>
 <p>正则化的通用方程实际上解决了两个问题。一个是确保不发生过拟合，另外一个也解决了 $X^T X$ 的奇异矩阵问题。当 m &lt; n 时，$X^T X$ 将是一个奇异矩阵，使用 octave 里的 <code>pinv</code> 函数我们可以求出近似逆矩阵的值，但如果在其他编程语言里，是没有办法求出奇异矩阵的逆矩阵的。而从数学上可以证明，加上 $\lambda Z$ 后，结果将是一个非奇异矩阵。</p>
 <p>通用方程的正则化公式推导过程极其复杂，过程从略。</p>
-<h2 id="_4">逻辑回归成本函数的正则化<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">逻辑回归成本函数的正则化<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>$$
 J(\theta) = -\frac{1}{m} \left[ \sum_{i=1}^m y^{(i)} log(h_\theta(x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta(x^{(i)})) \right] + \frac{\lambda}{2m} \sum_{j=1}^n \theta_j^2
 $$</p>

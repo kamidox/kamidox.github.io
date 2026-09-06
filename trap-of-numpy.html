@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>numpy 矩阵运算的陷阱</h2>
-	<h2 id="_1">陷阱一：数据结构混乱<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">陷阱一：数据结构混乱<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>array 和 matrix 都可以用来表示多维矩阵</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>In [<span style="color: #666666">98</span>]: a <span style="color: #666666">=</span> np<span style="color: #666666">.</span>array([[<span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">3</span>], [<span style="color: #666666">4</span>, <span style="color: #666666">5</span>, <span style="color: #666666">6</span>], [<span style="color: #666666">7</span>, <span style="color: #666666">8</span>, <span style="color: #666666">9</span>]])
 
@@ -266,7 +266,7 @@ Out[<span style="color: #666666">114</span>]: (<span style="color: #666666">1</s
 
 <p>看起来还不错。不过槽点就来了。Out [114] 我们预期的输入结果应该是一个 2 x 1 的列向量，可是这里变成了 1 x 2 的行向量！</p>
 <p>为什么我会在意行向量和列向量？在矩阵运算里，行向量和列向量是不同的。比如一个 m x 3 的矩阵可以和 3 x 1 的列向量叉乘，结果是 m x 1 的列向量。而如果一个 m x 3 的矩阵和 1 x 3 的行向量叉乘是会报错的。</p>
-<h2 id="_2">陷阱二：数据处理能力不足，语言效率低<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">陷阱二：数据处理能力不足，语言效率低<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>我们再看个例子。假设 X 是 5 x 2 的矩阵，Y 是 5 X 1 的 bool 矩阵，我们想用 Y 来过滤 X ，即取出 Y 值为 True 的项的索引，拿这些索引去 X 里找出对应的行，再组合成一个新矩阵。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>In [<span style="color: #666666">79</span>]: X
 Out[<span style="color: #666666">79</span>]:
@@ -316,7 +316,7 @@ matrix([[ <span style="color: #666666">34.62365962</span>,  <span style="color: 
 </code></pre></div>
 
 <p>我们预期 X 过滤完是 3 x 2 列的矩阵，但不幸的是从 Out[81] 来看 numpy 这样过滤完只会保留第一列的数据，且把它转化成了行向量，即变成了 1 x 3 的行向量。不知道你有没有抓狂的感觉。如果按照 In [85] 的写法，还会报错。如果要正确地过滤不同的列，需要写成 In [86] 和 In [87] 的形式。但是即使写成 In [86] 和 In [87] 的样式，还是一样把列向量转化成了行向量。所以，要实现这个目的，得复杂到按照 In [88] 那样才能达到目的。实际上，这个还达不到目的，因为那里面写了好多硬编码的数字，要处理通用的过滤情况，还需要写个函数来实现。而这个任务在 matlab/octave 里只需要写成 <code>X(Y==1, :)</code> 即可完美达成目的。</p>
-<h2 id="_3">陷阱三：数值运算句法混乱<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">陷阱三：数值运算句法混乱<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>在机器学习算法里，经常要做一些矩阵运算。有时候要做叉乘，有时候要做点乘。我们看一下 numpy 是如何满足这个需求的。</p>
 <p>假设 x, y, theta 的值如下，我们要先让 x 和 y 点乘，再让结果与 theta 叉乘，最后的结果我们期望的是一个 5 x 1 的列向量。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>In [<span style="color: #666666">22</span>]: x
@@ -421,7 +421,7 @@ array([[ <span style="color: #666666">227.29670488</span>],
 </code></pre></div>
 
 <p>In [45] 会报错，因为在 array 里 <code>*</code> 运算符是点乘，而在 matrix 里 <code>*</code> 运算符是叉乘。如果要在 array 里算叉乘，需要用 <code>dot</code> 方法。看起来提供了灵活性，实际上增加了使用者的大脑负担。而我们的需求在 matlab/octave 里只需要写成 <code>x .* y * theta</code> ，直观优雅。</p>
-<h2 id="_4">陷阱四：语法复杂，不自然<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">陷阱四：语法复杂，不自然<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>比如，我们要在一个 5 x 2 的矩阵的前面加一列全部是 1 的数据，变成一个 5 x 3 的矩阵，我们必须这样写</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>In [<span style="color: #666666">11</span>]: x
 Out[<span style="color: #666666">11</span>]:
@@ -441,7 +441,7 @@ matrix([[  <span style="color: #666666">1.</span>        ,  <span style="color: 
 </code></pre></div>
 
 <p>有兴趣的人可以数数 In [18] 里有多少个括号，还别不服，括号写少了妥妥地报错。而这个需求在 matlab/octave 里面只需要写成 <code>[ones(5,1) x]</code> ，瞬间脑袋不短路了，直观优雅又回来了。</p>
-<h2 id="_5">结论<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">结论<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>有人说 python 是机器学习和数据分析的新贵，但和专门的领域语言 matlab/octave 相比，用起来确实还是比较别扭的。当然有些槽点是因为语言本身的限制，比如 python 不支持自定义操作符，导致 numpy 的一些设计不够优雅和直观，但默认把列向量转化为行向量的做法只能说是 numpy 本身的设计问题了。这或许就是 Andrew Ng 在他的 Machine Learning 课程里用 matlab/octave ，而不用 python 或其他的语言的原因吧。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/ml.html">ml</a> on 2015-09-30(Wednesday) 20:20. Tags: <a href="./tag/machine-learning.html">machine-learning</a>, </h6>

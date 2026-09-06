@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>利用 LeakCanary 来检查 Android 内存泄漏</h2>
-	<h3 id="_1">前言<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+	<h3 id="_1">前言<a class="headerlink" href="#_1" title="Permanent link"> </a></h3>
 <p>你被概率性的 OOM 困扰么？有时候，OOM 像幽灵一样，挥之不去，可真想把它揪出来时，又捉之不着。或许，是时候用 <a href="https://github.com/square/leakcanary">LeakCanary</a> 来诊断一下了。它是一个用来检查 Android 下内存泄漏的开源库，这篇文章主要介绍其用法、架构和其背后的实现原理。</p>
 <p>Square <a href="https://corner.squareup.com/2015/05/leak-canary.html">有篇文章</a>介绍了开发这个库的原因。他们的一个付款流程里，需要用到用户的签名，他们直接用 Bitmap 来画签名，Bitmap 大小和屏幕分辨率是一样的。问题来了，在试图创建这个 Bitmap 对象时，概率性 OOM 如幽灵般相随。他们试了几个方法：</p>
 <ul>
@@ -196,8 +196,8 @@
 <p class="admonition-title">启发</p>
 <p>LeakCanary 产生的背后有几个有意思的启发。一是像 Square 这样公司一样会被 OOM 这种问题困扰；二是他们也会犯错，试了几种方法都不起作用；三是他们最终用一个优雅的方式解决了这个问题，并且通过开源库的方式让所有人共享他们的工作成果。</p>
 </div>
-<h3 id="_2">用法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<h4 id="activity">监控 Activity 泄露<a class="headerlink" href="#activity" title="Permanent link">&para;</a></h4>
+<h3 id="_2">用法<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
+<h4 id="activity">监控 Activity 泄露<a class="headerlink" href="#activity" title="Permanent link"> </a></h4>
 <p>我们经常把 Activity 当作为 Context 对象使用，在不同场合由各种对象引用 Activity。所以，Activity 泄漏是一个重要的需要检查的内存泄漏之一。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">ExampleApplication</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">extends</span><span style="color: #bbbbbb"> </span>Application<span style="color: #bbbbbb"> </span>{
 
@@ -230,7 +230,7 @@
 <p class="admonition-title">Notes</p>
 <p>LeakCanary 自动检测 Activity 泄漏只支持 Android ICS 以上版本。因为 <code>Application.registerActivityLifecycleCallbacks()</code> 是在 API 14 引入的。如果要在 ICS 之前监测 Activity 泄漏，可以重载 <code>Activity.onDestroy()</code> 方法，然后在这个方法里调用 <code>RefWatcher.watch(this)</code> 来实现。</p>
 </div>
-<h4 id="fragment">监控 Fragment 泄漏<a class="headerlink" href="#fragment" title="Permanent link">&para;</a></h4>
+<h4 id="fragment">监控 Fragment 泄漏<a class="headerlink" href="#fragment" title="Permanent link"> </a></h4>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">abstract</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">BaseFragment</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">extends</span><span style="color: #bbbbbb"> </span>Fragment<span style="color: #bbbbbb"> </span>{
 
 <span style="color: #bbbbbb">    </span><span style="color: #AA22FF">@Override</span>
@@ -243,14 +243,14 @@
 </code></pre></div>
 
 <p>当 <code>Fragment.onDestroy()</code> 被调用之后，如果这个 fragment 实例没有被销毁，那么就会从 logcat 里看到相应的泄漏信息。</p>
-<h4 id="_3">监控其他泄漏<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<h4 id="_3">监控其他泄漏<a class="headerlink" href="#_3" title="Permanent link"> </a></h4>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span>...
 <span style="color: #bbbbbb">    </span>RefWatcher<span style="color: #bbbbbb"> </span>refWatcher<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>ExampleApplication.<span style="color: #BB4444">getRefWatcher</span>(getActivity());
 <span style="color: #bbbbbb">    </span>refWatcher.<span style="color: #BB4444">watch</span>(someObjNeedGced);
 </code></pre></div>
 
 <p>当 <code>someObjNeedGced</code> 还在内存中时，就会在 logcat 里看到内存泄漏的提示。</p>
-<h4 id="leakcanary">集成 LeakCanary 库<a class="headerlink" href="#leakcanary" title="Permanent link">&para;</a></h4>
+<h4 id="leakcanary">集成 LeakCanary 库<a class="headerlink" href="#leakcanary" title="Permanent link"> </a></h4>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>dependencies {
     debugCompile &#39;com.squareup.leakcanary:leakcanary-android:1.3&#39;
     releaseCompile &#39;com.squareup.leakcanary:leakcanary-android-no-op:1.3&#39;
@@ -258,8 +258,8 @@
 </code></pre></div>
 
 <p>在 debug 版本上，集成 LeakCanary 库，并执行内存泄漏监测，而在 release 版本上，集成一个无操作的 wrapper ，这样对程序性能就不会有影响。</p>
-<h3 id="_4">原理<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<h4 id="leakcanary_1">LeakCanary 流程图<a class="headerlink" href="#leakcanary_1" title="Permanent link">&para;</a></h4>
+<h3 id="_4">原理<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
+<h4 id="leakcanary_1">LeakCanary 流程图<a class="headerlink" href="#leakcanary_1" title="Permanent link"> </a></h4>
 <p><img alt="leakcanary" src="../../images/leakcanary.png" /></p>
 <p>LeakCanary 的机制如下：</p>
 <ol>
@@ -271,7 +271,7 @@
 <li><code>HeapAnalyzer</code> 计算 <code>KeyedWeakReference</code> 所引用对象的最短强引用路径，来分析内存泄漏，并且构建出对象引用链出来。</li>
 <li>内存泄漏信息送回给 <code>DisplayLeakService</code>，它是运行在 app 进程里的一个服务。然后在设备通知栏显示内存泄漏信息。</li>
 </ol>
-<h4 id="_5">几个有意思的代码<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<h4 id="_5">几个有意思的代码<a class="headerlink" href="#_5" title="Permanent link"> </a></h4>
 <p><strong>如何导出 hprof 文件</strong></p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>File<span style="color: #bbbbbb"> </span>heapDumpFile<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>File(<span style="color: #BB4444">&quot;heapdump.hprof&quot;</span>);
 Debug.<span style="color: #BB4444">dumpHprofData</span>(heapDumpFile.<span style="color: #BB4444">getAbsolutePath</span>());
@@ -284,9 +284,9 @@ Debug.<span style="color: #BB4444">dumpHprofData</span>(heapDumpFile.<span style
 <p>可以参阅 <a href="https://github.com/square/leakcanary/blob/master/library/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidWatchExecutor.java">AndroidWatchExecutor.java</a>的代码，特别是关于 Handler, Loop 的使用。</p>
 <p><strong>怎么知道某个变量已经被 GC 回收</strong></p>
 <p>可以参阅 <a href="http://www.plantuml.com">RefWatcher.java</a> 的 <code>ensureGone()</code> 函数。最主要是利用 <code>WeakReference</code> 和 <code>ReferenceQueue</code> 机制。简单地讲，就是当弱引用 <code>WeakReference</code> 所引用的对象被回收后，这个 <code>WeakReference</code> 对象就会被添加到 <code>ReferenceQueue</code> 队列里，我们可以通过其 <code>poll()</code> 方法获取到这个被回收的对象的 <code>WeakReference</code> 实例，进而知道需要监控的对象是否被回收了。</p>
-<h3 id="_6">关于内存泄漏<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<h3 id="_6">关于内存泄漏<a class="headerlink" href="#_6" title="Permanent link"> </a></h3>
 <p>内存泄漏可能很容易发现，比如 Cursor 没关闭；比如在 <code>Activity.onResume()</code> 里 register 了某个需要监听的事件，但在 <code>Activity.onPause()</code> 里忘记 unregister 了；内存泄漏也可能很难发现，比如 <a href="https://github.com/square/leakcanary/blob/master/library/leakcanary-sample/src/main/java/com/example/leakcanary/MainActivity.java">LeakCanary 示例代码</a>，隐含地引用，并且只有在旋转屏幕时才会发生。还有更难发现，甚至无能为力的内存泄漏，比如 Android SDK 本身的 BUG 导致内存泄漏。<a href="https://github.com/square/leakcanary/blob/master/library/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidExcludedRefs.java">AndroidExcludedRefs.java</a> 里就记录了一些己知的 AOSP 版本的以及其 OEM 实现版本里存在的内存泄漏。</p>
-<h3 id="_7">本期推荐<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_7">本期推荐<a class="headerlink" href="#_7" title="Permanent link"> </a></h3>
 <p>推荐一个画图工具 <a href="http://www.plantuml.com">planUML</a>，其最大的特色是使用脚本来画图。它和 <a href="http://staruml.io">starUML</a> 的最大区别是，前者是画图工具，类似于微软的 visio，而且支持脚本画图，后者是建模工具。<a href="http://www.plantuml.com/PlantUML_Language_Reference_Guide.pdf">这里</a>是 planUML 的官方文档。它还支持一堆<a href="http://www.plantuml.com/running.html">扩展</a>，比如 <a href="https://github.com/jvantuyl/sublime_diagram_plugin">Sublime Text</a>等。本文的<a href="https://raw.githubusercontent.com/kamidox/blogs/master/images/leakcanary.wsd">流程图</a>就是用 planUML 画的。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/android.html">android</a> on 2015-05-12(Tuesday) 22:57. Tags: <a href="./tag/android.html">android</a>, </h6>

@@ -178,9 +178,9 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>MySQL 数据库备份恢复</h2>
-	<h2 id="_1">任务目标<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">任务目标<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>使用腾讯云自动备份的 .xb 文件，在自建的主机上恢复出数据库。参考文档 https://cloud.tencent.com/document/product/236/33363。</p>
-<h2 id="xtrabackup">安装 xtrabackup<a class="headerlink" href="#xtrabackup" title="Permanent link">&para;</a></h2>
+<h2 id="xtrabackup">安装 xtrabackup<a class="headerlink" href="#xtrabackup" title="Permanent link"> </a></h2>
 <p><a href="https://docs.percona.com/percona-xtrabackup/2.4/installation/apt_repo.html#installing-percona-xtrabackup-via-percona-release">安装 xtrabackup</a> 和 qpress。其中 qpress 是 xtrabackup 用来压缩和解压的工具。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>wget<span style="color: #bbbbbb"> </span>https://repo.percona.com/apt/percona-release_latest.<span style="color: #AA22FF; font-weight: bold">$(</span>lsb_release<span style="color: #bbbbbb"> </span>-sc<span style="color: #AA22FF; font-weight: bold">)</span>_all.deb
 $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>dpkg<span style="color: #bbbbbb"> </span>-i<span style="color: #bbbbbb"> </span>percona-release_latest.<span style="color: #AA22FF; font-weight: bold">$(</span>lsb_release<span style="color: #bbbbbb"> </span>-sc<span style="color: #AA22FF; font-weight: bold">)</span>_all.deb
@@ -195,7 +195,7 @@ $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>a
 $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>tar<span style="color: #bbbbbb"> </span>-xf<span style="color: #bbbbbb"> </span>qpress-11-linux-x64.tar<span style="color: #bbbbbb"> </span>-C<span style="color: #bbbbbb"> </span>/usr/local/bin
 </code></pre></div>
 
-<h2 id="_2">恢复数据<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">恢复数据<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>假设下载下来的数据库备份文件为 <code>~/mysql/weapp.xb</code>，恢复出来的数据文件放在 <code>~/msyql/data</code> 目录下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 修改用户</span>
 $<span style="color: #bbbbbb"> </span>rm<span style="color: #bbbbbb"> </span>-rf<span style="color: #bbbbbb"> </span>~/mysql/data
@@ -205,7 +205,7 @@ $<span style="color: #bbbbbb"> </span>xtrabackup<span style="color: #bbbbbb"> </
 $<span style="color: #bbbbbb"> </span>xtrabackup<span style="color: #bbbbbb"> </span>--prepare<span style="color: #bbbbbb"> </span>--target-dir<span style="color: #666666">=</span>~/mysql/data
 </code></pre></div>
 
-<h2 id="mysql-docker">运行 MySQL Docker 验证<a class="headerlink" href="#mysql-docker" title="Permanent link">&para;</a></h2>
+<h2 id="mysql-docker">运行 MySQL Docker 验证<a class="headerlink" href="#mysql-docker" title="Permanent link"> </a></h2>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </span>pull<span style="color: #bbbbbb"> </span>mysql:5.6
 $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </span>run<span style="color: #bbbbbb"> </span>-p<span style="color: #bbbbbb"> </span><span style="color: #666666">3306</span>:3306<span style="color: #bbbbbb"> </span>--name<span style="color: #bbbbbb"> </span>mysql<span style="color: #bbbbbb"> </span>-v<span style="color: #bbbbbb"> </span>~/mysql/data:/var/lib/mysql<span style="color: #bbbbbb"> </span>-e<span style="color: #bbbbbb"> </span><span style="color: #B8860B">MYSQL_ROOT_PASSWORD</span><span style="color: #666666">=123456</span><span style="color: #bbbbbb"> </span>-d<span style="color: #bbbbbb"> </span>mysql:5.6
 $<span style="color: #bbbbbb"> </span>sudo<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </span>container<span style="color: #bbbbbb"> </span>stop<span style="color: #bbbbbb"> </span>mysql
@@ -254,7 +254,7 @@ mysql&gt;<span style="color: #bbbbbb"> </span>grant<span style="color: #bbbbbb">
 mysql&gt;<span style="color: #bbbbbb"> </span>flush<span style="color: #bbbbbb"> </span>privileges;
 </code></pre></div>
 
-<h2 id="_3">备份数据库<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">备份数据库<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>自己使用 docker 运行 mysql 数据库时，就需要考虑灾备。我们可以使用 xtrabackup 来自己进行数据库热备份。</p>
 <p>首次备份之前，需要创建链接，把 <code>/var/lib/mysql</code> 链接到真实的 mysql 数据库文件位置。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># 此处假设 mysql 数据库放在 /home/ubuntu/mysql/data 目录下需要创建一个到 /var/lib/mysql 的链接，以便 xtrabackup 备份时访问，否则会报错</span>
@@ -288,7 +288,7 @@ scp<span style="color: #bbbbbb"> </span>-i<span style="color: #bbbbbb"> </span>/
 <p>按照当前 6GB 左右的数据库容量，大概在 2m 内可以完成备份。备份出来的文件压缩后在 2.4GB 左右。</p>
 <p>备份完成后，我们可以上传到另外一台服务器上，以确保备份文件在物理上，处于不同的区域，提高灾备有效性和安全性。</p>
 <p>上传备份时间比较长，且会占用应用服务器的带宽，最好在半夜执行。</p>
-<h2 id="_4">还原数据库<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">还原数据库<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>当应用服务器的数据损坏或丢失，可以从灾备还原。还原前，需要先把备份数据库拷贝到应用服务器上，然后执行以下脚本来还原。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>xtrabackup<span style="color: #bbbbbb"> </span>--decompress<span style="color: #bbbbbb"> </span>--remove-original<span style="color: #bbbbbb"> </span>--target-dir<span style="color: #666666">=</span>/home/ubuntu/mysql/backup/
 xtrabackup<span style="color: #bbbbbb"> </span>--prepare<span style="color: #bbbbbb"> </span>--target-dir<span style="color: #666666">=</span>/home/ubuntu/mysql/backup/
@@ -299,7 +299,7 @@ sudo<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </s
 </code></pre></div>
 
 <p>此处假设 <code>/home/ubuntu/mysql/data</code> 是 mysql 数据库所在目录。还原后，可以把 <code>/home/ubuntu/mysql/backup/</code> 删除以便节省空间。</p>
-<h2 id="_5">增量备份<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">增量备份<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>增量备份，可以大幅节省空间以及传输的带宽。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#!/bin/bash</span>
 <span style="color: #008800; font-style: italic"># 脚本调用示例 1: backup-database-inc.sh base inc1</span>
@@ -322,7 +322,7 @@ sudo<span style="color: #bbbbbb"> </span>chown<span style="color: #bbbbbb"> </sp
 scp<span style="color: #bbbbbb"> </span>-i<span style="color: #bbbbbb"> </span>/home/ubuntu/.ssh/sfox.studio.9.aws.pem<span style="color: #bbbbbb"> </span><span style="color: #B8860B">$INC_XB_FILE</span><span style="color: #bbbbbb"> </span>ubuntu@kamidox.com:/home/ubuntu/backup/
 </code></pre></div>
 
-<h2 id="_6">还原增量备份<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">还原增量备份<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B8860B">BASE_DIR</span><span style="color: #666666">=</span>/home/ubuntu/mysql/backup/base
 <span style="color: #B8860B">INC_DIR1</span><span style="color: #666666">=</span>/home/ubuntu/mysql/backup/inc1
 <span style="color: #B8860B">INC_DIR2</span><span style="color: #666666">=</span>/home/ubuntu/mysql/backup/inc2
@@ -334,7 +334,7 @@ xtrabackup<span style="color: #bbbbbb"> </span>--prepare<span style="color: #bbb
 
 <p>除了最后一个增量备份外，其他的备份都需要带 <code>--apply-log-only</code> 参数。</p>
 <p>准备好了之后，就可以用 <code>rsync</code>, <code>cp</code>, <code>mv</code> 等命令来直接恢复数据库。</p>
-<h2 id="_7">自动增量备份<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_7">自动增量备份<a class="headerlink" href="#_7" title="Permanent link"> </a></h2>
 <p>自动从 <code>/home/ubuntu/backup</code> 目录查找已经备份的文件，并在最新的增量备份基础上，再进行增量备份。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#!/bin/bash</span>
 <span style="color: #008800; font-style: italic"># hint: 必须使用 bash，否则 crontab 会默认使用 /bin/sh，导致无法识别 ${BASE:3} 表达式</span>

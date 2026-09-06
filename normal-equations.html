@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>标准方程 Normal Equations</h2>
-	<h2 id="_1">标准方程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">标准方程<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>线性回归里的梯度下降算法，通过不停地迭代求参数，从而不停地逼近成本函数的最小值来求解。另外一个方法是直接计算成本函数的微分，令微分算子为零，求解这个方程，即可得到线性回归的解。</p>
 <p>回忆一下线性回归算法的成本函数：</p>
 <p>$$
@@ -194,7 +194,7 @@ $$</p>
 <li>$X$ 是训练样本的变量，它是个 m x n 矩阵。其中 m 是训练样本的个数，n 是变量个数。</li>
 <li>$y$ 是训练样本的结果数据，它是个 m x 1 的列向量。</li>
 </ul>
-<h2 id="_2">奇异矩阵<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">奇异矩阵<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>当训练数据集较少时，利用矩阵运算可以较快的算出参数 $\theta$ 的值。但如果 $X^T X$ 是奇异矩阵的话，它就没有逆矩阵存在，这个时候通用方程的解是什么呢？答案是，在 octave 里用 <code>pinv</code> 来代替 <code>inv</code> 来计算逆矩阵。这样即使 $X^T X$ 是奇异矩阵，<code>pinv</code> 也能算出其&rdquo;伪&rdquo;逆矩阵，从而顺利算出通用方向的解。</p>
 <p>那么，物理上讲，$X^T X$ 如果为奇异矩阵的话，到底代表什么意思呢？</p>
 <ul>

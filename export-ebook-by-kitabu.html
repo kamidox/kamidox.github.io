@@ -180,7 +180,7 @@
 	<h2>用 kitabu 制作高颜值的电子书</h2>
 	<p>辛辛苦苦用 markdown 写就了一系列文章，怎么样导出制作成一本高颜值的电子书呢？本文介绍一种在 Mac 下使用 kitabu + princexml 导出高颜值电子书的方法。</p>
 <p>本文还介绍了字体定制，排版定制，代码高亮，使用 MathJax 渲染 LaTex 数学公式等方法。</p>
-<h2 id="_1">安装软件<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">安装软件<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>首先安装 <a href="https://github.com/fnando/kitabu">kitabu</a></p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>gem<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>kitabu
 </code></pre></div>
@@ -212,7 +212,7 @@ Not<span style="color: #bbbbbb"> </span>installed.
 </code></pre></div>
 
 <p>我的环境里多安装了 KindleGen ，如果你需要制作 .mobi 格式的电子书，可以使用 <code>brew install kindlegen</code> 来安装。不过这一步不是必须的。</p>
-<h2 id="_2">制作电子书<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">制作电子书<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>接着在工作目录执行 <code>kitabu new mybook</code> 即可创建 kitabu 电子书的模板：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mybook/
 ├── Gemfile
@@ -252,7 +252,7 @@ Not<span style="color: #bbbbbb"> </span>installed.
 </code></pre></div>
 
 <p>然后在 <code>mybook</code> 目录运行 <code>kitabu export</code> 即可在 <code>output</code> 目录下生成电子书了。默认情况下，会生成 <a href="https://github.com/fnando/kitabu/raw/master/attachments/kitabu.pdf">kitabu 使用说明文档</a>。</p>
-<h2 id="_3">基础配置<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">基础配置<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>要制作自己的电子书，需要做些简单的配置。先把 kitabu 模板的 <code>text</code> 目录清空，然后把自己的 markdown 文件拷贝到这个目录下，需要注意的是 kitabu 是使用文件名排序生成电子书，并且会自动把 2-6 级标题自动生成书籍的目录。如果你的 markdown 文件是以 1 级标题开始，则需要把所有的标题降一个等级。</p>
 <p>接着修改 <code>config/kitabu.yml</code> 把书箱的作者，版权声明，出版商的信息补充完整。然后修改 <code>templates</code> 目录下的 css 文件，让生成的电子书更漂亮。</p>
 <p>我自己主要修改两处。一是修改 <code>templates/styles/pdf.scss</code>，在所有的 <code>font-family</code> 字段里添加 <code>PingFang SC</code>，以便使用 Mac 的苹方字体来显示中文，默认字体中文效果比较差。比如：</p>
@@ -285,7 +285,7 @@ Not<span style="color: #bbbbbb"> </span>installed.
 </code></pre></div>
 
 <p>这样生成的电子书颜值就很高了。如果你是前端工程师，折腾一下 css 可以做出更精美的电子书。</p>
-<h2 id="_4">在电子书中插入图片<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">在电子书中插入图片<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>另外，我自己写作过程中，直接把图片放在本地目录，然后使用相对路径在 markdown 里生成图片，比如：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>![<span style="color: #008000; font-weight: bold">正弦曲线</span>](<span style="color: #BB4444">images/ch02.01.png</span>)
 </code></pre></div>
@@ -307,7 +307,7 @@ Not<span style="color: #bbbbbb"> </span>installed.
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>renderer<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #880000">Renderer</span><span style="color: #666666">.</span>new(<span style="color: #B8860B">hard_wrap</span>:<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">true</span>,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">safe_links_only</span>:<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">false</span>)
 </code></pre></div>
 
-<h2 id="latex">支持 LaTex 公式<a class="headerlink" href="#latex" title="Permanent link">&para;</a></h2>
+<h2 id="latex">支持 LaTex 公式<a class="headerlink" href="#latex" title="Permanent link"> </a></h2>
 <p><a href="http://www.mathjax.org/">MathJax</a> 是一个 JavaScript 库，用来渲染 LaTex 格式的数学公式。如果你想了解怎么样在 Markdown 里书写数学公式，可以参考我之前的一篇博客 <a href="http://blog.kamidox.com/write-math-formula-with-mathjax.html">《使用 Markdown + MathJax 在博客里插入数学公式》</a>。</p>
 <p>默认情况下，kitabu 无法在渲染使用 MathJax 在 markdown 里书写的数学公式。其原因是 princexml 不支持 Window 等对象，所以 MathJax 的 JavaScript 脚本无法执行。</p>
 <p>解决这个问题的思路是，使用 <a href="http://phantomjs.org">Phantomjs</a> 来渲染包含 LaTex 数学公式的 html 页面，由于 Phantomjs 可以正确地执行 MathJax 的 JavaScript 脚本，所以能正确地渲染出数学公式。接着再使用 princexml 来生成 PDF 格式的电子书就可以正确地渲染出数学公式了。思路很简单，操作起来还是有点麻烦。</p>
@@ -416,7 +416,7 @@ phantomjs<span style="color: #bbbbbb"> </span>../MathJaxRender.js<span style="co
 
 <p>其中调用 <code>phantomjs</code> 的那行命令就是用来生成带数学公式的电子书的。不要忘记了这个命令最后还有一个 <code>-</code> 字符，意思是从 stdin 里读取输入来转换为 PDF。</p>
 <p>参考文档： <a href="http://www.princexml.com/forum/topic/2971/using-mathjax-with-princexml">Using MathJax with PrinceXML</a></p>
-<h2 id="_5">结语<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">结语<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>
 <p>差不多就这些。奋力写作吧，只为自己成为自己的出版商。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/tools.html">tools</a> on 2016-03-20(Sunday) 21:15. Tags: <a href="./tag/markdown.html">markdown</a>, <a href="./tag/ebook.html">ebook</a>, </h6>

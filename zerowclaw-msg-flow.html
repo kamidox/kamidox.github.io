@@ -178,11 +178,11 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>zeroclaw 消息处理流程</h2>
-	<h2 id="zeroclaw">zeroclaw 简绍<a class="headerlink" href="#zeroclaw" title="Permanent link">&para;</a></h2>
+	<h2 id="zeroclaw">zeroclaw 简绍<a class="headerlink" href="#zeroclaw" title="Permanent link"> </a></h2>
 <p>Openclaw 爆火，让 xxclaw 系列开源软件如雨后春笋般冒出来。我们选择 <a href="https://github.com/zeroclaw-labs/zeroclaw.git">zerowclaw</a> 来进行研究。</p>
 <p>zeroclaw 用 rust 语言实现，<strong>资源占用极小</strong>。编译出来的二进制可执行文件才 14MB，运行时 idle 状态占用内存 5MB。可以轻松地在树莓派 3B+ 上运行。对命令 <code>zeroclaw status</code> 几乎是瞬间就有响应。</p>
 <p>反观 openclaw，使用 TypeScript + NodeJS  实现，编译完的可执行程序 622MB，运行时 idle 状态占用内存 415MB。输入 <code>openclaw status</code> 要等 5s 以上才有反应。</p>
-<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>本文分析一个完事的消息处理流程，来搞清楚 zeroclaw：</p>
 <ol>
 <li>如何处理用户消息？</li>
@@ -194,7 +194,7 @@
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>小卡，我们又见面了。把你占用的资源情况汇报一下。包括 cpu，内存，硬盘，以及大模型的 token 消耗情况等等
 </code></pre></div>
 
-<h2 id="zeroclaw_1">zeroclaw 与大语言模型的交互<a class="headerlink" href="#zeroclaw_1" title="Permanent link">&para;</a></h2>
+<h2 id="zeroclaw_1">zeroclaw 与大语言模型的交互<a class="headerlink" href="#zeroclaw_1" title="Permanent link"> </a></h2>
 <p>zeroclaw 并没有智能，它依赖和大语言模型交互，获得智能。当 zeroclaw 收到我们的指令时，它会直接把指令转给大语言模型。这里有个疑问，zeroclaw 发给大语言模型的消息长什么样？除了我们的问题外，还有其它消息么？</p>
 <p>看完原始数据，我惊呆了。彻底理解，为什么 claw 类应用那么费 token。我们给 zeroclaw 一句简单的指令，zeroclaw 向大语言模型发了 14191 个字符的提示词。这个提示词是个标准的 markdown 文件，包含以下内容：</p>
 <ol>
@@ -209,7 +209,7 @@
 <li>用 <code>Runtime</code> 把之前和 zeroclaw 交互的历史记录也附上来。这是直接输入给大语言模型的历史对话数据。这里面，还会包含我们给 zeroclaw 的最新指令 &ldquo;小卡，我们又见面了。把你占用的资源情况汇报一下。包括 cpu，内存，硬盘，以及大模型的 token 消耗情况等等&rdquo;。</li>
 </ol>
 <p>强烈建议阅读一下原始文件 <a href="../../images/2_llm_request_prompt_1.md">2_llm_request_prompt_1.md</a>，对 zeroclaw 和大语言模型的交互，有个系统性的了解。而且会更深入地理解大型提示词构建的一些技巧。</p>
-<h2 id="_2">大语言模型的应答<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">大语言模型的应答<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>大语言模型的应答很简单，全文如下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>用户想了解我占用的资源情况，包括 CPU、内存、硬盘和大模型的 token 消耗。我需要通过 shell 命令来获取这些信息。
 
@@ -221,7 +221,7 @@
 </code></pre></div>
 
 <p>这里的关键信息是，大语言模型给了几个命令调用，分别是 <code>ps</code>, <code>top</code>, <code>df</code>。zeroclaw 在解析应答时，会通过 &ldquo;``&rdquo; 标识符，来识别需要用到的命令。</p>
-<h2 id="_3">运行命令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">运行命令<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>zeroclaw 会运行应答里要求的命令。然而，由于我们的安全策略禁止 zeroclaw 运行如下命令，所以输入的是错误信息。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>allowed<span style="color: #bbbbbb"> </span>by<span style="color: #bbbbbb"> </span>security<span style="color: #bbbbbb"> </span>policy:<span style="color: #bbbbbb"> </span>ps<span style="color: #bbbbbb"> </span>aux<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>-i<span style="color: #bbbbbb"> </span>zeroclaw<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>-v<span style="color: #bbbbbb"> </span>grep
 Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>allowed<span style="color: #bbbbbb"> </span>by<span style="color: #bbbbbb"> </span>security<span style="color: #bbbbbb"> </span>policy:<span style="color: #bbbbbb"> </span>df<span style="color: #bbbbbb"> </span>-h
@@ -229,7 +229,7 @@ Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> 
 </code></pre></div>
 
 <p>zeroclaw 直接把上述错误结果给大语言模型。而且，跟第一次一样，也包含了所有的系统提示词以及历史交互记录，包含了 15670 个字符。</p>
-<h2 id="_4">大语言模型的应答<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">大语言模型的应答<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>这次的应答，就比较简单，也是直接呈现给用户的结果。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>抱歉，安全策略限制了我执行系统级监控命令（`ps`、`df`、`du` 等），我无法直接获取 CPU、内存和硬盘的使用情况。
 

@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>为 Raspberry Pi 交叉编译 EdgeX</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="https://www.edgexfoundry.org">EdgeX</a> 是 Linux 软件基金会旗下的一个开源的，应用在边缘计算设备上的，针对 IoT 设备的软件系统。它使用 Go 语言实现，基于微服务框架。</p>
 <p>它的标准运行环境是基于 Docker，<a href="https://github.com/edgexfoundry/edgex-examples">官方文档</a>上有提供了基于 Raspberry Pi Docker 的运行环境。</p>
 <p>本文从另外一个角度，实现 Raspberry Pi 上运行 EdgeX：</p>
@@ -187,7 +187,7 @@
 <li>在 MacOS 上交叉编译，能够运行在 Raspberry Pi 上的 EdgeX 应用程序。</li>
 <li>不需要重新安装 Raspberry Pi 操作系统，直接使用 Raspbery Pi 官方操作系统。</li>
 </ol>
-<h2 id="_2">原理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">原理<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>交叉编译运行在 Raspberry Pi 上的<strong>纯 Go 源码</strong>非常简单，直接设置 <code>GOOS=linux GOARCH=arm go build</code> 即可。编译 EdgeX 的挑战在于，EdgeX 不是纯 Go 语言，它使用了 <a href="https://blog.golang.org/cgo">CGO</a>，更具体地说，EdgeX 使用 C/C++ 实现 <a href="https://github.com/zeromq/libzmq">libzmq</a> 来实现消息队列，这给交叉编译带来了额外的困难。</p>
 <p>一个可行的解决方法是：</p>
 <ol>
@@ -198,7 +198,7 @@
 <li>在 Docker 里安装 Go 语言编译工具</li>
 <li>在 Docker 里安装 EdgeX 依赖的库 libzmq</li>
 </ol>
-<h2 id="_3">步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">步骤<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>幸运的是，我们不需要从头完成上述步骤。上述步骤中 1，2，3，4 已经有人在 GitHub 上提供一个 Docker Image，它的名字叫 <a href="https://github.com/sdt/docker-raspberry-pi-cross-compiler">docker-raspberry-pi-cross-compiler</a>。</p>
 <p>更幸运的是，读者朋友们也不需要手动完成上述 5，6 两个步骤，因为笔者已经在 docker-raspberry-pi-cross-compiler 的基础上，制作好了 Docker Image，可以直接编译。它的名字叫 <a href="https://github.com/kamidox/edgex-raspberry-pi-cross-compile">edgex-raspberry-pi-cross-compile</a>。</p>
 <p>有了这些工具，编译 EdgeX 就简单了：</p>

@@ -190,10 +190,10 @@
 <li><a href="#_2">结束语</a></li>
 </ul>
 </div>
-<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="http://pytest.org/latest/contents.html#toc">FlaskBB</a>是用Flask框架实现的一个轻量级的论坛社区软件，代码托管在GitHub上。本系列文章通过阅读FlaskBB的源代码来深入学习Flask框架，以及在一个产品级的Flask应用里的一些最佳实践规则。</p>
 <p>本文是本系列文章的第四篇，通过分析FlaskBB的自动测试代码，进而介绍Python下的自动化测试工具pytest。自动化测试在开发和重构过程中有着非常重要的地位。甚至还流行一种测试优先的编程方法，即针对一个功能模块，先写测试例，再去实现功能模块。</p>
-<h2 id="flaskbb">FlaskBB的测试代码<a class="headerlink" href="#flaskbb" title="Permanent link">&para;</a></h2>
+<h2 id="flaskbb">FlaskBB的测试代码<a class="headerlink" href="#flaskbb" title="Permanent link"> </a></h2>
 <p>FlaskBB的测试代码在tests目录下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>tests/
 ├──<span style="color: #bbbbbb"> </span>conftest.py
@@ -272,7 +272,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 </code></pre></div>
 
 <p>我们可以看到总共有42个测试例，全部测试通过了。</p>
-<h2 id="pytest">通过实例来看pytest的运行机制<a class="headerlink" href="#pytest" title="Permanent link">&para;</a></h2>
+<h2 id="pytest">通过实例来看pytest的运行机制<a class="headerlink" href="#pytest" title="Permanent link"> </a></h2>
 <p><code>tests/unit/test_forum_modules.py</code>里有个删除讨论区版块的单元测试函数：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -297,7 +297,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 <li>pytest怎么发现<code>test_forum_delete(forum)</code>单元测试函数并执行它的？</li>
 </ol>
 <p>要回答这些问题，必须介绍pytest的fixtures的概念。</p>
-<h2 id="fixtures">什么是fixtures<a class="headerlink" href="#fixtures" title="Permanent link">&para;</a></h2>
+<h2 id="fixtures">什么是fixtures<a class="headerlink" href="#fixtures" title="Permanent link"> </a></h2>
 <p>fixtures是指测试的上下文，单元测试函数在运行之前，必须为其创建有效的运行时上下文信息。在xUnit测试框架里，每个测试例运行时都有setup/teardown方法与之匹配，pytest不但支持经典的setup/teardown方法，借助python强大的自省功能，它支持通过测试函数的参数为单元测试函数创建运行时的上下文信息。在上例中，函数参数<code>forum</code>就是一个fixtures，它定义在<code>tests/fixtures/forum.py</code>里：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -344,7 +344,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 </code></pre></div></td></tr></table></div>
 
 <p>这里使用<code>@pytest.yield_fixture</code>来定义一个生成器fixture。其次注意到使用了<code>autouse=True</code>的参数，这个参数表示这个fixture在运行任何一个单元测试函数之前都必须先调用。即所有的单元测试函数都信赖这个fixture。从函数内容来看，它创建一个Flask APP的实例，以这个实例作为单元测试的上下文。</p>
-<h2 id="pytest_1">pytest标准的测试例收集流程<a class="headerlink" href="#pytest_1" title="Permanent link">&para;</a></h2>
+<h2 id="pytest_1">pytest标准的测试例收集流程<a class="headerlink" href="#pytest_1" title="Permanent link"> </a></h2>
 <p>pytest在运行测试例前，必须通过一套规则来收集所有的测试例。默认情况下，pytest的测试例收集流程如下：</p>
 <ol>
 <li>在运行<code>py.test</code>命令的当前目录或其后第一个参数（可以上目录，或模块名）所指定的位置开始收集测试例</li>
@@ -355,7 +355,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 </ol>
 <p>当然，这个测试例收集规则是可以定制的，具体可参阅pytest的<a href="http://pytest.org/latest/contents.html#toc">官方文档</a>。</p>
 <p>FlaskBB的单元测试代码都放在<code>tests/unit</code>目录下。所有以<code>test_</code>打头的文件都会被import进测试的上下文。同时所有python文件里以<code>test_</code>打头的函数都被作为单元测试函数被收集起来测试。这样我们前文提到的<code>test_forum_delete(forum)</code>函数就被作为一个单元测试函数收集起来了。</p>
-<h2 id="conftestpy">conftest.py<a class="headerlink" href="#conftestpy" title="Permanent link">&para;</a></h2>
+<h2 id="conftestpy">conftest.py<a class="headerlink" href="#conftestpy" title="Permanent link"> </a></h2>
 <p>pytest在执行任何一个单元测试的时候，最靠近执行目录下的那个<code>conftest.py</code>将被自动执行。针对FlaskBB，其内容为：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
@@ -365,7 +365,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 </code></pre></div></td></tr></table></div>
 
 <p>从代码来看，它import了我们定义的所有的fixtures。除了自定义的fixtures之外，系统也有一些内置的fixtures，可以运行<code>py.test --fixtures</code>来查阅所有的可用fixtures。</p>
-<h2 id="pytestini">pytest.ini<a class="headerlink" href="#pytestini" title="Permanent link">&para;</a></h2>
+<h2 id="pytestini">pytest.ini<a class="headerlink" href="#pytestini" title="Permanent link"> </a></h2>
 <p>pytest在执行时，会读取命令运行目录下的pytest.ini文件，通过这个文件可以定制py.test命令的一些行为。FlaskBB的里pytest.ini的内容为：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">[pytest]</span>
 <span style="color: #BB4444">norecursedirs</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">docs flaskbb logs migrations whoosh_index</span>
@@ -377,7 +377,7 @@ tests/unit/test_forum_models.py::test_forum_update_last_post<span style="color: 
 <p class="admonition-title">py.test运行方式</p>
 <p>笔者在第一次运行FlaskBB测试程序时，使用<code>py.test</code>直接运行，结果发现执行花了很长的时间，而且很多失败项。经查，原来在笔者的环境里，通过virtualenv把<code>.venv</code>目录放在了项目的根目录下，所以默认情况下pytest会从<code>.venv</code>里收集其他包的测试例来测试。所以，虽然可以定义<code>norecursedirs</code>目录，但还是推荐使用<code>py.test tests</code>这种后面直接跟着测试代码目录的方式来运行测试例。</p>
 </div>
-<h2 id="_2">结束语<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">结束语<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>通过上文的分析，可以轻松理解FlaskBB里的自动测试代码。在Quara上看到过一篇介绍Quara的continuous development的文章，Quara的网站每天会更新上百次，这是怎么做到的呢？如果没有自动化测试和自动化布署的工具，这是不可想象的。如果做黑盒测试，光回归测试就要累死人。有兴趣的同学可以<a href="http://engineering.quora.com/Continuous-Deployment-at-Quora">点击这里</a>看一下高大上的互联网公司是怎么做自动化测试和布署的。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/flask.html">flask</a> on 2014-12-21(Sunday) 23:00. Tags: <a href="./tag/python.html">python</a>, <a href="./tag/flask.html">flask</a>, </h6>

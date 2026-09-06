@@ -178,13 +178,13 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>使用 Github Pages 来托管 Pelican 生成的博客</h2>
-	<h2 id="github-pages">关于 Github Pages<a class="headerlink" href="#github-pages" title="Permanent link">&para;</a></h2>
+	<h2 id="github-pages">关于 Github Pages<a class="headerlink" href="#github-pages" title="Permanent link"> </a></h2>
 <p>Github Pages 是 Github 提供的免费的空间来展现静态网页。</p>
 <blockquote>
 <p>Websites for you and your projects. Hosted directly from your GitHub repository. Just edit, push, and your changes are live.</p>
 </blockquote>
 <p>依照<a href="https://pages.github.com">官方文档</a>很容易做出一个 Github Pages 网页。使用 Github Pages 来写博客的主流方法是使用 <a href="http://jekyllrb.com">Jekyll</a> 来作为 SSG (Static Site Generator)。</p>
-<h2 id="pelican-github-pages">把 Pelican 生成的博客托管在 Github Pages 上<a class="headerlink" href="#pelican-github-pages" title="Permanent link">&para;</a></h2>
+<h2 id="pelican-github-pages">把 Pelican 生成的博客托管在 Github Pages 上<a class="headerlink" href="#pelican-github-pages" title="Permanent link"> </a></h2>
 <p>由于历史原因使用了 Pelican 作为 SSG 并托管在 AWS 主机上。切换到 Github Pages + Jekyll 意味着更换 SSG ，这样必须把所有符合 Pelican 规则的 markdown 文件转换为符合 Jekyll 规则的 markdown 文件。于是想到了一个更偷懒的方法：直接用 Pelican 生成的静态网页放在 Github 上作为 Github Pages。最后再绑定我们自己的域名。这样就完成了迁移工作。</p>
 <p><a href="https://github.com/davisp/ghp-import">ghp-import</a> 是做这个事情的最佳工具。 </p>
 <p>发布博客时，输入下面的命令即可：<code>ghp-import -p output</code>。这个命令做以下几件事情：</p>
@@ -194,9 +194,9 @@
 </ol>
 <p>打开 <code>YourUserName.github.io/YourRepoName</code> 就可以看到最新的博客内容了。比如 <a href="http://kamidox.github.io/blogs">kamidox.github.io/blogs</a> 就是我使用 Github Pages 的托管的博客了。</p>
 <p>关于如何使用 Pelican 来写博客，可以参阅<a href="http://kamidox.com/build-blog-system-by-pelican.html">这篇文章</a>。</p>
-<h2 id="_1">定制域名<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">定制域名<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>关于 Github Pages 定制域名可以参阅<a href="https://help.github.com/articles/adding-a-cname-file-to-your-repository/">官方教程</a>。我们使用 Github 强烈推荐的子域名的形式来定制域名。</p>
-<h3 id="cname">创建 CNAME<a class="headerlink" href="#cname" title="Permanent link">&para;</a></h3>
+<h3 id="cname">创建 CNAME<a class="headerlink" href="#cname" title="Permanent link"> </a></h3>
 <p>在 <code>gh-pages</code> 分支根目录提交一个 <code>CNAME</code> 文件，而 <code>ghp-import</code> 又会完全覆盖掉 gh-pages 分支。如何解决这个矛盾呢？阳光下没有新鲜事，具体可以参阅 <a href="http://docs.getpelican.com/en/latest/tips.html#extra-tips">Pelican 的 Tips</a>。归纳起来，就是先在 <code>content/extra</code> 目录下新建一个叫 <code>CNAME</code> 的文件，其内容就是自定义域名的内容，如 <code>blog.kamidox.com</code>。然后在 Pelican 的配置文件 <code>publishconf.py</code> 下添加如下内容：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>STATIC_PATHS <span style="color: #666666">=</span> [<span style="color: #BB4444">&#39;extra&#39;</span>]
 EXTRA_PATH_METADATA <span style="color: #666666">=</span> {
@@ -205,7 +205,7 @@ EXTRA_PATH_METADATA <span style="color: #666666">=</span> {
 </code></pre></div>
 
 <p>留意一下上面的路径映射。如果没有这个映射，则 Pelican 会把 <code>content/extra</code> 目录下的内容原封不动的拷贝到 <code>output/extra</code> 目录下。</p>
-<h3 id="dns">修改 DNS 解析<a class="headerlink" href="#dns" title="Permanent link">&para;</a></h3>
+<h3 id="dns">修改 DNS 解析<a class="headerlink" href="#dns" title="Permanent link"> </a></h3>
 <p>添加一条 CNAME 记录，指向 username.github.io。比如，我需要把博客地址定为 blog.kamidox.com，则我添加一条 CNAME 解析为 blog 的记录，指向 kamidox.github.io。</p>
 <p>至此，我们完成了博客迁移工作。</p>
 <div class="admonition notes">

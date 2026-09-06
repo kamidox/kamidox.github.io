@@ -178,14 +178,14 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>EdgeX 性能分析</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="https://www.edgexfoundry.org">EdgeX</a> 是 Linux 软件基金会旗下的一个开源的，应用在边缘计算设备上的，针对 IoT 设备的软件系统。它使用 Go 语言实现，基于微服务框架。</p>
 <p>这还是个很早期的开源软件系统，截止写稿当日，其最新版本是 V2.0.0。早期版本的很多服务还是基于 Java 实现的，最近才全部改为 Go 语言实现。这给了我们一点希望：是不是可以应用在资源受限的 IoT 网关上。</p>
-<h2 id="_2">性能评估方案<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">性能评估方案<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>我们使用 <a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b-plus/">Raspbery Pi 3B+</a> 来进行评估，它使用 BCM2837B0，1.4GHz 64-bit 四核，1GB DDR2 内存。其实这个性能不低，但暂时手上只有这个用来评估的硬件，权作参考。</p>
 <p>我们设计的方案是，在 Raspbery Pi 上运行 EdgeX 的基础服务，然后再运行一个官方的 Demo Device Service，创建 10 个设备，其中 5 个设备每秒通过 AutoEvent 上报一次数据，另外 5 个设备每 3 秒通过 AutoEvent 上报一次数据。在这种情况下，我们使用 Go <a href="https://github.com/google/pprof/blob/master/doc/README.md">pprof</a> 工具，来检查 CPU 以及内存使用情况。</p>
 <p>快速了解 pprof 工具，可参阅 Go 官方博客上的一篇文章 <a href="https://blog.golang.org/pprof">Profiling Go Programs</a>。</p>
-<h2 id="_3">测试结论<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">测试结论<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p><strong>结论一</strong>：EdgeX 核心服务中，<a href="https://github.com/edgexfoundry/edgex-go/">core-data</a> 的 CPU 和内存占用相对较多，而其他的核心服务，如 core-metadata, core-command 则资源消耗非常少。</p>
 <p>这也非常好理解，core-metadata 只有在启动的时候以及搜索到新设备的时候，才会运行相关业务，在业务持续运行中，根本就没有需要运行的任务。由于我们测试过程中，没有对设备进行命令控制，而是由设备主动上报事件，故 core-command 也几乎没有资源消耗。</p>
 <p><strong>结论二</strong>：我们的 Demo Device Service 资源消耗相对较多。</p>
@@ -193,7 +193,7 @@
 <p>这里的原因是，每次上报 <code>Image</code> 属性时，需要解码一个 jpeg 图片，然后再编码，再把二进制数据发送给 core-data 服务。这个过程会消耗非常多的 CPU 以及内存资源。</p>
 <p>由于我们的评估，暂不涉及多媒体数据，故去掉 <code>Image</code> 属性的上报，只上报文本以及数值型数据，这样更符合普通的 IoT 设备场景。</p>
 <p><strong>最终结论</strong>：EdgeX 运行在 1GHz, 512MB 内存的 ARM 设备上，机会还是比较大的。但一个不确定因素是，我们当前的测试，没有开启 EdgeX 的安全机制。开启安全机制后，对资源的消耗肯定会更多。</p>
-<h2 id="_4">详细数据<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">详细数据<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>我们拿 core-data 以及 device-simple 两个服务，来分析 CPU 以及内存占用。先来看 core-data 服务。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>go<span style="color: #bbbbbb"> </span>tool<span style="color: #bbbbbb"> </span>pprof<span style="color: #bbbbbb"> </span>core-data<span style="color: #bbbbbb"> </span>cpu.prof
 File:<span style="color: #bbbbbb"> </span>core-data

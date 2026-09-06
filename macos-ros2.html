@@ -179,16 +179,16 @@
 <article>
 	<h2>在 Arm 架构的 MacOS 上安装 ROS2</h2>
 	<p>主要的思路：</p>
-<h2 id="macos-vmware">在 MacOS 上安装 VMWare<a class="headerlink" href="#macos-vmware" title="Permanent link">&para;</a></h2>
+<h2 id="macos-vmware">在 MacOS 上安装 VMWare<a class="headerlink" href="#macos-vmware" title="Permanent link"> </a></h2>
 <p>笔者使用的版本是 VMware-Fusion-13.6.1-24319021_universal.dmg，目前已经对<a href="https://blogs.vmware.com/teamfusion/2024/05/fusion-pro-now-available-free-for-personal-use.html">个人使用免费</a>。</p>
-<h2 id="arm-ubuntu">下载 ARM 架构的 ubuntu<a class="headerlink" href="#arm-ubuntu" title="Permanent link">&para;</a></h2>
+<h2 id="arm-ubuntu">下载 ARM 架构的 ubuntu<a class="headerlink" href="#arm-ubuntu" title="Permanent link"> </a></h2>
 <p>ARM 架构的 ubuntu 只有<a href="https://ubuntu.com/download/server/arm">服务器版</a>，没有桌面版本。</p>
-<h2 id="vmware-ubuntu">使用 VMWare 安装 ubuntu<a class="headerlink" href="#vmware-ubuntu" title="Permanent link">&para;</a></h2>
+<h2 id="vmware-ubuntu">使用 VMWare 安装 ubuntu<a class="headerlink" href="#vmware-ubuntu" title="Permanent link"> </a></h2>
 <p>需要至少确保虚拟硬盘有 20GB，且全部挂载到根目录下。否则，后续安装图形界面时，会导致空间不足。</p>
 <p>安装完成后，需要断开 CDROM 连接，否则虚拟机启动，会优先从 CDROM 启动。</p>
-<h2 id="_1">安装桌面环境<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">安装桌面环境<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>进入虚拟机的 ubuntu 系统，使用 <code>sudo apt install ubuntu-desktop-minimal</code> 来安装 minimal 的桌面环境。不建议安装完整的桌面环境，因为占用太多空间，而且有 office, email 客户端，甚至还有游戏。详情可参阅<a href="https://bytexd.com/how-to-install-gnome-desktop-in-ubuntu/">参考文档</a>。安装完成后，重启虚拟机。</p>
-<h2 id="ros2">安装 ROS2<a class="headerlink" href="#ros2" title="Permanent link">&para;</a></h2>
+<h2 id="ros2">安装 ROS2<a class="headerlink" href="#ros2" title="Permanent link"> </a></h2>
 <p>可直接参阅<a href="https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html">官方文档</a>一步步执行即可。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/tools.html">tools</a> on 2024-12-08(Sunday) 23:22. Tags: <a href="./tag/tools.html">tools</a>, </h6>

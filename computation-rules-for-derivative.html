@@ -179,7 +179,7 @@
 <article>
 	<h2>常用的微分运算法则</h2>
 	<p>机器学习涉及到较多的数学知识，在工程应用领域，这些数学知识不是必要的，其实很多算法都是数值运算专家写好了的。然而知其然知其所以然，了解这些数学公式的来龙去脉是帮助理解算法的关键。本文直接给出常用的微分运算法则，并运用这些法则来计算分类回归算法 (Logistic Regression) 预测模型 Sigmoid Function 的微分公式。</p>
-<h2 id="_1">基础函数的微分运算法则<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">基础函数的微分运算法则<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <ul>
 <li>幂函数法则
   $$\begin{align} \frac{d}{dx} x^n = nx^{n-1} \end{align}$$</li>
@@ -198,7 +198,7 @@
   $$\begin{align} \frac{d}{dx} arccos(x) = -\frac{1}{\sqrt{1-x^2}}, -1 &lt; x &lt; 1 \end{align}$$
   $$\begin{align} \frac{d}{dx} arctan(x) = \frac{1}{1+x^2} \end{align}$$</li>
 </ul>
-<h2 id="_2">组合函数的微分运算法则<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">组合函数的微分运算法则<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <ul>
 <li>常数法则：如果 $f(x) = n$，n 是常数，则
   $$\begin{align} f&rsquo; = 0 \end{align}$$</li>
@@ -213,12 +213,12 @@
 <li>链接法则：如果 $f(x) = h(g(x))$，则
   $$\begin{align} f&rsquo;(x) = h&rsquo;(g(x)) g&rsquo;(x) \end{align}$$</li>
 </ul>
-<h2 id="sigmoid-function">计算 Sigmoid Function 的微分<a class="headerlink" href="#sigmoid-function" title="Permanent link">&para;</a></h2>
+<h2 id="sigmoid-function">计算 Sigmoid Function 的微分<a class="headerlink" href="#sigmoid-function" title="Permanent link"> </a></h2>
 <p>$g(x) = \frac{1}{1+e^{-x}}$ 是分类算法的预测函数，也称为 Sigmoid Function 或 Logistic Function。我们利用上文介绍的微分运算法则来证明 Sigmoid Function 的一个特性：</p>
 <p>$$
 \frac{d}{dx} g(x) = g(x) (1 - g(x))
 $$</p>
-<h3 id="_3">方法一<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">方法一<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>假设 $f(x) = \frac{1}{x}$，则 $f(g(x)) = \frac{1}{g(x)}$，根据除法法则得到</p>
 <p>$$
 \begin{align}
@@ -244,7 +244,7 @@ g&rsquo;(x) &amp; = g(x)(1 - g(x))
 \end{align}
 $$</p>
 <p>这样就得到了我们的结果。</p>
-<h3 id="_4">方法二<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h3 id="_4">方法二<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <p>由 $g(x) = \frac{1}{1+e^{-x}}$ 的定义可知</p>
 <p>$$
 \begin{align}
@@ -258,7 +258,7 @@ $$</p>
 \end{align}
 $$</p>
 <p>(26) 两边取微分；(27) 根据微分的乘法法则。</p>
-<h3 id="_5">方法三<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h3 id="_5">方法三<a class="headerlink" href="#_5" title="Permanent link"> </a></h3>
 <p>根据除法法则直接计算微分：</p>
 <p>$$
 \begin{align}
@@ -272,7 +272,7 @@ $$</p>
 \end{align}
 $$</p>
 <p>(33) 是根据除法法则得出的，其中除数是常数 1，被除数是 $1 + e^{-x}$。</p>
-<h2 id="_6">参考资料<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">参考资料<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>
 <ul>
 <li>StackExchange 上有个 <a href="http://math.stackexchange.com/questions/78575/derivative-of-sigmoid-function-sigma-x-frac11e-x">Sigmoid Function 微分计算的问题及答案</a></li>
 <li>WikiPedia 上有关<a href="https://en.wikipedia.org/wiki/Derivative#Rules_of_computation">微分运算法则</a>的资料</li>

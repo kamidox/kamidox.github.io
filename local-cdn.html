@@ -181,13 +181,13 @@
 	<blockquote>
 <p><strong>安全预警</strong>：最近的 xcode ghost 事件让大家的安全意识提高了不少。本文介绍的方法可能存在一些安全隐患。当然，解决方案也是有的，就是可以把本地 cdn 加速的文件和官网发布的正式版本做 md5 检验，这样确保本地文件没有被修改。由于目前还没有实现 md5 检验。请确保你自己清楚你在做什么，否则可能导致你的计算机被恶意的人植入后门。</p>
 </blockquote>
-<h2 id="_1">问题<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">问题<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>访问 StackOverflow 时奇慢无比有没有？其实原因不是因为 StackOverflow 不能访问，而是因为 StackOverflow 网站引用了 Google 的 CDN 加速服务器来下载 jqeury 脚本。<a href="http://www.zhihu.com/question/22909851">知乎上有个话题</a>讨论了这个问题。</p>
-<h2 id="_2">解决方案<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">解决方案<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>在本地搭建一个 web 服务器，然后下载好 jquery 脚本，放在本地 web 服务器上。再修改 hosts 文件，把 ajax.googleapis.com 重定向到本地 127.0.0.1 。这样浏览器就会从本地下载脚本，而不再从 ajax.googleapis.com 下载了。</p>
-<h2 id="_3">详细步骤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_3">详细步骤<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>这里将介绍详细的安装和配置过程，需要注意的是所有的目录和命令以我的 mac 下的环境为例。如果你用的是不同的版本或不同的操作系统，根据你的情况完成相应的配置即可。</p>
-<h3 id="nginx">安装 nginx 服务器<a class="headerlink" href="#nginx" title="Permanent link">&para;</a></h3>
+<h3 id="nginx">安装 nginx 服务器<a class="headerlink" href="#nginx" title="Permanent link"> </a></h3>
 <p>网上一堆教程，搜索一下就可以成功安装，需要注意的是两点。一是需要设置 nginx 开机启动。二是需要修改 nginx 运行权限，因为我们要在 80 端口提供服务，80 端口需要 root 权限才可以。</p>
 <p><strong>设置 nginx 开机启动</strong></p>
 <p>把下面文件内容保存到 <code>/Library/LaunchAgents/com.nginx.plist</code>。然后运行 <code>launchctl load -w /Library/LaunchAgents/com.nginx.plist</code>。</p>
@@ -221,7 +221,7 @@
 sudo<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span>u+s<span style="color: #bbbbbb"> </span>/usr/local/Cellar/nginx/1.8.0/bin/nginx
 </code></pre></div>
 
-<h3 id="nginx_1">配置 nginx 服务器<a class="headerlink" href="#nginx_1" title="Permanent link">&para;</a></h3>
+<h3 id="nginx_1">配置 nginx 服务器<a class="headerlink" href="#nginx_1" title="Permanent link"> </a></h3>
 <p>配置 nginx 服务器主要分两步。一是生成 ssl 证书，用来提供 https 服务。二是下载 local-cdn 到本地，将配置 nginx 指向这个本地目录以便提供 cdn 服务。</p>
 <p><strong>生成 ssl 证书</strong></p>
 <p>我们本地 cdn 还需要支持 ssl，所以需要做一个自签名的证书。下面命令会在 <code>/usr/local/etc/nginx/ssl/</code> 目录下生成一个自签名的证书。这个证书后面会用到。</p>
@@ -254,7 +254,7 @@ git<span style="color: #bbbbbb"> </span>clone<span style="color: #bbbbbb"> </spa
 }
 </code></pre></div>
 
-<h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link">&para;</a></h2>
+<h2 id="contribution">Contribution<a class="headerlink" href="#contribution" title="Permanent link"> </a></h2>
 <p>欢迎大家<a href="https://github.com/kamidox/local-cdn">提 pull request</a>，一起完善科学文明的上网环境。</p>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/tools.html">tools</a> on 2015-10-01(Thursday) 23:36. Tags: <a href="./tag/tools.html">tools</a>, </h6>

@@ -178,11 +178,11 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>使用 PyCharm 单步调试 Django 单元测试例</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>众所周知，编写 Django 后端程序时，可以使用 <code>python manage.py test</code> 来运行单元测试。也可以通过类似 <code>python manage.py test stock.tests.test_api.APITestCase.test_account_curd</code> 的指令，来运行单个测试例。其中，<code>stock.tests.test_api.APITestCase.test_account_curd</code> 是要运行的某个测试例，遵循 python 包引用原则。</p>
 <p>如果某个测试例运行失败了，可以通过单步调试来解决问题，PyCharm Professional 版本提供了这样的功能，具体可查阅<a href="https://www.jetbrains.com/help/pycharm/run-debug-configuration-django-test.html">官方文档</a>。与 Django 深度整合是 PyCharm Professional 版本的卖点之一。</p>
 <p>问题来了，能否通过 PyCharm Community 版本来进行单步调试呢？答案是肯定的。本文介绍一个配置方法，可以使用 PyCharm Community 版本来单步调试 Django 测试例以及应用程序。</p>
-<h2 id="rundebug">添加 Run/Debug 配置项<a class="headerlink" href="#rundebug" title="Permanent link">&para;</a></h2>
+<h2 id="rundebug">添加 Run/Debug 配置项<a class="headerlink" href="#rundebug" title="Permanent link"> </a></h2>
 <p>原理上，利用 PyCharm 调试功能，把 Django 的入口文件 <code>manage.py</code> 作为调试对象。这样就可以调试 Django 应用程序了。</p>
 <p>通过菜单 <code>Run -&gt; Edit Configuration</code> 来添加一个名称为 &ldquo;manage.py&rdquo; 的 Run/Debug 配置项，如下图。</p>
 <p><img alt="Run/Debug 配置项" src="../../images/pycharm_debug_configuration.png" /></p>
@@ -192,7 +192,7 @@
 <li>&ldquo;parameters&rdquo; 填 <code>test stock.tests.test_api</code>，这个可以根据实际情况修改，比如改成要单步调试的某个测试例。或者，改成 <code>runserver</code> 则直接用来单步调试 Django 应用程序。</li>
 <li>&ldquo;working directory&rdquo; 填 Django 项目的根目录，如 <code>/Users/kamidox/work/weapp-server</code> 。</li>
 </ul>
-<h2 id="_2">进行单步调试<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">进行单步调试<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>配置完成后，就可以在合理的地方设置断点，然后在 PyCharm Community 版本里，选择菜单 <code>Run -&gt; Debug 'manage.py'</code> 来启动单步调试。其中 <code>manage.py</code> 就是我们新建的 Run/Debug 配置项的名称。如果按照上述示例的配置，启动调试后，实际上，就相当于你在 shell 命令行里运行 <code>python manage.py test stock.tests.test_api</code> 命令，唯一不同的是，此时处于调试模式，代码会在断点处停下来。</p>
 <p>接下来，就可以利用 PyCharm 的调试功能进行单步调试了。</p>
 <p>Happy Coding ~~</p>

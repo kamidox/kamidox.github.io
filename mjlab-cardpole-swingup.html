@@ -178,7 +178,7 @@
 						<div class="medium-9 small-12 columns" role="content">
 <article>
 	<h2>读懂 mjlab CartPole 的 Observations 与 Rewards</h2>
-	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+	<h2 id="_1">写在前面<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p>本文对应 <a href="https://github.com/mujocolab/mjlab/blob/main/src/mjlab/tasks/cartpole/cartpole_env_cfg.py">src/mjlab/tasks/cartpole/cartpole_env_cfg.py</a>。目标是用通俗的方式解释两件事：策略每一步看到了什么（observations），以及训练算法如何判断这一步做得好不好（rewards）。</p>
 <p>CartPole 装置由一辆沿水平轨道移动的小车和一根铰接在小车上的杆组成。策略只能对小车施加水平力，却要让杆摆到竖直向上并保持平衡。如下面视频所示。</p>
 <div>
@@ -190,7 +190,7 @@
    </p>
 </div>
 
-<h2 id="_2">先建立直觉：观测是眼睛，奖励是评分标准<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">先建立直觉：观测是眼睛，奖励是评分标准<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>强化学习策略不会直接理解“杆向右倒了”这句话。它每一步拿到的是一组数字，输出一个
 动作，然后从奖励中得知刚才的动作是否有利。这个闭环可以表示为：</p>
 <p>$$
@@ -207,7 +207,7 @@ $$</p>
 
 <p>策略输出经过 actuator 后推动 <code>slider</code> 关节。<code>ctrl</code> 会被限制在 $[-1,1]$，再乘上
 <code>gear="10"</code>，因此最大作用力约为 10 N。</p>
-<h2 id="observations">Observations：策略实际看见的状态<a class="headerlink" href="#observations" title="Permanent link">&para;</a></h2>
+<h2 id="observations">Observations：策略实际看见的状态<a class="headerlink" href="#observations" title="Permanent link"> </a></h2>
 <p>配置中的 observation term 为：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>actor_terms <span style="color: #666666">=</span> {
   <span style="color: #BB4444">&quot;cart_pos&quot;</span>: ObservationTermCfg(func<span style="color: #666666">=</span>joint_pos_rel, <span style="color: #666666">...</span>),
@@ -224,7 +224,7 @@ $$</p>
 <p>虽然有四个 term，<code>pole_angle</code> 同时返回余弦和正弦，所以最终共有 5 个数。所有数据都
 是批量张量，形状带有前导维度 <code>[num_envs, ...]</code>；这使同一个策略可以同时控制多个
 彼此独立的 CartPole。</p>
-<h3 id="1-cart_pos">1. <code>cart_pos</code>：小车在轨道上的位置<a class="headerlink" href="#1-cart_pos" title="Permanent link">&para;</a></h3>
+<h3 id="1-cart_pos">1. <code>cart_pos</code>：小车在轨道上的位置<a class="headerlink" href="#1-cart_pos" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;cart_pos&quot;</span>: ObservationTermCfg(
   func<span style="color: #666666">=</span>joint_pos_rel,
   params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: cart_cfg},
@@ -240,7 +240,7 @@ $$</p>
 <p>它的物理意义是“还能往哪边移动”。为了扶正杆，小车有时必须快速移向一侧；但若策略
 不知道自己已经接近轨道边缘，就可能一直冲出去，失去继续纠正杆的空间。因此平衡任务
 不只需要知道杆的姿态，也必须知道小车的位置。</p>
-<h3 id="2-pole_angle">2. <code>pole_angle</code>：杆指向哪里<a class="headerlink" href="#2-pole_angle" title="Permanent link">&para;</a></h3>
+<h3 id="2-pole_angle">2. <code>pole_angle</code>：杆指向哪里<a class="headerlink" href="#2-pole_angle" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">pole_angle_cos_sin</span>(env, asset_cfg):
   asset <span style="color: #666666">=</span> env<span style="color: #666666">.</span>scene[asset_cfg<span style="color: #666666">.</span>name]
   angle <span style="color: #666666">=</span> asset<span style="color: #666666">.</span>data<span style="color: #666666">.</span>joint_pos[:, asset_cfg<span style="color: #666666">.</span>joint_ids]
@@ -284,7 +284,7 @@ $$</p>
 <p>不直接输入角度有重要原因。<code>hinge_1</code> 是无限制铰链，杆可连续旋转；同一个物理朝向可能
 对应 $\pi$、$3\pi$、$5\pi$ 等不同数值。若直接输入角度，神经网络会把它们误以为非常
 不同；正余弦编码会为同一朝向给出相同且连续的表示。</p>
-<h3 id="3-cart_vel">3. <code>cart_vel</code>：小车当前的运动趋势<a class="headerlink" href="#3-cart_vel" title="Permanent link">&para;</a></h3>
+<h3 id="3-cart_vel">3. <code>cart_vel</code>：小车当前的运动趋势<a class="headerlink" href="#3-cart_vel" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;cart_vel&quot;</span>: ObservationTermCfg(
   func<span style="color: #666666">=</span>joint_vel_rel,
   params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: cart_cfg},
@@ -293,7 +293,7 @@ $$</p>
 
 <p>这是小车速度 $\dot{x}$。仅知道位置不能表示惯性：小车即使还在中间，也可能正在高速向右
 冲。策略必须知道它的速度，才能提前刹车、反向推力，避免小车越过合适位置。</p>
-<h3 id="4-pole_vel">4. <code>pole_vel</code>：杆倒下或回正的速度<a class="headerlink" href="#4-pole_vel" title="Permanent link">&para;</a></h3>
+<h3 id="4-pole_vel">4. <code>pole_vel</code>：杆倒下或回正的速度<a class="headerlink" href="#4-pole_vel" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;pole_vel&quot;</span>: ObservationTermCfg(
   func<span style="color: #666666">=</span>joint_vel_rel,
   params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: hinge_cfg},
@@ -307,7 +307,7 @@ $$</p>
 </ul>
 <p>从控制角度看，杆角度类似“偏差”，杆角速度类似“偏差变化速度”。策略会从训练中学习到
 类似 PD 控制器的反馈规律，但不会被显式写成固定公式。</p>
-<h2 id="actor-critic-observation-group">actor 与 critic 的 observation group<a class="headerlink" href="#actor-critic-observation-group" title="Permanent link">&para;</a></h2>
+<h2 id="actor-critic-observation-group">actor 与 critic 的 observation group<a class="headerlink" href="#actor-critic-observation-group" title="Permanent link"> </a></h2>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>observations <span style="color: #666666">=</span> {
   <span style="color: #BB4444">&quot;actor&quot;</span>: ObservationGroupCfg(actor_terms, enable_corruption<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>),
   <span style="color: #BB4444">&quot;critic&quot;</span>: ObservationGroupCfg({<span style="color: #666666">**</span>actor_terms}),
@@ -319,7 +319,7 @@ $$</p>
 <p>actor 的 <code>enable_corruption=True</code> 允许 observation term 注入噪声，以模拟真实编码器和
 速度估计的不准确性。当前每个 term 未设置具体 noise 配置，因此开关本身不会额外改变数值；
 它为后续加入噪声提供了入口。play 模式会关闭 actor corruption，以便稳定观察策略。</p>
-<h2 id="rewards">Rewards：让策略知道什么是好控制<a class="headerlink" href="#rewards" title="Permanent link">&para;</a></h2>
+<h2 id="rewards">Rewards：让策略知道什么是好控制<a class="headerlink" href="#rewards" title="Permanent link"> </a></h2>
 <p>本例只有一个名为 <code>smooth_reward</code> 的 reward term：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>rewards <span style="color: #666666">=</span> {
   <span style="color: #BB4444">&quot;smooth_reward&quot;</span>: RewardTermCfg(
@@ -337,7 +337,7 @@ $$</p>
 \text{step_dt}=0.01\times5=0.05\text{ s}。
 $$</p>
 <p>这使奖励更接近“每秒表现”而非“每个仿真步表现”，在改变控制频率时较稳定。</p>
-<h3 id="_3">奖励的整体结构<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="_3">奖励的整体结构<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>函数最终返回：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">return</span> upright <span style="color: #666666">*</span> centered <span style="color: #666666">*</span> small_control <span style="color: #666666">*</span> small_velocity
 </code></pre></div>
@@ -351,7 +351,7 @@ r = r_{\text{upright}}
 $$</p>
 <p>这四项都在 0 到 1 之间。使用乘法意味着“同时做好”比“某一项特别好”更重要：若杆已经
 倒下，直立项接近 0，其他项再好也救不了总分。</p>
-<h3 id="1-upright">1. <code>upright</code>：杆是否竖直<a class="headerlink" href="#1-upright" title="Permanent link">&para;</a></h3>
+<h3 id="1-upright">1. <code>upright</code>：杆是否竖直<a class="headerlink" href="#1-upright" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>pole_cos <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>cos(hinge_angle)
 upright <span style="color: #666666">=</span> (pole_cos <span style="color: #666666">+</span> <span style="color: #666666">1</span>) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
 </code></pre></div>
@@ -383,7 +383,7 @@ $$</p>
 </table>
 <p>这是最主要的目标信号。它是连续平滑的：策略即使还无法完全扶正杆，只要让杆从 30 度改善
 到 10 度，也会得到更高奖励。这种渐进反馈比“超过角度阈值才得分”的二元规则更容易训练。</p>
-<h3 id="2-centered">2. <code>centered</code>：小车是否留在可控区域<a class="headerlink" href="#2-centered" title="Permanent link">&para;</a></h3>
+<h3 id="2-centered">2. <code>centered</code>：小车是否留在可控区域<a class="headerlink" href="#2-centered" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>centered <span style="color: #666666">=</span> (<span style="color: #666666">1</span> <span style="color: #666666">+</span> _gaussian_tolerance(cart_pos, margin<span style="color: #666666">=2.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
 </code></pre></div>
 
@@ -391,7 +391,7 @@ $$</p>
 tolerance 约为 0.1。因此 <code>centered</code> 大致在 0.5 到 1 之间。</p>
 <p>这项的意思不是禁止小车移动，而是避免它在扶杆过程中逐渐跑到轨道尽头。最低仍保留约 0.5，
 体现了设计者的优先级：必要时先救杆，再慢慢让小车回到中央。</p>
-<h3 id="3-small_control">3. <code>small_control</code>：是否避免不必要的猛推<a class="headerlink" href="#3-small_control" title="Permanent link">&para;</a></h3>
+<h3 id="3-small_control">3. <code>small_control</code>：是否避免不必要的猛推<a class="headerlink" href="#3-small_control" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>control <span style="color: #666666">=</span> env<span style="color: #666666">.</span>action_manager<span style="color: #666666">.</span>action<span style="color: #666666">.</span>squeeze(<span style="color: #666666">-1</span>)
 small_control <span style="color: #666666">=</span> (<span style="color: #666666">4</span> <span style="color: #666666">+</span> _quadratic_tolerance(control, margin<span style="color: #666666">=1.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">5</span>
 </code></pre></div>
@@ -400,14 +400,14 @@ small_control <span style="color: #666666">=</span> (<span style="color: #666666
 当 $|u|\ge1$ 时，quadratic tolerance 降为 0，结果为 $4/5=0.8$。</p>
 <p>因此它不是严厉禁止大力，而是轻微偏好小动作。物理意义是避免小车持续左右猛冲和高频振荡；
 但杆即将倒下时，策略仍可以用大动作恢复平衡，不会因为这一项将总奖励完全归零。</p>
-<h3 id="4-small_velocity">4. <code>small_velocity</code>：杆是否真正稳定下来<a class="headerlink" href="#4-small_velocity" title="Permanent link">&para;</a></h3>
+<h3 id="4-small_velocity">4. <code>small_velocity</code>：杆是否真正稳定下来<a class="headerlink" href="#4-small_velocity" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>small_velocity <span style="color: #666666">=</span> (<span style="color: #666666">1</span> <span style="color: #666666">+</span> _gaussian_tolerance(hinge_vel, margin<span style="color: #666666">=5.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
 </code></pre></div>
 
 <p>当杆角速度 $\dot{\theta}=0$ 时，该项为 1；杆旋转越快，越接近 0.5。</p>
 <p>若只奖励“杆经过竖直位置”，策略可能让杆高速左右摆动，每次掠过竖直时获得高分，但从未稳定。
 该项明确鼓励杆在竖直附近安静下来，物理上相当于偏好有适当阻尼、不过冲的平衡过程。</p>
-<h2 id="_4">奖励如何塑造最终行为<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_4">奖励如何塑造最终行为<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>以下表格说明四项相乘的效果：</p>
 <table>
 <thead>
