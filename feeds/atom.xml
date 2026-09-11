@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>kamidox.github.io</title><link href="http://kamidox.github.io/" rel="alternate"></link><link href="http://kamidox.github.io/feeds/atom.xml" rel="self"></link><id>http://kamidox.github.io/</id><updated>2026-09-06T22:43:00+08:00</updated><entry><title>Microduck 平面走路强化训练的奖励函数分析</title><link href="http://kamidox.github.io/microduck-vel-reward.html" rel="alternate"></link><published>2026-09-06T22:43:00+08:00</published><updated>2026-09-06T22:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-06:/microduck-vel-reward.html</id><summary type="html">&lt;p&gt;Microduck 平面走路的强化训练时，其奖励函数是如何设计的？有什么物理意义？&lt;/p&gt;</summary><content type="html">&lt;h2 id="1"&gt;1. 文档范围&lt;a class="headerlink" href="#1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>kamidox.github.io</title><link href="http://kamidox.github.io/" rel="alternate"></link><link href="http://kamidox.github.io/feeds/atom.xml" rel="self"></link><id>http://kamidox.github.io/</id><updated>2026-09-11T19:44:00+08:00</updated><entry><title>当了一天的通缉犯</title><link href="http://kamidox.github.io/20260911.html" rel="alternate"></link><published>2026-09-11T19:44:00+08:00</published><updated>2026-09-11T19:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-11:/20260911.html</id><summary type="html">&lt;p&gt;活了大半辈子了，和警察打交道的次数，一个手都数得过来。没想到，这次当了一天的通缉犯。&lt;/p&gt;</summary><content type="html">&lt;p&gt;2026 年 9 月 10 日早上 9:43 分，收到公司门岗保安的电话，说有两个交警在楼下找我，要我马上下去。&lt;/p&gt;
+&lt;p&gt;挂完电话，我一脸狐疑，盘算着各种可能性。还没想清楚，远远地看到两个警察站在公司保安室。警察问了我的姓名后，打开挂在胸前的执法摄像头，一副采集“呈堂证供“的架势。第一句话，用非常严肃的语气，拷问道：昨天早上在吕岭路，发生了什么事情？&lt;/p&gt;
+&lt;p&gt;我被他的架势镇住了，大概讲了经过。警察二话不说，继续质问：为什么不接我们的电话？昨天我们联系了你一天，也打给你老婆，都不接。现在，有人报案，你被怀疑肇事逃逸，现在要暂扣你的车。&lt;/p&gt;
+&lt;p&gt;就这样，不由分说，把车子扣了，叫来一辆挂车运走了。我站在原地，在风中凌乱。&lt;/p&gt;
+&lt;h2 id="_1"&gt;事情的经过&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;事情得回到 9 月 9 日早上 7:16。开车上班，经过吕岭路，突然前方有人翻越隔离栅栏，横穿马上，吓得我马上急刹车。还好刹住了。然后，就听到一声细微的响声，感觉是后车追尾了，又感觉是和旁边的车剐蹭了。通过后视镜查看，离右边车道上的车还有 20cm，离后车也挺远，不像有物理接触的样子。&lt;/p&gt;
+&lt;p&gt;因为是早高峰，停在路中间，很快就会堵死。我把车慢慢靠右，想停下来，下车看一下。突然脑子犹豫了一下，一来，刚才的声音非常小，不像发生了物理接触；二来，公司车位紧张，晚到就没地方停。电光火石的一瞬间，侥幸心理占了上风，没有停车，就直接开走了。&lt;/p&gt;
+&lt;p&gt;到了公司，下车察看，真的剐到了。车的右侧面被剐掉了两小块漆皮。很轻微。心里暗暗不爽，早知道停车了。再转念一想，应该是后车来不及刹车，追尾剐蹭到的，对方全责，这回便宜他了。我只能自认倒霉了。&lt;/p&gt;
+&lt;p&gt;虽然心疼，也没多想，就去上班了。早上一堆事情等着处理。&lt;/p&gt;
+&lt;h2 id="_2"&gt;漏接电话&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;后来和交警交流，才知道 9 日交警联系了我一天，打了我一天电话，都没找到人。还找到我老婆电话，一样挂掉不接。我 9 日非常忙，隐约觉得有个陌生号码，打了很多次，但都没重视。等到晚上，处理完事情，想起这个陌生电话，犹豫着要不要打回去。一想，现在这么晚了，说不定也是个骚扰电话呢，有正事，明天肯定会再打过来，先不管了。&lt;/p&gt;
+&lt;p&gt;就这样当了一天的肇事逃逸的通缉犯。警察质问我 N 遍：为什么不接电话。&lt;/p&gt;
+&lt;h2 id="_3"&gt;事件结局&lt;a class="headerlink" href="#_3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;我原以为，是对方全责。我没停车，是他赚到了。没想到，后面交警调取了行车纪录仪的录像，发现是我的全责。我为了躲避行人，有个轻微的右拐避让动作，车子已经压住车道线，进入大巴的车道了。大巴车司机报警，告我肇事逃逸，找了一天找不到，所有人都很生气，交警差点就立案了。&lt;/p&gt;
+&lt;p&gt;所幸，10 日找到人之后，我积极配合，和当事人直接通过手机完成调解。花钱买教训。&lt;/p&gt;
+&lt;p&gt;真是离奇的经历。聪明的你，从这个故事里学到了哪些经验教训？留言聊聊。&lt;/p&gt;</content><category term="daily"></category><category term="每日随笔"></category></entry><entry><title>Microduck 平面走路强化训练的奖励函数分析</title><link href="http://kamidox.github.io/microduck-vel-reward.html" rel="alternate"></link><published>2026-09-06T22:43:00+08:00</published><updated>2026-09-06T22:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-06:/microduck-vel-reward.html</id><summary type="html">&lt;p&gt;Microduck 平面走路的强化训练时，其奖励函数是如何设计的？有什么物理意义？&lt;/p&gt;</summary><content type="html">&lt;h2 id="1"&gt;1. 文档范围&lt;a class="headerlink" href="#1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;本文解释 &lt;a href="https://github.com/pollen-robotics/microduck_rl"&gt;microduck_rl&lt;/a&gt; 中注册为 &lt;code&gt;Mjlab-Velocity-Flat-MicroDuck&lt;/code&gt; 的平地速度控制任务所使用的奖励函数。&lt;/p&gt;
 &lt;p&gt;任务注册入口位于：&lt;/p&gt;
 &lt;ul&gt;
@@ -8294,19 +8309,4 @@ Please&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;input&lt;span style="colo
 &lt;/blockquote&gt;
 &lt;p&gt;这里的点，在当时的情境下，可能都是瞎忙。&lt;/p&gt;
 &lt;p&gt;我们在公司里上着班，做着不痛不痒的工作。为什么不利用闲暇时间瞎忙一下呢？人工智能很有神奇，为什么不了解一下机器学习的算法和原理呢？前端开发技术一日千里，为什么不花点时间看看这些层出不穷的前端框架有什么区别，如何解决开发过程中的问题？后端开发怎么解决海量并发问题的？海量数据是怎么存储和检索的？甚至可以花点时间学学画画，我们的画画水平和 10 岁的小孩基本没有差别，想想都觉得有点惭愧。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;但行好事，莫问前程。愿好奇心不泯，愿有时间瞎忙&lt;/strong&gt;。&lt;/p&gt;</content><category term="essay"></category><category term="thought"></category></entry><entry><title>跑者蓝调</title><link href="http://kamidox.github.io/running.html" rel="alternate"></link><published>2016-03-26T21:22:00+08:00</published><updated>2016-03-26T21:22:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2016-03-26:/running.html</id><summary type="html">&lt;p&gt;不知不觉已经坚持慢跑一年有余，大概因为觉得主动长期坚持一件枯燥的事情，总会有点感悟，总觉得应该写点什么，可似乎又无从谈起。看完村上春树的《当我谈跑步时我谈些什么》，似乎找到了一些知音的感觉，还是决定写点什么吧。&lt;/p&gt;</summary><content type="html">&lt;p&gt;不知不觉已经坚持慢跑一年有余，大概因为觉得主动长期坚持一件枯燥的事情，总会有点感悟，总觉得应该写点什么，可似乎又无从谈起。看完村上春树的《当我谈跑步时我谈些什么》，似乎找到了一些知音的感觉，还是决定写点什么吧。&lt;/p&gt;
-&lt;p&gt;我们常说，真理掌握在少数人手上，大概是真理太少了的缘故。有些时候，我们手握真理，却没有足够的自信臣服于她，非得等自带光环的人说出同样的话来，我们才恍然大悟，原来这就是真理。跑步是枯燥的，跑步是痛苦的，至少对肉体而言。这一近乎真理的结论，我们大部分时间都不愿意承认它。跑步怎么这么枯燥，这么痛苦，一定是哪里出了问题，这么痛苦的事情怎么会有人坚持下去？我刚开始跑步的时候经常这么反问自己。幸好由于一些别的原因，虽然痛苦，但还是咬着牙坚持了下来。读完《当我谈跑步时我谈些什么》后，突然豁然开朗，跑步大概就是痛苦的。某种意义上，正是因为有了痛苦和枯燥，才让跑步更迷人。就像辣椒，辣椒素会刺激口腔细胞，引起灼烧般的痛感，多少人沉迷于这种痛感啊。&lt;/p&gt;
-&lt;p&gt;最近一年，我认真地跑着。跑量没有村上春树那么大，但基本符合他所定义的认真二字。除了天气原因，跑步计划雷打不动，至今己累积 1300 多公里的跑量。有一次穿完跑鞋，到楼下才发现下大雨了，索性就改为跑着爬楼梯，爬了 20 趟八层楼。接下来的整整一星期，小腿肌肉都在罢工，基本无法走路，但很奇怪的是可以慢跑。大概是因为平时慢跑训练出来的肌肉群承受力足够强，但爬楼梯用到的肌肉群毕竟和跑步用到的不一样，那些养尊处优的肌肉群冷不丁经历了这么大的运动量，不罢工才怪。以前要是有人跟我说，他没办法走路，但可以慢跑，我大概是无法相信的。在小腿肌肉罢工无法走路的一星期里，我还是坚持跑了两次六公里。&lt;/p&gt;
-&lt;p&gt;另外一次，我原想跑十公里，结果跑了六公里就下起了小雨。纠结了一下，突然想起一直以来想体验一下雨中狂奔的感觉，就索性继续跑下去了。清凉的雨水砸在脸上，身体慢慢地冷却了下来。可能是本能想要躲雨，速度也慢慢地提了上去。大口吸进湿润又清新的空气，肺像大脚油门轰下去的发动机，持续地输出氧气到全身细胞。注意力慢慢地从涣散状态集中到雨滴和脚步上，内心憋着一口气，想要快点结束战斗，回到温暖的家中。周遭的环境突然变得模糊起来，所有的意念只有雨滴和脚步，所有的愿力，都是想办法用最快的速度跑到前方的三米的地方。就这么机械地跑着，世界变得简单明了，只剩脸上的雨滴和脚下的步伐，世间的纷扰，得以暂时褪去。耳机里响起十公里的距离播报时，突然松了一口气，终于不用再跑啦。做完拉伸，回到家中，跟妻子说刚才跑着跑着感觉进入了深度冥想状态。妻子嘲笑着说，你跑步还能跑出高潮来。&lt;/p&gt;
-&lt;p&gt;对于怎么样把枯燥而又痛苦的跑步坚持下来这件事，我也说不准。大概是为了享受跑完步后的轻松感觉。心里庆幸，终于不用再跑下去了。和跑步过程中和肌肉，心肺进行艰苦斗争相比，不用再跑下去了大概是最轻松，最让人高兴的事情了。这种经历痛苦后的轻松和常态的轻松是不可同日而语的。就像大病初愈的人，会感叹原来没有生病的日子是这么的美好，而且往往会感慨之前没生病时怎么就体会不到这种美好。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;只想将身体感受到的愉悦尽量维持到第二天。&amp;mdash;村上春树&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;对我来讲，这大概是跑步的最大动力来源了。为了快乐，我们先要经历痛苦，这样的痛苦也就显得没那么难熬了。就像凤凰涅槃一样，每一次竭尽全力地长跑过后，都感觉重生了一次。这大概也是那么多人痴迷马拉松的原因之一吧。&lt;/p&gt;
-&lt;p&gt;我有个习惯，每次跑步之前拉伸时，都会宗教仪式般虔诚地在心里设定本次跑步的距离。然后每次都竭尽全力达成目标。有一次，本来只想跑六公里，跑完后感觉体力还富余很多，就想着要不跑十公里吧。结果最后的四公里跑起来异常痛苦，本来只需要集中精力好好地哄骗肌肉就好，这回还要和内心的愿力纠缠：本来跑完六公里就轻松了，这回还要再跑这么久。一旦愿力不足，执行起来就容易走样，被哄骗的肌肉就会起来造反。所幸最后的底线还是坚持住了：在承认错误之前，说到的一定做到。跑完十公里，那种轻松感比一开始就发愿跑十公里的轻松感更为强烈。成就和高度总是有代价的，而且往往和磨难成正比。&lt;/p&gt;
-&lt;p&gt;跑步过程中，我一般会听着歌，但其实只是把它当背景音乐而已，没有进入音乐所要表达的情感里。伴随着机械的脚步，大脑基本处于游离状态，不停地窜出各种思绪，然后一个个地飘然而去。有时候会认真地构思一篇文章，默默地遣词造句。有时候会反思过往，就像老牛反刍，偶有所得，但也仅限于此，该忘却的一刻都强留不住。更多的时候在思考人生，这种和自己赤身祼体地对话，谈不上多喜欢，但实在是没别的可做了。偶尔还会把注意力集中在前方一米远的地板上，数着脚步前进。偶尔会听着耳边呼呼的风，偶尔会注意自己的呼吸节奏和深度，偶尔哄哄哀鸣的肌肉。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;我心中滋生的新东西究竟是什么？我寻觅不到恰如其分的表达，不过，许是近乎“心灰意冷”的东西。说得夸张些，由于跑完了一百公里，我似乎一脚踏进了“稍稍不同的场所”。跑过七十五公里，疲劳感突然销声匿迹后，那段意识的空白之中，甚至存有某种哲学或宗教的妙趣。其中有强迫我内省的东西。&amp;mdash;村上春树&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;村上春树所描述的“跑者蓝调”的东西，大概就是这样的吧。我不知道为什么起了这么个名字，大概和蓝调爵士一样，你沉浸其中，轻松惬意，偶有所感，时而轻吟，偶尔高吭，但你竟找不到恰当地词来准确地描述它。&lt;/p&gt;
-&lt;p&gt;如果硬要问我为什么喜欢跑步，大概就是这个叫跑者蓝调的东西吧。&lt;/p&gt;</content><category term="essay"></category><category term="thought"></category></entry></feed>
+&lt;p&gt;&lt;strong&gt;但行好事，莫问前程。愿好奇心不泯，愿有时间瞎忙&lt;/strong&gt;。&lt;/p&gt;</content><category term="essay"></category><category term="thought"></category></entry></feed>
