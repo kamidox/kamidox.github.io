@@ -1,5 +1,322 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>kamidox.github.io</title><link href="http://kamidox.github.io/" rel="alternate"></link><link href="http://kamidox.github.io/feeds/atom.xml" rel="self"></link><id>http://kamidox.github.io/</id><updated>2026-10-01T23:43:00+08:00</updated><entry><title>强化学习中的值函数与 Q 函数</title><link href="http://kamidox.github.io/v-q-function.html" rel="alternate"></link><published>2026-10-01T23:43:00+08:00</published><updated>2026-10-01T23:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-01:/v-q-function.html</id><summary type="html">&lt;p&gt;一文讲清楚强化学习中的值函数和 Q 函数&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;一、总览：它们解决什么问题？&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>kamidox.github.io</title><link href="http://kamidox.github.io/" rel="alternate"></link><link href="http://kamidox.github.io/feeds/atom.xml" rel="self"></link><id>http://kamidox.github.io/</id><updated>2026-10-02T10:43:00+08:00</updated><entry><title>Q-Learning 算法原理及示例</title><link href="http://kamidox.github.io/q-learning.html" rel="alternate"></link><published>2026-10-02T10:43:00+08:00</published><updated>2026-10-02T10:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/q-learning.html</id><summary type="html">&lt;p&gt;一文讲清楚 Q-Learning 算法原理，并通过一个可运行的案例，直观感受算法成果&lt;/p&gt;</summary><content type="html">&lt;h2 id="q-learning"&gt;一、直觉：Q-Learning 到底在干嘛？&lt;a class="headerlink" href="#q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="_1"&gt;核心思想一句话&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Q-Learning 是在学一张表（Q-Table），表里每个格子回答一个问题：&lt;/strong&gt;
+&lt;strong&gt;&amp;ldquo;在状态 s 下，采取动作 a，我预期未来总共能拿多少分？&amp;rdquo;&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这个&amp;rdquo;预期总分&amp;rdquo;就叫 &lt;strong&gt;Q 值（Quality Value）&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id="_2"&gt;一个生活类比：选餐厅&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;状态（你在哪条街）&lt;/th&gt;
+&lt;th&gt;动作（去哪家店）&lt;/th&gt;
+&lt;th&gt;Q 值（预期体验分）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;商业街&lt;/td&gt;
+&lt;td&gt;去火锅店&lt;/td&gt;
+&lt;td&gt;8.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;商业街&lt;/td&gt;
+&lt;td&gt;去沙拉店&lt;/td&gt;
+&lt;td&gt;6.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;居民区&lt;/td&gt;
+&lt;td&gt;去火锅店&lt;/td&gt;
+&lt;td&gt;5.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;居民区&lt;/td&gt;
+&lt;td&gt;去沙拉店&lt;/td&gt;
+&lt;td&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;你每去一次，根据实际体验&lt;strong&gt;更新&lt;/strong&gt;表格里的分数。去多了，表格越来越准，你就知道&amp;rdquo;在哪条街该去哪家店&amp;rdquo;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id="q"&gt;为什么叫&amp;rdquo;Q&amp;rdquo;？&lt;a class="headerlink" href="#q" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Q = &lt;strong&gt;Quality（质量）&lt;/strong&gt;，就是&amp;rdquo;这个动作的质量分&amp;rdquo;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="q-learning_1"&gt;二、数学：Q-Learning 更新公式&lt;a class="headerlink" href="#q-learning_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="q_1"&gt;Q 表结构&lt;a class="headerlink" href="#q_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Q&lt;span style="color: #666666"&gt;[&lt;/span&gt;state&lt;span style="color: #666666"&gt;][&lt;/span&gt;action&lt;span style="color: #666666"&gt;]&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;预期未来累计奖励
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="bellman-equation"&gt;核心更新公式（Bellman Equation）&lt;a class="headerlink" href="#bellman-equation" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;$$ Q(s,a) \leftarrow Q(s,a) + \alpha \left[ r + \gamma \max_{a&amp;rsquo;} Q(s&amp;rsquo;,a&amp;rsquo;) - Q(s,a) \right] $$&lt;/p&gt;
+&lt;p&gt;拆开看每个符号：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;符号&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;$Q(s,a)$&lt;/td&gt;
+&lt;td&gt;当前 Q 表中 (s,a) 的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$\alpha$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;学习率&lt;/strong&gt;（0~1），控制更新幅度&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$r$&lt;/td&gt;
+&lt;td&gt;执行动作后&lt;strong&gt;立即&lt;/strong&gt;拿到的奖励&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$\gamma$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;折扣因子&lt;/strong&gt;（0~1），未来奖励的权重&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$\max_{a&amp;rsquo;} Q(s&amp;rsquo;,a&amp;rsquo;)$&lt;/td&gt;
+&lt;td&gt;下一个状态 $s&amp;rsquo;$ 中&lt;strong&gt;最好的动作的 Q 值&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$r + \gamma \max Q(s&amp;rsquo;,a&amp;rsquo;)$&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;TD 目标（Target）&lt;/strong&gt;——&amp;ldquo;我期望拿到的总分&amp;rdquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;$[]$ 里的整体&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;TD 误差（TD Error）&lt;/strong&gt;——&amp;ldquo;预期和实际的差距&amp;rdquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="_3"&gt;直觉理解更新公式&lt;a class="headerlink" href="#_3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;新 Q = 旧 Q + 学习率 × (实际拿到的 + 未来最好的 − 旧 Q)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;就像你考试估分：你估了 80 分（旧 Q），结果考了 90 分（TD 目标），下次估分就往 90 靠一点。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id="-greedy"&gt;ε-贪心（ε-Greedy）探索策略&lt;a class="headerlink" href="#-greedy" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;策略&lt;/th&gt;
+&lt;th&gt;做什么&lt;/th&gt;
+&lt;th&gt;概率&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;探索（Explore）&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;随机选动作&lt;/td&gt;
+&lt;td&gt;ε（比如 10%）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;利用（Exploit）&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;选 Q 值最高的动作&lt;/td&gt;
+&lt;td&gt;1-ε（比如 90%）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;纯随机永远学不会，纯贪心永远困在局部最优。&lt;strong&gt;ε-贪心 = 两者平衡。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2 id="python-312-taxi-v4"&gt;三、完整 Python 3.12 实现（Taxi-v4）&lt;a class="headerlink" href="#python-312-taxi-v4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="taxi-v4"&gt;环境说明：Taxi-v4&lt;a class="headerlink" href="#taxi-v4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;状态&lt;/strong&gt;：出租车位置 + 乘客位置 + 目的地（共 500 种状态）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;动作&lt;/strong&gt;：向南/北/东/西/接客/放客（6 种）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;目标&lt;/strong&gt;：最短时间内把乘客送到目的地&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;奖励&lt;/strong&gt;：每步 -1，非法动作 -10，成功 +20&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h3 id="_4"&gt;完整代码（直接复制运行）&lt;a class="headerlink" href="#_4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;以下代码，在 Python 3.12 + Gymnasium 1.3.0 验证通过。&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;Q-Learning on Taxi-v4&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;Python 3.12 + Gymnasium 1.3.0&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;gymnasium&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;gym&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;numpy&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;np&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;random&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;from&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;collections&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; defaultdict
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 超参数 ====================&lt;/span&gt;
+ALPHA &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.1&lt;/span&gt;          &lt;span style="color: #008800; font-style: italic"&gt;# 学习率 α&lt;/span&gt;
+GAMMA &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.99&lt;/span&gt;         &lt;span style="color: #008800; font-style: italic"&gt;# 折扣因子 γ&lt;/span&gt;
+EPSILON &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;1.0&lt;/span&gt;        &lt;span style="color: #008800; font-style: italic"&gt;# 初始探索率 ε&lt;/span&gt;
+EPSILON_DECAY &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.995&lt;/span&gt;  &lt;span style="color: #008800; font-style: italic"&gt;# ε 衰减&lt;/span&gt;
+EPSILON_MIN &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.01&lt;/span&gt;   &lt;span style="color: #008800; font-style: italic"&gt;# ε 最小值&lt;/span&gt;
+EPISODES &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;2000&lt;/span&gt;      &lt;span style="color: #008800; font-style: italic"&gt;# 训练回合数&lt;/span&gt;
+MAX_STEPS &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;200&lt;/span&gt;      &lt;span style="color: #008800; font-style: italic"&gt;# 每回合最大步数&lt;/span&gt;
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 初始化 ====================&lt;/span&gt;
+env &lt;span style="color: #666666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666666"&gt;.&lt;/span&gt;make(&lt;span style="color: #BB4444"&gt;&amp;quot;Taxi-v4&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #008800; font-style: italic"&gt;# Q 表：用 defaultdict 代替 np.zeros，避免状态空间全分配&lt;/span&gt;
+Q &lt;span style="color: #666666"&gt;=&lt;/span&gt; defaultdict(&lt;span style="color: #AA22FF; font-weight: bold"&gt;lambda&lt;/span&gt;: np&lt;span style="color: #666666"&gt;.&lt;/span&gt;zeros(env&lt;span style="color: #666666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666666"&gt;.&lt;/span&gt;n))
+
+episode_rewards &lt;span style="color: #666666"&gt;=&lt;/span&gt; []
+episode_steps &lt;span style="color: #666666"&gt;=&lt;/span&gt; []
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== ε-贪心策略 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;epsilon_greedy&lt;/span&gt;(state, epsilon):
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; random&lt;span style="color: #666666"&gt;.&lt;/span&gt;random() &lt;span style="color: #666666"&gt;&amp;lt;&lt;/span&gt; epsilon:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666666"&gt;.&lt;/span&gt;sample()  &lt;span style="color: #008800; font-style: italic"&gt;# 探索&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;else&lt;/span&gt;:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;int&lt;/span&gt;(np&lt;span style="color: #666666"&gt;.&lt;/span&gt;argmax(Q[state]))   &lt;span style="color: #008800; font-style: italic"&gt;# 利用&lt;/span&gt;
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 训练循环 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; episode &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(EPISODES):
+    state, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;reset()
+    total_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+    steps &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; step &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(MAX_STEPS):
+        &lt;span style="color: #008800; font-style: italic"&gt;# 1. 选动作&lt;/span&gt;
+        action &lt;span style="color: #666666"&gt;=&lt;/span&gt; epsilon_greedy(state, EPSILON)
+
+        &lt;span style="color: #008800; font-style: italic"&gt;# 2. 执行动作&lt;/span&gt;
+        next_state, reward, terminated, truncated, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;step(action)
+        done &lt;span style="color: #666666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #AA22FF; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+        &lt;span style="color: #008800; font-style: italic"&gt;# 3. 更新 Q 表（核心！）&lt;/span&gt;
+        &lt;span style="color: #008800; font-style: italic"&gt;# Q(s,a) ← Q(s,a) + α [r + γ max Q(s&amp;#39;,a&amp;#39;) - Q(s,a)]&lt;/span&gt;
+        old_q &lt;span style="color: #666666"&gt;=&lt;/span&gt; Q[state][action]
+        max_next_q &lt;span style="color: #666666"&gt;=&lt;/span&gt; np&lt;span style="color: #666666"&gt;.&lt;/span&gt;max(Q[next_state])
+        td_target &lt;span style="color: #666666"&gt;=&lt;/span&gt; reward &lt;span style="color: #666666"&gt;+&lt;/span&gt; GAMMA &lt;span style="color: #666666"&gt;*&lt;/span&gt; max_next_q
+        Q[state][action] &lt;span style="color: #666666"&gt;=&lt;/span&gt; old_q &lt;span style="color: #666666"&gt;+&lt;/span&gt; ALPHA &lt;span style="color: #666666"&gt;*&lt;/span&gt; (td_target &lt;span style="color: #666666"&gt;-&lt;/span&gt; old_q)
+
+        &lt;span style="color: #008800; font-style: italic"&gt;# 4. 转移&lt;/span&gt;
+        state &lt;span style="color: #666666"&gt;=&lt;/span&gt; next_state
+        total_reward &lt;span style="color: #666666"&gt;+=&lt;/span&gt; reward
+        steps &lt;span style="color: #666666"&gt;+=&lt;/span&gt; &lt;span style="color: #666666"&gt;1&lt;/span&gt;
+
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; done:
+            &lt;span style="color: #AA22FF; font-weight: bold"&gt;break&lt;/span&gt;
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# ε 衰减&lt;/span&gt;
+    EPSILON &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;max&lt;/span&gt;(EPSILON_MIN, EPSILON &lt;span style="color: #666666"&gt;*&lt;/span&gt; EPSILON_DECAY)
+
+    episode_rewards&lt;span style="color: #666666"&gt;.&lt;/span&gt;append(total_reward)
+    episode_steps&lt;span style="color: #666666"&gt;.&lt;/span&gt;append(steps)
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 每 100 回合打印一次&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; (episode &lt;span style="color: #666666"&gt;+&lt;/span&gt; &lt;span style="color: #666666"&gt;1&lt;/span&gt;) &lt;span style="color: #666666"&gt;%&lt;/span&gt; &lt;span style="color: #666666"&gt;100&lt;/span&gt; &lt;span style="color: #666666"&gt;==&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;:
+        avg_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; np&lt;span style="color: #666666"&gt;.&lt;/span&gt;mean(episode_rewards[&lt;span style="color: #666666"&gt;-100&lt;/span&gt;:])
+        avg_steps &lt;span style="color: #666666"&gt;=&lt;/span&gt; np&lt;span style="color: #666666"&gt;.&lt;/span&gt;mean(episode_steps[&lt;span style="color: #666666"&gt;-100&lt;/span&gt;:])
+        &lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;f&amp;quot;Episode &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;episode&lt;span style="color: #666666"&gt;+1&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;4d&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Avg Reward: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;avg_reward&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;7.1f&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Avg Steps: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;avg_steps&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;5.1f&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Epsilon: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;EPSILON&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;.3f&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;)
+
+
+env&lt;span style="color: #666666"&gt;.&lt;/span&gt;close()
+&lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;✅ 训练完成！&amp;quot;&lt;/span&gt;)
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 测试（无探索） ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;🎮 开始测试...&amp;quot;&lt;/span&gt;)
+test_env &lt;span style="color: #666666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666666"&gt;.&lt;/span&gt;make(&lt;span style="color: #BB4444"&gt;&amp;quot;Taxi-v4&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;human&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; test_ep &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(&lt;span style="color: #666666"&gt;5&lt;/span&gt;):
+    state, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;reset()
+    total_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+    done &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;False&lt;/span&gt;
+
+    &lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;f&amp;quot;&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;--- Test Episode &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;test_ep&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;+&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;1&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; ---&amp;quot;&lt;/span&gt;)
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;not&lt;/span&gt; done:
+        action &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;int&lt;/span&gt;(np&lt;span style="color: #666666"&gt;.&lt;/span&gt;argmax(Q[state]))  &lt;span style="color: #008800; font-style: italic"&gt;# 纯贪心，不探索&lt;/span&gt;
+        state, reward, terminated, truncated, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;step(action)
+        total_reward &lt;span style="color: #666666"&gt;+=&lt;/span&gt; reward
+        done &lt;span style="color: #666666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #AA22FF; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+    &lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;f&amp;quot;Total Reward: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;total_reward&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;)
+
+test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="_5"&gt;四、运行结果你应该看到什么&lt;a class="headerlink" href="#_5" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Episode  100 | Avg Reward:  -350.2 | Avg Steps: 200.0 | Epsilon: 0.605
+Episode  200 | Avg Reward:  -180.5 | Avg Steps: 180.0 | Epsilon: 0.366
+Episode  300 | Avg Reward:   -45.3 | Avg Steps:  95.0 | Epsilon: 0.222
+Episode  400 | Avg Reward:     8.7 | Avg Steps:  45.0 | Epsilon: 0.134
+...
+Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;前期&lt;/strong&gt;：ε 大，随机探索，reward 很低（甚至 -200 封顶）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中期&lt;/strong&gt;：开始学到&amp;rdquo;接客→送到目的地&amp;rdquo;的路径，reward 转正&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;后期&lt;/strong&gt;：ε 很小，几乎纯贪心，reward 稳定在 +8~+12（说明 20 分奖励 - 约 12 步 × 1 = 8）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2 id="q-learning_2"&gt;五、Q-Learning 的优缺点&lt;a class="headerlink" href="#q-learning_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;优点&lt;/th&gt;
+&lt;th&gt;缺点&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;原理简单，代码短&lt;/td&gt;
+&lt;td&gt;只能处理&lt;strong&gt;离散&lt;/strong&gt;状态/动作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;理论保证收敛（条件满足时）&lt;/td&gt;
+&lt;td&gt;状态空间大了 Q 表存不下&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;不需要环境模型（model-free）&lt;/td&gt;
+&lt;td&gt;收敛慢&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;状态空间大了怎么办？&lt;/strong&gt; → 用 Deep Q-Network (DQN)，用神经网络代替 Q 表。这就是下一阶段要学的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2 id="_6"&gt;六、关键概念速查&lt;a class="headerlink" href="#_6" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;概念&lt;/th&gt;
+&lt;th&gt;一句话&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Q-Table&lt;/td&gt;
+&lt;td&gt;状态×动作的二维表，存预期总分&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TD Target&lt;/td&gt;
+&lt;td&gt;$r + \gamma \max Q(s&amp;rsquo;,a&amp;rsquo;)$，当前这一步的&amp;rdquo;正确答案&amp;rdquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TD Error&lt;/td&gt;
+&lt;td&gt;Target − 旧 Q，误差&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ε-Greedy&lt;/td&gt;
+&lt;td&gt;平衡探索和利用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Off-policy&lt;/td&gt;
+&lt;td&gt;用别人的经验（比如随机策略）也能学&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</content><category term="ai"></category><category term="rl"></category></entry><entry><title>强化学习中的值函数与 Q 函数</title><link href="http://kamidox.github.io/v-q-function.html" rel="alternate"></link><published>2026-10-01T23:43:00+08:00</published><updated>2026-10-01T23:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-01:/v-q-function.html</id><summary type="html">&lt;p&gt;一文讲清楚强化学习中的值函数和 Q 函数&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;一、总览：它们解决什么问题？&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;在强化学习（RL）中，智能体（Agent）通过与环境交互来学习&lt;strong&gt;“在某个状态下，做什么动作最好”&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;值函数（Value Function）和 Q 函数（Action-Value Function / Q-function）就是用来&lt;strong&gt;量化“好”的程度&lt;/strong&gt;的数学工具，是 RL 决策的核心依据。&lt;/p&gt;
 &lt;hr /&gt;
@@ -22,8 +339,8 @@
 &lt;td&gt;动作空间（Action space）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;$P(s&amp;rsquo;&lt;/td&gt;
-&lt;td&gt;s,a)$&lt;/td&gt;
+&lt;td&gt;$P(s&amp;rsquo;|s,a)$&lt;/td&gt;
+&lt;td&gt;状态转移概率：在状态 $s$ 执行动作 $a$ 后转移到 $s&amp;rsquo;$ 的概率&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;$R(s,a,s&amp;rsquo;)$ 或 $R(s,a)$&lt;/td&gt;
@@ -8473,45 +8790,4 @@ Please&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;input&lt;span style="colo
 &lt;h2 id="vpn_2"&gt;客户端配置 VPN&lt;a class="headerlink" href="#vpn_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;在 macOS 上，新建一个 VPN，&lt;code&gt;VPN Type&lt;/code&gt; 选择 &lt;code&gt;Cisco IPSec&lt;/code&gt;。输入 VPN 服务器地址或域名，以及用户名和密码 (STEP 4 里添加的用户名和密码)。点击 &lt;code&gt;Authentication Settings ...&lt;/code&gt; ，在弹出的窗口里的 &lt;code&gt;Shared Secret&lt;/code&gt; 里输出 PSK (STEP 3 里设置的密码)。这样就可以上网了。&lt;/p&gt;
 &lt;p&gt;在 iOS 上，进入 &lt;code&gt;设置 -&amp;gt; 通用 -&amp;gt; VPN -&amp;gt; 添加 VPN 配置...&lt;/code&gt;，类型选择 &lt;code&gt;IPSec&lt;/code&gt;，输入用户名密码以及 PSK 即可完成配置。&lt;/p&gt;
-&lt;h2 id="_2"&gt;尽情冲浪吧~~~&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;</content><category term="tools"></category><category term="tools"></category></entry><entry><title>跨平台 App 开发技术方案汇总</title><link href="http://kamidox.github.io/cross-platform-app-dev.html" rel="alternate"></link><published>2016-10-23T01:13:00+08:00</published><updated>2016-10-23T01:13:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2016-10-23:/cross-platform-app-dev.html</id><summary type="html">&lt;p&gt;跨平台 App 开发有哪些技术方案，各有哪些优缺点？是否需要从原生 App 开发切换到这些跨平台的方案上来？切换过去能节省多少工作量？&lt;/p&gt;</summary><content type="html">&lt;h2 id="hybrid"&gt;Hybrid 技术&lt;a class="headerlink" href="#hybrid" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;这类技术，使用 HTML/CSS/JavaScript 等前端技术来构建 App。利用 JSBridge 获取部分访问原生 API 的能力。最有代表性的是 &lt;a href="http://phonegap.com"&gt;PhoneGap&lt;/a&gt;，它是 Adobe 收购一家开源创业公司后推出的平台。&lt;a href="http://blog.ionic.io/what-is-cordova-phonegap/"&gt;这个链接&lt;/a&gt;有 PhoneGap 的一些历史信息。&lt;/p&gt;
-&lt;p&gt;这类平台的目标是保持大部分代码跨平台共用，涉及到平台不共用的 API （比如 GPS 接口，iOS 和 Android 肯定是不一样的），则由 PhoneGap 平台通过 JSBridge 提供。除此之外，还有一些明显的优点：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;开发效率较高：使用 HTML/CSS/JavaScript 构建界面的效率要比原生 App 速度快很多。而且前端开发有一堆现成的框架和开源库可以直接使用。&lt;/li&gt;
-&lt;li&gt;即时更新：有 Bug 可以快速更新，不需要发布新 App，只需要更新服务器上更新相关的 HTML/CSS/JavaScript 即可。可以绕过 AppStore 的上架认证时间。&lt;/li&gt;
-&lt;li&gt;开发门槛低：对于前端开发工程师，可以快速转岗，开发出可用的 App，不需要对 iOS 平台和 Android 平台有太深入的了解。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这类平台的硬伤是：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;单线程：JavaScript 在 WebView 里执行时是单线程的。对系统并发能力有较大的影响。&lt;/li&gt;
-&lt;li&gt;性能低：大概只能达到原生 App 70% 的流畅度。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;a href="http://blog.csdn.net/pzhtpf/article/details/25326397"&gt;这篇文章&lt;/a&gt;对几个热门的 Hybrid 平台进行了对比和介绍。&lt;/p&gt;
-&lt;p&gt;为了克服 Hybrid 的缺点，目前工程应用上典型的做法是，以原生 App 为主，把易变的逻辑，以及界面，不涉及性能瓶颈的部分使用基于 WebView 的 Hybrid 技术来开发。&lt;/p&gt;
-&lt;h2 id="_1"&gt;准原生平台&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;为了解决 Hybrid 的问题，一些其他的方案逐步流行起来，最火的要算 &lt;a href="https://facebook.github.io/react-native/"&gt;React-Native&lt;/a&gt;，它是 Facebook 基于其前端框架 &lt;a href="https://facebook.github.io/react/index.html"&gt;React&lt;/a&gt; 之上构建的跨平台 App 开发构架。&lt;/p&gt;
-&lt;p&gt;这类平台的特点是，只使用 JavaScript 来构建界面，但实际上构建出来的所有界面都是系统原生控件。这是和 Hybrid 平台最大的区别。在 Hybrid 平台，一个按钮就是 HTML 构建出来的，但在 React-Native 平台，一个按钮是在各自的平台 (Android/iOS) 上以原生控件的形式渲染出来的。&lt;/p&gt;
-&lt;p&gt;这类平台最大的优势是：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;跨平台开发界面及业务逻辑：以前端工程师熟悉的构架和技术，以一致的方式构建界面和业务逻辑。&lt;/li&gt;
-&lt;li&gt;即时更新：可以把业务逻辑放在 JavaScript 里，这样就可以直接在线更新功能。&lt;/li&gt;
-&lt;li&gt;性能较高：比 Hybrid 性能高，大概能达到原生 App 90% 的流畅度。&lt;/li&gt;
-&lt;li&gt;开发效率较高：可以使用前端技术快速构建界面。比如，熟悉 React 框架的人，可以无障碍地在 React-Native 下构建界面和业务逻辑。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这类平台和 Hybrid 相比，跟原生平台靠得更近一些，更多地依赖原生平台的一些知识。比如，很多机制，其实还是要分 iOS 平台和 Android 平台的。即无法做到真正的跨平台开发，在利用 React-Native 这类构架时，还是需要对目标平台有较深入的理解。&lt;/p&gt;
-&lt;p&gt;除了 React-Native 之外，比较著名的还有 &lt;a href="http://alibaba.github.io/weex/"&gt;Weex&lt;/a&gt; 这是 alibaba 出品的一个构架，它是基于最近火热的前端构架 Vue.js 的。另外一个是 &lt;a href="https://www.nativescript.org/"&gt;NativeScript&lt;/a&gt;，这是基于老牌的前端构架 Angular
-之上构建的。&lt;/p&gt;
-&lt;p&gt;大家注意到，这些热门平台都是基于一个热门的前端构架来构建的。从这一点也可以看到这种类型的构架的目标，就是&lt;strong&gt;让前端开发人员可以在其原有知识体系里，快速开发 App ，并且使用自己熟悉的语言 JavaScript 来处理业务逻辑&lt;/strong&gt;。至于核心的代码以及性能相关的代码，还是需要使用原生编程语言 (OC for iOS, Java for Android) 来编写，不同的平台最终向上层提供一致接口。这样，上面界面部分代码，甚至一些逻辑代码就可以跨平台共用了。&lt;/p&gt;
-&lt;p&gt;原理上，JavaScript 怎么样和原生平台交互呢？&lt;/p&gt;
-&lt;p&gt;JavaScript 是脚本语言，可以在运行时解释并执行。这类平台上写出来的 JavaScript 代码最终是由原生平台里面的 JavaScript 引擎来负责执行的。那么 JavaScript 如何调用原生代码呢？答案是利用语言的元编程能力，OC 和 Java 都具备一定的元编程能力，这样 JavaScript 只要知道原生平台的类名称，函数名称，就可以调用到原生平台的这个函数了。&lt;/p&gt;
-&lt;p&gt;关于这个课题，&lt;a href="http://www.jianshu.com/p/978c4bd3a759"&gt;这里有篇文章&lt;/a&gt;写得深入浅出。想要理解原理的同学，推荐阅读。&lt;/p&gt;
-&lt;p&gt;关于这几类平台的性能对比，&lt;a href="https://my.oschina.net/vczero/blog/597980?fromerr=FY2e0zCC"&gt;这篇文章&lt;/a&gt;有非常详细的数据。&lt;/p&gt;
-&lt;h2 id="_2"&gt;总结&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;Hybrid 技术的愿景是真正达到一次开发，跨平台运行，但其性能是其最大的瓶颈。准原生平台的目标是让前端开发人员，基于其熟悉的前端框架，快速开发 App 的&lt;strong&gt;界面和业务逻辑&lt;/strong&gt;，且其性能和原生 App 很接近。当使用准原生平台开发 App 时，除非你是全栈工程师，或者大体了解 iOS/Android 平台的一些开发知识，否则很大概率需要 iOS/Android 原生平台的开发人员配合。&lt;/p&gt;
-&lt;p&gt;以下几个场景可以考虑使用 React-Native 之类的准原生架构来开发：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;熟悉前端技术构架：比如熟悉 React ，则可以考虑使用 React-Native 来进行开发。如果熟悉 Vue.js ，可以考虑选择 Weex 来进行开发。&lt;/li&gt;
-&lt;li&gt;对开发效率有较高的要求：特别是那些互联网创业公司，如果刚好又是个全栈工程师，可以考虑用这种技术来来提高整体开发效率，有可能一个人把 iOS/Android App 全包圆了。&lt;/li&gt;
-&lt;li&gt;应用非常频繁地更新：不管是修复严重 Bug 的 HotFix ，还是业务场景快速变化，我们在等待 AppStore 审核的时候，感觉是度日如年。如果这个痛点让你痛不欲生，不仿考虑一下准原生平台方案。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;反过来，如果你对前端开发和构架不熟，切换到任何类型的跨平台技术方案上来，成本都将是巨大的。从头学习和适应全新的开发模式，虽然最后可能提高了效率，但学习时间成本可能会是不可承受这重。至少短期来看，性价比不高。&lt;/p&gt;</content><category term="tools"></category><category term="tools"></category></entry></feed>
+&lt;h2 id="_2"&gt;尽情冲浪吧~~~&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;</content><category term="tools"></category><category term="tools"></category></entry></feed>
