@@ -214,35 +214,35 @@ Java 语言的内存泄漏概念和 C/C++ 不太一样，在 Java 里是指不�
 <p><strong>内存抖动</strong></p>
 <p>通过一个非常简单的例子来演示内存抖动。这个例子里，在自定义 View 的 onDraw 方法里大量分配内存来演示内存抖动和性能之间的关系。</p>
 <p>版本一：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #AA22FF">@Override</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">protected</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onDraw</span>(Canvas<span style="color: #bbbbbb"> </span>canvas)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">super</span>.<span style="color: #BB4444">onDraw</span>(canvas);
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span><span style="color: #A2F">@Override</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">protected</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">onDraw</span>(Canvas<span style="color: #BBB"> </span>canvas)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">super</span>.<span style="color: #B44">onDraw</span>(canvas);
 
-<span style="color: #bbbbbb">        </span>String<span style="color: #bbbbbb"> </span>msg<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;&quot;</span>;
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>(<span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>i<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>;<span style="color: #bbbbbb"> </span>i<span style="color: #bbbbbb"> </span><span style="color: #666666">&lt;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">500</span>;<span style="color: #bbbbbb"> </span>i<span style="color: #666666">++</span>)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(i<span style="color: #bbbbbb"> </span><span style="color: #666666">!=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">                </span>msg<span style="color: #bbbbbb"> </span><span style="color: #666666">+=</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;, &quot;</span>;
-<span style="color: #bbbbbb">            </span>}
-<span style="color: #bbbbbb">            </span>msg<span style="color: #bbbbbb"> </span><span style="color: #666666">+=</span><span style="color: #bbbbbb"> </span>Integer.<span style="color: #BB4444">toString</span>(i<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #666666">1</span>);
-<span style="color: #bbbbbb">        </span>}
-<span style="color: #bbbbbb">        </span>Log.<span style="color: #BB4444">d</span>(<span style="color: #BB4444">&quot;DEBUG&quot;</span>,<span style="color: #bbbbbb"> </span>msg);
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">        </span>String<span style="color: #BBB"> </span>msg<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;&quot;</span>;
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>(<span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>i<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">0</span>;<span style="color: #BBB"> </span>i<span style="color: #BBB"> </span><span style="color: #666">&lt;</span><span style="color: #BBB"> </span><span style="color: #666">500</span>;<span style="color: #BBB"> </span>i<span style="color: #666">++</span>)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(i<span style="color: #BBB"> </span><span style="color: #666">!=</span><span style="color: #BBB"> </span><span style="color: #666">0</span>)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">                </span>msg<span style="color: #BBB"> </span><span style="color: #666">+=</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;, &quot;</span>;
+<span style="color: #BBB">            </span>}
+<span style="color: #BBB">            </span>msg<span style="color: #BBB"> </span><span style="color: #666">+=</span><span style="color: #BBB"> </span>Integer.<span style="color: #B44">toString</span>(i<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="color: #666">1</span>);
+<span style="color: #BBB">        </span>}
+<span style="color: #BBB">        </span>Log.<span style="color: #B44">d</span>(<span style="color: #B44">&quot;DEBUG&quot;</span>,<span style="color: #BBB"> </span>msg);
+<span style="color: #BBB">    </span>}
 </code></pre></div>
 
 <p>版本二：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #AA22FF">@Override</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">protected</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onDraw</span>(Canvas<span style="color: #bbbbbb"> </span>canvas)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">super</span>.<span style="color: #BB4444">onDraw</span>(canvas);
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span><span style="color: #A2F">@Override</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">protected</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">onDraw</span>(Canvas<span style="color: #BBB"> </span>canvas)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">super</span>.<span style="color: #B44">onDraw</span>(canvas);
 
-<span style="color: #bbbbbb">        </span>StringBuilder<span style="color: #bbbbbb"> </span>sb<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>StringBuilder();
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>(<span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>i<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>;<span style="color: #bbbbbb"> </span>i<span style="color: #bbbbbb"> </span><span style="color: #666666">&lt;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">500</span>;<span style="color: #bbbbbb"> </span>i<span style="color: #bbbbbb"> </span><span style="color: #666666">++</span>)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(i<span style="color: #bbbbbb"> </span><span style="color: #666666">!=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">                </span>sb.<span style="color: #BB4444">append</span>(<span style="color: #BB4444">&quot;, &quot;</span>);
-<span style="color: #bbbbbb">            </span>}
-<span style="color: #bbbbbb">            </span>sb.<span style="color: #BB4444">append</span>(i<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #666666">1</span>);
-<span style="color: #bbbbbb">        </span>}
-<span style="color: #bbbbbb">        </span>Log.<span style="color: #BB4444">d</span>(<span style="color: #BB4444">&quot;DEBUG&quot;</span>,<span style="color: #bbbbbb"> </span>sb.<span style="color: #BB4444">toString</span>());
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">        </span>StringBuilder<span style="color: #BBB"> </span>sb<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>StringBuilder();
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>(<span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>i<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">0</span>;<span style="color: #BBB"> </span>i<span style="color: #BBB"> </span><span style="color: #666">&lt;</span><span style="color: #BBB"> </span><span style="color: #666">500</span>;<span style="color: #BBB"> </span>i<span style="color: #BBB"> </span><span style="color: #666">++</span>)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(i<span style="color: #BBB"> </span><span style="color: #666">!=</span><span style="color: #BBB"> </span><span style="color: #666">0</span>)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">                </span>sb.<span style="color: #B44">append</span>(<span style="color: #B44">&quot;, &quot;</span>);
+<span style="color: #BBB">            </span>}
+<span style="color: #BBB">            </span>sb.<span style="color: #B44">append</span>(i<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="color: #666">1</span>);
+<span style="color: #BBB">        </span>}
+<span style="color: #BBB">        </span>Log.<span style="color: #B44">d</span>(<span style="color: #B44">&quot;DEBUG&quot;</span>,<span style="color: #BBB"> </span>sb.<span style="color: #B44">toString</span>());
+<span style="color: #BBB">    </span>}
 </code></pre></div>
 
 <p>内存抖动的特征：</p>
@@ -252,12 +252,12 @@ Java 语言的内存泄漏概念和 C/C++ 不太一样，在 Java 里是指不�
 <img alt="memory_tracker" src="../../images/memory_tracker.png" /></p>
 <p><strong>内存泄漏</strong></p>
 <p>这个例子里，我们简单地让点击 Settings 菜单，就产生一个 100KB 的内存泄漏。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">private</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">addSomeCache</span>()<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #008800; font-style: italic">// add 100KB cache</span>
-<span style="color: #bbbbbb">        </span><span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>key<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>Random().<span style="color: #BB4444">nextInt</span>(<span style="color: #666666">100</span>);
-<span style="color: #bbbbbb">        </span>Log.<span style="color: #BB4444">d</span>(<span style="color: #BB4444">&quot;sfox&quot;</span>,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;add cache for key &quot;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span>key);
-<span style="color: #bbbbbb">        </span>sCache.<span style="color: #BB4444">put</span>(key,<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">byte</span><span style="color: #666666">[102400]</span>);
-<span style="color: #bbbbbb">    </span>}
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">private</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">addSomeCache</span>()<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #080; font-style: italic">// add 100KB cache</span>
+<span style="color: #BBB">        </span><span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>key<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>Random().<span style="color: #B44">nextInt</span>(<span style="color: #666">100</span>);
+<span style="color: #BBB">        </span>Log.<span style="color: #B44">d</span>(<span style="color: #B44">&quot;sfox&quot;</span>,<span style="color: #BBB"> </span><span style="color: #B44">&quot;add cache for key &quot;</span><span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span>key);
+<span style="color: #BBB">        </span>sCache.<span style="color: #B44">put</span>(key,<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">byte</span><span style="color: #666">[102400]</span>);
+<span style="color: #BBB">    </span>}
 </code></pre></div>
 
 <p>内存泄漏的特征：</p>

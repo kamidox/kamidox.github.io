@@ -226,11 +226,11 @@
 <hr />
 <h2 id="q-learning_1">二、数学：Q-Learning 更新公式<a class="headerlink" href="#q-learning_1" title="Permanent link"> </a></h2>
 <h3 id="q_1">Q 表结构<a class="headerlink" href="#q_1" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Q<span style="color: #666666">[</span>state<span style="color: #666666">][</span>action<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>预期未来累计奖励
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Q<span style="color: #666">[</span>state<span style="color: #666">][</span>action<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>预期未来累计奖励
 </code></pre></div>
 
 <h3 id="bellman-equation">核心更新公式（Bellman Equation）<a class="headerlink" href="#bellman-equation" title="Permanent link"> </a></h3>
-<p>$$ Q(s,a) \leftarrow Q(s,a) + \alpha \left[ r + \gamma \max_{a&rsquo;} Q(s&rsquo;,a&rsquo;) - Q(s,a) \right] $$</p>
+<div class="math">$$ Q(s,a) \leftarrow Q(s,a) + \alpha \left[ r + \gamma \max_{a'} Q(s',a') - Q(s,a) \right] $$</div>
 <p>拆开看每个符号：</p>
 <table>
 <thead>
@@ -241,31 +241,31 @@
 </thead>
 <tbody>
 <tr>
-<td>$Q(s,a)$</td>
+<td><span class="math">\(Q(s,a)\)</span></td>
 <td>当前 Q 表中 (s,a) 的值</td>
 </tr>
 <tr>
-<td>$\alpha$</td>
+<td><span class="math">\(\alpha\)</span></td>
 <td><strong>学习率</strong>（0~1），控制更新幅度</td>
 </tr>
 <tr>
-<td>$r$</td>
+<td><span class="math">\(r\)</span></td>
 <td>执行动作后<strong>立即</strong>拿到的奖励</td>
 </tr>
 <tr>
-<td>$\gamma$</td>
+<td><span class="math">\(\gamma\)</span></td>
 <td><strong>折扣因子</strong>（0~1），未来奖励的权重</td>
 </tr>
 <tr>
-<td>$\max_{a&rsquo;} Q(s&rsquo;,a&rsquo;)$</td>
-<td>下一个状态 $s&rsquo;$ 中<strong>最好的动作的 Q 值</strong></td>
+<td><span class="math">\(\max_{a'} Q(s',a')\)</span></td>
+<td>下一个状态 <span class="math">\(s'\)</span> 中<strong>最好的动作的 Q 值</strong></td>
 </tr>
 <tr>
-<td>$r + \gamma \max Q(s&rsquo;,a&rsquo;)$</td>
+<td><span class="math">\(r + \gamma \max Q(s',a')\)</span></td>
 <td><strong>TD 目标（Target）</strong>——&ldquo;我期望拿到的总分&rdquo;</td>
 </tr>
 <tr>
-<td>$[]$ 里的整体</td>
+<td><span class="math">\([]\)</span> 里的整体</td>
 <td><strong>TD 误差（TD Error）</strong>——&ldquo;预期和实际的差距&rdquo;</td>
 </tr>
 </tbody>
@@ -313,114 +313,114 @@
 <hr />
 <h3 id="_4">完整代码（直接复制运行）<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <p>以下代码，在 Python 3.12 + Gymnasium 1.3.0 验证通过。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">Q-Learning on Taxi-v4</span>
-<span style="color: #BB4444; font-style: italic">Python 3.12 + Gymnasium 1.3.0</span>
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">Q-Learning on Taxi-v4</span>
+<span style="color: #B44; font-style: italic">Python 3.12 + Gymnasium 1.3.0</span>
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
 
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">gymnasium</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">gym</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">random</span>
-<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">collections</span> <span style="color: #AA22FF; font-weight: bold">import</span> defaultdict
-
-
-<span style="color: #008800; font-style: italic"># ==================== 超参数 ====================</span>
-ALPHA <span style="color: #666666">=</span> <span style="color: #666666">0.1</span>          <span style="color: #008800; font-style: italic"># 学习率 α</span>
-GAMMA <span style="color: #666666">=</span> <span style="color: #666666">0.99</span>         <span style="color: #008800; font-style: italic"># 折扣因子 γ</span>
-EPSILON <span style="color: #666666">=</span> <span style="color: #666666">1.0</span>        <span style="color: #008800; font-style: italic"># 初始探索率 ε</span>
-EPSILON_DECAY <span style="color: #666666">=</span> <span style="color: #666666">0.995</span>  <span style="color: #008800; font-style: italic"># ε 衰减</span>
-EPSILON_MIN <span style="color: #666666">=</span> <span style="color: #666666">0.01</span>   <span style="color: #008800; font-style: italic"># ε 最小值</span>
-EPISODES <span style="color: #666666">=</span> <span style="color: #666666">2000</span>      <span style="color: #008800; font-style: italic"># 训练回合数</span>
-MAX_STEPS <span style="color: #666666">=</span> <span style="color: #666666">200</span>      <span style="color: #008800; font-style: italic"># 每回合最大步数</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">gymnasium</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">gym</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">numpy</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">np</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">random</span>
+<span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">collections</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> defaultdict
 
 
-<span style="color: #008800; font-style: italic"># ==================== 初始化 ====================</span>
-env <span style="color: #666666">=</span> gym<span style="color: #666666">.</span>make(<span style="color: #BB4444">&quot;Taxi-v4&quot;</span>)
-
-<span style="color: #008800; font-style: italic"># Q 表：用 defaultdict 代替 np.zeros，避免状态空间全分配</span>
-Q <span style="color: #666666">=</span> defaultdict(<span style="color: #AA22FF; font-weight: bold">lambda</span>: np<span style="color: #666666">.</span>zeros(env<span style="color: #666666">.</span>action_space<span style="color: #666666">.</span>n))
-
-episode_rewards <span style="color: #666666">=</span> []
-episode_steps <span style="color: #666666">=</span> []
-
-
-<span style="color: #008800; font-style: italic"># ==================== ε-贪心策略 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">epsilon_greedy</span>(state, epsilon):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> random<span style="color: #666666">.</span>random() <span style="color: #666666">&lt;</span> epsilon:
-        <span style="color: #AA22FF; font-weight: bold">return</span> env<span style="color: #666666">.</span>action_space<span style="color: #666666">.</span>sample()  <span style="color: #008800; font-style: italic"># 探索</span>
-    <span style="color: #AA22FF; font-weight: bold">else</span>:
-        <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">int</span>(np<span style="color: #666666">.</span>argmax(Q[state]))   <span style="color: #008800; font-style: italic"># 利用</span>
+<span style="color: #080; font-style: italic"># ==================== 超参数 ====================</span>
+ALPHA <span style="color: #666">=</span> <span style="color: #666">0.1</span>          <span style="color: #080; font-style: italic"># 学习率 α</span>
+GAMMA <span style="color: #666">=</span> <span style="color: #666">0.99</span>         <span style="color: #080; font-style: italic"># 折扣因子 γ</span>
+EPSILON <span style="color: #666">=</span> <span style="color: #666">1.0</span>        <span style="color: #080; font-style: italic"># 初始探索率 ε</span>
+EPSILON_DECAY <span style="color: #666">=</span> <span style="color: #666">0.995</span>  <span style="color: #080; font-style: italic"># ε 衰减</span>
+EPSILON_MIN <span style="color: #666">=</span> <span style="color: #666">0.01</span>   <span style="color: #080; font-style: italic"># ε 最小值</span>
+EPISODES <span style="color: #666">=</span> <span style="color: #666">2000</span>      <span style="color: #080; font-style: italic"># 训练回合数</span>
+MAX_STEPS <span style="color: #666">=</span> <span style="color: #666">200</span>      <span style="color: #080; font-style: italic"># 每回合最大步数</span>
 
 
-<span style="color: #008800; font-style: italic"># ==================== 训练循环 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">for</span> episode <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(EPISODES):
-    state, _ <span style="color: #666666">=</span> env<span style="color: #666666">.</span>reset()
-    total_reward <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-    steps <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+<span style="color: #080; font-style: italic"># ==================== 初始化 ====================</span>
+env <span style="color: #666">=</span> gym<span style="color: #666">.</span>make(<span style="color: #B44">&quot;Taxi-v4&quot;</span>)
 
-    <span style="color: #AA22FF; font-weight: bold">for</span> step <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(MAX_STEPS):
-        <span style="color: #008800; font-style: italic"># 1. 选动作</span>
-        action <span style="color: #666666">=</span> epsilon_greedy(state, EPSILON)
+<span style="color: #080; font-style: italic"># Q 表：用 defaultdict 代替 np.zeros，避免状态空间全分配</span>
+Q <span style="color: #666">=</span> defaultdict(<span style="color: #A2F; font-weight: bold">lambda</span>: np<span style="color: #666">.</span>zeros(env<span style="color: #666">.</span>action_space<span style="color: #666">.</span>n))
 
-        <span style="color: #008800; font-style: italic"># 2. 执行动作</span>
-        next_state, reward, terminated, truncated, _ <span style="color: #666666">=</span> env<span style="color: #666666">.</span>step(action)
-        done <span style="color: #666666">=</span> terminated <span style="color: #AA22FF; font-weight: bold">or</span> truncated
-
-        <span style="color: #008800; font-style: italic"># 3. 更新 Q 表（核心！）</span>
-        <span style="color: #008800; font-style: italic"># Q(s,a) ← Q(s,a) + α [r + γ max Q(s&#39;,a&#39;) - Q(s,a)]</span>
-        old_q <span style="color: #666666">=</span> Q[state][action]
-        max_next_q <span style="color: #666666">=</span> np<span style="color: #666666">.</span>max(Q[next_state])
-        td_target <span style="color: #666666">=</span> reward <span style="color: #666666">+</span> GAMMA <span style="color: #666666">*</span> max_next_q
-        Q[state][action] <span style="color: #666666">=</span> old_q <span style="color: #666666">+</span> ALPHA <span style="color: #666666">*</span> (td_target <span style="color: #666666">-</span> old_q)
-
-        <span style="color: #008800; font-style: italic"># 4. 转移</span>
-        state <span style="color: #666666">=</span> next_state
-        total_reward <span style="color: #666666">+=</span> reward
-        steps <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
-
-        <span style="color: #AA22FF; font-weight: bold">if</span> done:
-            <span style="color: #AA22FF; font-weight: bold">break</span>
-
-    <span style="color: #008800; font-style: italic"># ε 衰减</span>
-    EPSILON <span style="color: #666666">=</span> <span style="color: #AA22FF">max</span>(EPSILON_MIN, EPSILON <span style="color: #666666">*</span> EPSILON_DECAY)
-
-    episode_rewards<span style="color: #666666">.</span>append(total_reward)
-    episode_steps<span style="color: #666666">.</span>append(steps)
-
-    <span style="color: #008800; font-style: italic"># 每 100 回合打印一次</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> (episode <span style="color: #666666">+</span> <span style="color: #666666">1</span>) <span style="color: #666666">%</span> <span style="color: #666666">100</span> <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
-        avg_reward <span style="color: #666666">=</span> np<span style="color: #666666">.</span>mean(episode_rewards[<span style="color: #666666">-100</span>:])
-        avg_steps <span style="color: #666666">=</span> np<span style="color: #666666">.</span>mean(episode_steps[<span style="color: #666666">-100</span>:])
-        <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">f&quot;Episode </span><span style="color: #BB6688; font-weight: bold">{</span>episode<span style="color: #666666">+1</span><span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">4d</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Avg Reward: </span><span style="color: #BB6688; font-weight: bold">{</span>avg_reward<span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">7.1f</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Avg Steps: </span><span style="color: #BB6688; font-weight: bold">{</span>avg_steps<span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">5.1f</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Epsilon: </span><span style="color: #BB6688; font-weight: bold">{</span>EPSILON<span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">.3f</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">&quot;</span>)
+episode_rewards <span style="color: #666">=</span> []
+episode_steps <span style="color: #666">=</span> []
 
 
-env<span style="color: #666666">.</span>close()
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">✅ 训练完成！&quot;</span>)
+<span style="color: #080; font-style: italic"># ==================== ε-贪心策略 ====================</span>
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">epsilon_greedy</span>(state, epsilon):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">if</span> random<span style="color: #666">.</span>random() <span style="color: #666">&lt;</span> epsilon:
+        <span style="color: #A2F; font-weight: bold">return</span> env<span style="color: #666">.</span>action_space<span style="color: #666">.</span>sample()  <span style="color: #080; font-style: italic"># 探索</span>
+    <span style="color: #A2F; font-weight: bold">else</span>:
+        <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">int</span>(np<span style="color: #666">.</span>argmax(Q[state]))   <span style="color: #080; font-style: italic"># 利用</span>
 
 
-<span style="color: #008800; font-style: italic"># ==================== 测试（无探索） ====================</span>
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">🎮 开始测试...&quot;</span>)
-test_env <span style="color: #666666">=</span> gym<span style="color: #666666">.</span>make(<span style="color: #BB4444">&quot;Taxi-v4&quot;</span>, render_mode<span style="color: #666666">=</span><span style="color: #BB4444">&quot;human&quot;</span>)
+<span style="color: #080; font-style: italic"># ==================== 训练循环 ====================</span>
+<span style="color: #A2F; font-weight: bold">for</span> episode <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(EPISODES):
+    state, _ <span style="color: #666">=</span> env<span style="color: #666">.</span>reset()
+    total_reward <span style="color: #666">=</span> <span style="color: #666">0</span>
+    steps <span style="color: #666">=</span> <span style="color: #666">0</span>
 
-<span style="color: #AA22FF; font-weight: bold">for</span> test_ep <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(<span style="color: #666666">5</span>):
-    state, _ <span style="color: #666666">=</span> test_env<span style="color: #666666">.</span>reset()
-    total_reward <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-    done <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">False</span>
+    <span style="color: #A2F; font-weight: bold">for</span> step <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(MAX_STEPS):
+        <span style="color: #080; font-style: italic"># 1. 选动作</span>
+        action <span style="color: #666">=</span> epsilon_greedy(state, EPSILON)
 
-    <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">f&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">--- Test Episode </span><span style="color: #BB6688; font-weight: bold">{</span>test_ep<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #666666">1</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> ---&quot;</span>)
-    <span style="color: #AA22FF; font-weight: bold">while</span> <span style="color: #AA22FF; font-weight: bold">not</span> done:
-        action <span style="color: #666666">=</span> <span style="color: #AA22FF">int</span>(np<span style="color: #666666">.</span>argmax(Q[state]))  <span style="color: #008800; font-style: italic"># 纯贪心，不探索</span>
-        state, reward, terminated, truncated, _ <span style="color: #666666">=</span> test_env<span style="color: #666666">.</span>step(action)
-        total_reward <span style="color: #666666">+=</span> reward
-        done <span style="color: #666666">=</span> terminated <span style="color: #AA22FF; font-weight: bold">or</span> truncated
+        <span style="color: #080; font-style: italic"># 2. 执行动作</span>
+        next_state, reward, terminated, truncated, _ <span style="color: #666">=</span> env<span style="color: #666">.</span>step(action)
+        done <span style="color: #666">=</span> terminated <span style="color: #A2F; font-weight: bold">or</span> truncated
 
-    <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">f&quot;Total Reward: </span><span style="color: #BB6688; font-weight: bold">{</span>total_reward<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">&quot;</span>)
+        <span style="color: #080; font-style: italic"># 3. 更新 Q 表（核心！）</span>
+        <span style="color: #080; font-style: italic"># Q(s,a) ← Q(s,a) + α [r + γ max Q(s&#39;,a&#39;) - Q(s,a)]</span>
+        old_q <span style="color: #666">=</span> Q[state][action]
+        max_next_q <span style="color: #666">=</span> np<span style="color: #666">.</span>max(Q[next_state])
+        td_target <span style="color: #666">=</span> reward <span style="color: #666">+</span> GAMMA <span style="color: #666">*</span> max_next_q
+        Q[state][action] <span style="color: #666">=</span> old_q <span style="color: #666">+</span> ALPHA <span style="color: #666">*</span> (td_target <span style="color: #666">-</span> old_q)
 
-test_env<span style="color: #666666">.</span>close()
+        <span style="color: #080; font-style: italic"># 4. 转移</span>
+        state <span style="color: #666">=</span> next_state
+        total_reward <span style="color: #666">+=</span> reward
+        steps <span style="color: #666">+=</span> <span style="color: #666">1</span>
+
+        <span style="color: #A2F; font-weight: bold">if</span> done:
+            <span style="color: #A2F; font-weight: bold">break</span>
+
+    <span style="color: #080; font-style: italic"># ε 衰减</span>
+    EPSILON <span style="color: #666">=</span> <span style="color: #A2F">max</span>(EPSILON_MIN, EPSILON <span style="color: #666">*</span> EPSILON_DECAY)
+
+    episode_rewards<span style="color: #666">.</span>append(total_reward)
+    episode_steps<span style="color: #666">.</span>append(steps)
+
+    <span style="color: #080; font-style: italic"># 每 100 回合打印一次</span>
+    <span style="color: #A2F; font-weight: bold">if</span> (episode <span style="color: #666">+</span> <span style="color: #666">1</span>) <span style="color: #666">%</span> <span style="color: #666">100</span> <span style="color: #666">==</span> <span style="color: #666">0</span>:
+        avg_reward <span style="color: #666">=</span> np<span style="color: #666">.</span>mean(episode_rewards[<span style="color: #666">-100</span>:])
+        avg_steps <span style="color: #666">=</span> np<span style="color: #666">.</span>mean(episode_steps[<span style="color: #666">-100</span>:])
+        <span style="color: #A2F">print</span>(<span style="color: #B44">f&quot;Episode </span><span style="color: #B68; font-weight: bold">{</span>episode<span style="color: #666">+1</span><span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">4d</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Avg Reward: </span><span style="color: #B68; font-weight: bold">{</span>avg_reward<span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">7.1f</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Avg Steps: </span><span style="color: #B68; font-weight: bold">{</span>avg_steps<span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">5.1f</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Epsilon: </span><span style="color: #B68; font-weight: bold">{</span>EPSILON<span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">.3f</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">&quot;</span>)
+
+
+env<span style="color: #666">.</span>close()
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">✅ 训练完成！&quot;</span>)
+
+
+<span style="color: #080; font-style: italic"># ==================== 测试（无探索） ====================</span>
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">🎮 开始测试...&quot;</span>)
+test_env <span style="color: #666">=</span> gym<span style="color: #666">.</span>make(<span style="color: #B44">&quot;Taxi-v4&quot;</span>, render_mode<span style="color: #666">=</span><span style="color: #B44">&quot;human&quot;</span>)
+
+<span style="color: #A2F; font-weight: bold">for</span> test_ep <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(<span style="color: #666">5</span>):
+    state, _ <span style="color: #666">=</span> test_env<span style="color: #666">.</span>reset()
+    total_reward <span style="color: #666">=</span> <span style="color: #666">0</span>
+    done <span style="color: #666">=</span> <span style="color: #A2F; font-weight: bold">False</span>
+
+    <span style="color: #A2F">print</span>(<span style="color: #B44">f&quot;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">--- Test Episode </span><span style="color: #B68; font-weight: bold">{</span>test_ep<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="color: #666">1</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> ---&quot;</span>)
+    <span style="color: #A2F; font-weight: bold">while</span> <span style="color: #A2F; font-weight: bold">not</span> done:
+        action <span style="color: #666">=</span> <span style="color: #A2F">int</span>(np<span style="color: #666">.</span>argmax(Q[state]))  <span style="color: #080; font-style: italic"># 纯贪心，不探索</span>
+        state, reward, terminated, truncated, _ <span style="color: #666">=</span> test_env<span style="color: #666">.</span>step(action)
+        total_reward <span style="color: #666">+=</span> reward
+        done <span style="color: #666">=</span> terminated <span style="color: #A2F; font-weight: bold">or</span> truncated
+
+    <span style="color: #A2F">print</span>(<span style="color: #B44">f&quot;Total Reward: </span><span style="color: #B68; font-weight: bold">{</span>total_reward<span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">&quot;</span>)
+
+test_env<span style="color: #666">.</span>close()
 </code></pre></div>
 
 <hr />
@@ -481,7 +481,7 @@ Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
 </tr>
 <tr>
 <td>TD Target</td>
-<td>$r + \gamma \max Q(s&rsquo;,a&rsquo;)$，当前这一步的&rdquo;正确答案&rdquo;</td>
+<td><span class="math">\(r + \gamma \max Q(s',a')\)</span>，当前这一步的&rdquo;正确答案&rdquo;</td>
 </tr>
 <tr>
 <td>TD Error</td>
@@ -497,6 +497,68 @@ Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
 </tr>
 </tbody>
 </table>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/ai.html">ai</a> on 2026-10-02(Friday) 10:43. Tags: <a href="./tag/rl.html">rl</a>, </h6>
 </article>

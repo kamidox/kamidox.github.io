@@ -382,22 +382,22 @@
 <p>User Profile就是在设备联系人应用程序里看到的&rdquo;我的个人资料&rdquo;，用来描述本设备所有人信息的一个数据。<code>ContactsContract.Contacts</code>表里有一行数据用来表现user profile。这个数据用来描述设备所有人本身，而不是设备所有人的联系人。</p>
 <p>读写user profile除了读写联系人数据外，还需要额外的权限，他们是&rdquo;android.permission.READ_PROFILE&rdquo;和&rdquo;android.permission.WRITE_PROFILE&rdquo;。这两个都是在API 14的时候才加进去的。</p>
 <p>要获取user profile，可以使用ContentResolver通过<code>ContactsContract.Profile.CONTENT_URI</code>来获取，下面是获取user profile的示例代码：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">// Sets the columns to retrieve for the user profile</span>
-mProjection<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>String<span style="color: #666666">[]</span>
-<span style="color: #bbbbbb">    </span>{
-<span style="color: #bbbbbb">        </span>Profile.<span style="color: #BB4444">_ID</span>,
-<span style="color: #bbbbbb">        </span>Profile.<span style="color: #BB4444">DISPLAY_NAME_PRIMARY</span>,
-<span style="color: #bbbbbb">        </span>Profile.<span style="color: #BB4444">LOOKUP_KEY</span>,
-<span style="color: #bbbbbb">        </span>Profile.<span style="color: #BB4444">PHOTO_THUMBNAIL_URI</span>
-<span style="color: #bbbbbb">    </span>};
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">// Sets the columns to retrieve for the user profile</span>
+mProjection<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>String<span style="color: #666">[]</span>
+<span style="color: #BBB">    </span>{
+<span style="color: #BBB">        </span>Profile.<span style="color: #B44">_ID</span>,
+<span style="color: #BBB">        </span>Profile.<span style="color: #B44">DISPLAY_NAME_PRIMARY</span>,
+<span style="color: #BBB">        </span>Profile.<span style="color: #B44">LOOKUP_KEY</span>,
+<span style="color: #BBB">        </span>Profile.<span style="color: #B44">PHOTO_THUMBNAIL_URI</span>
+<span style="color: #BBB">    </span>};
 
-<span style="color: #008800; font-style: italic">// Retrieves the profile from the Contacts Provider</span>
-mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>getContentResolver().<span style="color: #BB4444">query</span>(
-<span style="color: #bbbbbb">                </span>Profile.<span style="color: #BB4444">CONTENT_URI</span>,
-<span style="color: #bbbbbb">                </span>mProjection<span style="color: #bbbbbb"> </span>,
-<span style="color: #bbbbbb">                </span><span style="color: #AA22FF; font-weight: bold">null</span>,
-<span style="color: #bbbbbb">                </span><span style="color: #AA22FF; font-weight: bold">null</span>,
-<span style="color: #bbbbbb">                </span><span style="color: #AA22FF; font-weight: bold">null</span>);
+<span style="color: #080; font-style: italic">// Retrieves the profile from the Contacts Provider</span>
+mProfileCursor<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>getContentResolver().<span style="color: #B44">query</span>(
+<span style="color: #BBB">                </span>Profile.<span style="color: #B44">CONTENT_URI</span>,
+<span style="color: #BBB">                </span>mProjection<span style="color: #BBB"> </span>,
+<span style="color: #BBB">                </span><span style="color: #A2F; font-weight: bold">null</span>,
+<span style="color: #BBB">                </span><span style="color: #A2F; font-weight: bold">null</span>,
+<span style="color: #BBB">                </span><span style="color: #A2F; font-weight: bold">null</span>);
 </code></pre></div>
 
 <h3 id="contacts-provider">Contacts Provider元数据<a class="headerlink" href="#contacts-provider" title="Permanent link"> </a></h3>
@@ -474,68 +474,68 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <p>一个entity一般没有包含Contacts表及其子表的所有字段，如果试图访问这些不在entity表里的字段，会有异常抛出。</p>
 </div>
 <p>下面的代码演示了如何从entity里获取记录数据。一个联系人应用程序一般有个列表显示联系人，点击后显示这个记录的详细信息，下面的代码是显示详细信息的一部分代码。即根据联系人的ID去获取所有的联系人信息。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic">     * Appends the entity path to the URI. In the case of the Contacts Provider, the</span>
-<span style="color: #008800; font-style: italic">     * expected URI is content://com.google.contacts/#/entity (# is the ID value).</span>
-<span style="color: #008800; font-style: italic">     */</span>
-<span style="color: #bbbbbb">    </span>mContactUri<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>Uri.<span style="color: #BB4444">withAppendedPath</span>(
-<span style="color: #bbbbbb">            </span>mContactUri,
-<span style="color: #bbbbbb">            </span>ContactsContract.<span style="color: #BB4444">Contacts</span>.<span style="color: #BB4444">Entity</span>.<span style="color: #BB4444">CONTENT_DIRECTORY</span>);
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic">     * Appends the entity path to the URI. In the case of the Contacts Provider, the</span>
+<span style="color: #080; font-style: italic">     * expected URI is content://com.google.contacts/#/entity (# is the ID value).</span>
+<span style="color: #080; font-style: italic">     */</span>
+<span style="color: #BBB">    </span>mContactUri<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>Uri.<span style="color: #B44">withAppendedPath</span>(
+<span style="color: #BBB">            </span>mContactUri,
+<span style="color: #BBB">            </span>ContactsContract.<span style="color: #B44">Contacts</span>.<span style="color: #B44">Entity</span>.<span style="color: #B44">CONTENT_DIRECTORY</span>);
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Initializes the loader identified by LOADER_ID.</span>
-<span style="color: #bbbbbb">    </span>getLoaderManager().<span style="color: #BB4444">initLoader</span>(
-<span style="color: #bbbbbb">            </span>LOADER_ID,<span style="color: #bbbbbb">  </span><span style="color: #008800; font-style: italic">// The identifier of the loader to initialize</span>
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">null</span>,<span style="color: #bbbbbb">       </span><span style="color: #008800; font-style: italic">// Arguments for the loader (in this case, none)</span>
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">this</span>);<span style="color: #bbbbbb">      </span><span style="color: #008800; font-style: italic">// The context of the activity</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Initializes the loader identified by LOADER_ID.</span>
+<span style="color: #BBB">    </span>getLoaderManager().<span style="color: #B44">initLoader</span>(
+<span style="color: #BBB">            </span>LOADER_ID,<span style="color: #BBB">  </span><span style="color: #080; font-style: italic">// The identifier of the loader to initialize</span>
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">null</span>,<span style="color: #BBB">       </span><span style="color: #080; font-style: italic">// Arguments for the loader (in this case, none)</span>
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">this</span>);<span style="color: #BBB">      </span><span style="color: #080; font-style: italic">// The context of the activity</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Creates a new cursor adapter to attach to the list view</span>
-<span style="color: #bbbbbb">    </span>mCursorAdapter<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>SimpleCursorAdapter(
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">this</span>,<span style="color: #bbbbbb">                        </span><span style="color: #008800; font-style: italic">// the context of the activity</span>
-<span style="color: #bbbbbb">            </span>R.<span style="color: #BB4444">layout</span>.<span style="color: #BB4444">detail_list_item</span>,<span style="color: #bbbbbb">   </span><span style="color: #008800; font-style: italic">// the view item containing the detail widgets</span>
-<span style="color: #bbbbbb">            </span>mCursor,<span style="color: #bbbbbb">                     </span><span style="color: #008800; font-style: italic">// the backing cursor</span>
-<span style="color: #bbbbbb">            </span>mFromColumns,<span style="color: #bbbbbb">                </span><span style="color: #008800; font-style: italic">// the columns in the cursor that provide the data</span>
-<span style="color: #bbbbbb">            </span>mToViews,<span style="color: #bbbbbb">                    </span><span style="color: #008800; font-style: italic">// the views in the view item that display the data</span>
-<span style="color: #bbbbbb">            </span><span style="color: #666666">0</span>);<span style="color: #bbbbbb">                          </span><span style="color: #008800; font-style: italic">// flags</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Creates a new cursor adapter to attach to the list view</span>
+<span style="color: #BBB">    </span>mCursorAdapter<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>SimpleCursorAdapter(
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">this</span>,<span style="color: #BBB">                        </span><span style="color: #080; font-style: italic">// the context of the activity</span>
+<span style="color: #BBB">            </span>R.<span style="color: #B44">layout</span>.<span style="color: #B44">detail_list_item</span>,<span style="color: #BBB">   </span><span style="color: #080; font-style: italic">// the view item containing the detail widgets</span>
+<span style="color: #BBB">            </span>mCursor,<span style="color: #BBB">                     </span><span style="color: #080; font-style: italic">// the backing cursor</span>
+<span style="color: #BBB">            </span>mFromColumns,<span style="color: #BBB">                </span><span style="color: #080; font-style: italic">// the columns in the cursor that provide the data</span>
+<span style="color: #BBB">            </span>mToViews,<span style="color: #BBB">                    </span><span style="color: #080; font-style: italic">// the views in the view item that display the data</span>
+<span style="color: #BBB">            </span><span style="color: #666">0</span>);<span style="color: #BBB">                          </span><span style="color: #080; font-style: italic">// flags</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Sets the ListView&#39;s backing adapter.</span>
-<span style="color: #bbbbbb">    </span>mRawContactList.<span style="color: #BB4444">setAdapter</span>(mCursorAdapter);
-<span style="color: #bbbbbb">    </span>...
-<span style="color: #AA22FF">@Override</span>
-<span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span>Loader<span style="color: #666666">&lt;</span>Cursor<span style="color: #666666">&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onCreateLoader</span>(<span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>id,<span style="color: #bbbbbb"> </span>Bundle<span style="color: #bbbbbb"> </span>args)<span style="color: #bbbbbb"> </span>{
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Sets the ListView&#39;s backing adapter.</span>
+<span style="color: #BBB">    </span>mRawContactList.<span style="color: #B44">setAdapter</span>(mCursorAdapter);
+<span style="color: #BBB">    </span>...
+<span style="color: #A2F">@Override</span>
+<span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span>Loader<span style="color: #666">&lt;</span>Cursor<span style="color: #666">&gt;</span><span style="color: #BBB"> </span><span style="color: #00A000">onCreateLoader</span>(<span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>id,<span style="color: #BBB"> </span>Bundle<span style="color: #BBB"> </span>args)<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic">     * Sets the columns to retrieve.</span>
-<span style="color: #008800; font-style: italic">     * RAW_CONTACT_ID is included to identify the raw contact associated with the data row.</span>
-<span style="color: #008800; font-style: italic">     * DATA1 contains the first column in the data row (usually the most important one).</span>
-<span style="color: #008800; font-style: italic">     * MIMETYPE indicates the type of data in the data row.</span>
-<span style="color: #008800; font-style: italic">     */</span>
-<span style="color: #bbbbbb">    </span>String<span style="color: #666666">[]</span><span style="color: #bbbbbb"> </span>projection<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span>
-<span style="color: #bbbbbb">        </span>{
-<span style="color: #bbbbbb">            </span>ContactsContract.<span style="color: #BB4444">Contacts</span>.<span style="color: #BB4444">Entity</span>.<span style="color: #BB4444">RAW_CONTACT_ID</span>,
-<span style="color: #bbbbbb">            </span>ContactsContract.<span style="color: #BB4444">Contacts</span>.<span style="color: #BB4444">Entity</span>.<span style="color: #BB4444">DATA1</span>,
-<span style="color: #bbbbbb">            </span>ContactsContract.<span style="color: #BB4444">Contacts</span>.<span style="color: #BB4444">Entity</span>.<span style="color: #BB4444">MIMETYPE</span>
-<span style="color: #bbbbbb">        </span>};
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic">     * Sets the columns to retrieve.</span>
+<span style="color: #080; font-style: italic">     * RAW_CONTACT_ID is included to identify the raw contact associated with the data row.</span>
+<span style="color: #080; font-style: italic">     * DATA1 contains the first column in the data row (usually the most important one).</span>
+<span style="color: #080; font-style: italic">     * MIMETYPE indicates the type of data in the data row.</span>
+<span style="color: #080; font-style: italic">     */</span>
+<span style="color: #BBB">    </span>String<span style="color: #666">[]</span><span style="color: #BBB"> </span>projection<span style="color: #BBB"> </span><span style="color: #666">=</span>
+<span style="color: #BBB">        </span>{
+<span style="color: #BBB">            </span>ContactsContract.<span style="color: #B44">Contacts</span>.<span style="color: #B44">Entity</span>.<span style="color: #B44">RAW_CONTACT_ID</span>,
+<span style="color: #BBB">            </span>ContactsContract.<span style="color: #B44">Contacts</span>.<span style="color: #B44">Entity</span>.<span style="color: #B44">DATA1</span>,
+<span style="color: #BBB">            </span>ContactsContract.<span style="color: #B44">Contacts</span>.<span style="color: #B44">Entity</span>.<span style="color: #B44">MIMETYPE</span>
+<span style="color: #BBB">        </span>};
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic">     * Sorts the retrieved cursor by raw contact id, to keep all data rows for a single raw</span>
-<span style="color: #008800; font-style: italic">     * contact collated together.</span>
-<span style="color: #008800; font-style: italic">     */</span>
-<span style="color: #bbbbbb">    </span>String<span style="color: #bbbbbb"> </span>sortOrder<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span>
-<span style="color: #bbbbbb">            </span>ContactsContract.<span style="color: #BB4444">Contacts</span>.<span style="color: #BB4444">Entity</span>.<span style="color: #BB4444">RAW_CONTACT_ID</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">&quot; ASC&quot;</span>;
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic">     * Sorts the retrieved cursor by raw contact id, to keep all data rows for a single raw</span>
+<span style="color: #080; font-style: italic">     * contact collated together.</span>
+<span style="color: #080; font-style: italic">     */</span>
+<span style="color: #BBB">    </span>String<span style="color: #BBB"> </span>sortOrder<span style="color: #BBB"> </span><span style="color: #666">=</span>
+<span style="color: #BBB">            </span>ContactsContract.<span style="color: #B44">Contacts</span>.<span style="color: #B44">Entity</span>.<span style="color: #B44">RAW_CONTACT_ID</span><span style="color: #BBB"> </span><span style="color: #666">+</span>
+<span style="color: #BBB">            </span><span style="color: #B44">&quot; ASC&quot;</span>;
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic">     * Returns a new CursorLoader. The arguments are similar to</span>
-<span style="color: #008800; font-style: italic">     * ContentResolver.query(), except for the Context argument, which supplies the location of</span>
-<span style="color: #008800; font-style: italic">     * the ContentResolver to use.</span>
-<span style="color: #008800; font-style: italic">     */</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">return</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>CursorLoader(
-<span style="color: #bbbbbb">            </span>getApplicationContext(),<span style="color: #bbbbbb">  </span><span style="color: #008800; font-style: italic">// The activity&#39;s context</span>
-<span style="color: #bbbbbb">            </span>mContactUri,<span style="color: #bbbbbb">              </span><span style="color: #008800; font-style: italic">// The entity content URI for a single contact</span>
-<span style="color: #bbbbbb">            </span>projection,<span style="color: #bbbbbb">               </span><span style="color: #008800; font-style: italic">// The columns to retrieve</span>
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">null</span>,<span style="color: #bbbbbb">                     </span><span style="color: #008800; font-style: italic">// Retrieve all the raw contacts and their data rows.</span>
-<span style="color: #bbbbbb">            </span><span style="color: #AA22FF; font-weight: bold">null</span>,<span style="color: #bbbbbb">                     </span><span style="color: #008800; font-style: italic">//</span>
-<span style="color: #bbbbbb">            </span>sortOrder);<span style="color: #bbbbbb">               </span><span style="color: #008800; font-style: italic">// Sort by the raw contact ID.</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic">     * Returns a new CursorLoader. The arguments are similar to</span>
+<span style="color: #080; font-style: italic">     * ContentResolver.query(), except for the Context argument, which supplies the location of</span>
+<span style="color: #080; font-style: italic">     * the ContentResolver to use.</span>
+<span style="color: #080; font-style: italic">     */</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>CursorLoader(
+<span style="color: #BBB">            </span>getApplicationContext(),<span style="color: #BBB">  </span><span style="color: #080; font-style: italic">// The activity&#39;s context</span>
+<span style="color: #BBB">            </span>mContactUri,<span style="color: #BBB">              </span><span style="color: #080; font-style: italic">// The entity content URI for a single contact</span>
+<span style="color: #BBB">            </span>projection,<span style="color: #BBB">               </span><span style="color: #080; font-style: italic">// The columns to retrieve</span>
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">null</span>,<span style="color: #BBB">                     </span><span style="color: #080; font-style: italic">// Retrieve all the raw contacts and their data rows.</span>
+<span style="color: #BBB">            </span><span style="color: #A2F; font-weight: bold">null</span>,<span style="color: #BBB">                     </span><span style="color: #080; font-style: italic">//</span>
+<span style="color: #BBB">            </span>sortOrder);<span style="color: #BBB">               </span><span style="color: #080; font-style: italic">// Sort by the raw contact ID.</span>
 }
 </code></pre></div>
 
@@ -624,74 +624,74 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">66</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">67</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">68</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">69</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">/**</span>
-<span style="color: #008800; font-style: italic"> * Creates a contact entry from the current UI values in the account named by mSelectedAccount.</span>
-<span style="color: #008800; font-style: italic"> */</span>
-<span style="color: #AA22FF; font-weight: bold">protected</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">createContactEntry</span>()<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Get values from UI</span>
-<span style="color: #bbbbbb">    </span>String<span style="color: #bbbbbb"> </span>name<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>mContactNameEditText.<span style="color: #BB4444">getText</span>().<span style="color: #BB4444">toString</span>();
-<span style="color: #bbbbbb">    </span>String<span style="color: #bbbbbb"> </span>phone<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>mContactPhoneEditText.<span style="color: #BB4444">getText</span>().<span style="color: #BB4444">toString</span>();
-<span style="color: #bbbbbb">    </span>String<span style="color: #bbbbbb"> </span>email<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>mContactEmailEditText.<span style="color: #BB4444">getText</span>().<span style="color: #BB4444">toString</span>();
-<span style="color: #bbbbbb">    </span><span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>phoneType<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>mContactPhoneTypes.<span style="color: #BB4444">get</span>(
-<span style="color: #bbbbbb">            </span>mContactPhoneTypeSpinner.<span style="color: #BB4444">getSelectedItemPosition</span>());
-<span style="color: #bbbbbb">    </span><span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>emailType<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>mContactEmailTypes.<span style="color: #BB4444">get</span>(
-<span style="color: #bbbbbb">            </span>mContactEmailTypeSpinner.<span style="color: #BB4444">getSelectedItemPosition</span>());;
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">69</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">/**</span>
+<span style="color: #080; font-style: italic"> * Creates a contact entry from the current UI values in the account named by mSelectedAccount.</span>
+<span style="color: #080; font-style: italic"> */</span>
+<span style="color: #A2F; font-weight: bold">protected</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">createContactEntry</span>()<span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Get values from UI</span>
+<span style="color: #BBB">    </span>String<span style="color: #BBB"> </span>name<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>mContactNameEditText.<span style="color: #B44">getText</span>().<span style="color: #B44">toString</span>();
+<span style="color: #BBB">    </span>String<span style="color: #BBB"> </span>phone<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>mContactPhoneEditText.<span style="color: #B44">getText</span>().<span style="color: #B44">toString</span>();
+<span style="color: #BBB">    </span>String<span style="color: #BBB"> </span>email<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>mContactEmailEditText.<span style="color: #B44">getText</span>().<span style="color: #B44">toString</span>();
+<span style="color: #BBB">    </span><span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>phoneType<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>mContactPhoneTypes.<span style="color: #B44">get</span>(
+<span style="color: #BBB">            </span>mContactPhoneTypeSpinner.<span style="color: #B44">getSelectedItemPosition</span>());
+<span style="color: #BBB">    </span><span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>emailType<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>mContactEmailTypes.<span style="color: #B44">get</span>(
+<span style="color: #BBB">            </span>mContactEmailTypeSpinner.<span style="color: #B44">getSelectedItemPosition</span>());;
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Prepare contact creation request</span>
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">//</span>
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Note: We use RawContacts because this data must be associated with a particular account.</span>
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">//       The system will aggregate this with any other data for this contact and create a</span>
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">//       coresponding entry in the ContactsContract.Contacts provider for us.</span>
-<span style="color: #bbbbbb">    </span>ArrayList<span style="color: #666666">&lt;</span>ContentProviderOperation<span style="color: #666666">&gt;</span><span style="color: #bbbbbb"> </span>ops<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>ArrayList<span style="color: #666666">&lt;</span>ContentProviderOperation<span style="color: #666666">&gt;</span>();
-<span style="color: #bbbbbb">    </span>ops.<span style="color: #BB4444">add</span>(ContentProviderOperation.<span style="color: #BB4444">newInsert</span>(ContactsContract.<span style="color: #BB4444">RawContacts</span>.<span style="color: #BB4444">CONTENT_URI</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">RawContacts</span>.<span style="color: #BB4444">ACCOUNT_TYPE</span>,<span style="color: #bbbbbb"> </span>mSelectedAccount.<span style="color: #BB4444">getType</span>())
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">RawContacts</span>.<span style="color: #BB4444">ACCOUNT_NAME</span>,<span style="color: #bbbbbb"> </span>mSelectedAccount.<span style="color: #BB4444">getName</span>())
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">build</span>());
-<span style="color: #bbbbbb">    </span>ops.<span style="color: #BB4444">add</span>(ContentProviderOperation.<span style="color: #BB4444">newInsert</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">CONTENT_URI</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValueBackReference</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">RAW_CONTACT_ID</span>,<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">MIMETYPE</span>,
-<span style="color: #bbbbbb">                    </span>ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">StructuredName</span>.<span style="color: #BB4444">CONTENT_ITEM_TYPE</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">StructuredName</span>.<span style="color: #BB4444">DISPLAY_NAME</span>,<span style="color: #bbbbbb"> </span>name)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">build</span>());
-<span style="color: #bbbbbb">    </span>ops.<span style="color: #BB4444">add</span>(ContentProviderOperation.<span style="color: #BB4444">newInsert</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">CONTENT_URI</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValueBackReference</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">RAW_CONTACT_ID</span>,<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">MIMETYPE</span>,
-<span style="color: #bbbbbb">                    </span>ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Phone</span>.<span style="color: #BB4444">CONTENT_ITEM_TYPE</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Phone</span>.<span style="color: #BB4444">NUMBER</span>,<span style="color: #bbbbbb"> </span>phone)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Phone</span>.<span style="color: #BB4444">TYPE</span>,<span style="color: #bbbbbb"> </span>phoneType)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">build</span>());
-<span style="color: #bbbbbb">    </span>ops.<span style="color: #BB4444">add</span>(ContentProviderOperation.<span style="color: #BB4444">newInsert</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">CONTENT_URI</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValueBackReference</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">RAW_CONTACT_ID</span>,<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">Data</span>.<span style="color: #BB4444">MIMETYPE</span>,
-<span style="color: #bbbbbb">                    </span>ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Email</span>.<span style="color: #BB4444">CONTENT_ITEM_TYPE</span>)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Email</span>.<span style="color: #BB4444">DATA</span>,<span style="color: #bbbbbb"> </span>email)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">withValue</span>(ContactsContract.<span style="color: #BB4444">CommonDataKinds</span>.<span style="color: #BB4444">Email</span>.<span style="color: #BB4444">TYPE</span>,<span style="color: #bbbbbb"> </span>emailType)
-<span style="color: #bbbbbb">            </span>.<span style="color: #BB4444">build</span>());
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Prepare contact creation request</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">//</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Note: We use RawContacts because this data must be associated with a particular account.</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">//       The system will aggregate this with any other data for this contact and create a</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">//       coresponding entry in the ContactsContract.Contacts provider for us.</span>
+<span style="color: #BBB">    </span>ArrayList<span style="color: #666">&lt;</span>ContentProviderOperation<span style="color: #666">&gt;</span><span style="color: #BBB"> </span>ops<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>ArrayList<span style="color: #666">&lt;</span>ContentProviderOperation<span style="color: #666">&gt;</span>();
+<span style="color: #BBB">    </span>ops.<span style="color: #B44">add</span>(ContentProviderOperation.<span style="color: #B44">newInsert</span>(ContactsContract.<span style="color: #B44">RawContacts</span>.<span style="color: #B44">CONTENT_URI</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">RawContacts</span>.<span style="color: #B44">ACCOUNT_TYPE</span>,<span style="color: #BBB"> </span>mSelectedAccount.<span style="color: #B44">getType</span>())
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">RawContacts</span>.<span style="color: #B44">ACCOUNT_NAME</span>,<span style="color: #BBB"> </span>mSelectedAccount.<span style="color: #B44">getName</span>())
+<span style="color: #BBB">            </span>.<span style="color: #B44">build</span>());
+<span style="color: #BBB">    </span>ops.<span style="color: #B44">add</span>(ContentProviderOperation.<span style="color: #B44">newInsert</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">CONTENT_URI</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValueBackReference</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">RAW_CONTACT_ID</span>,<span style="color: #BBB"> </span><span style="color: #666">0</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">MIMETYPE</span>,
+<span style="color: #BBB">                    </span>ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">StructuredName</span>.<span style="color: #B44">CONTENT_ITEM_TYPE</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">StructuredName</span>.<span style="color: #B44">DISPLAY_NAME</span>,<span style="color: #BBB"> </span>name)
+<span style="color: #BBB">            </span>.<span style="color: #B44">build</span>());
+<span style="color: #BBB">    </span>ops.<span style="color: #B44">add</span>(ContentProviderOperation.<span style="color: #B44">newInsert</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">CONTENT_URI</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValueBackReference</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">RAW_CONTACT_ID</span>,<span style="color: #BBB"> </span><span style="color: #666">0</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">MIMETYPE</span>,
+<span style="color: #BBB">                    </span>ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Phone</span>.<span style="color: #B44">CONTENT_ITEM_TYPE</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Phone</span>.<span style="color: #B44">NUMBER</span>,<span style="color: #BBB"> </span>phone)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Phone</span>.<span style="color: #B44">TYPE</span>,<span style="color: #BBB"> </span>phoneType)
+<span style="color: #BBB">            </span>.<span style="color: #B44">build</span>());
+<span style="color: #BBB">    </span>ops.<span style="color: #B44">add</span>(ContentProviderOperation.<span style="color: #B44">newInsert</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">CONTENT_URI</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValueBackReference</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">RAW_CONTACT_ID</span>,<span style="color: #BBB"> </span><span style="color: #666">0</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">Data</span>.<span style="color: #B44">MIMETYPE</span>,
+<span style="color: #BBB">                    </span>ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Email</span>.<span style="color: #B44">CONTENT_ITEM_TYPE</span>)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Email</span>.<span style="color: #B44">DATA</span>,<span style="color: #BBB"> </span>email)
+<span style="color: #BBB">            </span>.<span style="color: #B44">withValue</span>(ContactsContract.<span style="color: #B44">CommonDataKinds</span>.<span style="color: #B44">Email</span>.<span style="color: #B44">TYPE</span>,<span style="color: #BBB"> </span>emailType)
+<span style="color: #BBB">            </span>.<span style="color: #B44">build</span>());
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic">     * Demonstrates a yield point. At the end of this insert, the batch operation&#39;s thread</span>
-<span style="color: #008800; font-style: italic">     * will yield priority to other threads. Use after every set of operations that affect a</span>
-<span style="color: #008800; font-style: italic">     * single contact, to avoid degrading performance.</span>
-<span style="color: #008800; font-style: italic">     */</span>
-<span style="color: #bbbbbb">    </span>op.<span style="color: #BB4444">withYieldAllowed</span>(<span style="color: #AA22FF; font-weight: bold">true</span>);
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic">     * Demonstrates a yield point. At the end of this insert, the batch operation&#39;s thread</span>
+<span style="color: #080; font-style: italic">     * will yield priority to other threads. Use after every set of operations that affect a</span>
+<span style="color: #080; font-style: italic">     * single contact, to avoid degrading performance.</span>
+<span style="color: #080; font-style: italic">     */</span>
+<span style="color: #BBB">    </span>op.<span style="color: #B44">withYieldAllowed</span>(<span style="color: #A2F; font-weight: bold">true</span>);
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Ask the Contact provider to create a new contact</span>
-<span style="color: #bbbbbb">    </span>Log.<span style="color: #BB4444">i</span>(TAG,<span style="color: #BB4444">&quot;Selected account: &quot;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span>mSelectedAccount.<span style="color: #BB4444">getName</span>()<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot; (&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span>
-<span style="color: #bbbbbb">            </span>mSelectedAccount.<span style="color: #BB4444">getType</span>()<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;)&quot;</span>);
-<span style="color: #bbbbbb">    </span>Log.<span style="color: #BB4444">i</span>(TAG,<span style="color: #BB4444">&quot;Creating contact: &quot;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span>name);
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">try</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span>getContentResolver().<span style="color: #BB4444">applyBatch</span>(ContactsContract.<span style="color: #BB4444">AUTHORITY</span>,<span style="color: #bbbbbb"> </span>ops);
-<span style="color: #bbbbbb">    </span>}<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">catch</span><span style="color: #bbbbbb"> </span>(Exception<span style="color: #bbbbbb"> </span>e)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #008800; font-style: italic">// Display warning</span>
-<span style="color: #bbbbbb">        </span>Context<span style="color: #bbbbbb"> </span>ctx<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>getApplicationContext();
-<span style="color: #bbbbbb">        </span>CharSequence<span style="color: #bbbbbb"> </span>txt<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>getString(R.<span style="color: #BB4444">string</span>.<span style="color: #BB4444">contactCreationFailure</span>);
-<span style="color: #bbbbbb">        </span><span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span>duration<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>Toast.<span style="color: #BB4444">LENGTH_SHORT</span>;
-<span style="color: #bbbbbb">        </span>Toast<span style="color: #bbbbbb"> </span>toast<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>Toast.<span style="color: #BB4444">makeText</span>(ctx,<span style="color: #bbbbbb"> </span>txt,<span style="color: #bbbbbb"> </span>duration);
-<span style="color: #bbbbbb">        </span>toast.<span style="color: #BB4444">show</span>();
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Ask the Contact provider to create a new contact</span>
+<span style="color: #BBB">    </span>Log.<span style="color: #B44">i</span>(TAG,<span style="color: #B44">&quot;Selected account: &quot;</span><span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span>mSelectedAccount.<span style="color: #B44">getName</span>()<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="color: #B44">&quot; (&quot;</span><span style="color: #BBB"> </span><span style="color: #666">+</span>
+<span style="color: #BBB">            </span>mSelectedAccount.<span style="color: #B44">getType</span>()<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;)&quot;</span>);
+<span style="color: #BBB">    </span>Log.<span style="color: #B44">i</span>(TAG,<span style="color: #B44">&quot;Creating contact: &quot;</span><span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span>name);
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">try</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span>getContentResolver().<span style="color: #B44">applyBatch</span>(ContactsContract.<span style="color: #B44">AUTHORITY</span>,<span style="color: #BBB"> </span>ops);
+<span style="color: #BBB">    </span>}<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">catch</span><span style="color: #BBB"> </span>(Exception<span style="color: #BBB"> </span>e)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #080; font-style: italic">// Display warning</span>
+<span style="color: #BBB">        </span>Context<span style="color: #BBB"> </span>ctx<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>getApplicationContext();
+<span style="color: #BBB">        </span>CharSequence<span style="color: #BBB"> </span>txt<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>getString(R.<span style="color: #B44">string</span>.<span style="color: #B44">contactCreationFailure</span>);
+<span style="color: #BBB">        </span><span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span>duration<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>Toast.<span style="color: #B44">LENGTH_SHORT</span>;
+<span style="color: #BBB">        </span>Toast<span style="color: #BBB"> </span>toast<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>Toast.<span style="color: #B44">makeText</span>(ctx,<span style="color: #BBB"> </span>txt,<span style="color: #BBB"> </span>duration);
+<span style="color: #BBB">        </span>toast.<span style="color: #B44">show</span>();
 
-<span style="color: #bbbbbb">        </span><span style="color: #008800; font-style: italic">// Log exception</span>
-<span style="color: #bbbbbb">        </span>Log.<span style="color: #BB4444">e</span>(TAG,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;Exceptoin encoutered while inserting contact: &quot;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span>e);
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">        </span><span style="color: #080; font-style: italic">// Log exception</span>
+<span style="color: #BBB">        </span>Log.<span style="color: #B44">e</span>(TAG,<span style="color: #BBB"> </span><span style="color: #B44">&quot;Exceptoin encoutered while inserting contact: &quot;</span><span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span>e);
+<span style="color: #BBB">    </span>}
 }
 </code></pre></div></td></tr></table></div>
 
@@ -754,48 +754,48 @@ mProfileCursor<span style="color: #bbbbbb"> </span><span style="color: #666666">
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">39</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">40</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">41</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">42</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">/*</span>
-<span style="color: #008800; font-style: italic"> * The application uses CursorLoader to query the raw contacts table. The system calls this method</span>
-<span style="color: #008800; font-style: italic"> * when the load is finished.</span>
-<span style="color: #008800; font-style: italic"> */</span>
-<span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onLoadFinished</span>(Loader<span style="color: #666666">&lt;</span>Cursor<span style="color: #666666">&gt;</span><span style="color: #bbbbbb"> </span>loader,<span style="color: #bbbbbb"> </span>Cursor<span style="color: #bbbbbb"> </span>cursor)<span style="color: #bbbbbb"> </span>{
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">42</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">/*</span>
+<span style="color: #080; font-style: italic"> * The application uses CursorLoader to query the raw contacts table. The system calls this method</span>
+<span style="color: #080; font-style: italic"> * when the load is finished.</span>
+<span style="color: #080; font-style: italic"> */</span>
+<span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">onLoadFinished</span>(Loader<span style="color: #666">&lt;</span>Cursor<span style="color: #666">&gt;</span><span style="color: #BBB"> </span>loader,<span style="color: #BBB"> </span>Cursor<span style="color: #BBB"> </span>cursor)<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Gets the raw contact&#39;s _ID and VERSION values</span>
-<span style="color: #bbbbbb">    </span>mRawContactID<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>cursor.<span style="color: #BB4444">getLong</span>(cursor.<span style="color: #BB4444">getColumnIndex</span>(BaseColumns.<span style="color: #BB4444">_ID</span>));
-<span style="color: #bbbbbb">    </span>mVersion<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>cursor.<span style="color: #BB4444">getInt</span>(cursor.<span style="color: #BB4444">getColumnIndex</span>(SyncColumns.<span style="color: #BB4444">VERSION</span>));
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Gets the raw contact&#39;s _ID and VERSION values</span>
+<span style="color: #BBB">    </span>mRawContactID<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>cursor.<span style="color: #B44">getLong</span>(cursor.<span style="color: #B44">getColumnIndex</span>(BaseColumns.<span style="color: #B44">_ID</span>));
+<span style="color: #BBB">    </span>mVersion<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>cursor.<span style="color: #B44">getInt</span>(cursor.<span style="color: #B44">getColumnIndex</span>(SyncColumns.<span style="color: #B44">VERSION</span>));
 }
 
 ...
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Sets up a Uri for the assert operation</span>
-<span style="color: #bbbbbb">    </span>Uri<span style="color: #bbbbbb"> </span>rawContactUri<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>ContentUris.<span style="color: #BB4444">withAppendedId</span>(RawContacts.<span style="color: #BB4444">CONTENT_URI</span>,<span style="color: #bbbbbb"> </span>mRawContactID);
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Sets up a Uri for the assert operation</span>
+<span style="color: #BBB">    </span>Uri<span style="color: #BBB"> </span>rawContactUri<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>ContentUris.<span style="color: #B44">withAppendedId</span>(RawContacts.<span style="color: #B44">CONTENT_URI</span>,<span style="color: #BBB"> </span>mRawContactID);
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Creates a builder for the assert operation</span>
-<span style="color: #bbbbbb">    </span>ContentProviderOperation.<span style="color: #BB4444">Builder</span><span style="color: #bbbbbb"> </span>assertOp<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>ContentProviderOperation.<span style="color: #BB4444">netAssertQuery</span>(rawContactUri);
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Creates a builder for the assert operation</span>
+<span style="color: #BBB">    </span>ContentProviderOperation.<span style="color: #B44">Builder</span><span style="color: #BBB"> </span>assertOp<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>ContentProviderOperation.<span style="color: #B44">netAssertQuery</span>(rawContactUri);
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Adds the assertions to the assert operation: checks the version and count of rows tested</span>
-<span style="color: #bbbbbb">    </span>assertOp.<span style="color: #BB4444">withValue</span>(SyncColumns.<span style="color: #BB4444">VERSION</span>,<span style="color: #bbbbbb"> </span>mVersion);
-<span style="color: #bbbbbb">    </span>assertOp.<span style="color: #BB4444">withExpectedCount</span>(<span style="color: #666666">1</span>);
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Adds the assertions to the assert operation: checks the version and count of rows tested</span>
+<span style="color: #BBB">    </span>assertOp.<span style="color: #B44">withValue</span>(SyncColumns.<span style="color: #B44">VERSION</span>,<span style="color: #BBB"> </span>mVersion);
+<span style="color: #BBB">    </span>assertOp.<span style="color: #B44">withExpectedCount</span>(<span style="color: #666">1</span>);
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Creates an ArrayList to hold the ContentProviderOperation objects</span>
-<span style="color: #bbbbbb">    </span>ArrayList<span style="color: #bbbbbb"> </span>ops<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>ArrayList<span style="color: #666666">&lt;</span>ContentProviderOperationg<span style="color: #666666">&gt;</span>;
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Creates an ArrayList to hold the ContentProviderOperation objects</span>
+<span style="color: #BBB">    </span>ArrayList<span style="color: #BBB"> </span>ops<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>ArrayList<span style="color: #666">&lt;</span>ContentProviderOperationg<span style="color: #666">&gt;</span>;
 
-<span style="color: #bbbbbb">    </span>ops.<span style="color: #BB4444">add</span>(assertOp.<span style="color: #BB4444">build</span>());
+<span style="color: #BBB">    </span>ops.<span style="color: #B44">add</span>(assertOp.<span style="color: #B44">build</span>());
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// You would add the rest of your batch operations to &quot;ops&quot; here</span>
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// You would add the rest of your batch operations to &quot;ops&quot; here</span>
 
-<span style="color: #bbbbbb">    </span>...
+<span style="color: #BBB">    </span>...
 
-<span style="color: #bbbbbb">    </span><span style="color: #008800; font-style: italic">// Applies the batch. If the assert fails, an Exception is thrown</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">try</span>
-<span style="color: #bbbbbb">        </span>{
-<span style="color: #bbbbbb">            </span>ContentProviderResult<span style="color: #666666">[]</span><span style="color: #bbbbbb"> </span>results<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span>
-<span style="color: #bbbbbb">                    </span>getContentResolver().<span style="color: #BB4444">applyBatch</span>(AUTHORITY,<span style="color: #bbbbbb"> </span>ops);
+<span style="color: #BBB">    </span><span style="color: #080; font-style: italic">// Applies the batch. If the assert fails, an Exception is thrown</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">try</span>
+<span style="color: #BBB">        </span>{
+<span style="color: #BBB">            </span>ContentProviderResult<span style="color: #666">[]</span><span style="color: #BBB"> </span>results<span style="color: #BBB"> </span><span style="color: #666">=</span>
+<span style="color: #BBB">                    </span>getContentResolver().<span style="color: #B44">applyBatch</span>(AUTHORITY,<span style="color: #BBB"> </span>ops);
 
-<span style="color: #bbbbbb">        </span>}<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">catch</span><span style="color: #bbbbbb"> </span>(OperationApplicationException<span style="color: #bbbbbb"> </span>e)<span style="color: #bbbbbb"> </span>{
+<span style="color: #BBB">        </span>}<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">catch</span><span style="color: #BBB"> </span>(OperationApplicationException<span style="color: #BBB"> </span>e)<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">            </span><span style="color: #008800; font-style: italic">// Actions you want to take if the assert operation fails go here</span>
-<span style="color: #bbbbbb">        </span>}
+<span style="color: #BBB">            </span><span style="color: #080; font-style: italic">// Actions you want to take if the assert operation fails go here</span>
+<span style="color: #BBB">        </span>}
 </code></pre></div></td></tr></table></div>
 
 <h2 id="_14">结语<a class="headerlink" href="#_14" title="Permanent link"> </a></h2>

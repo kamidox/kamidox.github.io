@@ -232,26 +232,26 @@
 <p>如果你对技术细节不感兴趣，这篇文章阅读到此就可以结束了。本节演示如何使用 openssl 工具包，对数据进行数字签名及验证，以及对证书进行签名。</p>
 <h3 id="_8">信息摘要<a class="headerlink" href="#_8" title="Permanent link"> </a></h3>
 <p>我们先把要计算摘要的数据保存到 <code>data.txt</code> 文件里：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is real words from Joey.&quot;</span><span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>data.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span><span style="color: #A2F">echo</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;This is real words from Joey.&quot;</span><span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>data.txt
 </code></pre></div>
 
 <p>然后以这个文件作为输入计算 SHA256 摘要信息：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>dgst<span style="color: #bbbbbb"> </span>-sha256<span style="color: #bbbbbb"> </span>-hex<span style="color: #bbbbbb"> </span>data.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>dgst<span style="color: #BBB"> </span>-sha256<span style="color: #BBB"> </span>-hex<span style="color: #BBB"> </span>data.txt
 </code></pre></div>
 
 <p>其输出为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>SHA256<span style="color: #666666">(</span>data.txt<span style="color: #666666">)=</span><span style="color: #bbbbbb"> </span>f1b1b3f5f35944c8e2169031efac2a37147dac631b8dbd7cfa5d265e0e804e8d
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>SHA256<span style="color: #666">(</span>data.txt<span style="color: #666">)=</span><span style="color: #BBB"> </span>f1b1b3f5f35944c8e2169031efac2a37147dac631b8dbd7cfa5d265e0e804e8d
 </code></pre></div>
 
 <p>当然，我们也可以换成 MD5 算法并计算其摘要：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>dgst<span style="color: #bbbbbb"> </span>-md5<span style="color: #bbbbbb"> </span>-hex<span style="color: #bbbbbb"> </span>data.txt
-MD5<span style="color: #666666">(</span>data.txt<span style="color: #666666">)=</span><span style="color: #bbbbbb"> </span>ed764086c5770a9d5ff0e60036aa4226
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>dgst<span style="color: #BBB"> </span>-md5<span style="color: #BBB"> </span>-hex<span style="color: #BBB"> </span>data.txt
+MD5<span style="color: #666">(</span>data.txt<span style="color: #666">)=</span><span style="color: #BBB"> </span>ed764086c5770a9d5ff0e60036aa4226
 </code></pre></div>
 
 <p>从输出不难看出，SHA256 的摘要输出是 32 个字节（f1 是第一个字节，b1 是第二个字节，依此类推），MD5 的摘要输出是 16 字节。</p>
 <h3 id="_9">非对称加密算法<a class="headerlink" href="#_9" title="Permanent link"> </a></h3>
 <p>我们先生成一个 2048 bit 的 RSA 算法私钥：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>genrsa<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span><span style="color: #666666">2048</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>genrsa<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span><span style="color: #666">2048</span>
 </code></pre></div>
 
 <p><code>rsa_private.key</code> 就是生成的私钥。这是个文本文件，你可以用任何文本编辑器打开它，内容如下：</p>
@@ -261,19 +261,19 @@ BASE64(PRIVATE KEY)
 </code></pre></div>
 
 <p>私钥数据是经过 BASE64 编码的数据，故显示成 ASCII 字符。私钥必须私密保存，一旦泄漏，整个安全体系就崩塌了。由于私钥是如此的重要，openssl 提供了一个方法来加密保存私钥文件。下面的命令用来生成密码保护的密钥：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>genrsa<span style="color: #bbbbbb"> </span>-aes256<span style="color: #bbbbbb"> </span>-passout<span style="color: #bbbbbb"> </span>pass:yourpwd<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_aes_private.key<span style="color: #bbbbbb"> </span><span style="color: #666666">2048</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>genrsa<span style="color: #BBB"> </span>-aes256<span style="color: #BBB"> </span>-passout<span style="color: #BBB"> </span>pass:yourpwd<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>rsa_aes_private.key<span style="color: #BBB"> </span><span style="color: #666">2048</span>
 </code></pre></div>
 
 <p>这个命令生成的私钥 <code>rsa_aes_private.key</code> 是使用 AES 256 算法加密保存的，密码就是字符串 <code>yourpwd</code> 。下次使用这个私钥时，就必须提供这个密码才能使用。我们还可以把加密保存的私钥转为不加密的，其命令为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>rsa<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>rsa_aes_private.key<span style="color: #bbbbbb"> </span>-passin<span style="color: #bbbbbb"> </span>pass:yourpwd<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_private.key
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>rsa<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>rsa_aes_private.key<span style="color: #BBB"> </span>-passin<span style="color: #BBB"> </span>pass:yourpwd<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>rsa_private.key
 </code></pre></div>
 
 <p>当然，明文的私钥也可以加密保存起来：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>rsa<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-aes256<span style="color: #bbbbbb"> </span>-passout<span style="color: #bbbbbb"> </span>pass:newpwd<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_aes_private.key
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>rsa<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span>-aes256<span style="color: #BBB"> </span>-passout<span style="color: #BBB"> </span>pass:newpwd<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>rsa_aes_private.key
 </code></pre></div>
 
 <p>有了私钥，我们就可以生成与之配套使用的公钥：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>rsa<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-pubout<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>rsa_public.key
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>rsa<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span>-pubout<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>rsa_public.key
 </code></pre></div>
 
 <p><code>rsa_public.key</code> 就是对应的公钥。公钥文件也是一个纯文本文件，其内容示意如下：</p>
@@ -291,12 +291,12 @@ EQIDAQAB
 <h3 id="_10">证书及签名<a class="headerlink" href="#_10" title="Permanent link"> </a></h3>
 <h4 id="_11">生成自签名证书<a class="headerlink" href="#_11" title="Permanent link"> </a></h4>
 <p>使用已有 RSA 算法的私钥生成自签名证书：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>req<span style="color: #bbbbbb"> </span>-new<span style="color: #bbbbbb"> </span>-x509<span style="color: #bbbbbb"> </span>-days<span style="color: #bbbbbb"> </span><span style="color: #666666">365</span><span style="color: #bbbbbb"> </span>-key<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert.crt<span style="color: #bbbbbb"> </span>-subj<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>req<span style="color: #BBB"> </span>-new<span style="color: #BBB"> </span>-x509<span style="color: #BBB"> </span>-days<span style="color: #BBB"> </span><span style="color: #666">365</span><span style="color: #BBB"> </span>-key<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>cert.crt<span style="color: #BBB"> </span>-subj<span style="color: #BBB"> </span><span style="color: #B44">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com&quot;</span>
 </code></pre></div>
 
 <p>-days 参数指明这个证书的有效期；-key 参数指定使用的 RSA 私钥文件；-out 参数指定输出的自签名证书文件，一般以 crt 作为后缀名；-subj 参数用来指定证书的名称，如果不带这个参数，则需要逐个输入证书的名称参数，包含国家，省份，城市，组织名称，部门名称，通用名称等等。</p>
 <p>可以使用下面命令来查看自签名证书的信息：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>x509<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>cert.crt<span style="color: #bbbbbb"> </span>-noout<span style="color: #bbbbbb"> </span>-text
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>x509<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>cert.crt<span style="color: #BBB"> </span>-noout<span style="color: #BBB"> </span>-text
 </code></pre></div>
 
 <p>其输出示意如下：</p>
@@ -353,62 +353,62 @@ EQIDAQAB
 
 <h4 id="_12">生成签名请求文件<a class="headerlink" href="#_12" title="Permanent link"> </a></h4>
 <p>当需要申请使用 CA 证书对证书进行签名时，需要生成签名请求文件。使用己有的 RSA 私钥生成签名请求文件的命令为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>req<span style="color: #bbbbbb"> </span>-new<span style="color: #bbbbbb"> </span>-key<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert.csr<span style="color: #bbbbbb"> </span>-subj<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>req<span style="color: #BBB"> </span>-new<span style="color: #BBB"> </span>-key<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>cert.csr<span style="color: #BBB"> </span>-subj<span style="color: #BBB"> </span><span style="color: #B44">&quot;/C=CN/ST=FJ/L=XM/O=sfox/OU=dev/CN=sfox.com/emailAddress=sfox@sfox.com</span>
 </code></pre></div>
 
 <p>其中 -key 指定证书的私钥信息，openssl 命令会使用私钥来算出公钥，并把公钥包含在证书文件里；-out 指明要生成的证书签名请求文件的文件名，一般以 csr 作为后缀；-subj 表示待签名的证书的名称信息。生成的证书请求文件可以使用如下命令来查看详情：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>req<span style="color: #bbbbbb"> </span>-noout<span style="color: #bbbbbb"> </span>-text<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>cert.csr
-Certificate<span style="color: #bbbbbb"> </span>Request:
-<span style="color: #bbbbbb">    </span>Data:
-<span style="color: #bbbbbb">        </span>Version:<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span><span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>0x0<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">        </span>Subject:<span style="color: #bbbbbb"> </span><span style="color: #B8860B">C</span><span style="color: #666666">=</span>CN,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">ST</span><span style="color: #666666">=</span>FJ,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">L</span><span style="color: #666666">=</span>XM,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">O</span><span style="color: #666666">=</span>SFOX,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">OU</span><span style="color: #666666">=</span>SW,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">CN</span><span style="color: #666666">=</span>sfox.com/emailAddress<span style="color: #666666">=</span>sfox@qq.com
-<span style="color: #bbbbbb">        </span>Subject<span style="color: #bbbbbb"> </span>Public<span style="color: #bbbbbb"> </span>Key<span style="color: #bbbbbb"> </span>Info:
-<span style="color: #bbbbbb">            </span>Public<span style="color: #bbbbbb"> </span>Key<span style="color: #bbbbbb"> </span>Algorithm:<span style="color: #bbbbbb"> </span>rsaEncryption
-<span style="color: #bbbbbb">                </span>Public-Key:<span style="color: #bbbbbb"> </span><span style="color: #666666">(2048</span><span style="color: #bbbbbb"> </span>bit<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">                </span>Modulus:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">00</span>:eb:d1:15:93:d1:8a:c8:44:03:45:f5:7c:38:95:
-<span style="color: #bbbbbb">                    </span>1f:e3:d7:9a:27:ae:db:4c:ff:f3:00:f9:b9:86:e7:
-<span style="color: #bbbbbb">                    </span>fd:cf:b1:21:01:a9:6d:8f:27:c7:35:a0:90:31:85:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">53</span>:00:a5:00:4b:d7:3b:5e:12:b1:03:c3:64:1e:29:
-<span style="color: #bbbbbb">                    </span>7f:1c:d0:44:e1:43:8d:63:4e:78:be:88:ac:29:66:
-<span style="color: #bbbbbb">                    </span>2a:c6:d1:da:a0:59:1c:7d:8e:50:13:eb:e3:f4:95:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">49</span>:6a:3c:18:00:a6:63:03:7e:b6:ce:8d:b2:f2:a6:
-<span style="color: #bbbbbb">                    </span>e9:27:a2:0d:08:c7:81:d7:da:0e:b8:61:41:4e:49:
-<span style="color: #bbbbbb">                    </span>f8:cf:44:51:ef:59:05:ae:2c:90:da:93:a3:6c:7a:
-<span style="color: #bbbbbb">                    </span>ee:e6:91:fd:6c:2f:6d:e0:68:ef:90:d3:0d:59:e1:
-<span style="color: #bbbbbb">                    </span>5d:49:d4:77:b8:ed:f3:21:80:7a:72:5d:7b:ea:46:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">98</span>:67:c0:70:af:e3:de:1a:5f:a3:cc:ca:5d:ee:50:
-<span style="color: #bbbbbb">                    </span>d2:11:52:cb:68:0b:75:8d:98:8d:2d:0d:5d:61:33:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">78</span>:18:6b:94:47:2f:fa:6f:77:78:f9:36:75:57:13:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">65</span>:2d:cd:3e:f2:5f:af:cb:3a:57:45:95:b1:65:c1:
-<span style="color: #bbbbbb">                    </span><span style="color: #666666">01</span>:8c:0e:2f:a1:e5:a6:c6:a0:4a:52:c0:3a:8c:a4:
-<span style="color: #bbbbbb">                    </span>c3:4b:f5:7a:20:53:93:6a:4a:0e:18:b9:39:c3:77:
-<span style="color: #bbbbbb">                    </span>f5:11
-<span style="color: #bbbbbb">                </span>Exponent:<span style="color: #bbbbbb"> </span><span style="color: #666666">65537</span><span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>0x10001<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">        </span>Attributes:
-<span style="color: #bbbbbb">            </span>a0:00
-<span style="color: #bbbbbb">    </span>Signature<span style="color: #bbbbbb"> </span>Algorithm:<span style="color: #bbbbbb"> </span>sha256WithRSAEncryption
-<span style="color: #bbbbbb">         </span><span style="color: #666666">13</span>:aa:fc:0f:82:a4:b1:cf:3a:f3:3f:ff:53:b8:50:e8:41:cc:
-<span style="color: #bbbbbb">         </span>6b:a3:1c:5b:e2:4d:b0:47:f3:02:a8:ae:34:22:94:fc:8d:6b:
-<span style="color: #bbbbbb">         </span><span style="color: #666666">11</span>:41:82:33:9f:b1:df:da:fd:90:18:55:5d:aa:9e:61:82:26:
-<span style="color: #bbbbbb">         </span>e0:b5:9e:86:0d:18:cb:8d:e4:f5:d3:2c:32:8d:21:9d:f8:c2:
-<span style="color: #bbbbbb">         </span>3d:c8:22:e2:9c:10:69:bc:25:de:a4:14:05:c3:2c:c7:7b:d4:
-<span style="color: #bbbbbb">         </span>ee:30:53:9c:71:2f:0e:f5:04:83:54:d8:74:28:e9:ef:4a:72:
-<span style="color: #bbbbbb">         </span>b5:88:a5:73:d5:78:8e:27:88:be:52:16:fd:a9:cc:13:38:aa:
-<span style="color: #bbbbbb">         </span>1c:94:a4:20:a5:23:4d:bd:7d:29:d2:db:da:ec:86:2c:99:36:
-<span style="color: #bbbbbb">         </span>fb:c0:b2:0f:ec:da:ef:51:d5:f7:37:d0:11:59:d0:66:c4:e9:
-<span style="color: #bbbbbb">         </span>d1:ed:a1:2b:d4:b3:46:6b:fe:6f:17:3b:77:0c:be:f8:20:5b:
-<span style="color: #bbbbbb">         </span>ca:66:2d:64:17:20:5d:19:73:4d:be:5e:e3:fc:25:1a:cb:03:
-<span style="color: #bbbbbb">         </span><span style="color: #666666">87</span>:4d:55:7a:56:9d:ed:d7:7d:5a:55:e2:85:1b:2f:d2:fe:74:
-<span style="color: #bbbbbb">         </span><span style="color: #666666">43</span>:6f:84:5c:2b:de:c9:0c:05:76:08:65:de:6a:21:d6:26:0f:
-<span style="color: #bbbbbb">         </span><span style="color: #666666">23</span>:5a:12:4e:13:0e:8f:fd:ef:7c:e6:b4:6b:07:80:0f:2b:b8:
-<span style="color: #bbbbbb">         </span>7f:66:c7:16
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>req<span style="color: #BBB"> </span>-noout<span style="color: #BBB"> </span>-text<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>cert.csr
+Certificate<span style="color: #BBB"> </span>Request:
+<span style="color: #BBB">    </span>Data:
+<span style="color: #BBB">        </span>Version:<span style="color: #BBB"> </span><span style="color: #666">0</span><span style="color: #BBB"> </span><span style="color: #666">(</span>0x0<span style="color: #666">)</span>
+<span style="color: #BBB">        </span>Subject:<span style="color: #BBB"> </span><span style="color: #B8860B">C</span><span style="color: #666">=</span>CN,<span style="color: #BBB"> </span><span style="color: #B8860B">ST</span><span style="color: #666">=</span>FJ,<span style="color: #BBB"> </span><span style="color: #B8860B">L</span><span style="color: #666">=</span>XM,<span style="color: #BBB"> </span><span style="color: #B8860B">O</span><span style="color: #666">=</span>SFOX,<span style="color: #BBB"> </span><span style="color: #B8860B">OU</span><span style="color: #666">=</span>SW,<span style="color: #BBB"> </span><span style="color: #B8860B">CN</span><span style="color: #666">=</span>sfox.com/emailAddress<span style="color: #666">=</span>sfox@qq.com
+<span style="color: #BBB">        </span>Subject<span style="color: #BBB"> </span>Public<span style="color: #BBB"> </span>Key<span style="color: #BBB"> </span>Info:
+<span style="color: #BBB">            </span>Public<span style="color: #BBB"> </span>Key<span style="color: #BBB"> </span>Algorithm:<span style="color: #BBB"> </span>rsaEncryption
+<span style="color: #BBB">                </span>Public-Key:<span style="color: #BBB"> </span><span style="color: #666">(2048</span><span style="color: #BBB"> </span>bit<span style="color: #666">)</span>
+<span style="color: #BBB">                </span>Modulus:
+<span style="color: #BBB">                    </span><span style="color: #666">00</span>:eb:d1:15:93:d1:8a:c8:44:03:45:f5:7c:38:95:
+<span style="color: #BBB">                    </span>1f:e3:d7:9a:27:ae:db:4c:ff:f3:00:f9:b9:86:e7:
+<span style="color: #BBB">                    </span>fd:cf:b1:21:01:a9:6d:8f:27:c7:35:a0:90:31:85:
+<span style="color: #BBB">                    </span><span style="color: #666">53</span>:00:a5:00:4b:d7:3b:5e:12:b1:03:c3:64:1e:29:
+<span style="color: #BBB">                    </span>7f:1c:d0:44:e1:43:8d:63:4e:78:be:88:ac:29:66:
+<span style="color: #BBB">                    </span>2a:c6:d1:da:a0:59:1c:7d:8e:50:13:eb:e3:f4:95:
+<span style="color: #BBB">                    </span><span style="color: #666">49</span>:6a:3c:18:00:a6:63:03:7e:b6:ce:8d:b2:f2:a6:
+<span style="color: #BBB">                    </span>e9:27:a2:0d:08:c7:81:d7:da:0e:b8:61:41:4e:49:
+<span style="color: #BBB">                    </span>f8:cf:44:51:ef:59:05:ae:2c:90:da:93:a3:6c:7a:
+<span style="color: #BBB">                    </span>ee:e6:91:fd:6c:2f:6d:e0:68:ef:90:d3:0d:59:e1:
+<span style="color: #BBB">                    </span>5d:49:d4:77:b8:ed:f3:21:80:7a:72:5d:7b:ea:46:
+<span style="color: #BBB">                    </span><span style="color: #666">98</span>:67:c0:70:af:e3:de:1a:5f:a3:cc:ca:5d:ee:50:
+<span style="color: #BBB">                    </span>d2:11:52:cb:68:0b:75:8d:98:8d:2d:0d:5d:61:33:
+<span style="color: #BBB">                    </span><span style="color: #666">78</span>:18:6b:94:47:2f:fa:6f:77:78:f9:36:75:57:13:
+<span style="color: #BBB">                    </span><span style="color: #666">65</span>:2d:cd:3e:f2:5f:af:cb:3a:57:45:95:b1:65:c1:
+<span style="color: #BBB">                    </span><span style="color: #666">01</span>:8c:0e:2f:a1:e5:a6:c6:a0:4a:52:c0:3a:8c:a4:
+<span style="color: #BBB">                    </span>c3:4b:f5:7a:20:53:93:6a:4a:0e:18:b9:39:c3:77:
+<span style="color: #BBB">                    </span>f5:11
+<span style="color: #BBB">                </span>Exponent:<span style="color: #BBB"> </span><span style="color: #666">65537</span><span style="color: #BBB"> </span><span style="color: #666">(</span>0x10001<span style="color: #666">)</span>
+<span style="color: #BBB">        </span>Attributes:
+<span style="color: #BBB">            </span>a0:00
+<span style="color: #BBB">    </span>Signature<span style="color: #BBB"> </span>Algorithm:<span style="color: #BBB"> </span>sha256WithRSAEncryption
+<span style="color: #BBB">         </span><span style="color: #666">13</span>:aa:fc:0f:82:a4:b1:cf:3a:f3:3f:ff:53:b8:50:e8:41:cc:
+<span style="color: #BBB">         </span>6b:a3:1c:5b:e2:4d:b0:47:f3:02:a8:ae:34:22:94:fc:8d:6b:
+<span style="color: #BBB">         </span><span style="color: #666">11</span>:41:82:33:9f:b1:df:da:fd:90:18:55:5d:aa:9e:61:82:26:
+<span style="color: #BBB">         </span>e0:b5:9e:86:0d:18:cb:8d:e4:f5:d3:2c:32:8d:21:9d:f8:c2:
+<span style="color: #BBB">         </span>3d:c8:22:e2:9c:10:69:bc:25:de:a4:14:05:c3:2c:c7:7b:d4:
+<span style="color: #BBB">         </span>ee:30:53:9c:71:2f:0e:f5:04:83:54:d8:74:28:e9:ef:4a:72:
+<span style="color: #BBB">         </span>b5:88:a5:73:d5:78:8e:27:88:be:52:16:fd:a9:cc:13:38:aa:
+<span style="color: #BBB">         </span>1c:94:a4:20:a5:23:4d:bd:7d:29:d2:db:da:ec:86:2c:99:36:
+<span style="color: #BBB">         </span>fb:c0:b2:0f:ec:da:ef:51:d5:f7:37:d0:11:59:d0:66:c4:e9:
+<span style="color: #BBB">         </span>d1:ed:a1:2b:d4:b3:46:6b:fe:6f:17:3b:77:0c:be:f8:20:5b:
+<span style="color: #BBB">         </span>ca:66:2d:64:17:20:5d:19:73:4d:be:5e:e3:fc:25:1a:cb:03:
+<span style="color: #BBB">         </span><span style="color: #666">87</span>:4d:55:7a:56:9d:ed:d7:7d:5a:55:e2:85:1b:2f:d2:fe:74:
+<span style="color: #BBB">         </span><span style="color: #666">43</span>:6f:84:5c:2b:de:c9:0c:05:76:08:65:de:6a:21:d6:26:0f:
+<span style="color: #BBB">         </span><span style="color: #666">23</span>:5a:12:4e:13:0e:8f:fd:ef:7c:e6:b4:6b:07:80:0f:2b:b8:
+<span style="color: #BBB">         </span>7f:66:c7:16
 </code></pre></div>
 
 <p>细心的读者可以发现，证书签名请求文件和自签名的证书文件相比，少了 Issuer（颁发者），Serial Number，Validity（有效期）等信息。</p>
 <h4 id="ca-csr">使用 CA 证书对 CSR 文件进行签名<a class="headerlink" href="#ca-csr" title="Permanent link"> </a></h4>
 <p>要使用 CA 证书对签名请求文件进行签名，你必须有 CA 证书文件以及 CA 证书的私钥文件。有了这两个文件，可以使用下面的命令进行签名：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>x509<span style="color: #bbbbbb"> </span>-req<span style="color: #bbbbbb"> </span>-days<span style="color: #bbbbbb"> </span><span style="color: #666666">3650</span><span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>cert.csr<span style="color: #bbbbbb"> </span>-CA<span style="color: #bbbbbb"> </span>ca.crt<span style="color: #bbbbbb"> </span>-CAkey<span style="color: #bbbbbb"> </span>ca.key<span style="color: #bbbbbb"> </span>-passin<span style="color: #bbbbbb"> </span>pass:yourpwd<span style="color: #bbbbbb"> </span>-CAcreateserial<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>cert_ca_signed.crt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>x509<span style="color: #BBB"> </span>-req<span style="color: #BBB"> </span>-days<span style="color: #BBB"> </span><span style="color: #666">3650</span><span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>cert.csr<span style="color: #BBB"> </span>-CA<span style="color: #BBB"> </span>ca.crt<span style="color: #BBB"> </span>-CAkey<span style="color: #BBB"> </span>ca.key<span style="color: #BBB"> </span>-passin<span style="color: #BBB"> </span>pass:yourpwd<span style="color: #BBB"> </span>-CAcreateserial<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>cert_ca_signed.crt
 </code></pre></div>
 
 <p>-days 表示证书的有效期，此处指定 3650 表示 10 年有效期；-in 表示输入文件，此处是指证书请求签名文件的文件名；-CA 指定 CA 证书的文件名；-CAkey 指定 CA 证书的私钥文件；-passin 指定 CA 证书的私钥文件的加密密码，如果以明文保存的私钥文件，则此参数可省略。-CAcreateserial 参数指定给签名后的证书创建序列号；-out 参数指明输出的签名后的数字证书文件的文件名。</p>
@@ -416,16 +416,16 @@ Certificate<span style="color: #bbbbbb"> </span>Request:
 <h3 id="_13">数字签名及验证<a class="headerlink" href="#_13" title="Permanent link"> </a></h3>
 <p>本小节将演示对一段文本内容进行签名，然后验证签名的正确性。</p>
 <p>我们先生成待签名的数字内容：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is real words from Joey.&quot;</span><span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>data.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span><span style="color: #A2F">echo</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;This is real words from Joey.&quot;</span><span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>data.txt
 </code></pre></div>
 
 <p>接着，对数字内容进行签名，签名的时候使用的是<strong>私钥</strong>：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>dgst<span style="color: #bbbbbb"> </span>-sha256<span style="color: #bbbbbb"> </span>-sign<span style="color: #bbbbbb"> </span>rsa_private.key<span style="color: #bbbbbb"> </span>-out<span style="color: #bbbbbb"> </span>data.sign<span style="color: #bbbbbb"> </span>data.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>dgst<span style="color: #BBB"> </span>-sha256<span style="color: #BBB"> </span>-sign<span style="color: #BBB"> </span>rsa_private.key<span style="color: #BBB"> </span>-out<span style="color: #BBB"> </span>data.sign<span style="color: #BBB"> </span>data.txt
 </code></pre></div>
 
 <p>这个命令对 <code>data.txt</code> 文件的内容计算 SHA256 摘要；然后使用对输出的 32 字节的摘要信息，使用 <code>rsa_private.key</code> 指定的私钥进行加密，并把密文输出到 <code>data.sign</code> 文件里。<code>data.sign</code> 是个二进制文件，文件里保存的内容就是 <code>data.txt</code> 文件的数字签名。</p>
 <p>接着，我们对数字内容进行签名检查，检查签名时使用的是公钥：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>dgst<span style="color: #bbbbbb"> </span>-sha256<span style="color: #bbbbbb">  </span>-verify<span style="color: #bbbbbb"> </span>rsa_public.key<span style="color: #bbbbbb"> </span>-signature<span style="color: #bbbbbb"> </span>data.sign<span style="color: #bbbbbb"> </span>data.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>dgst<span style="color: #BBB"> </span>-sha256<span style="color: #BBB">  </span>-verify<span style="color: #BBB"> </span>rsa_public.key<span style="color: #BBB"> </span>-signature<span style="color: #BBB"> </span>data.sign<span style="color: #BBB"> </span>data.txt
 </code></pre></div>
 
 <p>不出意外的话，输出的内容为：</p>
@@ -433,14 +433,14 @@ Certificate<span style="color: #bbbbbb"> </span>Request:
 </code></pre></div>
 
 <p>表示数字签名验证成功，<code>data.txt</code> 文件的内容没有被篡改。现在，我们把 <code>data.txt</code> 文件修改一下，看看签名验证能否成功：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is fake words from Joey.&quot;</span><span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>data.txt
-$<span style="color: #bbbbbb"> </span>openssl<span style="color: #bbbbbb"> </span>dgst<span style="color: #bbbbbb"> </span>-sha256<span style="color: #bbbbbb">  </span>-verify<span style="color: #bbbbbb"> </span>rsa_public.key<span style="color: #bbbbbb"> </span>-signature<span style="color: #bbbbbb"> </span>data.sign<span style="color: #bbbbbb"> </span>data.txt
-Verification<span style="color: #bbbbbb"> </span>Failure
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span><span style="color: #A2F">echo</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;This is fake words from Joey.&quot;</span><span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>data.txt
+$<span style="color: #BBB"> </span>openssl<span style="color: #BBB"> </span>dgst<span style="color: #BBB"> </span>-sha256<span style="color: #BBB">  </span>-verify<span style="color: #BBB"> </span>rsa_public.key<span style="color: #BBB"> </span>-signature<span style="color: #BBB"> </span>data.sign<span style="color: #BBB"> </span>data.txt
+Verification<span style="color: #BBB"> </span>Failure
 </code></pre></div>
 
 <p>此时输出的是 <code>Verification Failure</code> 表示数字签名验证失败。</p>
 <p>当然，如果我们手头没有现成的公钥业验证签名，只要有这个网站的证书，则可以可以从证书里获取到公钥：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>openssl<span style="color: #bbbbbb"> </span>x509<span style="color: #bbbbbb"> </span>-in<span style="color: #bbbbbb"> </span>cert_ca_signed.crt<span style="color: #bbbbbb"> </span>-pubkey<span style="color: #bbbbbb"> </span>-noout<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>rsa_public.key
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>openssl<span style="color: #BBB"> </span>x509<span style="color: #BBB"> </span>-in<span style="color: #BBB"> </span>cert_ca_signed.crt<span style="color: #BBB"> </span>-pubkey<span style="color: #BBB"> </span>-noout<span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>rsa_public.key
 </code></pre></div>
 
 <p>（完）</p>

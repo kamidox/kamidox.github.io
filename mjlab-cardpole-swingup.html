@@ -194,72 +194,72 @@
 <h2 id="_2">先建立直觉：观测是眼睛，奖励是评分标准<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <p>强化学习策略不会直接理解“杆向右倒了”这句话。它每一步拿到的是一组数字，输出一个
 动作，然后从奖励中得知刚才的动作是否有利。这个闭环可以表示为：</p>
-<p>$$
+<div class="math">$$
 \text{观测 } o_t
 \rightarrow \text{策略动作 } a_t
 \rightarrow \text{物理仿真}
 \rightarrow \text{奖励 } r_t
 \rightarrow \text{更新策略}。
-$$</p>
+$$</div>
 <p>在本例中，策略的输出是作用于小车的力。XML 中的 actuator 为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">&lt;motor</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">name=&quot;slide&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">joint=&quot;slider&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">gear=&quot;10&quot;</span>
-<span style="color: #bbbbbb">       </span><span style="color: #BB4444">ctrllimited=&quot;true&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">ctrlrange=&quot;-1 1&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">&lt;motor</span><span style="color: #BBB"> </span><span style="color: #B44">name=&quot;slide&quot;</span><span style="color: #BBB"> </span><span style="color: #B44">joint=&quot;slider&quot;</span><span style="color: #BBB"> </span><span style="color: #B44">gear=&quot;10&quot;</span>
+<span style="color: #BBB">       </span><span style="color: #B44">ctrllimited=&quot;true&quot;</span><span style="color: #BBB"> </span><span style="color: #B44">ctrlrange=&quot;-1 1&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
 </code></pre></div>
 
-<p>策略输出经过 actuator 后推动 <code>slider</code> 关节。<code>ctrl</code> 会被限制在 $[-1,1]$，再乘上
+<p>策略输出经过 actuator 后推动 <code>slider</code> 关节。<code>ctrl</code> 会被限制在 <span class="math">\([-1,1]\)</span>，再乘上
 <code>gear="10"</code>，因此最大作用力约为 10 N。</p>
 <h2 id="observations">Observations：策略实际看见的状态<a class="headerlink" href="#observations" title="Permanent link"> </a></h2>
 <p>配置中的 observation term 为：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>actor_terms <span style="color: #666666">=</span> {
-  <span style="color: #BB4444">&quot;cart_pos&quot;</span>: ObservationTermCfg(func<span style="color: #666666">=</span>joint_pos_rel, <span style="color: #666666">...</span>),
-  <span style="color: #BB4444">&quot;pole_angle&quot;</span>: ObservationTermCfg(func<span style="color: #666666">=</span>pole_angle_cos_sin, <span style="color: #666666">...</span>),
-  <span style="color: #BB4444">&quot;cart_vel&quot;</span>: ObservationTermCfg(func<span style="color: #666666">=</span>joint_vel_rel, <span style="color: #666666">...</span>),
-  <span style="color: #BB4444">&quot;pole_vel&quot;</span>: ObservationTermCfg(func<span style="color: #666666">=</span>joint_vel_rel, <span style="color: #666666">...</span>),
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>actor_terms <span style="color: #666">=</span> {
+  <span style="color: #B44">&quot;cart_pos&quot;</span>: ObservationTermCfg(func<span style="color: #666">=</span>joint_pos_rel, <span style="color: #666">...</span>),
+  <span style="color: #B44">&quot;pole_angle&quot;</span>: ObservationTermCfg(func<span style="color: #666">=</span>pole_angle_cos_sin, <span style="color: #666">...</span>),
+  <span style="color: #B44">&quot;cart_vel&quot;</span>: ObservationTermCfg(func<span style="color: #666">=</span>joint_vel_rel, <span style="color: #666">...</span>),
+  <span style="color: #B44">&quot;pole_vel&quot;</span>: ObservationTermCfg(func<span style="color: #666">=</span>joint_vel_rel, <span style="color: #666">...</span>),
 }
 </code></pre></div>
 
 <p>它们被拼接为 actor 的输入向量：</p>
-<p>$$
+<div class="math">$$
 o_t = [x,\ \cos(\theta),\ \sin(\theta),\ \dot{x},\ \dot{\theta}]。
-$$</p>
+$$</div>
 <p>虽然有四个 term，<code>pole_angle</code> 同时返回余弦和正弦，所以最终共有 5 个数。所有数据都
 是批量张量，形状带有前导维度 <code>[num_envs, ...]</code>；这使同一个策略可以同时控制多个
 彼此独立的 CartPole。</p>
 <h3 id="1-cart_pos">1. <code>cart_pos</code>：小车在轨道上的位置<a class="headerlink" href="#1-cart_pos" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;cart_pos&quot;</span>: ObservationTermCfg(
-  func<span style="color: #666666">=</span>joint_pos_rel,
-  params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: cart_cfg},
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B44">&quot;cart_pos&quot;</span>: ObservationTermCfg(
+  func<span style="color: #666">=</span>joint_pos_rel,
+  params<span style="color: #666">=</span>{<span style="color: #B44">&quot;asset_cfg&quot;</span>: cart_cfg},
 )
 </code></pre></div>
 
-<p><code>cart_cfg</code> 指向实体 <code>cartpole</code> 的 <code>slider</code> 关节，因此这个量是小车的水平位置 $x$。</p>
+<p><code>cart_cfg</code> 指向实体 <code>cartpole</code> 的 <code>slider</code> 关节，因此这个量是小车的水平位置 <span class="math">\(x\)</span>。</p>
 <ul>
-<li>$x=0$：小车在轨道中间。</li>
-<li>$x&gt;0$：小车在右侧。</li>
-<li>$x&lt;0$：小车在左侧。</li>
+<li><span class="math">\(x=0\)</span>：小车在轨道中间。</li>
+<li><span class="math">\(x&gt;0\)</span>：小车在右侧。</li>
+<li><span class="math">\(x&lt;0\)</span>：小车在左侧。</li>
 </ul>
 <p>它的物理意义是“还能往哪边移动”。为了扶正杆，小车有时必须快速移向一侧；但若策略
 不知道自己已经接近轨道边缘，就可能一直冲出去，失去继续纠正杆的空间。因此平衡任务
 不只需要知道杆的姿态，也必须知道小车的位置。</p>
 <h3 id="2-pole_angle">2. <code>pole_angle</code>：杆指向哪里<a class="headerlink" href="#2-pole_angle" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">pole_angle_cos_sin</span>(env, asset_cfg):
-  asset <span style="color: #666666">=</span> env<span style="color: #666666">.</span>scene[asset_cfg<span style="color: #666666">.</span>name]
-  angle <span style="color: #666666">=</span> asset<span style="color: #666666">.</span>data<span style="color: #666666">.</span>joint_pos[:, asset_cfg<span style="color: #666666">.</span>joint_ids]
-  <span style="color: #AA22FF; font-weight: bold">return</span> torch<span style="color: #666666">.</span>cat([torch<span style="color: #666666">.</span>cos(angle), torch<span style="color: #666666">.</span>sin(angle)], dim<span style="color: #666666">=-1</span>)
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">pole_angle_cos_sin</span>(env, asset_cfg):
+  asset <span style="color: #666">=</span> env<span style="color: #666">.</span>scene[asset_cfg<span style="color: #666">.</span>name]
+  angle <span style="color: #666">=</span> asset<span style="color: #666">.</span>data<span style="color: #666">.</span>joint_pos[:, asset_cfg<span style="color: #666">.</span>joint_ids]
+  <span style="color: #A2F; font-weight: bold">return</span> torch<span style="color: #666">.</span>cat([torch<span style="color: #666">.</span>cos(angle), torch<span style="color: #666">.</span>sin(angle)], dim<span style="color: #666">=-1</span>)
 </code></pre></div>
 
-<p>该函数读取 <code>hinge_1</code> 的角度 $\theta$，返回 $[\cos(\theta),\sin(\theta)]$。</p>
+<p>该函数读取 <code>hinge_1</code> 的角度 <span class="math">\(\theta\)</span>，返回 <span class="math">\([\cos(\theta),\sin(\theta)]\)</span>。</p>
 <table>
 <thead>
 <tr>
 <th>杆的状态</th>
-<th style="text-align: right;">$\cos(\theta)$</th>
-<th style="text-align: right;">$\sin(\theta)$</th>
+<th style="text-align: right;"><span class="math">\(\cos(\theta)\)</span></th>
+<th style="text-align: right;"><span class="math">\(\sin(\theta)\)</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>竖直向上，$\theta=0$</td>
+<td>竖直向上，<span class="math">\(\theta=0\)</span></td>
 <td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -274,7 +274,7 @@ $$</p>
 <td style="text-align: right;">负值</td>
 </tr>
 <tr>
-<td>垂直向下，$\theta=\pi$</td>
+<td>垂直向下，<span class="math">\(\theta=\pi\)</span></td>
 <td style="text-align: right;">-1</td>
 <td style="text-align: right;">0</td>
 </tr>
@@ -283,25 +283,25 @@ $$</p>
 <p>可以把它看作策略的“水平仪”：<code>sin(theta)</code> 告诉策略往哪侧偏，<code>cos(theta)</code> 告诉它离竖直
 总体有多远。</p>
 <p>不直接输入角度有重要原因。<code>hinge_1</code> 是无限制铰链，杆可连续旋转；同一个物理朝向可能
-对应 $\pi$、$3\pi$、$5\pi$ 等不同数值。若直接输入角度，神经网络会把它们误以为非常
+对应 <span class="math">\(\pi\)</span>、<span class="math">\(3\pi\)</span>、<span class="math">\(5\pi\)</span> 等不同数值。若直接输入角度，神经网络会把它们误以为非常
 不同；正余弦编码会为同一朝向给出相同且连续的表示。</p>
 <h3 id="3-cart_vel">3. <code>cart_vel</code>：小车当前的运动趋势<a class="headerlink" href="#3-cart_vel" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;cart_vel&quot;</span>: ObservationTermCfg(
-  func<span style="color: #666666">=</span>joint_vel_rel,
-  params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: cart_cfg},
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B44">&quot;cart_vel&quot;</span>: ObservationTermCfg(
+  func<span style="color: #666">=</span>joint_vel_rel,
+  params<span style="color: #666">=</span>{<span style="color: #B44">&quot;asset_cfg&quot;</span>: cart_cfg},
 )
 </code></pre></div>
 
-<p>这是小车速度 $\dot{x}$。仅知道位置不能表示惯性：小车即使还在中间，也可能正在高速向右
+<p>这是小车速度 <span class="math">\(\dot{x}\)</span>。仅知道位置不能表示惯性：小车即使还在中间，也可能正在高速向右
 冲。策略必须知道它的速度，才能提前刹车、反向推力，避免小车越过合适位置。</p>
 <h3 id="4-pole_vel">4. <code>pole_vel</code>：杆倒下或回正的速度<a class="headerlink" href="#4-pole_vel" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444">&quot;pole_vel&quot;</span>: ObservationTermCfg(
-  func<span style="color: #666666">=</span>joint_vel_rel,
-  params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;asset_cfg&quot;</span>: hinge_cfg},
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B44">&quot;pole_vel&quot;</span>: ObservationTermCfg(
+  func<span style="color: #666">=</span>joint_vel_rel,
+  params<span style="color: #666">=</span>{<span style="color: #B44">&quot;asset_cfg&quot;</span>: hinge_cfg},
 )
 </code></pre></div>
 
-<p>这是杆的角速度 $\dot{\theta}$。同样的倾角可能意味着完全不同的风险：</p>
+<p>这是杆的角速度 <span class="math">\(\dot{\theta}\)</span>。同样的倾角可能意味着完全不同的风险：</p>
 <ul>
 <li>杆向右倾 5 度但正在回正，此时不宜继续猛推。</li>
 <li>杆向右倾 5 度且正加速向右倒，此时需要更积极地移动小车。</li>
@@ -309,9 +309,9 @@ $$</p>
 <p>从控制角度看，杆角度类似“偏差”，杆角速度类似“偏差变化速度”。策略会从训练中学习到
 类似 PD 控制器的反馈规律，但不会被显式写成固定公式。</p>
 <h2 id="actor-critic-observation-group">actor 与 critic 的 observation group<a class="headerlink" href="#actor-critic-observation-group" title="Permanent link"> </a></h2>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>observations <span style="color: #666666">=</span> {
-  <span style="color: #BB4444">&quot;actor&quot;</span>: ObservationGroupCfg(actor_terms, enable_corruption<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>),
-  <span style="color: #BB4444">&quot;critic&quot;</span>: ObservationGroupCfg({<span style="color: #666666">**</span>actor_terms}),
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>observations <span style="color: #666">=</span> {
+  <span style="color: #B44">&quot;actor&quot;</span>: ObservationGroupCfg(actor_terms, enable_corruption<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>),
+  <span style="color: #B44">&quot;critic&quot;</span>: ObservationGroupCfg({<span style="color: #666">**</span>actor_terms}),
 }
 </code></pre></div>
 
@@ -322,11 +322,11 @@ $$</p>
 它为后续加入噪声提供了入口。play 模式会关闭 actor corruption，以便稳定观察策略。</p>
 <h2 id="rewards">Rewards：让策略知道什么是好控制<a class="headerlink" href="#rewards" title="Permanent link"> </a></h2>
 <p>本例只有一个名为 <code>smooth_reward</code> 的 reward term：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>rewards <span style="color: #666666">=</span> {
-  <span style="color: #BB4444">&quot;smooth_reward&quot;</span>: RewardTermCfg(
-    func<span style="color: #666666">=</span>cartpole_smooth_reward,
-    weight<span style="color: #666666">=1.0</span>,
-    params<span style="color: #666666">=</span>{<span style="color: #BB4444">&quot;cart_cfg&quot;</span>: cart_cfg, <span style="color: #BB4444">&quot;hinge_cfg&quot;</span>: hinge_cfg},
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>rewards <span style="color: #666">=</span> {
+  <span style="color: #B44">&quot;smooth_reward&quot;</span>: RewardTermCfg(
+    func<span style="color: #666">=</span>cartpole_smooth_reward,
+    weight<span style="color: #666">=1.0</span>,
+    params<span style="color: #666">=</span>{<span style="color: #B44">&quot;cart_cfg&quot;</span>: cart_cfg, <span style="color: #B44">&quot;hinge_cfg&quot;</span>: hinge_cfg},
   ),
 }
 </code></pre></div>
@@ -334,32 +334,32 @@ $$</p>
 <p>每次环境推进后，<code>RewardManager</code> 调用 <code>cartpole_smooth_reward</code>，得到每个环境的一个标量，
 乘以 <code>weight=1.0</code> 后加入总奖励。框架默认还会按环境步长 <code>step_dt</code> 缩放奖励。</p>
 <p>本例的 <code>timestep=0.01</code>、<code>decimation=5</code>，所以策略每 0.05 秒作一次决策：</p>
-<p>$$
-\text{step_dt}=0.01\times5=0.05\text{ s}。
-$$</p>
+<div class="math">$$
+\text{step\_dt}=0.01\times5=0.05\text{ s}。
+$$</div>
 <p>这使奖励更接近“每秒表现”而非“每个仿真步表现”，在改变控制频率时较稳定。</p>
 <h3 id="_3">奖励的整体结构<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>函数最终返回：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">return</span> upright <span style="color: #666666">*</span> centered <span style="color: #666666">*</span> small_control <span style="color: #666666">*</span> small_velocity
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">return</span> upright <span style="color: #666">*</span> centered <span style="color: #666">*</span> small_control <span style="color: #666">*</span> small_velocity
 </code></pre></div>
 
 <p>也就是：</p>
-<p>$$
+<div class="math">$$
 r = r_{\text{upright}}
     \times r_{\text{centered}}
     \times r_{\text{small control}}
     \times r_{\text{small velocity}}。
-$$</p>
+$$</div>
 <p>这四项都在 0 到 1 之间。使用乘法意味着“同时做好”比“某一项特别好”更重要：若杆已经
 倒下，直立项接近 0，其他项再好也救不了总分。</p>
 <h3 id="1-upright">1. <code>upright</code>：杆是否竖直<a class="headerlink" href="#1-upright" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>pole_cos <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>cos(hinge_angle)
-upright <span style="color: #666666">=</span> (pole_cos <span style="color: #666666">+</span> <span style="color: #666666">1</span>) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>pole_cos <span style="color: #666">=</span> torch<span style="color: #666">.</span>cos(hinge_angle)
+upright <span style="color: #666">=</span> (pole_cos <span style="color: #666">+</span> <span style="color: #666">1</span>) <span style="color: #666">/</span> <span style="color: #666">2</span>
 </code></pre></div>
 
-<p>$$
+<div class="math">$$
 r_{\text{upright}}=\frac{\cos(\theta)+1}{2}。
-$$</p>
+$$</div>
 <table>
 <thead>
 <tr>
@@ -369,15 +369,15 @@ $$</p>
 </thead>
 <tbody>
 <tr>
-<td>竖直向上，$\theta=0$</td>
+<td>竖直向上，<span class="math">\(\theta=0\)</span></td>
 <td style="text-align: right;">1.0</td>
 </tr>
 <tr>
-<td>水平，$\theta=\pm\pi/2$</td>
+<td>水平，<span class="math">\(\theta=\pm\pi/2\)</span></td>
 <td style="text-align: right;">0.5</td>
 </tr>
 <tr>
-<td>向下，$\theta=\pi$</td>
+<td>向下，<span class="math">\(\theta=\pi\)</span></td>
 <td style="text-align: right;">0.0</td>
 </tr>
 </tbody>
@@ -385,27 +385,27 @@ $$</p>
 <p>这是最主要的目标信号。它是连续平滑的：策略即使还无法完全扶正杆，只要让杆从 30 度改善
 到 10 度，也会得到更高奖励。这种渐进反馈比“超过角度阈值才得分”的二元规则更容易训练。</p>
 <h3 id="2-centered">2. <code>centered</code>：小车是否留在可控区域<a class="headerlink" href="#2-centered" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>centered <span style="color: #666666">=</span> (<span style="color: #666666">1</span> <span style="color: #666666">+</span> _gaussian_tolerance(cart_pos, margin<span style="color: #666666">=2.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>centered <span style="color: #666">=</span> (<span style="color: #666">1</span> <span style="color: #666">+</span> _gaussian_tolerance(cart_pos, margin<span style="color: #666">=2.0</span>)) <span style="color: #666">/</span> <span style="color: #666">2</span>
 </code></pre></div>
 
-<p>高斯 tolerance 在小车居中 $x=0$ 时为 1，偏离越多越平滑地降低；当 $|x|=2$ 时，内部
+<p>高斯 tolerance 在小车居中 <span class="math">\(x=0\)</span> 时为 1，偏离越多越平滑地降低；当 <span class="math">\(|x|=2\)</span> 时，内部
 tolerance 约为 0.1。因此 <code>centered</code> 大致在 0.5 到 1 之间。</p>
 <p>这项的意思不是禁止小车移动，而是避免它在扶杆过程中逐渐跑到轨道尽头。最低仍保留约 0.5，
 体现了设计者的优先级：必要时先救杆，再慢慢让小车回到中央。</p>
 <h3 id="3-small_control">3. <code>small_control</code>：是否避免不必要的猛推<a class="headerlink" href="#3-small_control" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>control <span style="color: #666666">=</span> env<span style="color: #666666">.</span>action_manager<span style="color: #666666">.</span>action<span style="color: #666666">.</span>squeeze(<span style="color: #666666">-1</span>)
-small_control <span style="color: #666666">=</span> (<span style="color: #666666">4</span> <span style="color: #666666">+</span> _quadratic_tolerance(control, margin<span style="color: #666666">=1.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">5</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>control <span style="color: #666">=</span> env<span style="color: #666">.</span>action_manager<span style="color: #666">.</span>action<span style="color: #666">.</span>squeeze(<span style="color: #666">-1</span>)
+small_control <span style="color: #666">=</span> (<span style="color: #666">4</span> <span style="color: #666">+</span> _quadratic_tolerance(control, margin<span style="color: #666">=1.0</span>)) <span style="color: #666">/</span> <span style="color: #666">5</span>
 </code></pre></div>
 
-<p>这里用的是策略的原始 action，而不是经过电机齿轮放大后的实际力。当 $u=0$ 时该项为 1；
-当 $|u|\ge1$ 时，quadratic tolerance 降为 0，结果为 $4/5=0.8$。</p>
+<p>这里用的是策略的原始 action，而不是经过电机齿轮放大后的实际力。当 <span class="math">\(u=0\)</span> 时该项为 1；
+当 <span class="math">\(|u|\ge1\)</span> 时，quadratic tolerance 降为 0，结果为 <span class="math">\(4/5=0.8\)</span>。</p>
 <p>因此它不是严厉禁止大力，而是轻微偏好小动作。物理意义是避免小车持续左右猛冲和高频振荡；
 但杆即将倒下时，策略仍可以用大动作恢复平衡，不会因为这一项将总奖励完全归零。</p>
 <h3 id="4-small_velocity">4. <code>small_velocity</code>：杆是否真正稳定下来<a class="headerlink" href="#4-small_velocity" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>small_velocity <span style="color: #666666">=</span> (<span style="color: #666666">1</span> <span style="color: #666666">+</span> _gaussian_tolerance(hinge_vel, margin<span style="color: #666666">=5.0</span>)) <span style="color: #666666">/</span> <span style="color: #666666">2</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>small_velocity <span style="color: #666">=</span> (<span style="color: #666">1</span> <span style="color: #666">+</span> _gaussian_tolerance(hinge_vel, margin<span style="color: #666">=5.0</span>)) <span style="color: #666">/</span> <span style="color: #666">2</span>
 </code></pre></div>
 
-<p>当杆角速度 $\dot{\theta}=0$ 时，该项为 1；杆旋转越快，越接近 0.5。</p>
+<p>当杆角速度 <span class="math">\(\dot{\theta}=0\)</span> 时，该项为 1；杆旋转越快，越接近 0.5。</p>
 <p>若只奖励“杆经过竖直位置”，策略可能让杆高速左右摆动，每次掠过竖直时获得高分，但从未稳定。
 该项明确鼓励杆在竖直附近安静下来，物理上相当于偏好有适当阻尼、不过冲的平衡过程。</p>
 <h2 id="_4">奖励如何塑造最终行为<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
@@ -466,6 +466,68 @@ small_control <span style="color: #666666">=</span> (<span style="color: #666666
 </ol>
 <p>换句话说，observation 给策略提供“现在发生了什么”的数字证据；reward 将“直立、稳定、
 居中、省力”的期望翻译成可优化的分数。两者一起定义了 CartPole 强化学习任务的物理目标。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/ai.html">ai</a> on 2026-09-06(Sunday) 00:43. Tags: <a href="./tag/ai.html">ai</a>, </h6>
 </article>

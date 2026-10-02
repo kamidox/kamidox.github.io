@@ -203,8 +203,8 @@
 </tbody>
 </table>
 <p><strong>DQN 的解法：用神经网络代替 Q 表。</strong></p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Q<span style="color: #666666">-</span><span style="color: #A0A000">Learning</span>:<span style="color: #bbbbbb">  </span>Q<span style="color: #666666">[</span>state<span style="color: #666666">][</span>action<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">8.5</span>
-<span style="color: #A0A000">DQN</span>:<span style="color: #bbbbbb">         </span>Q_value<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>neural_network(<span style="color: #AA22FF; font-weight: bold">state</span>)<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">→</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>Q(a=0), Q(a=1), ...<span style="color: #666666">]</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Q<span style="color: #666">-</span><span style="color: #A0A000">Learning</span>:<span style="color: #BBB">  </span>Q<span style="color: #666">[</span>state<span style="color: #666">][</span>action<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">8.5</span>
+<span style="color: #A0A000">DQN</span>:<span style="color: #BBB">         </span>Q_value<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>neural_network(<span style="color: #A2F; font-weight: bold">state</span>)<span style="color: #BBB"> </span><span style="border: 1px solid #F00">→</span><span style="color: #BBB"> </span><span style="color: #666">[</span>Q(a=0), Q(a=1), ...<span style="color: #666">]</span>
 </code></pre></div>
 
 <p>输入一个状态，网络直接输出<strong>所有动作的 Q 值</strong>。</p>
@@ -259,254 +259,254 @@
 <h3 id="3-greedy-q-learning">3️⃣ ε-Greedy 探索（和 Q-Learning 一样）<a class="headerlink" href="#3-greedy-q-learning" title="Permanent link"> </a></h3>
 <hr />
 <h2 id="dqn_1">三、DQN 算法流程<a class="headerlink" href="#dqn_1" title="Permanent link"> </a></h2>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="border: 1px solid #FF0000">初始化</span><span style="color: #bbbbbb"> </span>policy_net<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">和</span><span style="color: #bbbbbb"> </span>target_net<span style="border: 1px solid #FF0000">（权重相同）</span>
-<span style="border: 1px solid #FF0000">初始化</span><span style="color: #bbbbbb"> </span>replay_buffer
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="border: 1px solid #F00">初始化</span><span style="color: #BBB"> </span>policy_net<span style="color: #BBB"> </span><span style="border: 1px solid #F00">和</span><span style="color: #BBB"> </span>target_net<span style="border: 1px solid #F00">（权重相同）</span>
+<span style="border: 1px solid #F00">初始化</span><span style="color: #BBB"> </span>replay_buffer
 
-<span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>episode<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">1</span><span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>N:
-<span style="color: #bbbbbb">    </span><span style="border: 1px solid #FF0000">重置环境，得到</span><span style="color: #bbbbbb"> </span>s
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>step<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">1</span><span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>max_steps:
-<span style="color: #bbbbbb">        </span><span style="border: 1px solid #FF0000">用</span><span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">ε</span><span style="color: #666666">-</span>greedy<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">选动作</span><span style="color: #bbbbbb"> </span>a
-<span style="color: #bbbbbb">        </span><span style="border: 1px solid #FF0000">执行</span><span style="color: #bbbbbb"> </span>a<span style="border: 1px solid #FF0000">，得到</span><span style="color: #bbbbbb"> </span>(s,<span style="color: #bbbbbb"> </span>a,<span style="color: #bbbbbb"> </span>r,<span style="color: #bbbbbb"> </span>s<span style="color: #BB4444">&#39;, done)</span>
-<span style="color: #bbbbbb">        </span><span style="border: 1px solid #FF0000">存入</span><span style="color: #bbbbbb"> </span>replay_buffer
+<span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>episode<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">1</span><span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>N:
+<span style="color: #BBB">    </span><span style="border: 1px solid #F00">重置环境，得到</span><span style="color: #BBB"> </span>s
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>step<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">1</span><span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>max_steps:
+<span style="color: #BBB">        </span><span style="border: 1px solid #F00">用</span><span style="color: #BBB"> </span><span style="border: 1px solid #F00">ε</span><span style="color: #666">-</span>greedy<span style="color: #BBB"> </span><span style="border: 1px solid #F00">选动作</span><span style="color: #BBB"> </span>a
+<span style="color: #BBB">        </span><span style="border: 1px solid #F00">执行</span><span style="color: #BBB"> </span>a<span style="border: 1px solid #F00">，得到</span><span style="color: #BBB"> </span>(s,<span style="color: #BBB"> </span>a,<span style="color: #BBB"> </span>r,<span style="color: #BBB"> </span>s<span style="color: #B44">&#39;, done)</span>
+<span style="color: #BBB">        </span><span style="border: 1px solid #F00">存入</span><span style="color: #BBB"> </span>replay_buffer
 
-<span style="color: #bbbbbb">        </span><span style="color: #008800; font-style: italic"># 从 buffer 采样训练</span>
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>buffer<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">够大了</span>:
-<span style="color: #bbbbbb">            </span><span style="border: 1px solid #FF0000">采样</span><span style="color: #bbbbbb"> </span>batch<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">个</span><span style="color: #bbbbbb"> </span>(s,<span style="color: #bbbbbb"> </span>a,<span style="color: #bbbbbb"> </span>r,<span style="color: #bbbbbb"> </span>s<span style="color: #BB4444">&#39;, done)</span>
-<span style="color: #bbbbbb">            </span><span style="border: 1px solid #FF0000">用</span><span style="color: #bbbbbb"> </span>policy_net<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">算</span><span style="color: #bbbbbb"> </span>Q(s,<span style="color: #bbbbbb"> </span>a)
-<span style="color: #bbbbbb">            </span><span style="border: 1px solid #FF0000">用</span><span style="color: #bbbbbb"> </span>target_net<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">算</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF">max</span><span style="color: #bbbbbb"> </span>Q(s<span style="color: #BB4444">&#39;, a&#39;</span>)
-<span style="color: #bbbbbb">            </span>TD<span style="color: #bbbbbb"> </span>Target<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>r<span style="color: #bbbbbb"> </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">γ</span><span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">·</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF">max</span><span style="color: #bbbbbb"> </span>Q(s<span style="color: #BB4444">&#39;, a&#39;</span>)<span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">·</span><span style="color: #bbbbbb"> </span>(<span style="color: #666666">1</span><span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span>done)
-<span style="color: #bbbbbb">            </span><span style="border: 1px solid #FF0000">最小化</span><span style="color: #bbbbbb"> </span>MSE<span style="color: #bbbbbb"> </span>Loss:<span style="color: #bbbbbb"> </span>(Q(s,a)<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span>Target)<span style="border: 1px solid #FF0000">²</span>
-<span style="color: #bbbbbb">            </span><span style="border: 1px solid #FF0000">更新</span><span style="color: #bbbbbb"> </span>policy_net
+<span style="color: #BBB">        </span><span style="color: #080; font-style: italic"># 从 buffer 采样训练</span>
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>buffer<span style="color: #BBB"> </span><span style="border: 1px solid #F00">够大了</span>:
+<span style="color: #BBB">            </span><span style="border: 1px solid #F00">采样</span><span style="color: #BBB"> </span>batch<span style="color: #BBB"> </span><span style="border: 1px solid #F00">个</span><span style="color: #BBB"> </span>(s,<span style="color: #BBB"> </span>a,<span style="color: #BBB"> </span>r,<span style="color: #BBB"> </span>s<span style="color: #B44">&#39;, done)</span>
+<span style="color: #BBB">            </span><span style="border: 1px solid #F00">用</span><span style="color: #BBB"> </span>policy_net<span style="color: #BBB"> </span><span style="border: 1px solid #F00">算</span><span style="color: #BBB"> </span>Q(s,<span style="color: #BBB"> </span>a)
+<span style="color: #BBB">            </span><span style="border: 1px solid #F00">用</span><span style="color: #BBB"> </span>target_net<span style="color: #BBB"> </span><span style="border: 1px solid #F00">算</span><span style="color: #BBB"> </span><span style="color: #A2F">max</span><span style="color: #BBB"> </span>Q(s<span style="color: #B44">&#39;, a&#39;</span>)
+<span style="color: #BBB">            </span>TD<span style="color: #BBB"> </span>Target<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>r<span style="color: #BBB"> </span><span style="color: #666">+</span><span style="color: #BBB"> </span><span style="border: 1px solid #F00">γ</span><span style="color: #BBB"> </span><span style="border: 1px solid #F00">·</span><span style="color: #BBB"> </span><span style="color: #A2F">max</span><span style="color: #BBB"> </span>Q(s<span style="color: #B44">&#39;, a&#39;</span>)<span style="color: #BBB"> </span><span style="border: 1px solid #F00">·</span><span style="color: #BBB"> </span>(<span style="color: #666">1</span><span style="color: #BBB"> </span><span style="color: #666">-</span><span style="color: #BBB"> </span>done)
+<span style="color: #BBB">            </span><span style="border: 1px solid #F00">最小化</span><span style="color: #BBB"> </span>MSE<span style="color: #BBB"> </span>Loss:<span style="color: #BBB"> </span>(Q(s,a)<span style="color: #BBB"> </span><span style="color: #666">-</span><span style="color: #BBB"> </span>Target)<span style="border: 1px solid #F00">²</span>
+<span style="color: #BBB">            </span><span style="border: 1px solid #F00">更新</span><span style="color: #BBB"> </span>policy_net
 
-<span style="color: #bbbbbb">        </span><span style="color: #008800; font-style: italic"># 定期同步</span>
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>step<span style="color: #bbbbbb"> </span><span style="color: #666666">%</span><span style="color: #bbbbbb"> </span>C<span style="color: #bbbbbb"> </span><span style="color: #666666">==</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>:
-<span style="color: #bbbbbb">            </span>target_net<span style="color: #666666">.</span>load_state_dict(policy_net<span style="color: #666666">.</span>state_dict())
+<span style="color: #BBB">        </span><span style="color: #080; font-style: italic"># 定期同步</span>
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>step<span style="color: #BBB"> </span><span style="color: #666">%</span><span style="color: #BBB"> </span>C<span style="color: #BBB"> </span><span style="color: #666">==</span><span style="color: #BBB"> </span><span style="color: #666">0</span>:
+<span style="color: #BBB">            </span>target_net<span style="color: #666">.</span>load_state_dict(policy_net<span style="color: #666">.</span>state_dict())
 </code></pre></div>
 
 <hr />
 <h2 id="python-cartpole-v1">四、完整 Python 实现（CartPole-v1）<a class="headerlink" href="#python-cartpole-v1" title="Permanent link"> </a></h2>
 <h3 id="_1">依赖<a class="headerlink" href="#_1" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>uv<span style="color: #bbbbbb"> </span>pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>torch<span style="color: #bbbbbb"> </span>gymnasium<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;gymnasium[classic-control]&quot;</span><span style="color: #bbbbbb"> </span>numpy<span style="color: #bbbbbb"> </span>matplotlib
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>uv<span style="color: #BBB"> </span>pip<span style="color: #BBB"> </span>install<span style="color: #BBB"> </span>torch<span style="color: #BBB"> </span>gymnasium<span style="color: #BBB"> </span><span style="color: #B44">&quot;gymnasium[classic-control]&quot;</span><span style="color: #BBB"> </span>numpy<span style="color: #BBB"> </span>matplotlib
 </code></pre></div>
 
 <h3 id="_2">完整代码<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">DQN on CartPole-v1</span>
-<span style="color: #BB4444; font-style: italic">Python 3.12 + PyTorch + Gymnasium</span>
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">DQN on CartPole-v1</span>
+<span style="color: #B44; font-style: italic">Python 3.12 + PyTorch + Gymnasium</span>
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
 
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">gymnasium</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">gym</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">torch</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">torch.nn</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">nn</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">torch.optim</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">optim</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">numpy</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">np</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">random</span>
-<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">collections</span> <span style="color: #AA22FF; font-weight: bold">import</span> deque, namedtuple
-<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">itertools</span> <span style="color: #AA22FF; font-weight: bold">import</span> count
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">matplotlib.pyplot</span> <span style="color: #AA22FF; font-weight: bold">as</span> <span style="color: #0000FF; font-weight: bold">plt</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">gymnasium</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">gym</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">torch</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">torch.nn</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">nn</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">torch.optim</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">optim</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">numpy</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">np</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">random</span>
+<span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">collections</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> deque, namedtuple
+<span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">itertools</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> count
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">matplotlib.pyplot</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">as</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">plt</span>
 
-<span style="color: #008800; font-style: italic"># ==================== 超参数 ====================</span>
-GAMMA <span style="color: #666666">=</span> <span style="color: #666666">0.99</span>              <span style="color: #008800; font-style: italic"># 折扣因子</span>
-EPSILON_START <span style="color: #666666">=</span> <span style="color: #666666">1.0</span>       <span style="color: #008800; font-style: italic"># 初始探索率</span>
-EPSILON_END <span style="color: #666666">=</span> <span style="color: #666666">0.05</span>        <span style="color: #008800; font-style: italic"># 最小探索率</span>
-EPSILON_DECAY <span style="color: #666666">=</span> <span style="color: #666666">1000</span>      <span style="color: #008800; font-style: italic"># 衰减步数（线性衰减）</span>
-BATCH_SIZE <span style="color: #666666">=</span> <span style="color: #666666">64</span>            <span style="color: #008800; font-style: italic"># 采样批量</span>
-MEMORY_SIZE <span style="color: #666666">=</span> <span style="color: #666666">10000</span>        <span style="color: #008800; font-style: italic"># 回放缓冲区大小</span>
-TARGET_UPDATE <span style="color: #666666">=</span> <span style="color: #666666">10</span>         <span style="color: #008800; font-style: italic"># 每 10 个 episode 同步一次 target net</span>
-LR <span style="color: #666666">=</span> <span style="color: #666666">1e-3</span>                  <span style="color: #008800; font-style: italic"># 学习率</span>
-NUM_EPISODES <span style="color: #666666">=</span> <span style="color: #666666">500</span>         <span style="color: #008800; font-style: italic"># 训练回合数</span>
-MAX_STEPS <span style="color: #666666">=</span> <span style="color: #666666">500</span>            <span style="color: #008800; font-style: italic"># 每回合最大步数</span>
+<span style="color: #080; font-style: italic"># ==================== 超参数 ====================</span>
+GAMMA <span style="color: #666">=</span> <span style="color: #666">0.99</span>              <span style="color: #080; font-style: italic"># 折扣因子</span>
+EPSILON_START <span style="color: #666">=</span> <span style="color: #666">1.0</span>       <span style="color: #080; font-style: italic"># 初始探索率</span>
+EPSILON_END <span style="color: #666">=</span> <span style="color: #666">0.05</span>        <span style="color: #080; font-style: italic"># 最小探索率</span>
+EPSILON_DECAY <span style="color: #666">=</span> <span style="color: #666">1000</span>      <span style="color: #080; font-style: italic"># 衰减步数（线性衰减）</span>
+BATCH_SIZE <span style="color: #666">=</span> <span style="color: #666">64</span>            <span style="color: #080; font-style: italic"># 采样批量</span>
+MEMORY_SIZE <span style="color: #666">=</span> <span style="color: #666">10000</span>        <span style="color: #080; font-style: italic"># 回放缓冲区大小</span>
+TARGET_UPDATE <span style="color: #666">=</span> <span style="color: #666">10</span>         <span style="color: #080; font-style: italic"># 每 10 个 episode 同步一次 target net</span>
+LR <span style="color: #666">=</span> <span style="color: #666">1e-3</span>                  <span style="color: #080; font-style: italic"># 学习率</span>
+NUM_EPISODES <span style="color: #666">=</span> <span style="color: #666">500</span>         <span style="color: #080; font-style: italic"># 训练回合数</span>
+MAX_STEPS <span style="color: #666">=</span> <span style="color: #666">500</span>            <span style="color: #080; font-style: italic"># 每回合最大步数</span>
 
-<span style="color: #008800; font-style: italic"># 经验元组</span>
-Transition <span style="color: #666666">=</span> namedtuple(<span style="color: #BB4444">&quot;Transition&quot;</span>,
-                         [<span style="color: #BB4444">&quot;state&quot;</span>, <span style="color: #BB4444">&quot;action&quot;</span>, <span style="color: #BB4444">&quot;reward&quot;</span>, <span style="color: #BB4444">&quot;next_state&quot;</span>, <span style="color: #BB4444">&quot;done&quot;</span>])
+<span style="color: #080; font-style: italic"># 经验元组</span>
+Transition <span style="color: #666">=</span> namedtuple(<span style="color: #B44">&quot;Transition&quot;</span>,
+                         [<span style="color: #B44">&quot;state&quot;</span>, <span style="color: #B44">&quot;action&quot;</span>, <span style="color: #B44">&quot;reward&quot;</span>, <span style="color: #B44">&quot;next_state&quot;</span>, <span style="color: #B44">&quot;done&quot;</span>])
 
 
-<span style="color: #008800; font-style: italic"># ==================== Q 网络 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">DQN</span>(nn<span style="color: #666666">.</span>Module):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;简单的 3 层全连接网络&quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">__init__</span>(<span style="color: #AA22FF">self</span>, state_dim, action_dim):
-        <span style="color: #AA22FF">super</span>()<span style="color: #666666">.</span><span style="color: #00A000">__init__</span>()
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>net <span style="color: #666666">=</span> nn<span style="color: #666666">.</span>Sequential(
-            nn<span style="color: #666666">.</span>Linear(state_dim, <span style="color: #666666">128</span>),
-            nn<span style="color: #666666">.</span>ReLU(),
-            nn<span style="color: #666666">.</span>Linear(<span style="color: #666666">128</span>, <span style="color: #666666">128</span>),
-            nn<span style="color: #666666">.</span>ReLU(),
-            nn<span style="color: #666666">.</span>Linear(<span style="color: #666666">128</span>, action_dim),
+<span style="color: #080; font-style: italic"># ==================== Q 网络 ====================</span>
+<span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">DQN</span>(nn<span style="color: #666">.</span>Module):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;简单的 3 层全连接网络&quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">__init__</span>(<span style="color: #A2F">self</span>, state_dim, action_dim):
+        <span style="color: #A2F">super</span>()<span style="color: #666">.</span><span style="color: #00A000">__init__</span>()
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>net <span style="color: #666">=</span> nn<span style="color: #666">.</span>Sequential(
+            nn<span style="color: #666">.</span>Linear(state_dim, <span style="color: #666">128</span>),
+            nn<span style="color: #666">.</span>ReLU(),
+            nn<span style="color: #666">.</span>Linear(<span style="color: #666">128</span>, <span style="color: #666">128</span>),
+            nn<span style="color: #666">.</span>ReLU(),
+            nn<span style="color: #666">.</span>Linear(<span style="color: #666">128</span>, action_dim),
         )
 
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">forward</span>(<span style="color: #AA22FF">self</span>, x):
-        <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>net(x)
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">forward</span>(<span style="color: #A2F">self</span>, x):
+        <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>net(x)
 
 
-<span style="color: #008800; font-style: italic"># ==================== 经验回放缓冲区 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">ReplayBuffer</span>:
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">__init__</span>(<span style="color: #AA22FF">self</span>, capacity):
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>buffer <span style="color: #666666">=</span> deque(maxlen<span style="color: #666666">=</span>capacity)
+<span style="color: #080; font-style: italic"># ==================== 经验回放缓冲区 ====================</span>
+<span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">ReplayBuffer</span>:
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">__init__</span>(<span style="color: #A2F">self</span>, capacity):
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>buffer <span style="color: #666">=</span> deque(maxlen<span style="color: #666">=</span>capacity)
 
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">push</span>(<span style="color: #AA22FF">self</span>, <span style="color: #666666">*</span>args):
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>buffer<span style="color: #666666">.</span>append(Transition(<span style="color: #666666">*</span>args))
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">push</span>(<span style="color: #A2F">self</span>, <span style="color: #666">*</span>args):
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>buffer<span style="color: #666">.</span>append(Transition(<span style="color: #666">*</span>args))
 
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">sample</span>(<span style="color: #AA22FF">self</span>, batch_size):
-        <span style="color: #AA22FF; font-weight: bold">return</span> random<span style="color: #666666">.</span>sample(<span style="color: #AA22FF">self</span><span style="color: #666666">.</span>buffer, batch_size)
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">sample</span>(<span style="color: #A2F">self</span>, batch_size):
+        <span style="color: #A2F; font-weight: bold">return</span> random<span style="color: #666">.</span>sample(<span style="color: #A2F">self</span><span style="color: #666">.</span>buffer, batch_size)
 
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">__len__</span>(<span style="color: #AA22FF">self</span>):
-        <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">len</span>(<span style="color: #AA22FF">self</span><span style="color: #666666">.</span>buffer)
-
-
-<span style="color: #008800; font-style: italic"># ==================== ε-贪心策略 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">select_action</span>(state, policy_net, epsilon):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> random<span style="color: #666666">.</span>random() <span style="color: #666666">&lt;</span> epsilon:
-        <span style="color: #AA22FF; font-weight: bold">return</span> random<span style="color: #666666">.</span>randint(<span style="color: #666666">0</span>, env<span style="color: #666666">.</span>action_space<span style="color: #666666">.</span>n <span style="color: #666666">-</span> <span style="color: #666666">1</span>)
-    <span style="color: #AA22FF; font-weight: bold">else</span>:
-        <span style="color: #AA22FF; font-weight: bold">with</span> torch<span style="color: #666666">.</span>no_grad():
-            state_t <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(state, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)<span style="color: #666666">.</span>unsqueeze(<span style="color: #666666">0</span>)
-            q_values <span style="color: #666666">=</span> policy_net(state_t)
-            <span style="color: #AA22FF; font-weight: bold">return</span> q_values<span style="color: #666666">.</span>argmax()<span style="color: #666666">.</span>item()
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">__len__</span>(<span style="color: #A2F">self</span>):
+        <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">len</span>(<span style="color: #A2F">self</span><span style="color: #666">.</span>buffer)
 
 
-<span style="color: #008800; font-style: italic"># ==================== 训练一步 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">optimize_model</span>(policy_net, target_net, optimizer, memory):
-    <span style="color: #AA22FF; font-weight: bold">if</span> <span style="color: #AA22FF">len</span>(memory) <span style="color: #666666">&lt;</span> BATCH_SIZE:
-        <span style="color: #AA22FF; font-weight: bold">return</span>
-
-    transitions <span style="color: #666666">=</span> memory<span style="color: #666666">.</span>sample(BATCH_SIZE)
-    batch <span style="color: #666666">=</span> Transition(<span style="color: #666666">*</span><span style="color: #AA22FF">zip</span>(<span style="color: #666666">*</span>transitions))
-
-    <span style="color: #008800; font-style: italic"># 转成 tensor</span>
-    state_batch <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(batch<span style="color: #666666">.</span>state, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)
-    action_batch <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(batch<span style="color: #666666">.</span>action, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>int64)<span style="color: #666666">.</span>unsqueeze(<span style="color: #666666">1</span>)
-    reward_batch <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(batch<span style="color: #666666">.</span>reward, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)
-    next_state_batch <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(batch<span style="color: #666666">.</span>next_state, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)
-    done_batch <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(batch<span style="color: #666666">.</span>done, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)
-
-    <span style="color: #008800; font-style: italic"># Q(s, a) — policy_net 对&quot;已选动作&quot;的 Q 值</span>
-    q_values <span style="color: #666666">=</span> policy_net(state_batch)           <span style="color: #008800; font-style: italic"># (64, action_dim)</span>
-    q_values <span style="color: #666666">=</span> q_values<span style="color: #666666">.</span>gather(<span style="color: #666666">1</span>, action_batch)  <span style="color: #008800; font-style: italic"># (64, 1)</span>
-    q_values <span style="color: #666666">=</span> q_values<span style="color: #666666">.</span>squeeze(<span style="color: #666666">1</span>)               <span style="color: #008800; font-style: italic"># (64,)</span>
-
-    <span style="color: #008800; font-style: italic"># max Q(s&#39;, a&#39;) — target_net 算下一个状态的最大 Q</span>
-    <span style="color: #AA22FF; font-weight: bold">with</span> torch<span style="color: #666666">.</span>no_grad():
-        next_q_values <span style="color: #666666">=</span> target_net(next_state_batch)<span style="color: #666666">.</span>max(<span style="color: #666666">1</span>)[<span style="color: #666666">0</span>]  <span style="color: #008800; font-style: italic"># (64,)</span>
-
-    <span style="color: #008800; font-style: italic"># TD Target: r + γ · max Q(s&#39;, a&#39;) · (1 - done)</span>
-    target <span style="color: #666666">=</span> reward_batch <span style="color: #666666">+</span> GAMMA <span style="color: #666666">*</span> next_q_values <span style="color: #666666">*</span> (<span style="color: #666666">1</span> <span style="color: #666666">-</span> done_batch)
-
-    <span style="color: #008800; font-style: italic"># 均方误差损失</span>
-    loss <span style="color: #666666">=</span> nn<span style="color: #666666">.</span>MSELoss()(q_values, target)
-
-    <span style="color: #008800; font-style: italic"># 反向传播</span>
-    optimizer<span style="color: #666666">.</span>zero_grad()
-    loss<span style="color: #666666">.</span>backward()
-    optimizer<span style="color: #666666">.</span>step()
+<span style="color: #080; font-style: italic"># ==================== ε-贪心策略 ====================</span>
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">select_action</span>(state, policy_net, epsilon):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">if</span> random<span style="color: #666">.</span>random() <span style="color: #666">&lt;</span> epsilon:
+        <span style="color: #A2F; font-weight: bold">return</span> random<span style="color: #666">.</span>randint(<span style="color: #666">0</span>, env<span style="color: #666">.</span>action_space<span style="color: #666">.</span>n <span style="color: #666">-</span> <span style="color: #666">1</span>)
+    <span style="color: #A2F; font-weight: bold">else</span>:
+        <span style="color: #A2F; font-weight: bold">with</span> torch<span style="color: #666">.</span>no_grad():
+            state_t <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(state, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)<span style="color: #666">.</span>unsqueeze(<span style="color: #666">0</span>)
+            q_values <span style="color: #666">=</span> policy_net(state_t)
+            <span style="color: #A2F; font-weight: bold">return</span> q_values<span style="color: #666">.</span>argmax()<span style="color: #666">.</span>item()
 
 
-<span style="color: #008800; font-style: italic"># ==================== ε 衰减 ====================</span>
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">decay_epsilon</span>(step):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;线性衰减：从 EPSILON_START 到 EPSILON_END&quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">return</span> EPSILON_END <span style="color: #666666">+</span> (EPSILON_START <span style="color: #666666">-</span> EPSILON_END) <span style="color: #666666">*</span> \
-           np<span style="color: #666666">.</span>exp(<span style="color: #666666">-</span>step <span style="color: #666666">/</span> EPSILON_DECAY)
+<span style="color: #080; font-style: italic"># ==================== 训练一步 ====================</span>
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">optimize_model</span>(policy_net, target_net, optimizer, memory):
+    <span style="color: #A2F; font-weight: bold">if</span> <span style="color: #A2F">len</span>(memory) <span style="color: #666">&lt;</span> BATCH_SIZE:
+        <span style="color: #A2F; font-weight: bold">return</span>
+
+    transitions <span style="color: #666">=</span> memory<span style="color: #666">.</span>sample(BATCH_SIZE)
+    batch <span style="color: #666">=</span> Transition(<span style="color: #666">*</span><span style="color: #A2F">zip</span>(<span style="color: #666">*</span>transitions))
+
+    <span style="color: #080; font-style: italic"># 转成 tensor</span>
+    state_batch <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(batch<span style="color: #666">.</span>state, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)
+    action_batch <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(batch<span style="color: #666">.</span>action, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>int64)<span style="color: #666">.</span>unsqueeze(<span style="color: #666">1</span>)
+    reward_batch <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(batch<span style="color: #666">.</span>reward, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)
+    next_state_batch <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(batch<span style="color: #666">.</span>next_state, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)
+    done_batch <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(batch<span style="color: #666">.</span>done, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)
+
+    <span style="color: #080; font-style: italic"># Q(s, a) — policy_net 对&quot;已选动作&quot;的 Q 值</span>
+    q_values <span style="color: #666">=</span> policy_net(state_batch)           <span style="color: #080; font-style: italic"># (64, action_dim)</span>
+    q_values <span style="color: #666">=</span> q_values<span style="color: #666">.</span>gather(<span style="color: #666">1</span>, action_batch)  <span style="color: #080; font-style: italic"># (64, 1)</span>
+    q_values <span style="color: #666">=</span> q_values<span style="color: #666">.</span>squeeze(<span style="color: #666">1</span>)               <span style="color: #080; font-style: italic"># (64,)</span>
+
+    <span style="color: #080; font-style: italic"># max Q(s&#39;, a&#39;) — target_net 算下一个状态的最大 Q</span>
+    <span style="color: #A2F; font-weight: bold">with</span> torch<span style="color: #666">.</span>no_grad():
+        next_q_values <span style="color: #666">=</span> target_net(next_state_batch)<span style="color: #666">.</span>max(<span style="color: #666">1</span>)[<span style="color: #666">0</span>]  <span style="color: #080; font-style: italic"># (64,)</span>
+
+    <span style="color: #080; font-style: italic"># TD Target: r + γ · max Q(s&#39;, a&#39;) · (1 - done)</span>
+    target <span style="color: #666">=</span> reward_batch <span style="color: #666">+</span> GAMMA <span style="color: #666">*</span> next_q_values <span style="color: #666">*</span> (<span style="color: #666">1</span> <span style="color: #666">-</span> done_batch)
+
+    <span style="color: #080; font-style: italic"># 均方误差损失</span>
+    loss <span style="color: #666">=</span> nn<span style="color: #666">.</span>MSELoss()(q_values, target)
+
+    <span style="color: #080; font-style: italic"># 反向传播</span>
+    optimizer<span style="color: #666">.</span>zero_grad()
+    loss<span style="color: #666">.</span>backward()
+    optimizer<span style="color: #666">.</span>step()
 
 
-<span style="color: #008800; font-style: italic"># ==================== 主训练 ====================</span>
-env <span style="color: #666666">=</span> gym<span style="color: #666666">.</span>make(<span style="color: #BB4444">&quot;CartPole-v1&quot;</span>)
+<span style="color: #080; font-style: italic"># ==================== ε 衰减 ====================</span>
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">decay_epsilon</span>(step):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;线性衰减：从 EPSILON_START 到 EPSILON_END&quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">return</span> EPSILON_END <span style="color: #666">+</span> (EPSILON_START <span style="color: #666">-</span> EPSILON_END) <span style="color: #666">*</span> \
+           np<span style="color: #666">.</span>exp(<span style="color: #666">-</span>step <span style="color: #666">/</span> EPSILON_DECAY)
 
-state_dim <span style="color: #666666">=</span> env<span style="color: #666666">.</span>observation_space<span style="color: #666666">.</span>shape[<span style="color: #666666">0</span>]   <span style="color: #008800; font-style: italic"># 4</span>
-action_dim <span style="color: #666666">=</span> env<span style="color: #666666">.</span>action_space<span style="color: #666666">.</span>n              <span style="color: #008800; font-style: italic"># 2</span>
 
-policy_net <span style="color: #666666">=</span> DQN(state_dim, action_dim)
-target_net <span style="color: #666666">=</span> DQN(state_dim, action_dim)
-target_net<span style="color: #666666">.</span>load_state_dict(policy_net<span style="color: #666666">.</span>state_dict())
-target_net<span style="color: #666666">.</span>eval()  <span style="color: #008800; font-style: italic"># target net 不训练</span>
+<span style="color: #080; font-style: italic"># ==================== 主训练 ====================</span>
+env <span style="color: #666">=</span> gym<span style="color: #666">.</span>make(<span style="color: #B44">&quot;CartPole-v1&quot;</span>)
 
-optimizer <span style="color: #666666">=</span> optim<span style="color: #666666">.</span>Adam(policy_net<span style="color: #666666">.</span>parameters(), lr<span style="color: #666666">=</span>LR)
-memory <span style="color: #666666">=</span> ReplayBuffer(MEMORY_SIZE)
+state_dim <span style="color: #666">=</span> env<span style="color: #666">.</span>observation_space<span style="color: #666">.</span>shape[<span style="color: #666">0</span>]   <span style="color: #080; font-style: italic"># 4</span>
+action_dim <span style="color: #666">=</span> env<span style="color: #666">.</span>action_space<span style="color: #666">.</span>n              <span style="color: #080; font-style: italic"># 2</span>
 
-episode_rewards <span style="color: #666666">=</span> []
-global_step <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+policy_net <span style="color: #666">=</span> DQN(state_dim, action_dim)
+target_net <span style="color: #666">=</span> DQN(state_dim, action_dim)
+target_net<span style="color: #666">.</span>load_state_dict(policy_net<span style="color: #666">.</span>state_dict())
+target_net<span style="color: #666">.</span>eval()  <span style="color: #080; font-style: italic"># target net 不训练</span>
 
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;🚀 开始训练 DQN...</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">&quot;</span>)
+optimizer <span style="color: #666">=</span> optim<span style="color: #666">.</span>Adam(policy_net<span style="color: #666">.</span>parameters(), lr<span style="color: #666">=</span>LR)
+memory <span style="color: #666">=</span> ReplayBuffer(MEMORY_SIZE)
 
-<span style="color: #AA22FF; font-weight: bold">for</span> episode <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(NUM_EPISODES):
-    state, _ <span style="color: #666666">=</span> env<span style="color: #666666">.</span>reset()
-    total_reward <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+episode_rewards <span style="color: #666">=</span> []
+global_step <span style="color: #666">=</span> <span style="color: #666">0</span>
 
-    <span style="color: #AA22FF; font-weight: bold">for</span> step <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(MAX_STEPS):
-        epsilon <span style="color: #666666">=</span> decay_epsilon(global_step)
-        action <span style="color: #666666">=</span> select_action(state, policy_net, epsilon)
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;🚀 开始训练 DQN...</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">&quot;</span>)
 
-        next_state, reward, terminated, truncated, _ <span style="color: #666666">=</span> env<span style="color: #666666">.</span>step(action)
-        done <span style="color: #666666">=</span> terminated <span style="color: #AA22FF; font-weight: bold">or</span> truncated
+<span style="color: #A2F; font-weight: bold">for</span> episode <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(NUM_EPISODES):
+    state, _ <span style="color: #666">=</span> env<span style="color: #666">.</span>reset()
+    total_reward <span style="color: #666">=</span> <span style="color: #666">0</span>
 
-        memory<span style="color: #666666">.</span>push(state, action, reward, next_state, done)
+    <span style="color: #A2F; font-weight: bold">for</span> step <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(MAX_STEPS):
+        epsilon <span style="color: #666">=</span> decay_epsilon(global_step)
+        action <span style="color: #666">=</span> select_action(state, policy_net, epsilon)
+
+        next_state, reward, terminated, truncated, _ <span style="color: #666">=</span> env<span style="color: #666">.</span>step(action)
+        done <span style="color: #666">=</span> terminated <span style="color: #A2F; font-weight: bold">or</span> truncated
+
+        memory<span style="color: #666">.</span>push(state, action, reward, next_state, done)
 
         optimize_model(policy_net, target_net, optimizer, memory)
 
-        state <span style="color: #666666">=</span> next_state
-        total_reward <span style="color: #666666">+=</span> reward
-        global_step <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
+        state <span style="color: #666">=</span> next_state
+        total_reward <span style="color: #666">+=</span> reward
+        global_step <span style="color: #666">+=</span> <span style="color: #666">1</span>
 
-        <span style="color: #AA22FF; font-weight: bold">if</span> done:
-            <span style="color: #AA22FF; font-weight: bold">break</span>
+        <span style="color: #A2F; font-weight: bold">if</span> done:
+            <span style="color: #A2F; font-weight: bold">break</span>
 
-    <span style="color: #008800; font-style: italic"># 定期同步 target net</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> episode <span style="color: #666666">%</span> TARGET_UPDATE <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
-        target_net<span style="color: #666666">.</span>load_state_dict(policy_net<span style="color: #666666">.</span>state_dict())
+    <span style="color: #080; font-style: italic"># 定期同步 target net</span>
+    <span style="color: #A2F; font-weight: bold">if</span> episode <span style="color: #666">%</span> TARGET_UPDATE <span style="color: #666">==</span> <span style="color: #666">0</span>:
+        target_net<span style="color: #666">.</span>load_state_dict(policy_net<span style="color: #666">.</span>state_dict())
 
-    episode_rewards<span style="color: #666666">.</span>append(total_reward)
+    episode_rewards<span style="color: #666">.</span>append(total_reward)
 
-    <span style="color: #008800; font-style: italic"># 打印进度</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> (episode <span style="color: #666666">+</span> <span style="color: #666666">1</span>) <span style="color: #666666">%</span> <span style="color: #666666">50</span> <span style="color: #666666">==</span> <span style="color: #666666">0</span>:
-        avg_reward <span style="color: #666666">=</span> np<span style="color: #666666">.</span>mean(episode_rewards[<span style="color: #666666">-50</span>:])
-        <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">f&quot;Episode </span><span style="color: #BB6688; font-weight: bold">{</span>episode<span style="color: #666666">+1</span><span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">3d</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Avg Reward (last 50): </span><span style="color: #BB6688; font-weight: bold">{</span>avg_reward<span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">6.1f</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Epsilon: </span><span style="color: #BB6688; font-weight: bold">{</span>epsilon<span style="color: #BB6688; font-weight: bold">:</span><span style="color: #BB4444">.3f</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444"> | &quot;</span>
-              <span style="color: #BB4444">f&quot;Buffer: </span><span style="color: #BB6688; font-weight: bold">{</span><span style="color: #AA22FF">len</span>(memory)<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">&quot;</span>)
+    <span style="color: #080; font-style: italic"># 打印进度</span>
+    <span style="color: #A2F; font-weight: bold">if</span> (episode <span style="color: #666">+</span> <span style="color: #666">1</span>) <span style="color: #666">%</span> <span style="color: #666">50</span> <span style="color: #666">==</span> <span style="color: #666">0</span>:
+        avg_reward <span style="color: #666">=</span> np<span style="color: #666">.</span>mean(episode_rewards[<span style="color: #666">-50</span>:])
+        <span style="color: #A2F">print</span>(<span style="color: #B44">f&quot;Episode </span><span style="color: #B68; font-weight: bold">{</span>episode<span style="color: #666">+1</span><span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">3d</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Avg Reward (last 50): </span><span style="color: #B68; font-weight: bold">{</span>avg_reward<span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">6.1f</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Epsilon: </span><span style="color: #B68; font-weight: bold">{</span>epsilon<span style="color: #B68; font-weight: bold">:</span><span style="color: #B44">.3f</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44"> | &quot;</span>
+              <span style="color: #B44">f&quot;Buffer: </span><span style="color: #B68; font-weight: bold">{</span><span style="color: #A2F">len</span>(memory)<span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">&quot;</span>)
 
-env<span style="color: #666666">.</span>close()
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">✅ 训练完成！&quot;</span>)
-
-
-<span style="color: #008800; font-style: italic"># ==================== 可视化 ====================</span>
-plt<span style="color: #666666">.</span>figure(figsize<span style="color: #666666">=</span>(<span style="color: #666666">10</span>, <span style="color: #666666">5</span>))
-plt<span style="color: #666666">.</span>plot(episode_rewards, alpha<span style="color: #666666">=0.3</span>, label<span style="color: #666666">=</span><span style="color: #BB4444">&quot;Raw&quot;</span>)
-
-<span style="color: #008800; font-style: italic"># 滑动平均</span>
-window <span style="color: #666666">=</span> <span style="color: #666666">20</span>
-smoothed <span style="color: #666666">=</span> np<span style="color: #666666">.</span>convolve(episode_rewards,
-                        np<span style="color: #666666">.</span>ones(window)<span style="color: #666666">/</span>window, mode<span style="color: #666666">=</span><span style="color: #BB4444">&quot;valid&quot;</span>)
-plt<span style="color: #666666">.</span>plot(<span style="color: #AA22FF">range</span>(window<span style="color: #666666">-1</span>, <span style="color: #AA22FF">len</span>(episode_rewards)),
-         smoothed, label<span style="color: #666666">=</span><span style="color: #BB4444">f&quot;Moving Avg (</span><span style="color: #BB6688; font-weight: bold">{</span>window<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">)&quot;</span>, linewidth<span style="color: #666666">=2</span>)
-
-plt<span style="color: #666666">.</span>xlabel(<span style="color: #BB4444">&quot;Episode&quot;</span>)
-plt<span style="color: #666666">.</span>ylabel(<span style="color: #BB4444">&quot;Total Reward&quot;</span>)
-plt<span style="color: #666666">.</span>title(<span style="color: #BB4444">&quot;DQN Training on CartPole-v1&quot;</span>)
-plt<span style="color: #666666">.</span>legend()
-plt<span style="color: #666666">.</span>grid(<span style="color: #AA22FF; font-weight: bold">True</span>, alpha<span style="color: #666666">=0.3</span>)
-plt<span style="color: #666666">.</span>show()
+env<span style="color: #666">.</span>close()
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">✅ 训练完成！&quot;</span>)
 
 
-<span style="color: #008800; font-style: italic"># ==================== 测试（无探索） ====================</span>
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">🎮 开始测试（纯贪心，ε=0）...&quot;</span>)
-test_env <span style="color: #666666">=</span> gym<span style="color: #666666">.</span>make(<span style="color: #BB4444">&quot;CartPole-v1&quot;</span>, render_mode<span style="color: #666666">=</span><span style="color: #BB4444">&quot;human&quot;</span>)
+<span style="color: #080; font-style: italic"># ==================== 可视化 ====================</span>
+plt<span style="color: #666">.</span>figure(figsize<span style="color: #666">=</span>(<span style="color: #666">10</span>, <span style="color: #666">5</span>))
+plt<span style="color: #666">.</span>plot(episode_rewards, alpha<span style="color: #666">=0.3</span>, label<span style="color: #666">=</span><span style="color: #B44">&quot;Raw&quot;</span>)
 
-<span style="color: #AA22FF; font-weight: bold">for</span> test_ep <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #AA22FF">range</span>(<span style="color: #666666">3</span>):
-    state, _ <span style="color: #666666">=</span> test_env<span style="color: #666666">.</span>reset()
-    total_reward <span style="color: #666666">=</span> <span style="color: #666666">0</span>
-    done <span style="color: #666666">=</span> <span style="color: #AA22FF; font-weight: bold">False</span>
+<span style="color: #080; font-style: italic"># 滑动平均</span>
+window <span style="color: #666">=</span> <span style="color: #666">20</span>
+smoothed <span style="color: #666">=</span> np<span style="color: #666">.</span>convolve(episode_rewards,
+                        np<span style="color: #666">.</span>ones(window)<span style="color: #666">/</span>window, mode<span style="color: #666">=</span><span style="color: #B44">&quot;valid&quot;</span>)
+plt<span style="color: #666">.</span>plot(<span style="color: #A2F">range</span>(window<span style="color: #666">-1</span>, <span style="color: #A2F">len</span>(episode_rewards)),
+         smoothed, label<span style="color: #666">=</span><span style="color: #B44">f&quot;Moving Avg (</span><span style="color: #B68; font-weight: bold">{</span>window<span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">)&quot;</span>, linewidth<span style="color: #666">=2</span>)
 
-    <span style="color: #AA22FF; font-weight: bold">while</span> <span style="color: #AA22FF; font-weight: bold">not</span> done:
-        <span style="color: #AA22FF; font-weight: bold">with</span> torch<span style="color: #666666">.</span>no_grad():
-            state_t <span style="color: #666666">=</span> torch<span style="color: #666666">.</span>tensor(state, dtype<span style="color: #666666">=</span>torch<span style="color: #666666">.</span>float32)<span style="color: #666666">.</span>unsqueeze(<span style="color: #666666">0</span>)
-            action <span style="color: #666666">=</span> policy_net(state_t)<span style="color: #666666">.</span>argmax()<span style="color: #666666">.</span>item()
-        state, reward, terminated, truncated, _ <span style="color: #666666">=</span> test_env<span style="color: #666666">.</span>step(action)
-        total_reward <span style="color: #666666">+=</span> reward
-        done <span style="color: #666666">=</span> terminated <span style="color: #AA22FF; font-weight: bold">or</span> truncated
+plt<span style="color: #666">.</span>xlabel(<span style="color: #B44">&quot;Episode&quot;</span>)
+plt<span style="color: #666">.</span>ylabel(<span style="color: #B44">&quot;Total Reward&quot;</span>)
+plt<span style="color: #666">.</span>title(<span style="color: #B44">&quot;DQN Training on CartPole-v1&quot;</span>)
+plt<span style="color: #666">.</span>legend()
+plt<span style="color: #666">.</span>grid(<span style="color: #A2F; font-weight: bold">True</span>, alpha<span style="color: #666">=0.3</span>)
+plt<span style="color: #666">.</span>show()
 
-    <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">f&quot;Test Episode </span><span style="color: #BB6688; font-weight: bold">{</span>test_ep<span style="color: #666666">+1</span><span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">: Total Reward = </span><span style="color: #BB6688; font-weight: bold">{</span>total_reward<span style="color: #BB6688; font-weight: bold">}</span><span style="color: #BB4444">&quot;</span>)
 
-test_env<span style="color: #666666">.</span>close()
+<span style="color: #080; font-style: italic"># ==================== 测试（无探索） ====================</span>
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">🎮 开始测试（纯贪心，ε=0）...&quot;</span>)
+test_env <span style="color: #666">=</span> gym<span style="color: #666">.</span>make(<span style="color: #B44">&quot;CartPole-v1&quot;</span>, render_mode<span style="color: #666">=</span><span style="color: #B44">&quot;human&quot;</span>)
+
+<span style="color: #A2F; font-weight: bold">for</span> test_ep <span style="color: #A2F; font-weight: bold">in</span> <span style="color: #A2F">range</span>(<span style="color: #666">3</span>):
+    state, _ <span style="color: #666">=</span> test_env<span style="color: #666">.</span>reset()
+    total_reward <span style="color: #666">=</span> <span style="color: #666">0</span>
+    done <span style="color: #666">=</span> <span style="color: #A2F; font-weight: bold">False</span>
+
+    <span style="color: #A2F; font-weight: bold">while</span> <span style="color: #A2F; font-weight: bold">not</span> done:
+        <span style="color: #A2F; font-weight: bold">with</span> torch<span style="color: #666">.</span>no_grad():
+            state_t <span style="color: #666">=</span> torch<span style="color: #666">.</span>tensor(state, dtype<span style="color: #666">=</span>torch<span style="color: #666">.</span>float32)<span style="color: #666">.</span>unsqueeze(<span style="color: #666">0</span>)
+            action <span style="color: #666">=</span> policy_net(state_t)<span style="color: #666">.</span>argmax()<span style="color: #666">.</span>item()
+        state, reward, terminated, truncated, _ <span style="color: #666">=</span> test_env<span style="color: #666">.</span>step(action)
+        total_reward <span style="color: #666">+=</span> reward
+        done <span style="color: #666">=</span> terminated <span style="color: #A2F; font-weight: bold">or</span> truncated
+
+    <span style="color: #A2F">print</span>(<span style="color: #B44">f&quot;Test Episode </span><span style="color: #B68; font-weight: bold">{</span>test_ep<span style="color: #666">+1</span><span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">: Total Reward = </span><span style="color: #B68; font-weight: bold">{</span>total_reward<span style="color: #B68; font-weight: bold">}</span><span style="color: #B44">&quot;</span>)
+
+test_env<span style="color: #666">.</span>close()
 </code></pre></div>
 
 <hr />

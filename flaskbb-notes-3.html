@@ -210,14 +210,14 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">8</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">User</span>(db<span style="color: #666666">.</span>Model, UserMixin):
-    __tablename__ <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;users&quot;</span>
-    __searchable__ <span style="color: #666666">=</span> [<span style="color: #BB4444">&#39;username&#39;</span>, <span style="color: #BB4444">&#39;email&#39;</span>]
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">8</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">User</span>(db<span style="color: #666">.</span>Model, UserMixin):
+    __tablename__ <span style="color: #666">=</span> <span style="color: #B44">&quot;users&quot;</span>
+    __searchable__ <span style="color: #666">=</span> [<span style="color: #B44">&#39;username&#39;</span>, <span style="color: #B44">&#39;email&#39;</span>]
 
-    <span style="color: #AA22FF">id</span> <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, primary_key<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
-    username <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    email <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    _password <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(<span style="color: #BB4444">&#39;password&#39;</span>, db<span style="color: #666666">.</span>String(<span style="color: #666666">120</span>), nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
+    <span style="color: #A2F">id</span> <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, primary_key<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
+    username <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    email <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    _password <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(<span style="color: #B44">&#39;password&#39;</span>, db<span style="color: #666">.</span>String(<span style="color: #666">120</span>), nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
 </code></pre></div></td></tr></table></div>
 
 <p>这样我们就定义了一个叫 <code>users</code> 的表格，表格的名称由 <code>__tablename__</code> 指定。这样任何对表格的操作，都可以转化为对 <code>User</code> 类的操作。代码里的 <code>db</code> 对象是什么呢？在 extensions.py 里创建了 db 对象 <code>db = SQLAlchemy()</code>。然后在 app.py 里初始化这个 db 对象 <code>db.init_app(app)</code>。</p>
@@ -241,25 +241,25 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">17</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">18</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">19</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">Topic</span>(db<span style="color: #666666">.</span>Model):
-    __tablename__ <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;topics&quot;</span>
-    __searchable__ <span style="color: #666666">=</span> [<span style="color: #BB4444">&#39;title&#39;</span>, <span style="color: #BB4444">&#39;username&#39;</span>]
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">19</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">Topic</span>(db<span style="color: #666">.</span>Model):
+    __tablename__ <span style="color: #666">=</span> <span style="color: #B44">&quot;topics&quot;</span>
+    __searchable__ <span style="color: #666">=</span> [<span style="color: #B44">&#39;title&#39;</span>, <span style="color: #B44">&#39;username&#39;</span>]
 
-    <span style="color: #AA22FF">id</span> <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, primary_key<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
-    forum_id <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer,
-                         db<span style="color: #666666">.</span>ForeignKey(<span style="color: #BB4444">&quot;forums.id&quot;</span>,
-                                       use_alter<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>,
-                                       name<span style="color: #666666">=</span><span style="color: #BB4444">&quot;fk_topic_forum_id&quot;</span>),
-                         nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    title <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">255</span>), nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    user_id <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, db<span style="color: #666666">.</span>ForeignKey(<span style="color: #BB4444">&quot;users.id&quot;</span>))
-    username <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    date_created <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>DateTime, default<span style="color: #666666">=</span>datetime<span style="color: #666666">.</span>utcnow())
-    last_updated <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>DateTime, default<span style="color: #666666">=</span>datetime<span style="color: #666666">.</span>utcnow())
-    locked <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Boolean, default<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    important <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Boolean, default<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    views <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, default<span style="color: #666666">=0</span>)
-    post_count <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, default<span style="color: #666666">=0</span>)
+    <span style="color: #A2F">id</span> <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, primary_key<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
+    forum_id <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer,
+                         db<span style="color: #666">.</span>ForeignKey(<span style="color: #B44">&quot;forums.id&quot;</span>,
+                                       use_alter<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>,
+                                       name<span style="color: #666">=</span><span style="color: #B44">&quot;fk_topic_forum_id&quot;</span>),
+                         nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    title <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">255</span>), nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    user_id <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, db<span style="color: #666">.</span>ForeignKey(<span style="color: #B44">&quot;users.id&quot;</span>))
+    username <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    date_created <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>DateTime, default<span style="color: #666">=</span>datetime<span style="color: #666">.</span>utcnow())
+    last_updated <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>DateTime, default<span style="color: #666">=</span>datetime<span style="color: #666">.</span>utcnow())
+    locked <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Boolean, default<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    important <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Boolean, default<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    views <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, default<span style="color: #666">=0</span>)
+    post_count <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, default<span style="color: #666">=0</span>)
 </code></pre></div></td></tr></table></div>
 
 <p>User 类通过 <code>db.relationship</code> 来定义表 User 和 Topic 的一对多关系。</p>
@@ -272,16 +272,16 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 7</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">User</span>(db<span style="color: #666666">.</span>Model, UserMixin):
-    __tablename__ <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;users&quot;</span>
-    __searchable__ <span style="color: #666666">=</span> [<span style="color: #BB4444">&#39;username&#39;</span>, <span style="color: #BB4444">&#39;email&#39;</span>]
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">User</span>(db<span style="color: #666">.</span>Model, UserMixin):
+    __tablename__ <span style="color: #666">=</span> <span style="color: #B44">&quot;users&quot;</span>
+    __searchable__ <span style="color: #666">=</span> [<span style="color: #B44">&#39;username&#39;</span>, <span style="color: #B44">&#39;email&#39;</span>]
 
-    <span style="color: #AA22FF">id</span> <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, primary_key<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
-    username <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    email <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    _password <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(<span style="color: #BB4444">&#39;password&#39;</span>, db<span style="color: #666666">.</span>String(<span style="color: #666666">120</span>), nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    <span style="color: #666666">...</span>
-    topics <span style="color: #666666">=</span> db<span style="color: #666666">.</span>relationship(<span style="color: #BB4444">&quot;Topic&quot;</span>, backref<span style="color: #666666">=</span><span style="color: #BB4444">&quot;user&quot;</span>, lazy<span style="color: #666666">=</span><span style="color: #BB4444">&quot;dynamic&quot;</span>)
+    <span style="color: #A2F">id</span> <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, primary_key<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
+    username <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    email <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    _password <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(<span style="color: #B44">&#39;password&#39;</span>, db<span style="color: #666">.</span>String(<span style="color: #666">120</span>), nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    <span style="color: #666">...</span>
+    topics <span style="color: #666">=</span> db<span style="color: #666">.</span>relationship(<span style="color: #B44">&quot;Topic&quot;</span>, backref<span style="color: #666">=</span><span style="color: #B44">&quot;user&quot;</span>, lazy<span style="color: #666">=</span><span style="color: #B44">&quot;dynamic&quot;</span>)
 </code></pre></div></td></tr></table></div>
 
 <p>关键代码在 LINE 10 。这一行代码会在 <code>users</code> 表里创建一个列叫 <code>topics</code>，这个列就保存了这个用户发起的所有论坛主题。然后在 <code>topics</code> 表里创建一个列叫 <code>user</code>，这是通过 <code>backref</code> 这个参数实现的，所以我们可以通过 <code>Topic.user</code> 来引用论坛主题的发起用户。最后一个参数 <code>lazy</code> 可以有四个值：</p>
@@ -300,10 +300,10 @@
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>groups_users <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Table(
-    <span style="color: #BB4444">&#39;groups_users&#39;</span>,
-    db<span style="color: #666666">.</span>Column(<span style="color: #BB4444">&#39;user_id&#39;</span>, db<span style="color: #666666">.</span>Integer(), db<span style="color: #666666">.</span>ForeignKey(<span style="color: #BB4444">&#39;users.id&#39;</span>)),
-    db<span style="color: #666666">.</span>Column(<span style="color: #BB4444">&#39;group_id&#39;</span>, db<span style="color: #666666">.</span>Integer(), db<span style="color: #666666">.</span>ForeignKey(<span style="color: #BB4444">&#39;groups.id&#39;</span>)))
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>groups_users <span style="color: #666">=</span> db<span style="color: #666">.</span>Table(
+    <span style="color: #B44">&#39;groups_users&#39;</span>,
+    db<span style="color: #666">.</span>Column(<span style="color: #B44">&#39;user_id&#39;</span>, db<span style="color: #666">.</span>Integer(), db<span style="color: #666">.</span>ForeignKey(<span style="color: #B44">&#39;users.id&#39;</span>)),
+    db<span style="color: #666">.</span>Column(<span style="color: #B44">&#39;group_id&#39;</span>, db<span style="color: #666">.</span>Integer(), db<span style="color: #666">.</span>ForeignKey(<span style="color: #B44">&#39;groups.id&#39;</span>)))
 </code></pre></div></td></tr></table></div>
 
 <p>首先直接使用 <code>db.Table</code> 定义一个多对多的关系表 <code>groups_users</code>。这里要注意不要使用继承 <code>db.Model</code> 来定义这个多对多关系表。然后，在 User 类里使用 <code>db.relationship</code> 来定义多对多关系：</p>
@@ -321,21 +321,21 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">User</span>(db<span style="color: #666666">.</span>Model, UserMixin):
-    __tablename__ <span style="color: #666666">=</span> <span style="color: #BB4444">&quot;users&quot;</span>
-    __searchable__ <span style="color: #666666">=</span> [<span style="color: #BB4444">&#39;username&#39;</span>, <span style="color: #BB4444">&#39;email&#39;</span>]
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">User</span>(db<span style="color: #666">.</span>Model, UserMixin):
+    __tablename__ <span style="color: #666">=</span> <span style="color: #B44">&quot;users&quot;</span>
+    __searchable__ <span style="color: #666">=</span> [<span style="color: #B44">&#39;username&#39;</span>, <span style="color: #B44">&#39;email&#39;</span>]
 
-    <span style="color: #AA22FF">id</span> <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>Integer, primary_key<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
-    username <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    email <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(db<span style="color: #666666">.</span>String(<span style="color: #666666">200</span>), unique<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>, nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    _password <span style="color: #666666">=</span> db<span style="color: #666666">.</span>Column(<span style="color: #BB4444">&#39;password&#39;</span>, db<span style="color: #666666">.</span>String(<span style="color: #666666">120</span>), nullable<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-    <span style="color: #666666">...</span>
-    secondary_groups <span style="color: #666666">=</span> \
-        db<span style="color: #666666">.</span>relationship(<span style="color: #BB4444">&#39;Group&#39;</span>,
-                    secondary<span style="color: #666666">=</span>groups_users,
-                    primaryjoin<span style="color: #666666">=</span>(groups_users<span style="color: #666666">.</span>c<span style="color: #666666">.</span>user_id <span style="color: #666666">==</span> <span style="color: #AA22FF">id</span>),
-                    backref<span style="color: #666666">=</span>db<span style="color: #666666">.</span>backref(<span style="color: #BB4444">&#39;users&#39;</span>, lazy<span style="color: #666666">=</span><span style="color: #BB4444">&#39;dynamic&#39;</span>),
-                    lazy<span style="color: #666666">=</span><span style="color: #BB4444">&#39;dynamic&#39;</span>)
+    <span style="color: #A2F">id</span> <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>Integer, primary_key<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
+    username <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    email <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(db<span style="color: #666">.</span>String(<span style="color: #666">200</span>), unique<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>, nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    _password <span style="color: #666">=</span> db<span style="color: #666">.</span>Column(<span style="color: #B44">&#39;password&#39;</span>, db<span style="color: #666">.</span>String(<span style="color: #666">120</span>), nullable<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+    <span style="color: #666">...</span>
+    secondary_groups <span style="color: #666">=</span> \
+        db<span style="color: #666">.</span>relationship(<span style="color: #B44">&#39;Group&#39;</span>,
+                    secondary<span style="color: #666">=</span>groups_users,
+                    primaryjoin<span style="color: #666">=</span>(groups_users<span style="color: #666">.</span>c<span style="color: #666">.</span>user_id <span style="color: #666">==</span> <span style="color: #A2F">id</span>),
+                    backref<span style="color: #666">=</span>db<span style="color: #666">.</span>backref(<span style="color: #B44">&#39;users&#39;</span>, lazy<span style="color: #666">=</span><span style="color: #B44">&#39;dynamic&#39;</span>),
+                    lazy<span style="color: #666">=</span><span style="color: #B44">&#39;dynamic&#39;</span>)
 </code></pre></div></td></tr></table></div>
 
 <p>其中 LINE 10 - 15 使用 <code>db.relationship</code> 来定义多对多关系。第一个参数表示多对多关系的类为 Group，第二个参数 <code>secondary=groups_users</code> 表示需要从第三个叫 <code>groups_users</code> 的表里获取多对多关系，第三个参数 <code>primaryjoin=(groups_users.c.user_id == id)</code> 表示连接查询时的条件。第四个参数 <code>backref=db.backref('users', lazy='dynamic')</code> 会在 Group 类里创建一个成员叫 users，其中 <code>db.backref</code> 的 <code>lazy</code> 参数为 <code>dynamic</code> 表示 Group.users 为一个查询对象。第五个参数 <code>lazy='dynamic'</code> 表示 User.secondary_groups 为一个查询对象，其实这里可以不要使用 <code>dynamic</code>，因为一个用户所属的组是很有限的，不可能很多，可以一次性全部加载进来。</p>
@@ -347,13 +347,13 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">save</span>(<span style="color: #AA22FF">self</span>):
-    user <span style="color: #666666">=</span> User(username<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>username<span style="color: #666666">.</span>data,
-                email<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>email<span style="color: #666666">.</span>data,
-                password<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>password<span style="color: #666666">.</span>data,
-                date_joined<span style="color: #666666">=</span>datetime<span style="color: #666666">.</span>utcnow(),
-                primary_group_id<span style="color: #666666">=4</span>)
-    <span style="color: #AA22FF; font-weight: bold">return</span> user<span style="color: #666666">.</span>save()
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">save</span>(<span style="color: #A2F">self</span>):
+    user <span style="color: #666">=</span> User(username<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>username<span style="color: #666">.</span>data,
+                email<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>email<span style="color: #666">.</span>data,
+                password<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>password<span style="color: #666">.</span>data,
+                date_joined<span style="color: #666">=</span>datetime<span style="color: #666">.</span>utcnow(),
+                primary_group_id<span style="color: #666">=4</span>)
+    <span style="color: #A2F; font-weight: bold">return</span> user<span style="color: #666">.</span>save()
 </code></pre></div></td></tr></table></div>
 
 <p>创建一个 User 对象，然后调用对象的 <code>save()</code> 方法：</p>
@@ -382,32 +382,32 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">23</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">24</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">25</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">26</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">save</span>(<span style="color: #AA22FF">self</span>, groups<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Saves a user. If a list with groups is provided, it will add those</span>
-<span style="color: #BB4444; font-style: italic">    to the secondary groups from the user.</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">26</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">save</span>(<span style="color: #A2F">self</span>, groups<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;Saves a user. If a list with groups is provided, it will add those</span>
+<span style="color: #B44; font-style: italic">    to the secondary groups from the user.</span>
 
-<span style="color: #BB4444; font-style: italic">    :param groups: A list with groups that should be added to the</span>
-<span style="color: #BB4444; font-style: italic">                   secondary groups from user.</span>
-<span style="color: #BB4444; font-style: italic">    &quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">    :param groups: A list with groups that should be added to the</span>
+<span style="color: #B44; font-style: italic">                   secondary groups from user.</span>
+<span style="color: #B44; font-style: italic">    &quot;&quot;&quot;</span>
 
-    <span style="color: #AA22FF; font-weight: bold">if</span> groups:
-        <span style="color: #008800; font-style: italic"># TODO: Only remove/add groups that are selected</span>
-        secondary_groups <span style="color: #666666">=</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>secondary_groups<span style="color: #666666">.</span>all()
-        <span style="color: #AA22FF; font-weight: bold">for</span> group <span style="color: #AA22FF; font-weight: bold">in</span> secondary_groups:
-            <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>remove_from_group(group)
-        db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>commit()
+    <span style="color: #A2F; font-weight: bold">if</span> groups:
+        <span style="color: #080; font-style: italic"># TODO: Only remove/add groups that are selected</span>
+        secondary_groups <span style="color: #666">=</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>secondary_groups<span style="color: #666">.</span>all()
+        <span style="color: #A2F; font-weight: bold">for</span> group <span style="color: #A2F; font-weight: bold">in</span> secondary_groups:
+            <span style="color: #A2F">self</span><span style="color: #666">.</span>remove_from_group(group)
+        db<span style="color: #666">.</span>session<span style="color: #666">.</span>commit()
 
-        <span style="color: #AA22FF; font-weight: bold">for</span> group <span style="color: #AA22FF; font-weight: bold">in</span> groups:
-            <span style="color: #008800; font-style: italic"># Do not add the primary group to the secondary groups</span>
-            <span style="color: #AA22FF; font-weight: bold">if</span> group<span style="color: #666666">.</span>id <span style="color: #666666">==</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>primary_group_id:
-                <span style="color: #AA22FF; font-weight: bold">continue</span>
-            <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>add_to_group(group)
+        <span style="color: #A2F; font-weight: bold">for</span> group <span style="color: #A2F; font-weight: bold">in</span> groups:
+            <span style="color: #080; font-style: italic"># Do not add the primary group to the secondary groups</span>
+            <span style="color: #A2F; font-weight: bold">if</span> group<span style="color: #666">.</span>id <span style="color: #666">==</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>primary_group_id:
+                <span style="color: #A2F; font-weight: bold">continue</span>
+            <span style="color: #A2F">self</span><span style="color: #666">.</span>add_to_group(group)
 
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>invalidate_cache()
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>invalidate_cache()
 
-    db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>add(<span style="color: #AA22FF">self</span>)
-    db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>commit()
-    <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">self</span>
+    db<span style="color: #666">.</span>session<span style="color: #666">.</span>add(<span style="color: #A2F">self</span>)
+    db<span style="color: #666">.</span>session<span style="color: #666">.</span>commit()
+    <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">self</span>
 </code></pre></div></td></tr></table></div>
 
 <p>其关键代码是 LINE 24 - 25。其中 <code>db.session</code> 对象是 Flask-SQLAlchemy 扩展为我们创建的一个事务对象，使用 <code>db.session.add()</code> 来插入记录，使用 <code>db.session.commit()</code> 来提交事务，使操作生效。LINE 9 - LINE 22是当需要改变一个用户所属的组时的操作代码，这里就不展开讨论。</p>
@@ -429,18 +429,18 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">delete</span>(<span style="color: #AA22FF">self</span>):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Deletes the User.&quot;&quot;&quot;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">delete</span>(<span style="color: #A2F">self</span>):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;Deletes the User.&quot;&quot;&quot;</span>
 
-    <span style="color: #008800; font-style: italic"># This isn&#39;t done automatically...</span>
-    PrivateMessage<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
-    ForumsRead<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
-    TopicsRead<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
+    <span style="color: #080; font-style: italic"># This isn&#39;t done automatically...</span>
+    PrivateMessage<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
+    ForumsRead<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
+    TopicsRead<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
 
-    db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>delete(<span style="color: #AA22FF">self</span>)
-    db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>commit()
+    db<span style="color: #666">.</span>session<span style="color: #666">.</span>delete(<span style="color: #A2F">self</span>)
+    db<span style="color: #666">.</span>session<span style="color: #666">.</span>commit()
 
-    <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">self</span>
+    <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">self</span>
 </code></pre></div></td></tr></table></div>
 
 <p>LINE 9 - 10 是用来从 users 表里删除一条记录。LINE 5-7 是用来在删除用户之前，把一些用户相关的数据也一并删除掉。</p>
@@ -450,28 +450,28 @@
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@property</span>
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">topic_count</span>(<span style="color: #AA22FF">self</span>):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Returns the thread count&quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">return</span> Topic<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter(Topic<span style="color: #666666">.</span>user_id <span style="color: #666666">==</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>count()
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">@property</span>
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">topic_count</span>(<span style="color: #A2F">self</span>):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;Returns the thread count&quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">return</span> Topic<span style="color: #666">.</span>query<span style="color: #666">.</span>filter(Topic<span style="color: #666">.</span>user_id <span style="color: #666">==</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>count()
 </code></pre></div></td></tr></table></div>
 
 <p>再如 <code>User.delete()</code> 的代码里删除用户相关的数据的代码：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>PrivateMessage<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
-ForumsRead<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
-TopicsRead<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(user_id<span style="color: #666666">=</span><span style="color: #AA22FF">self</span><span style="color: #666666">.</span>id)<span style="color: #666666">.</span>delete()
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>PrivateMessage<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
+ForumsRead<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
+TopicsRead<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(user_id<span style="color: #666">=</span><span style="color: #A2F">self</span><span style="color: #666">.</span>id)<span style="color: #666">.</span>delete()
 </code></pre></div></td></tr></table></div>
 
 <p>再如 <code>User.save()</code> 的代码里关于群组的相关操作代码：</p>
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>secondary_groups <span style="color: #666666">=</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>secondary_groups<span style="color: #666666">.</span>all()
-<span style="color: #AA22FF; font-weight: bold">for</span> group <span style="color: #AA22FF; font-weight: bold">in</span> secondary_groups:
-    <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>remove_from_group(group)
-db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>commit()
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>secondary_groups <span style="color: #666">=</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>secondary_groups<span style="color: #666">.</span>all()
+<span style="color: #A2F; font-weight: bold">for</span> group <span style="color: #A2F; font-weight: bold">in</span> secondary_groups:
+    <span style="color: #A2F">self</span><span style="color: #666">.</span>remove_from_group(group)
+db<span style="color: #666">.</span>session<span style="color: #666">.</span>commit()
 </code></pre></div></td></tr></table></div>
 
 <p>通过 <code>self.secondary_groups.all()</code> 获取所有的群组，然后在这些群组里把用户移除。</p>
@@ -483,58 +483,58 @@ db<span style="color: #666666">.</span>session<span style="color: #666666">.</sp
 <div class="codehilite" style="background: #f8f8f8"><table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre><span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">1</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@user</span><span style="color: #666666">.</span>route(<span style="color: #BB4444">&quot;/&lt;username&gt;&quot;</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">profile</span>(username):
-    user <span style="color: #666666">=</span> User<span style="color: #666666">.</span>query<span style="color: #666666">.</span>filter_by(username<span style="color: #666666">=</span>username)<span style="color: #666666">.</span>first_or_404()
-    <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&quot;user/profile.html&quot;</span>, user<span style="color: #666666">=</span>user)
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">@user</span><span style="color: #666">.</span>route(<span style="color: #B44">&quot;/&lt;username&gt;&quot;</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">profile</span>(username):
+    user <span style="color: #666">=</span> User<span style="color: #666">.</span>query<span style="color: #666">.</span>filter_by(username<span style="color: #666">=</span>username)<span style="color: #666">.</span>first_or_404()
+    <span style="color: #A2F; font-weight: bold">return</span> render_template(<span style="color: #B44">&quot;user/profile.html&quot;</span>, user<span style="color: #666">=</span>user)
 </code></pre></div></td></tr></table></div>
 
 <h2 id="mvc">MVC 代码结构<a class="headerlink" href="#mvc" title="Permanent link"> </a></h2>
 <p>介绍完 ORM，我们可以看一下 FlaskBB 项目 <code>flaskbb/flaskbb</code> 目录下的核心代码的 MVC 代码结构。它把每个模块封装成一个独立的 bluepoint，每个模块又分为 model，view，form 三个模块。这样整体代码结构非常清晰。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>flaskbb
-├──<span style="color: #bbbbbb"> </span>__init__.py
-├──<span style="color: #bbbbbb"> </span>_compat.py
-├──<span style="color: #bbbbbb"> </span>app.py
-├──<span style="color: #bbbbbb"> </span>email.py
-├──<span style="color: #bbbbbb"> </span>extensions.py
-├──<span style="color: #bbbbbb"> </span>auth
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>forms.py
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>views.py
-├──<span style="color: #bbbbbb"> </span>configs
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>default.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>development.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>development.py.example
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>production.py.example
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>testing.py
-├──<span style="color: #bbbbbb"> </span>fixtures
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>groups.py
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>settings.py
-├──<span style="color: #bbbbbb"> </span>forum
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>forms.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>models.py
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>views.py
-├──<span style="color: #bbbbbb"> </span>management
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>forms.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>models.py
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>views.py
-├──<span style="color: #bbbbbb"> </span>user
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>forms.py
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>models.py
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>views.py
-└──<span style="color: #bbbbbb"> </span>utils
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>__init__.py
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>decorators.py
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>helpers.py
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>permissions.py
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>populate.py
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>settings.py
-<span style="color: #bbbbbb">    </span>└──<span style="color: #bbbbbb"> </span>widgets.py
+├──<span style="color: #BBB"> </span>__init__.py
+├──<span style="color: #BBB"> </span>_compat.py
+├──<span style="color: #BBB"> </span>app.py
+├──<span style="color: #BBB"> </span>email.py
+├──<span style="color: #BBB"> </span>extensions.py
+├──<span style="color: #BBB"> </span>auth
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>forms.py
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>views.py
+├──<span style="color: #BBB"> </span>configs
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>default.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>development.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>development.py.example
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>production.py.example
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>testing.py
+├──<span style="color: #BBB"> </span>fixtures
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>groups.py
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>settings.py
+├──<span style="color: #BBB"> </span>forum
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>forms.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>models.py
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>views.py
+├──<span style="color: #BBB"> </span>management
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>forms.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>models.py
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>views.py
+├──<span style="color: #BBB"> </span>user
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>__init__.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>forms.py
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>models.py
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>views.py
+└──<span style="color: #BBB"> </span>utils
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>__init__.py
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>decorators.py
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>helpers.py
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>permissions.py
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>populate.py
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>settings.py
+<span style="color: #BBB">    </span>└──<span style="color: #BBB"> </span>widgets.py
 </code></pre></div>
 
 <h2 id="_8">结束语<a class="headerlink" href="#_8" title="Permanent link"> </a></h2>

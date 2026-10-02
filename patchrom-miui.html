@@ -202,26 +202,26 @@
 <p>可以查阅 <a href="http://pan.baidu.com/s/1o6yq4I2">MIUI 移植的文档</a>了解一些背景知识。这里将主体步骤描述如下：</p>
 <h3 id="miui-patchrom">下载 MIUI patchrom<a class="headerlink" href="#miui-patchrom" title="Permanent link"> </a></h3>
 <p>下载 repo 工具</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #bbbbbb"> </span>~/bin
-curl<span style="color: #bbbbbb"> </span>https://storage.googleapis.com/git-repo-downloads/repo<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>~/bin/repo
-chmod<span style="color: #bbbbbb"> </span>a+x<span style="color: #bbbbbb"> </span>~/bin/repo
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #BBB"> </span>~/bin
+curl<span style="color: #BBB"> </span>https://storage.googleapis.com/git-repo-downloads/repo<span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>~/bin/repo
+chmod<span style="color: #BBB"> </span>a+x<span style="color: #BBB"> </span>~/bin/repo
 </code></pre></div>
 
 <p>下载 MIUI patchrom 代码</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~/work/patchrom
-repo<span style="color: #bbbbbb"> </span>init<span style="color: #bbbbbb"> </span>-u<span style="color: #bbbbbb"> </span>git://github.com/MiCode/patchrom.git<span style="color: #bbbbbb"> </span>-b<span style="color: #bbbbbb"> </span>jellybean42-mtk
-repo<span style="color: #bbbbbb"> </span>sync
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #BBB"> </span>~/work/patchrom
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span>~/work/patchrom
+repo<span style="color: #BBB"> </span>init<span style="color: #BBB"> </span>-u<span style="color: #BBB"> </span>git://github.com/MiCode/patchrom.git<span style="color: #BBB"> </span>-b<span style="color: #BBB"> </span>jellybean42-mtk
+repo<span style="color: #BBB"> </span>sync
 </code></pre></div>
 
 <p><code>repo sync</code> 命令需要很长的时间才能把代码下载完，代码总量大于10G。所以，基本上可以玩儿去了，不要傻傻地等了。</p>
 <p>代码下载完成后，我们就可以开始移植工作了。实际的代码目录树结构和内容和文档里描述的会有出入，我们可以忽略文档里的，以实际代码为准。本文使用2014-12-04下载的代码为准。</p>
 <h3 id="_3">准备移植目录<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <p>在 patchrom 根目录下创建一个产品的工作目录用来移植时使用。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~/work/patchrom
-<span style="color: #AA22FF">source</span><span style="color: #bbbbbb"> </span>build/envsetup.sh
-mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>mtk6582
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">cd</span><span style="color: #BBB"> </span>~/work/patchrom
+<span style="color: #A2F">source</span><span style="color: #BBB"> </span>build/envsetup.sh
+mkdir<span style="color: #BBB"> </span>~/work/patchrom/mtk6582
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span>mtk6582
 </code></pre></div>
 
 <h3 id="ota">准备一个 OTA 升级包<a class="headerlink" href="#ota" title="Permanent link"> </a></h3>
@@ -244,73 +244,73 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 </ol>
 <h3 id="makefile">准备一个 makefile<a class="headerlink" href="#makefile" title="Permanent link"> </a></h3>
 <p>下面的 makefile 可以作为模板，里面有详细的注释说明每个字段的含义。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#</span>
-<span style="color: #008800; font-style: italic"># Makefile for mtk6582</span>
-<span style="color: #008800; font-style: italic">#</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">#</span>
+<span style="color: #080; font-style: italic"># Makefile for mtk6582</span>
+<span style="color: #080; font-style: italic">#</span>
 
-<span style="color: #008800; font-style: italic"># 指定我们要移植的手机的底包，就是上一步骤里准备的 stockrom.zip</span>
-<span style="color: #B8860B">local-zip-file</span><span style="color: #bbbbbb">     </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>stockrom.zip
+<span style="color: #080; font-style: italic"># 指定我们要移植的手机的底包，就是上一步骤里准备的 stockrom.zip</span>
+<span style="color: #B8860B">local-zip-file</span><span style="color: #BBB">     </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>stockrom.zip
 
-<span style="color: #008800; font-style: italic"># 编译我们移植好的 MIUI ROM 时的输出文件名</span>
-<span style="color: #B8860B">local-out-zip-file</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>MIUI_MTK6582.zip
+<span style="color: #080; font-style: italic"># 编译我们移植好的 MIUI ROM 时的输出文件名</span>
+<span style="color: #B8860B">local-out-zip-file</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>MIUI_MTK6582.zip
 
-<span style="color: #008800; font-style: italic"># 制作升级差异包时所需要的上一个版本的 ota 包目录，我们暂时还用不着</span>
-<span style="color: #B8860B">local-previous-target-dir</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>~/work/ota_base/mtk6582
+<span style="color: #080; font-style: italic"># 制作升级差异包时所需要的上一个版本的 ota 包目录，我们暂时还用不着</span>
+<span style="color: #B8860B">local-previous-target-dir</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>~/work/ota_base/mtk6582
 
-<span style="color: #008800; font-style: italic"># All apps from original ZIP, but has smali files chanded</span>
-<span style="color: #B8860B">local-modified-apps</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span>
+<span style="color: #080; font-style: italic"># All apps from original ZIP, but has smali files chanded</span>
+<span style="color: #B8860B">local-modified-apps</span><span style="color: #BBB"> </span><span style="color: #666">:=</span>
 
-<span style="color: #B8860B">local-modified-jars</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span>
+<span style="color: #B8860B">local-modified-jars</span><span style="color: #BBB"> </span><span style="color: #666">:=</span>
 
-<span style="color: #008800; font-style: italic"># 哪些 MIUI 模块不包含在最终生成的 MIUI ROM 里。这里我们默认包含所有的 MIUI 模块。</span>
-<span style="color: #B8860B">local-miui-removed-apps</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span>
+<span style="color: #080; font-style: italic"># 哪些 MIUI 模块不包含在最终生成的 MIUI ROM 里。这里我们默认包含所有的 MIUI 模块。</span>
+<span style="color: #B8860B">local-miui-removed-apps</span><span style="color: #BBB"> </span><span style="color: #666">:=</span>
 
-<span style="color: #008800; font-style: italic"># 我们在移植过程中，使用了 MIUI 的 Phone 模块，但对 MIUI 的这个模块进行反编译并修改了部分 smali 代码使其功能正常。</span>
-<span style="color: #008800; font-style: italic"># 针对 jellybean42-mtk 这个分支，所有的 MIUI 模块定义在 patchrom/build/jellybean42-mtk.mk 文件里。</span>
-<span style="color: #B8860B">local-miui-modified-apps</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>Phone
+<span style="color: #080; font-style: italic"># 我们在移植过程中，使用了 MIUI 的 Phone 模块，但对 MIUI 的这个模块进行反编译并修改了部分 smali 代码使其功能正常。</span>
+<span style="color: #080; font-style: italic"># 针对 jellybean42-mtk 这个分支，所有的 MIUI 模块定义在 patchrom/build/jellybean42-mtk.mk 文件里。</span>
+<span style="color: #B8860B">local-miui-modified-apps</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>Phone
 
-<span style="color: #008800; font-style: italic"># density define</span>
-<span style="color: #B8860B">local-density</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>XHDPI
+<span style="color: #080; font-style: italic"># density define</span>
+<span style="color: #B8860B">local-density</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>XHDPI
 
-<span style="color: #008800">include phoneapps.mk</span>
+<span style="color: #080">include phoneapps.mk</span>
 
-<span style="color: #008800; font-style: italic"># To include the local targets before and after zip the final ZIP file,</span>
-<span style="color: #008800; font-style: italic"># and the local-targets should:</span>
-<span style="color: #008800; font-style: italic"># (1) be defined after including porting.mk if using any global variable(see porting.mk)</span>
-<span style="color: #008800; font-style: italic"># (2) the name should be leaded with local- to prevent any conflict with global targets</span>
-<span style="color: #B8860B">local-pre-zip</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>local-pre-zip-misc
-<span style="color: #B8860B">local-after-zip</span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span>local-put-to-phone
+<span style="color: #080; font-style: italic"># To include the local targets before and after zip the final ZIP file,</span>
+<span style="color: #080; font-style: italic"># and the local-targets should:</span>
+<span style="color: #080; font-style: italic"># (1) be defined after including porting.mk if using any global variable(see porting.mk)</span>
+<span style="color: #080; font-style: italic"># (2) the name should be leaded with local- to prevent any conflict with global targets</span>
+<span style="color: #B8860B">local-pre-zip</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span>local-pre-zip-misc
+<span style="color: #B8860B">local-after-zip</span><span style="color: #666">:=</span><span style="color: #BBB"> </span>local-put-to-phone
 
-<span style="color: #008800; font-style: italic"># The local targets after the zip file is generated, could include &#39;zip2sd&#39; to</span>
-<span style="color: #008800; font-style: italic"># deliver the zip file to phone, or to customize other actions</span>
+<span style="color: #080; font-style: italic"># The local targets after the zip file is generated, could include &#39;zip2sd&#39; to</span>
+<span style="color: #080; font-style: italic"># deliver the zip file to phone, or to customize other actions</span>
 
-<span style="color: #008800">include $(PORT_BUILD)/porting.mk</span>
+<span style="color: #080">include $(PORT_BUILD)/porting.mk</span>
 
-<span style="color: #008800; font-style: italic"># To define any local-target</span>
-<span style="color: #B8860B">updater</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>ZIP_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/META-INF/com/google/android/updater-script
-<span style="color: #B8860B">pre_install_data_packages</span><span style="color: #bbbbbb"> </span><span style="color: #666666">:=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>TMP_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/pre_install_apk_pkgname.txt
-<span style="color: #00A000">local-pre-zip-misc</span><span style="color: #666666">:</span>
-<span style="color: #bbbbbb">    </span>rm<span style="color: #bbbbbb"> </span>-rf<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #AA22FF; font-weight: bold">)</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>apk<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">in</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>ZIP_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/data/media/preinstall_apps/*.apk;<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">do</span><span style="color: #BB6622; font-weight: bold">\</span>
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">$(</span>AAPT<span style="color: #AA22FF; font-weight: bold">)</span><span style="color: #bbbbbb"> </span>d<span style="color: #bbbbbb"> </span>--values<span style="color: #bbbbbb"> </span>resources<span style="color: #bbbbbb"> </span><span style="color: #B8860B">$$</span>apk<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;id=127 packageCount&#39;</span><span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>sed<span style="color: #bbbbbb"> </span>-e<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;s/^.*name=//&quot;</span><span style="color: #bbbbbb"> </span>&gt;&gt;<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #AA22FF; font-weight: bold">)</span>;<span style="color: #BB6622; font-weight: bold">\</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">done</span>
-<span style="color: #bbbbbb">    </span>more<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #AA22FF; font-weight: bold">)</span><span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>wc<span style="color: #bbbbbb"> </span>-l<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>ZIP_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/system/etc/enforcecopyinglibpackages.txt
-<span style="color: #bbbbbb">    </span>more<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #AA22FF; font-weight: bold">)</span><span style="color: #bbbbbb"> </span>&gt;&gt;<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>ZIP_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/system/etc/enforcecopyinglibpackages.txt
+<span style="color: #080; font-style: italic"># To define any local-target</span>
+<span style="color: #B8860B">updater</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>ZIP_DIR<span style="color: #A2F; font-weight: bold">)</span>/META-INF/com/google/android/updater-script
+<span style="color: #B8860B">pre_install_data_packages</span><span style="color: #BBB"> </span><span style="color: #666">:=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>TMP_DIR<span style="color: #A2F; font-weight: bold">)</span>/pre_install_apk_pkgname.txt
+<span style="color: #00A000">local-pre-zip-misc</span><span style="color: #666">:</span>
+<span style="color: #BBB">    </span>rm<span style="color: #BBB"> </span>-rf<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #A2F; font-weight: bold">)</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>apk<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">in</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>ZIP_DIR<span style="color: #A2F; font-weight: bold">)</span>/data/media/preinstall_apps/*.apk;<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">do</span><span style="color: #B62; font-weight: bold">\</span>
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">$(</span>AAPT<span style="color: #A2F; font-weight: bold">)</span><span style="color: #BBB"> </span>d<span style="color: #BBB"> </span>--values<span style="color: #BBB"> </span>resources<span style="color: #BBB"> </span><span style="color: #B8860B">$$</span>apk<span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>grep<span style="color: #BBB"> </span><span style="color: #B44">&#39;id=127 packageCount&#39;</span><span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>sed<span style="color: #BBB"> </span>-e<span style="color: #BBB"> </span><span style="color: #B44">&quot;s/^.*name=//&quot;</span><span style="color: #BBB"> </span>&gt;&gt;<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #A2F; font-weight: bold">)</span>;<span style="color: #B62; font-weight: bold">\</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">done</span>
+<span style="color: #BBB">    </span>more<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #A2F; font-weight: bold">)</span><span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>wc<span style="color: #BBB"> </span>-l<span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>ZIP_DIR<span style="color: #A2F; font-weight: bold">)</span>/system/etc/enforcecopyinglibpackages.txt
+<span style="color: #BBB">    </span>more<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>pre_install_data_packages<span style="color: #A2F; font-weight: bold">)</span><span style="color: #BBB"> </span>&gt;&gt;<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>ZIP_DIR<span style="color: #A2F; font-weight: bold">)</span>/system/etc/enforcecopyinglibpackages.txt
 
-<span style="color: #00A000">out/framework2.jar </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>out/framework.jar
+<span style="color: #00A000">out/framework2.jar </span><span style="color: #666">:</span><span style="color: #BBB"> </span>out/framework.jar
 
-<span style="color: #00A000">%.phone </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>out/%.jar
-<span style="color: #bbbbbb">    </span>@echo<span style="color: #bbbbbb"> </span>push<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>---<span style="color: #bbbbbb"> </span>phone
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>remount
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>push<span style="color: #bbbbbb"> </span>$&lt;<span style="color: #bbbbbb"> </span>/system/framework
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>shell<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span><span style="color: #666666">644</span><span style="color: #bbbbbb"> </span>/system/framework/<span style="color: #B8860B">$*</span>.jar
+<span style="color: #00A000">%.phone </span><span style="color: #666">:</span><span style="color: #BBB"> </span>out/%.jar
+<span style="color: #BBB">    </span>@echo<span style="color: #BBB"> </span>push<span style="color: #BBB"> </span>--<span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>---<span style="color: #BBB"> </span>phone
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>remount
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>push<span style="color: #BBB"> </span>$&lt;<span style="color: #BBB"> </span>/system/framework
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>shell<span style="color: #BBB"> </span>chmod<span style="color: #BBB"> </span><span style="color: #666">644</span><span style="color: #BBB"> </span>/system/framework/<span style="color: #B8860B">$*</span>.jar
 
-<span style="color: #00A000">%.sign-plat </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>out/%
-<span style="color: #bbbbbb">    </span>java<span style="color: #bbbbbb"> </span>-jar<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>TOOL_DIR<span style="color: #AA22FF; font-weight: bold">)</span>/signapk.jar<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>PORT_ROOT<span style="color: #AA22FF; font-weight: bold">)</span>/build/security/platform.x509.pem<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">$(</span>PORT_ROOT<span style="color: #AA22FF; font-weight: bold">)</span>/build/security/platform.pk8<span style="color: #bbbbbb">  </span>$&lt;<span style="color: #bbbbbb"> </span>$&lt;.signed
-<span style="color: #bbbbbb">    </span>@echo<span style="color: #bbbbbb"> </span>push<span style="color: #bbbbbb"> </span>--<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>---<span style="color: #bbbbbb"> </span>phone
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>remount
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>push<span style="color: #bbbbbb"> </span>$&lt;.signed<span style="color: #bbbbbb"> </span>/system/app/<span style="color: #B8860B">$*</span>
-<span style="color: #bbbbbb">    </span>adb<span style="color: #bbbbbb"> </span>shell<span style="color: #bbbbbb"> </span>chmod<span style="color: #bbbbbb"> </span><span style="color: #666666">644</span><span style="color: #bbbbbb"> </span>/system/app/<span style="color: #B8860B">$*</span>
+<span style="color: #00A000">%.sign-plat </span><span style="color: #666">:</span><span style="color: #BBB"> </span>out/%
+<span style="color: #BBB">    </span>java<span style="color: #BBB"> </span>-jar<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>TOOL_DIR<span style="color: #A2F; font-weight: bold">)</span>/signapk.jar<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>PORT_ROOT<span style="color: #A2F; font-weight: bold">)</span>/build/security/platform.x509.pem<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">$(</span>PORT_ROOT<span style="color: #A2F; font-weight: bold">)</span>/build/security/platform.pk8<span style="color: #BBB">  </span>$&lt;<span style="color: #BBB"> </span>$&lt;.signed
+<span style="color: #BBB">    </span>@echo<span style="color: #BBB"> </span>push<span style="color: #BBB"> </span>--<span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>---<span style="color: #BBB"> </span>phone
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>remount
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>push<span style="color: #BBB"> </span>$&lt;.signed<span style="color: #BBB"> </span>/system/app/<span style="color: #B8860B">$*</span>
+<span style="color: #BBB">    </span>adb<span style="color: #BBB"> </span>shell<span style="color: #BBB"> </span>chmod<span style="color: #BBB"> </span><span style="color: #666">644</span><span style="color: #BBB"> </span>/system/app/<span style="color: #B8860B">$*</span>
 </code></pre></div>
 
 <h3 id="make-workspace">make workspace<a class="headerlink" href="#make-workspace" title="Permanent link"> </a></h3>
@@ -330,35 +330,35 @@ mkdir<span style="color: #bbbbbb"> </span>~/work/patchrom/mtk6582
 <h3 id="make-firstpatch">make firstpatch<a class="headerlink" href="#make-firstpatch" title="Permanent link"> </a></h3>
 <p>在 patchrom/mtk6582 目录下运行 <code>make firstpatch</code> 命令。这个命令偿试自动合并 smali 文件。如果无法合并，会在 reject 目录下生成有冲突的文件。所以，运行这个命令后，我们只需要合并 reject 目录下的有冲突的文件即可完成 MIUI ROM 的移植工作。</p>
 <p>这个命令在 patchrom/mtk6582/temp 目录下生成的文件树如下：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>├──<span style="color: #bbbbbb"> </span>dst_smali_orig<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic"># 这个是底包 stockrom.zip 里反编译出来的系统 smali 文件</span>
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>android.policy.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>mediatek-framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>secondary-framework.jar.out
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>services.jar.out
-├──<span style="color: #bbbbbb"> </span>dst_smali_patched<span style="color: #bbbbbb">　</span><span style="color: #008800; font-style: italic"># 这个是程序自动合并的目标 smali 文件</span>
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>android.policy.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>mediatek-framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>secondary-framework.jar.out
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>services.jar.out
-├──<span style="color: #bbbbbb"> </span>new_smali<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic"># 这个是 MIUI ROM 里反编译出来的系统 smali 文件</span>
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>android.policy.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>mediatek-framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>secondary-framework.jar.out
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>services.jar.out
-├──<span style="color: #bbbbbb"> </span>old_smali<span style="color: #bbbbbb">　</span><span style="color: #008800; font-style: italic"># 这个是 AOSP 里反编译出来的系统 smali 文件</span>
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>android.policy.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>mediatek-framework.jar.out
-│<span style="color: #bbbbbb">   </span>├──<span style="color: #bbbbbb"> </span>secondary-framework.jar.out
-│<span style="color: #bbbbbb">   </span>└──<span style="color: #bbbbbb"> </span>services.jar.out
-└──<span style="color: #bbbbbb"> </span>reject<span style="color: #bbbbbb">　</span><span style="color: #008800; font-style: italic"># 这个是由于冲突程序无法自动合并，需要手动合并的 smali 文件</span>
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>android.policy.jar.out
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>framework.jar.out
-<span style="color: #bbbbbb">    </span>├──<span style="color: #bbbbbb"> </span>secondary-framework.jar.out
-<span style="color: #bbbbbb">    </span>└──<span style="color: #bbbbbb"> </span>services.jar.out
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>├──<span style="color: #BBB"> </span>dst_smali_orig<span style="color: #BBB"> </span><span style="color: #080; font-style: italic"># 这个是底包 stockrom.zip 里反编译出来的系统 smali 文件</span>
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>android.policy.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>mediatek-framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>secondary-framework.jar.out
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>services.jar.out
+├──<span style="color: #BBB"> </span>dst_smali_patched<span style="color: #BBB">　</span><span style="color: #080; font-style: italic"># 这个是程序自动合并的目标 smali 文件</span>
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>android.policy.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>mediatek-framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>secondary-framework.jar.out
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>services.jar.out
+├──<span style="color: #BBB"> </span>new_smali<span style="color: #BBB"> </span><span style="color: #080; font-style: italic"># 这个是 MIUI ROM 里反编译出来的系统 smali 文件</span>
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>android.policy.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>mediatek-framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>secondary-framework.jar.out
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>services.jar.out
+├──<span style="color: #BBB"> </span>old_smali<span style="color: #BBB">　</span><span style="color: #080; font-style: italic"># 这个是 AOSP 里反编译出来的系统 smali 文件</span>
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>android.policy.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>mediatek-framework.jar.out
+│<span style="color: #BBB">   </span>├──<span style="color: #BBB"> </span>secondary-framework.jar.out
+│<span style="color: #BBB">   </span>└──<span style="color: #BBB"> </span>services.jar.out
+└──<span style="color: #BBB"> </span>reject<span style="color: #BBB">　</span><span style="color: #080; font-style: italic"># 这个是由于冲突程序无法自动合并，需要手动合并的 smali 文件</span>
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>android.policy.jar.out
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>framework.jar.out
+<span style="color: #BBB">    </span>├──<span style="color: #BBB"> </span>secondary-framework.jar.out
+<span style="color: #BBB">    </span>└──<span style="color: #BBB"> </span>services.jar.out
 </code></pre></div>
 
 <p>可以阅读 patchrom/build 和 patchrom/tools 两个目录下的 makefile 和 shell 源码来理解 make firstpatch 过程到底做了什么事情。</p>

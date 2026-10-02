@@ -219,7 +219,7 @@
 <p>GPU呈现模式分析可以从GPU层面上分析我们的刷新效率。使用这个工具可以用来发现有没有刷新帧率过低的问题。</p>
 <p>首先，在开发者模式里打开<strong>GPU呈现模式分析</strong>菜单，在弹出式菜单里选择<strong>在adb shell dumpsys gfxinfo中</strong>选项。打开这个选项后，系统会为每个窗口记录最近128帧的刷新时间。</p>
 <p>接着，手机连接电脑，确保adb可用。然后运行你要调试的应用程序做一些必要的操作之后，运行下面的命令在抓取GPU刷新的LOG：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>adb<span style="color: #bbbbbb"> </span>shell<span style="color: #bbbbbb"> </span>dumpsys<span style="color: #bbbbbb"> </span>gfxinfo<span style="color: #bbbbbb"> </span>com.android.soundrecorder<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>soundrecorder_gfxinfo_1.log
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>adb<span style="color: #BBB"> </span>shell<span style="color: #BBB"> </span>dumpsys<span style="color: #BBB"> </span>gfxinfo<span style="color: #BBB"> </span>com.android.soundrecorder<span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>soundrecorder_gfxinfo_1.log
 </code></pre></div>
 
 <p>其中<em>com.android.soundrecorder</em>是要分析的应用的包名称；<em>soundrecorder_gfxinfo_1.log</em>是抓取出来的LOG保存位置。</p>
@@ -253,18 +253,18 @@ Draw    Process Execute
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@Override</span>
-<span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">draw</span>(View<span style="color: #bbbbbb"> </span>view,<span style="color: #bbbbbb"> </span>View.<span style="color: #BB4444">AttachInfo</span><span style="color: #bbbbbb"> </span>attachInfo,<span style="color: #bbbbbb"> </span>HardwareDrawCallbacks<span style="color: #bbbbbb"> </span>callbacks,<span style="color: #bbbbbb"> </span>Rect<span style="color: #bbbbbb"> </span>dirty)<span style="color: #bbbbbb"> </span>{
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">@Override</span>
+<span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">draw</span>(View<span style="color: #BBB"> </span>view,<span style="color: #BBB"> </span>View.<span style="color: #B44">AttachInfo</span><span style="color: #BBB"> </span>attachInfo,<span style="color: #BBB"> </span>HardwareDrawCallbacks<span style="color: #BBB"> </span>callbacks,<span style="color: #BBB"> </span>Rect<span style="color: #BBB"> </span>dirty)<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">    </span>...
+<span style="color: #BBB">    </span>...
 
-<span style="color: #bbbbbb">    </span>DisplayList<span style="color: #bbbbbb"> </span>displayList<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>buildDisplayList(view,<span style="color: #bbbbbb"> </span>canvas);
+<span style="color: #BBB">    </span>DisplayList<span style="color: #BBB"> </span>displayList<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>buildDisplayList(view,<span style="color: #BBB"> </span>canvas);
 
-<span style="color: #bbbbbb">    </span>...
+<span style="color: #BBB">    </span>...
 
-<span style="color: #bbbbbb">    </span>status<span style="color: #bbbbbb"> </span><span style="color: #666666">|=</span><span style="color: #bbbbbb"> </span>drawDisplayList(attachInfo,<span style="color: #bbbbbb"> </span>canvas,<span style="color: #bbbbbb"> </span>displayList,<span style="color: #bbbbbb"> </span>status);
+<span style="color: #BBB">    </span>status<span style="color: #BBB"> </span><span style="color: #666">|=</span><span style="color: #BBB"> </span>drawDisplayList(attachInfo,<span style="color: #BBB"> </span>canvas,<span style="color: #BBB"> </span>displayList,<span style="color: #BBB"> </span>status);
 
-<span style="color: #bbbbbb">    </span>...
+<span style="color: #BBB">    </span>...
 }
 </code></pre></div></td></tr></table></div>
 
@@ -395,77 +395,77 @@ Line 10: 这个就是Process的时间，<code>drawDisplayList()</code>会调用<
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">69</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">70</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">71</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">72</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">&lt;LinearLayout</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:layout_width=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:layout_height=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:orientation=&quot;vertical&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:background=&quot;@drawable/main_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">72</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008000; font-weight: bold">&lt;LinearLayout</span><span style="color: #BBB"> </span><span style="color: #B44">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:layout_width=&quot;match_parent&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:layout_height=&quot;match_parent&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:orientation=&quot;vertical&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:background=&quot;@drawable/main_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/timerViewLayout&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_width=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;123dip&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/timerViewLayout&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_width=&quot;match_parent&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;123dip&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/listButtons&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:layout_alignParentTop=&quot;true&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:layout_alignParentRight=&quot;true&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:src=&quot;@drawable/record_ic_recordlist&quot;</span>
-<span style="color: #bbbbbb">                </span><span style="color: #BB4444">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/listButtons&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:layout_alignParentTop=&quot;true&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:layout_alignParentRight=&quot;true&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:src=&quot;@drawable/record_ic_recordlist&quot;</span>
+<span style="color: #BBB">                </span><span style="color: #B44">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/stateMessage1&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_toLeftOf=&quot;@+id/listButtons&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_alignParentTop=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_alignParentLeft=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_marginTop=&quot;15dip&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_marginLeft=&quot;45dip&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:gravity=&quot;center&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">style=&quot;@android:style/TextAppearance.Small.Inverse&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/stateMessage1&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_toLeftOf=&quot;@+id/listButtons&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_alignParentTop=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_alignParentLeft=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_marginTop=&quot;15dip&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_marginLeft=&quot;45dip&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:gravity=&quot;center&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">style=&quot;@android:style/TextAppearance.Small.Inverse&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/timerView&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:textSize=&quot;60sp&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_centerHorizontal=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_alignParentBottom=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">style=&quot;@android:style/TextAppearance.Large.Inverse&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/timerView&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:textSize=&quot;60sp&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_centerHorizontal=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_alignParentBottom=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">style=&quot;@android:style/TextAppearance.Large.Inverse&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;com.android.soundrecorder.VUMeter</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/uvMeter&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_width=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;0dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_weight=&quot;1&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;com.android.soundrecorder.VUMeter</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/uvMeter&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_width=&quot;match_parent&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;0dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_weight=&quot;1&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_width=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;150dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:background=&quot;@drawable/op_bar_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_width=&quot;match_parent&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;150dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:background=&quot;@drawable/op_bar_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/recordButton&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_centerInParent=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:src=&quot;@drawable/record_btn_record&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/recordButton&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_centerInParent=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:src=&quot;@drawable/record_btn_record&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/stopButton&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:textSize=&quot;14sp&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:textColor=&quot;#CCCCCC&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:text=&quot;@string/accept&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_alignParentRight=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_centerVertical=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:singleLine=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:gravity=&quot;center&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_marginRight=&quot;25dip&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:clickable=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:background=&quot;@drawable/record_btn_complete&quot;</span>
-<span style="color: #bbbbbb">             </span><span style="color: #008000; font-weight: bold">/&gt;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/stopButton&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:textSize=&quot;14sp&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:textColor=&quot;#CCCCCC&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:text=&quot;@string/accept&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_alignParentRight=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_centerVertical=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:singleLine=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:gravity=&quot;center&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_marginRight=&quot;25dip&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:clickable=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:background=&quot;@drawable/record_btn_complete&quot;</span>
+<span style="color: #BBB">             </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
 <span style="color: #008000; font-weight: bold">&lt;/LinearLayout&gt;</span>
 </code></pre></div></td></tr></table></div>
 
@@ -534,59 +534,59 @@ LINE 48：底部区域也有个背景图片<code>@drawable/op_bar_bg</code>。�
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">51</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">52</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">53</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">54</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
-<span style="color: #008000; font-weight: bold">&lt;LinearLayout</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:orientation=&quot;vertical&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:layout_width=&quot;fill_parent&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">android:layout_height=&quot;fill_parent&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">54</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span style="color: #008000; font-weight: bold">&lt;LinearLayout</span><span style="color: #BBB"> </span><span style="color: #B44">xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:orientation=&quot;vertical&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:layout_width=&quot;fill_parent&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #B44">android:layout_height=&quot;fill_parent&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;FrameLayout</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:layout_width=&quot;fill_parent&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;0dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_weight=&quot;1&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;FrameLayout</span><span style="color: #BBB"> </span><span style="color: #B44">android:layout_width=&quot;fill_parent&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;0dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_weight=&quot;1&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@android:id/empty&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;fill_parent&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;fill_parent&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:gravity=&quot;center|center&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:textSize=&quot;18sp&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:text=&quot;@string/list_empty&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;TextView</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@android:id/empty&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;fill_parent&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;fill_parent&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:gravity=&quot;center|center&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:textSize=&quot;18sp&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:text=&quot;@string/list_empty&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;ListView</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@android:id/list&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;fill_parent&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:gravity=&quot;left|top&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;ListView</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@android:id/list&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;fill_parent&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:gravity=&quot;left|top&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;/FrameLayout&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;/FrameLayout&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;View</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/menuAnchor&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_width=&quot;1dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;5dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_gravity=&quot;right&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:visibility=&quot;invisible&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>&quot;
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;View</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/menuAnchor&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_width=&quot;1dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;5dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_gravity=&quot;right&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:visibility=&quot;invisible&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>&quot;
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:id=&quot;@+id/bottomBarLayout&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_width=&quot;match_parent&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:layout_height=&quot;150dip&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">android:background=&quot;@drawable/op_bar_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;RelativeLayout</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:id=&quot;@+id/bottomBarLayout&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_width=&quot;match_parent&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:layout_height=&quot;150dip&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #B44">android:background=&quot;@drawable/op_bar_bg&quot;</span><span style="color: #008000; font-weight: bold">&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/recordButton&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_centerInParent=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:src=&quot;@drawable/record_btn_record&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:background=&quot;@null&quot;</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/recordButton&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_centerInParent=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:src=&quot;@drawable/record_btn_record&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:background=&quot;@null&quot;</span><span style="color: #BBB"> </span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">android:id=&quot;@+id/optionButton&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #bbbbbb"> </span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_width=&quot;wrap_content&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_alignParentRight=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_centerVertical=&quot;true&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:layout_marginRight=&quot;25dip&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:src=&quot;@drawable/recordlist_btn_more&quot;</span>
-<span style="color: #bbbbbb">            </span><span style="color: #BB4444">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
+<span style="color: #BBB">        </span><span style="color: #008000; font-weight: bold">&lt;ImageButton</span><span style="color: #BBB"> </span><span style="color: #B44">android:id=&quot;@+id/optionButton&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_height=&quot;wrap_content&quot;</span><span style="color: #BBB"> </span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_width=&quot;wrap_content&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_alignParentRight=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_centerVertical=&quot;true&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:layout_marginRight=&quot;25dip&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:src=&quot;@drawable/recordlist_btn_more&quot;</span>
+<span style="color: #BBB">            </span><span style="color: #B44">android:background=&quot;@null&quot;</span><span style="color: #008000; font-weight: bold">/&gt;</span>
 
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
+<span style="color: #BBB">    </span><span style="color: #008000; font-weight: bold">&lt;/RelativeLayout&gt;</span>
 <span style="color: #008000; font-weight: bold">&lt;/LinearLayout&gt;</span>
 </code></pre></div></td></tr></table></div>
 

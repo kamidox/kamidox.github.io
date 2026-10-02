@@ -218,19 +218,19 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">20</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">21</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">22</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">23</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">create_app</span>(config<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">    Creates the app.</span>
-<span style="color: #BB4444; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #008800; font-style: italic"># Initialize the app</span>
-    app <span style="color: #666666">=</span> Flask(<span style="color: #BB4444">&quot;flaskbb&quot;</span>)
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">23</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">create_app</span>(config<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">    Creates the app.</span>
+<span style="color: #B44; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #080; font-style: italic"># Initialize the app</span>
+    app <span style="color: #666">=</span> Flask(<span style="color: #B44">&quot;flaskbb&quot;</span>)
 
-    <span style="color: #008800; font-style: italic"># Use the default config and override it afterwards</span>
-    app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_object(<span style="color: #BB4444">&#39;flaskbb.configs.default.DefaultConfig&#39;</span>)
-    <span style="color: #008800; font-style: italic"># Update the config</span>
-    app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_object(config)
-    <span style="color: #008800; font-style: italic"># try to update the config via the environment variable</span>
-    app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_envvar(<span style="color: #BB4444">&quot;FLASKBB_SETTINGS&quot;</span>, silent<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
+    <span style="color: #080; font-style: italic"># Use the default config and override it afterwards</span>
+    app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_object(<span style="color: #B44">&#39;flaskbb.configs.default.DefaultConfig&#39;</span>)
+    <span style="color: #080; font-style: italic"># Update the config</span>
+    app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_object(config)
+    <span style="color: #080; font-style: italic"># try to update the config via the environment variable</span>
+    app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_envvar(<span style="color: #B44">&quot;FLASKBB_SETTINGS&quot;</span>, silent<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
 
     configure_blueprints(app)
     configure_extensions(app)
@@ -240,7 +240,7 @@
     configure_errorhandlers(app)
     configure_logging(app)
 
-    <span style="color: #AA22FF; font-weight: bold">return</span> app
+    <span style="color: #A2F; font-weight: bold">return</span> app
 </code></pre></div></td></tr></table></div>
 
 <h2 id="_2">配置<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
@@ -250,12 +250,12 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># Use the default config and override it afterwards</span>
-app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_object(<span style="color: #BB4444">&#39;flaskbb.configs.default.DefaultConfig&#39;</span>)
-<span style="color: #008800; font-style: italic"># Update the config</span>
-app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_object(config)
-<span style="color: #008800; font-style: italic"># try to update the config via the environment variable</span>
-app<span style="color: #666666">.</span>config<span style="color: #666666">.</span>from_envvar(<span style="color: #BB4444">&quot;FLASKBB_SETTINGS&quot;</span>, silent<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">True</span>)
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic"># Use the default config and override it afterwards</span>
+app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_object(<span style="color: #B44">&#39;flaskbb.configs.default.DefaultConfig&#39;</span>)
+<span style="color: #080; font-style: italic"># Update the config</span>
+app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_object(config)
+<span style="color: #080; font-style: italic"># try to update the config via the environment variable</span>
+app<span style="color: #666">.</span>config<span style="color: #666">.</span>from_envvar(<span style="color: #B44">&quot;FLASKBB_SETTINGS&quot;</span>, silent<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">True</span>)
 </code></pre></div></td></tr></table></div>
 
 <p><code>Flask.config</code>类是专门用来处理应用程序全局配置信息的。它类似python的<code>dict</code>类，增加了一些导入配置的函数而已。其中<code>Flask.config.from_object()</code>用来从一个python类里导入配置信息，需要注意的是，这个函数<strong>只导入大写的类成员变量</strong>，小写的类成员函数是不导入的。</p>
@@ -268,11 +268,11 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">2</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">3</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">configure_blueprints</span>(app):
-    app<span style="color: #666666">.</span>register_blueprint(forum, url_prefix<span style="color: #666666">=</span>app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&quot;FORUM_URL_PREFIX&quot;</span>])
-    app<span style="color: #666666">.</span>register_blueprint(user, url_prefix<span style="color: #666666">=</span>app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&quot;USER_URL_PREFIX&quot;</span>])
-    app<span style="color: #666666">.</span>register_blueprint(auth, url_prefix<span style="color: #666666">=</span>app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&quot;AUTH_URL_PREFIX&quot;</span>])
-    app<span style="color: #666666">.</span>register_blueprint(management, url_prefix<span style="color: #666666">=</span>app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&quot;ADMIN_URL_PREFIX&quot;</span>])
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">configure_blueprints</span>(app):
+    app<span style="color: #666">.</span>register_blueprint(forum, url_prefix<span style="color: #666">=</span>app<span style="color: #666">.</span>config[<span style="color: #B44">&quot;FORUM_URL_PREFIX&quot;</span>])
+    app<span style="color: #666">.</span>register_blueprint(user, url_prefix<span style="color: #666">=</span>app<span style="color: #666">.</span>config[<span style="color: #B44">&quot;USER_URL_PREFIX&quot;</span>])
+    app<span style="color: #666">.</span>register_blueprint(auth, url_prefix<span style="color: #666">=</span>app<span style="color: #666">.</span>config[<span style="color: #B44">&quot;AUTH_URL_PREFIX&quot;</span>])
+    app<span style="color: #666">.</span>register_blueprint(management, url_prefix<span style="color: #666">=</span>app<span style="color: #666">.</span>config[<span style="color: #B44">&quot;ADMIN_URL_PREFIX&quot;</span>])
 </code></pre></div></td></tr></table></div>
 
 <p>主要由四个Blueprint组成：</p>
@@ -316,7 +316,7 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 </ol>
 <h2 id="jinja2">自定义的Jinja2过滤器<a class="headerlink" href="#jinja2" title="Permanent link"> </a></h2>
 <p>Jinja2提供了<a href="http://jinja.pocoo.org/docs/dev/api/#custom-filters">自定义过滤器</a>的功能，可以在Jinja2模板里灵活使用。FlaskBB通过函数<code>configure_template_filters()</code>定义了一系列过滤器，其中<code>is_online</code>过滤器是这样定义的：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>app<span style="color: #666666">.</span>jinja_env<span style="color: #666666">.</span>filters[<span style="color: #BB4444">&#39;is_online&#39;</span>] <span style="color: #666666">=</span> is_online
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>app<span style="color: #666">.</span>jinja_env<span style="color: #666">.</span>filters[<span style="color: #B44">&#39;is_online&#39;</span>] <span style="color: #666">=</span> is_online
 </code></pre></div>
 
 <p>过滤器就是一个简单的python函数，<code>is_online()</code>函数定义在<em>flaskbb/utils/helper.py</em>里：</p>
@@ -326,20 +326,20 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">4</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">5</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">6</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">is_online</span>(user):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;A simple check to see if the user was online within a specified</span>
-<span style="color: #BB4444; font-style: italic">    time range</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">7</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">is_online</span>(user):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;A simple check to see if the user was online within a specified</span>
+<span style="color: #B44; font-style: italic">    time range</span>
 
-<span style="color: #BB4444; font-style: italic">    :param user: The user who needs to be checked</span>
-<span style="color: #BB4444; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">return</span> user<span style="color: #666666">.</span>lastseen <span style="color: #666666">&gt;=</span> time_diff()
+<span style="color: #B44; font-style: italic">    :param user: The user who needs to be checked</span>
+<span style="color: #B44; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">return</span> user<span style="color: #666">.</span>lastseen <span style="color: #666">&gt;=</span> time_diff()
 </code></pre></div></td></tr></table></div>
 
 <p>这样，在Jinaja2模板<em>flaskbb/templates/user/profile.html</em>里，就可以使用下面的代码来判断用户是否在线：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>{% if user|is_online %}
-&lt;<span style="color: #008000; font-weight: bold">tr</span>&gt;&lt;<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;<span style="color: #008000; font-weight: bold">span</span> <span style="color: #BB4444">class</span><span style="color: #666666">=</span><span style="color: #BB4444">&quot;label label-success&quot;</span>&gt;Online&lt;/<span style="color: #008000; font-weight: bold">span</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">tr</span>&gt;
+&lt;<span style="color: #008000; font-weight: bold">tr</span>&gt;&lt;<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;<span style="color: #008000; font-weight: bold">span</span> <span style="color: #B44">class</span><span style="color: #666">=</span><span style="color: #B44">&quot;label label-success&quot;</span>&gt;Online&lt;/<span style="color: #008000; font-weight: bold">span</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">tr</span>&gt;
 {% else %}
-&lt;<span style="color: #008000; font-weight: bold">tr</span>&gt;&lt;<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;<span style="color: #008000; font-weight: bold">span</span> <span style="color: #BB4444">class</span><span style="color: #666666">=</span><span style="color: #BB4444">&quot;label label-default&quot;</span>&gt;Offline&lt;/<span style="color: #008000; font-weight: bold">span</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">tr</span>&gt;
+&lt;<span style="color: #008000; font-weight: bold">tr</span>&gt;&lt;<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;<span style="color: #008000; font-weight: bold">span</span> <span style="color: #B44">class</span><span style="color: #666">=</span><span style="color: #B44">&quot;label label-default&quot;</span>&gt;Offline&lt;/<span style="color: #008000; font-weight: bold">span</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">td</span>&gt;&lt;/<span style="color: #008000; font-weight: bold">tr</span>&gt;
 {% endif %}
 </code></pre></div>
 
@@ -355,16 +355,16 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 7</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">configure_context_processors</span>(app):
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">Configures the context processors</span>
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>context_processor
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">inject_flaskbb_config</span>():
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">    Injects the ``flaskbb_config`` config variable into the templates.</span>
-<span style="color: #BB4444; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">return</span> <span style="color: #AA22FF">dict</span>(flaskbb_config<span style="color: #666666">=</span>flaskbb_config)
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">configure_context_processors</span>(app):
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">Configures the context processors</span>
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #A2F">@app</span><span style="color: #666">.</span>context_processor
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">inject_flaskbb_config</span>():
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">    Injects the ``flaskbb_config`` config variable into the templates.</span>
+<span style="color: #B44; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">return</span> <span style="color: #A2F">dict</span>(flaskbb_config<span style="color: #666">=</span>flaskbb_config)
 </code></pre></div></td></tr></table></div>
 
 <p>使用<code>context_processor</code>装饰器来装饰<code>inject_flaskbb_config()</code>函数，这样这个函数会被Flask记录起来，每次要渲染模板时，会先调用这个函数更新一下模板上下文信息。这样，在模板里就可以访问这里注入的上下文信息。上下文处理器函数必须返回一个<code>dict</code>实例。Flask官方文档对<a href="http://flask.pocoo.org/docs/0.10/templating/#context-processors">context_processor</a>有详细的描述。</p>
@@ -384,20 +384,20 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">configure_before_handlers</span>(app):
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">Configures the before request handlers</span>
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">configure_before_handlers</span>(app):
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">Configures the before request handlers</span>
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
 
-<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>before_request
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">update_lastseen</span>():
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">    Updates `lastseen` before every reguest if the user is authenticated</span>
-<span style="color: #BB4444; font-style: italic">    &quot;&quot;&quot;</span>
-    <span style="color: #AA22FF; font-weight: bold">if</span> current_user<span style="color: #666666">.</span>is_authenticated():
-        current_user<span style="color: #666666">.</span>lastseen <span style="color: #666666">=</span> datetime<span style="color: #666666">.</span>datetime<span style="color: #666666">.</span>utcnow()
-        db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>add(current_user)
-        db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>commit()
+<span style="color: #A2F">@app</span><span style="color: #666">.</span>before_request
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">update_lastseen</span>():
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">    Updates `lastseen` before every reguest if the user is authenticated</span>
+<span style="color: #B44; font-style: italic">    &quot;&quot;&quot;</span>
+    <span style="color: #A2F; font-weight: bold">if</span> current_user<span style="color: #666">.</span>is_authenticated():
+        current_user<span style="color: #666">.</span>lastseen <span style="color: #666">=</span> datetime<span style="color: #666">.</span>datetime<span style="color: #666">.</span>utcnow()
+        db<span style="color: #666">.</span>session<span style="color: #666">.</span>add(current_user)
+        db<span style="color: #666">.</span>session<span style="color: #666">.</span>commit()
 </code></pre></div></td></tr></table></div>
 
 <p>这里，<code>before_request</code>装饰器将把<code>update_lastseen()</code>函数注册进Flask，Flask在处理请求之前都会调用这个函数。FlaskBB使用这个机制来记录最后一次看到用户的时间。结合会话的超时机制，就可以判断用户是否在线。</p>
@@ -418,22 +418,22 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">configure_errorhandlers</span>(app):
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
-<span style="color: #BB4444; font-style: italic">Configures the error handlers</span>
-<span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">configure_errorhandlers</span>(app):
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
+<span style="color: #B44; font-style: italic">Configures the error handlers</span>
+<span style="color: #B44; font-style: italic">&quot;&quot;&quot;</span>
 
-<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>errorhandler(<span style="color: #666666">403</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">forbidden_page</span>(error):
-    <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&quot;errors/forbidden_page.html&quot;</span>), <span style="color: #666666">403</span>
+<span style="color: #A2F">@app</span><span style="color: #666">.</span>errorhandler(<span style="color: #666">403</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">forbidden_page</span>(error):
+    <span style="color: #A2F; font-weight: bold">return</span> render_template(<span style="color: #B44">&quot;errors/forbidden_page.html&quot;</span>), <span style="color: #666">403</span>
 
-<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>errorhandler(<span style="color: #666666">404</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">page_not_found</span>(error):
-    <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&quot;errors/page_not_found.html&quot;</span>), <span style="color: #666666">404</span>
+<span style="color: #A2F">@app</span><span style="color: #666">.</span>errorhandler(<span style="color: #666">404</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">page_not_found</span>(error):
+    <span style="color: #A2F; font-weight: bold">return</span> render_template(<span style="color: #B44">&quot;errors/page_not_found.html&quot;</span>), <span style="color: #666">404</span>
 
-<span style="color: #AA22FF">@app</span><span style="color: #666666">.</span>errorhandler(<span style="color: #666666">500</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">server_error_page</span>(error):
-    <span style="color: #AA22FF; font-weight: bold">return</span> render_template(<span style="color: #BB4444">&quot;errors/server_error.html&quot;</span>), <span style="color: #666666">500</span>
+<span style="color: #A2F">@app</span><span style="color: #666">.</span>errorhandler(<span style="color: #666">500</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">server_error_page</span>(error):
+    <span style="color: #A2F; font-weight: bold">return</span> render_template(<span style="color: #B44">&quot;errors/server_error.html&quot;</span>), <span style="color: #666">500</span>
 </code></pre></div></td></tr></table></div>
 
 <p>这样当发生这些http错误时，错误网页将从服务器返回自定义的错误网页，而不是浏览器客户端默认的错误页面。</p>
@@ -455,22 +455,22 @@ app<span style="color: #666666">.</span>config<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>logs_folder <span style="color: #666666">=</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>join(app<span style="color: #666666">.</span>root_path, os<span style="color: #666666">.</span>pardir, <span style="color: #BB4444">&quot;logs&quot;</span>)
-formatter <span style="color: #666666">=</span> logging<span style="color: #666666">.</span>Formatter(
-    <span style="color: #BB4444">&#39;</span><span style="color: #BB6688; font-weight: bold">%(asctime)s</span><span style="color: #BB4444"> </span><span style="color: #BB6688; font-weight: bold">%(levelname)s</span><span style="color: #BB4444">: </span><span style="color: #BB6688; font-weight: bold">%(message)s</span><span style="color: #BB4444"> &#39;</span>
-    <span style="color: #BB4444">&#39;[in </span><span style="color: #BB6688; font-weight: bold">%(pathname)s</span><span style="color: #BB4444">:</span><span style="color: #BB6688; font-weight: bold">%(lineno)d</span><span style="color: #BB4444">]&#39;</span>)
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code>logs_folder <span style="color: #666">=</span> os<span style="color: #666">.</span>path<span style="color: #666">.</span>join(app<span style="color: #666">.</span>root_path, os<span style="color: #666">.</span>pardir, <span style="color: #B44">&quot;logs&quot;</span>)
+formatter <span style="color: #666">=</span> logging<span style="color: #666">.</span>Formatter(
+    <span style="color: #B44">&#39;</span><span style="color: #B68; font-weight: bold">%(asctime)s</span><span style="color: #B44"> </span><span style="color: #B68; font-weight: bold">%(levelname)s</span><span style="color: #B44">: </span><span style="color: #B68; font-weight: bold">%(message)s</span><span style="color: #B44"> &#39;</span>
+    <span style="color: #B44">&#39;[in </span><span style="color: #B68; font-weight: bold">%(pathname)s</span><span style="color: #B44">:</span><span style="color: #B68; font-weight: bold">%(lineno)d</span><span style="color: #B44">]&#39;</span>)
 
-info_log <span style="color: #666666">=</span> os<span style="color: #666666">.</span>path<span style="color: #666666">.</span>join(logs_folder, app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;INFO_LOG&#39;</span>])
+info_log <span style="color: #666">=</span> os<span style="color: #666">.</span>path<span style="color: #666">.</span>join(logs_folder, app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;INFO_LOG&#39;</span>])
 
-info_file_handler <span style="color: #666666">=</span> logging<span style="color: #666666">.</span>handlers<span style="color: #666666">.</span>RotatingFileHandler(
+info_file_handler <span style="color: #666">=</span> logging<span style="color: #666">.</span>handlers<span style="color: #666">.</span>RotatingFileHandler(
     info_log,
-    maxBytes<span style="color: #666666">=100000</span>,
-    backupCount<span style="color: #666666">=10</span>
+    maxBytes<span style="color: #666">=100000</span>,
+    backupCount<span style="color: #666">=10</span>
 )
 
-info_file_handler<span style="color: #666666">.</span>setLevel(logging<span style="color: #666666">.</span>INFO)
-info_file_handler<span style="color: #666666">.</span>setFormatter(formatter)
-app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>addHandler(info_file_handler)
+info_file_handler<span style="color: #666">.</span>setLevel(logging<span style="color: #666">.</span>INFO)
+info_file_handler<span style="color: #666">.</span>setFormatter(formatter)
+app<span style="color: #666">.</span>logger<span style="color: #666">.</span>addHandler(info_file_handler)
 </code></pre></div></td></tr></table></div>
 
 <p>下面代码配置了通过邮件发送错误LOG给网站管理员：</p>
@@ -488,21 +488,21 @@ app<span style="color: #666666">.</span>logger<span style="color: #666666">.</sp
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">logging.handlers</span> <span style="color: #AA22FF; font-weight: bold">import</span> SMTPHandler
-<span style="color: #AA22FF; font-weight: bold">if</span> app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&quot;SEND_LOGS&quot;</span>]:
-    mail_handler <span style="color: #666666">=</span> \
-        SMTPHandler(app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;MAIL_SERVER&#39;</span>],
-                    app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;MAIL_DEFAULT_SENDER&#39;</span>],
-                    app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;ADMINS&#39;</span>],
-                    <span style="color: #BB4444">&#39;application error, no admins specified&#39;</span>,
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">15</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">logging.handlers</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> SMTPHandler
+<span style="color: #A2F; font-weight: bold">if</span> app<span style="color: #666">.</span>config[<span style="color: #B44">&quot;SEND_LOGS&quot;</span>]:
+    mail_handler <span style="color: #666">=</span> \
+        SMTPHandler(app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;MAIL_SERVER&#39;</span>],
+                    app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;MAIL_DEFAULT_SENDER&#39;</span>],
+                    app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;ADMINS&#39;</span>],
+                    <span style="color: #B44">&#39;application error, no admins specified&#39;</span>,
                     (
-                        app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;MAIL_USERNAME&#39;</span>],
-                        app<span style="color: #666666">.</span>config[<span style="color: #BB4444">&#39;MAIL_PASSWORD&#39;</span>],
+                        app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;MAIL_USERNAME&#39;</span>],
+                        app<span style="color: #666">.</span>config[<span style="color: #B44">&#39;MAIL_PASSWORD&#39;</span>],
                     ))
 
-    mail_handler<span style="color: #666666">.</span>setLevel(logging<span style="color: #666666">.</span>ERROR)
-    mail_handler<span style="color: #666666">.</span>setFormatter(formatter)
-    app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>addHandler(mail_handler)
+    mail_handler<span style="color: #666">.</span>setLevel(logging<span style="color: #666">.</span>ERROR)
+    mail_handler<span style="color: #666">.</span>setFormatter(formatter)
+    app<span style="color: #666">.</span>logger<span style="color: #666">.</span>addHandler(mail_handler)
 </code></pre></div></td></tr></table></div>
 
 <h2 id="_6">结束语<a class="headerlink" href="#_6" title="Permanent link"> </a></h2>

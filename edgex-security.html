@@ -223,8 +223,8 @@
 <li>每个被 Kong Gateway 保护起来的 EdgeX 服务，也被配置成 JWT 认证机制。这个是通过调用 <a href="https://github.com/edgexfoundry/edgex-go/tree/main/cmd/secrets-config">secrets-config</a> 来实现的。一个调用 securets-config 的例子，是 <a href="https://github.com/edgexfoundry/edgex-compose">edgex-compose</a> 仓库里的 <a href="https://github.com/edgexfoundry/edgex-compose/blob/main/compose-builder/get-api-gateway-token.sh">get-api-gateway-token.sh</a> 脚本文件。</li>
 </ol>
 <p>上述内容，信息量大，包含很多实现细节。想深入研究的读者，应该可以顺藤摸瓜，找出更多有用的信息。对那些不想了解细节的读者，你只要记住一个事实：至此，EdgeX 核心服务终于套上了一层外壳。访问这些服务时，必须通过 API Gateway，且必须提供一个 JWT 作为凭证。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B8860B">token</span><span style="color: #666666">=(</span>paste<span style="color: #bbbbbb"> </span>output<span style="color: #bbbbbb"> </span>of<span style="color: #bbbbbb"> </span><span style="color: #BB4444">`</span>make<span style="color: #bbbbbb"> </span>get-token<span style="color: #BB4444">`</span><span style="color: #bbbbbb"> </span>here<span style="color: #666666">)</span>
-curl<span style="color: #bbbbbb"> </span>-k<span style="color: #bbbbbb"> </span>https://<span style="color: #666666">{</span>kong-ip<span style="color: #666666">}</span>:8443/core-data/api/v2/ping<span style="color: #bbbbbb"> </span>-H<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;Authorization: Bearer </span><span style="color: #B8860B">$token</span><span style="color: #BB4444">&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #B8860B">token</span><span style="color: #666">=(</span>paste<span style="color: #BBB"> </span>output<span style="color: #BBB"> </span>of<span style="color: #BBB"> </span><span style="color: #B44">`</span>make<span style="color: #BBB"> </span>get-token<span style="color: #B44">`</span><span style="color: #BBB"> </span>here<span style="color: #666">)</span>
+curl<span style="color: #BBB"> </span>-k<span style="color: #BBB"> </span>https://<span style="color: #666">{</span>kong-ip<span style="color: #666">}</span>:8443/core-data/api/v2/ping<span style="color: #BBB"> </span>-H<span style="color: #BBB"> </span><span style="color: #B44">&quot;Authorization: Bearer </span><span style="color: #B8860B">$token</span><span style="color: #B44">&quot;</span>
 </code></pre></div>
 
 <p>可是依然有两个安全漏洞没有堵上：</p>
@@ -259,28 +259,28 @@ Initial Root Token: s.KkNJYWF5g0pomcCLEmDdOVCW
 <p>EdgeX 不会把 Root Token 保存到文件系统中，而是每次启动时，都通过 Unseal Key 重新生成新的 Root Token。每次退出时，吊销 Root Token。</p>
 <p>细心的读者应该发现，这里又有一个大坑：Vault 的 Unseal Key 这么重要的数据，相当于金库大门钥匙，竟然直接保存在文件系统中了？</p>
 <p>你说对了，EdgeX 确实是这样实现的，默认情况下，通过 Docker Compose 启动带安全组件的 EdgeX 时，就会在容器的 <code>/vault/config/assets/resp-init.json</code> 目录中找到这个金库大门钥匙，大概长这样：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">exec</span><span style="color: #bbbbbb"> </span>-it<span style="color: #bbbbbb"> </span>edgex-security-secretstore-setup<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>/vault/config/assets/resp-init.json<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>python3<span style="color: #bbbbbb"> </span>-mjson.tool
-<span style="color: #666666">{</span>
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">&quot;keys&quot;</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;bef7e153db320c5f5d25bbc032c424be91417379bdd3c013320d662ede922ecd36&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;5711476a2553fa94606c45e676924a62538d458574f05682b86aadc0972f98a9e3&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;ac454c7068644c15634e6a8d2fb575d1ae5437fadaace8e7cc937e9affbe602a6e&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;7f8214cf1438e590628a2f1929baf444f25273d6371eff6ff13ad16b95332c4cf0&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;1e93df0e720c6a9e184f37717cbaa82679278b45d774046ff7e0045054c280faaf&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #666666">]</span>,
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444">&quot;keys_base64&quot;</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;vvfhU9syDF9dJbvAMsQkvpFBc3m908ATMg1mLt6SLs02&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;VxFHaiVT+pRgbEXmdpJKYlONRYV08FaCuGqtwJcvmKnj&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;rEVMcGhkTBVjTmqNL7V10a5UN/rarOjnzJN+mv++YCpu&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;f4IUzxQ45ZBiii8ZKbr0RPJSc9Y3Hv9v8TrRa5UzLEzw&quot;</span>,
-<span style="color: #bbbbbb">        </span><span style="color: #BB4444">&quot;HpPfDnIMap4YTzdxfLqoJnkni0XXdARv9+AEUFTCgPqv&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #666666">]</span>
-<span style="color: #666666">}</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>docker<span style="color: #BBB"> </span><span style="color: #A2F">exec</span><span style="color: #BBB"> </span>-it<span style="color: #BBB"> </span>edgex-security-secretstore-setup<span style="color: #BBB"> </span>cat<span style="color: #BBB"> </span>/vault/config/assets/resp-init.json<span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>python3<span style="color: #BBB"> </span>-mjson.tool
+<span style="color: #666">{</span>
+<span style="color: #BBB">    </span><span style="color: #B44">&quot;keys&quot;</span>:<span style="color: #BBB"> </span><span style="color: #666">[</span>
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;bef7e153db320c5f5d25bbc032c424be91417379bdd3c013320d662ede922ecd36&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;5711476a2553fa94606c45e676924a62538d458574f05682b86aadc0972f98a9e3&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;ac454c7068644c15634e6a8d2fb575d1ae5437fadaace8e7cc937e9affbe602a6e&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;7f8214cf1438e590628a2f1929baf444f25273d6371eff6ff13ad16b95332c4cf0&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;1e93df0e720c6a9e184f37717cbaa82679278b45d774046ff7e0045054c280faaf&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #666">]</span>,
+<span style="color: #BBB">    </span><span style="color: #B44">&quot;keys_base64&quot;</span>:<span style="color: #BBB"> </span><span style="color: #666">[</span>
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;vvfhU9syDF9dJbvAMsQkvpFBc3m908ATMg1mLt6SLs02&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;VxFHaiVT+pRgbEXmdpJKYlONRYV08FaCuGqtwJcvmKnj&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;rEVMcGhkTBVjTmqNL7V10a5UN/rarOjnzJN+mv++YCpu&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;f4IUzxQ45ZBiii8ZKbr0RPJSc9Y3Hv9v8TrRa5UzLEzw&quot;</span>,
+<span style="color: #BBB">        </span><span style="color: #B44">&quot;HpPfDnIMap4YTzdxfLqoJnkni0XXdARv9+AEUFTCgPqv&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #666">]</span>
+<span style="color: #666">}</span>
 </code></pre></div>
 
 <p>而且，你在启动 EdgeX 时，也会看到下面这条 Log：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>docker<span style="color: #bbbbbb"> </span>logs<span style="color: #bbbbbb"> </span>edgex-security-secretstore-setup<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>master
-<span style="color: #B8860B">level</span><span style="color: #666666">=</span>INFO<span style="color: #bbbbbb"> </span><span style="color: #B8860B">ts</span><span style="color: #666666">=2021</span>-08-15T09:18:07.7356078Z<span style="color: #bbbbbb"> </span><span style="color: #B8860B">app</span><span style="color: #666666">=</span>security-secretstore-setup<span style="color: #bbbbbb"> </span><span style="color: #B8860B">source</span><span style="color: #666666">=</span>init.go:134<span style="color: #bbbbbb"> </span><span style="color: #B8860B">msg</span><span style="color: #666666">=</span><span style="color: #BB4444">&quot;vault master key encryption not enabled. IKM_HOOK not set.&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>docker<span style="color: #BBB"> </span>logs<span style="color: #BBB"> </span>edgex-security-secretstore-setup<span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>grep<span style="color: #BBB"> </span>master
+<span style="color: #B8860B">level</span><span style="color: #666">=</span>INFO<span style="color: #BBB"> </span><span style="color: #B8860B">ts</span><span style="color: #666">=2021</span>-08-15T09:18:07.7356078Z<span style="color: #BBB"> </span><span style="color: #B8860B">app</span><span style="color: #666">=</span>security-secretstore-setup<span style="color: #BBB"> </span><span style="color: #B8860B">source</span><span style="color: #666">=</span>init.go:134<span style="color: #BBB"> </span><span style="color: #B8860B">msg</span><span style="color: #666">=</span><span style="color: #B44">&quot;vault master key encryption not enabled. IKM_HOOK not set.&quot;</span>
 </code></pre></div>
 
 <p>Vault 的初始化以及上述 Vault Unseal Key 的处理，都在 EdgeX <a href="https://github.com/edgexfoundry/edgex-go/tree/main/cmd/security-secretstore-setup">security-secretstore-setup</a> 里实现。对实现细节感兴趣的读者，可以进一步阅读源码。</p>

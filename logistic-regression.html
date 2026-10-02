@@ -183,98 +183,160 @@
 <h3 id="_2">为什么需要逻辑回归算法<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
 <p>比如要对一个图片进行分类，判断图片里是否包含汽车。包含汽车的预测值为 1 。不包含汽车的预测值为 0 。这种分类问题的值是离散的，如果用 linear regresstion 来作为分类问题的预测函数是不合理的。因为预测出来的数值可能远小于 0 或远大于 1。我们需要找出一个预测函数模型，使其值的输出在 [0, 1] 之间。然后我们选择一个基准值，比如 0.5 ，如果预测值算出来大于 0.5 就认为其预测值为 1，反之则其预测值为 0.</p>
 <h3 id="_3">逻辑回归算法的预测函数<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
-<p>我们选择 $g(z) = \frac{1}{1 + e^{-z}}$ 来作为我们的预测函数。这个函数称为 <a href="https://en.wikipedia.org/wiki/Sigmoid_function">Sigmoid Function</a> 。它的图形如下：</p>
+<p>我们选择 <span class="math">\(g(z) = \frac{1}{1 + e^{-z}}\)</span> 来作为我们的预测函数。这个函数称为 <a href="https://en.wikipedia.org/wiki/Sigmoid_function">Sigmoid Function</a> 。它的图形如下：</p>
 <p><img alt="contacts_structure" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Logistic-curve.svg/320px-Logistic-curve.svg.png" /></p>
-<p>从图中可以看出来，当 $z &gt; 0$ 时，$g(z) &gt; 0.5$ 。当 z 越来越大时，$g(z)$ 接无限接近于 1。当 $z &lt; 0$ 时，$g(z) &lt; 0.5$ 。当 z 越来越小时，$g(z)$ 接无限接近于 0。这正是我们想要的针对二元分类算法的预测函数。</p>
-<p>结合我们的线性回归函数的预测函数 $h_\theta(x) = \theta^T x$，则我们的逻辑回归模型的预测函数如下：</p>
-<p>$$
+<p>从图中可以看出来，当 <span class="math">\(z &gt; 0\)</span> 时，<span class="math">\(g(z) &gt; 0.5\)</span> 。当 z 越来越大时，<span class="math">\(g(z)\)</span> 接无限接近于 1。当 <span class="math">\(z &lt; 0\)</span> 时，<span class="math">\(g(z) &lt; 0.5\)</span> 。当 z 越来越小时，<span class="math">\(g(z)\)</span> 接无限接近于 0。这正是我们想要的针对二元分类算法的预测函数。</p>
+<p>结合我们的线性回归函数的预测函数 <span class="math">\(h_\theta(x) = \theta^T x\)</span>，则我们的逻辑回归模型的预测函数如下：</p>
+<div class="math">$$
 h_\theta(x) = g(\theta^T x) = \frac{1}{1 + e^{-\theta^T x}}
-$$</p>
+$$</div>
 <p><strong>解读逻辑回归预测函数的输出值</strong></p>
-<p>$h_\theta(x)$ 表示针对输入值 $x$ 以及参数 $\theta$ 的前提条件下，$y=1$ 的概率。用概率论的公式可以写成：</p>
-<p>$$
+<p><span class="math">\(h_\theta(x)\)</span> 表示针对输入值 <span class="math">\(x\)</span> 以及参数 <span class="math">\(\theta\)</span> 的前提条件下，<span class="math">\(y=1\)</span> 的概率。用概率论的公式可以写成：</p>
+<div class="math">$$
 h_\theta(x) = P(y=1 \vert x; \theta)
-$$</p>
-<p>上面的概率公式可以读成：<strong>在输入 $x$ 及参数 $\theta$ 条件下 $y=1$ 的概率</strong>。由概率论的知识可以推导出，</p>
-<p>$$
+$$</div>
+<p>上面的概率公式可以读成：<strong>在输入 <span class="math">\(x\)</span> 及参数 <span class="math">\(\theta\)</span> 条件下 <span class="math">\(y=1\)</span> 的概率</strong>。由概率论的知识可以推导出，</p>
+<div class="math">$$
 P(y=1 \vert x; \theta) + P(y=0 \vert x; \theta) = 1
-$$</p>
+$$</div>
 <h3 id="decision-boundary">判定边界 Decision Boundary<a class="headerlink" href="#decision-boundary" title="Permanent link"> </a></h3>
 <p><strong>从逻辑回归公式说起</strong></p>
 <p>逻辑回归预测函数由下面两个公式给出的：</p>
-<p>$$
+<div class="math">$$
 h_\theta(x) = g(\theta^T x)
-$$</p>
-<p>$$
+$$</div>
+<div class="math">$$
 g(z) = \frac{1}{1 + e^{-z}}
-$$</p>
-<p>假定 $y=1$ 的判定条件是 $h_\theta(x) \geq 0.5$，$y=0$ 的判定条件是 $h_\theta(x) &lt; 0.5$，则我们可以推导出 $y=1$ 的判定条件就是 $\theta^T x \geq 0$，$y=0$ 的判定条件就是 $\theta^T x &lt; 0$。所以，$\theta^T x = 0$ 即是我们的判定边界。</p>
+$$</div>
+<p>假定 <span class="math">\(y=1\)</span> 的判定条件是 <span class="math">\(h_\theta(x) \geq 0.5\)</span>，<span class="math">\(y=0\)</span> 的判定条件是 <span class="math">\(h_\theta(x) &lt; 0.5\)</span>，则我们可以推导出 <span class="math">\(y=1\)</span> 的判定条件就是 <span class="math">\(\theta^T x \geq 0\)</span>，<span class="math">\(y=0\)</span> 的判定条件就是 <span class="math">\(\theta^T x &lt; 0\)</span>。所以，<span class="math">\(\theta^T x = 0\)</span> 即是我们的判定边界。</p>
 <p><strong>判定边界</strong></p>
-<p>假定我们有两个变量 $x_1, x_2$，其逻辑回归预测函数是 $h_\theta(x) = g(\theta_0 + \theta_1 x_1 + \theta_2 x_2)$。假设我们给定参数</p>
-<p>$$
-\theta = \begin{bmatrix} -3 \\ 1 \\ 1 \end{bmatrix}
-$$</p>
-<p>那么我们可以得到判定边界 $-3 + x_1 + x_2 = 0$，即 $x_1 + x_2 = 3$，如果以 $x_1$ 为横坐标，$x_2$ 为纵坐标，这个函数画出来就是一个通过 (0, 3) 和 (3, 0) 两个点的斜线。这条线就是我们的判定边界。</p>
+<p>假定我们有两个变量 <span class="math">\(x_1, x_2\)</span>，其逻辑回归预测函数是 <span class="math">\(h_\theta(x) = g(\theta_0 + \theta_1 x_1 + \theta_2 x_2)\)</span>。假设我们给定参数</p>
+<div class="math">$$
+\theta = \begin{bmatrix} -3 \\\\ 1 \\\\ 1 \end{bmatrix}
+$$</div>
+<p>那么我们可以得到判定边界 <span class="math">\(-3 + x_1 + x_2 = 0\)</span>，即 <span class="math">\(x_1 + x_2 = 3\)</span>，如果以 <span class="math">\(x_1\)</span> 为横坐标，<span class="math">\(x_2\)</span> 为纵坐标，这个函数画出来就是一个通过 (0, 3) 和 (3, 0) 两个点的斜线。这条线就是我们的判定边界。</p>
 <p><img alt="contacts_structure" src="../../images/ml_line_decision_boundary.png" /></p>
-<p>直线左下角为 $y=0$ ，直线右上解为 $y=1$ 。横坐标为 $x_1$，纵坐标为 $x_2$ 。</p>
+<p>直线左下角为 <span class="math">\(y=0\)</span> ，直线右上解为 <span class="math">\(y=1\)</span> 。横坐标为 <span class="math">\(x_1\)</span>，纵坐标为 <span class="math">\(x_2\)</span> 。</p>
 <p><strong>非线性判定边界</strong></p>
-<p>如果预测函数是多项式 $h_\theta(x) = g(\theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_1^2 + \theta_4 x_2^2)$，且给定</p>
-<p>$$
-\theta = \begin{bmatrix} -1 \\ 0 \\ 0 \\ 1 \\ 1 \end{bmatrix}
-$$</p>
+<p>如果预测函数是多项式 <span class="math">\(h_\theta(x) = g(\theta_0 + \theta_1 x_1 + \theta_2 x_2 + \theta_3 x_1^2 + \theta_4 x_2^2)\)</span>，且给定</p>
+<div class="math">$$
+\theta = \begin{bmatrix} -1 \\\\ 0 \\\\ 0 \\\\ 1 \\\\ 1 \end{bmatrix}
+$$</div>
 <p>则可以得到判定边界函数</p>
-<p>$$
+<div class="math">$$
 x_1^2 + x_2^2 = 1
-$$</p>
-<p>还是以 $x_1$ 为横坐标，$x_2$ 为纵坐标，则这是一个半径为 1 的圆。圆内部是 $y=0$ ，圆外部是 $y=1$。</p>
+$$</div>
+<p>还是以 <span class="math">\(x_1\)</span> 为横坐标，<span class="math">\(x_2\)</span> 为纵坐标，则这是一个半径为 1 的圆。圆内部是 <span class="math">\(y=0\)</span> ，圆外部是 <span class="math">\(y=1\)</span>。</p>
 <p><img alt="contacts_structure" src="../../images/ml_circle_decision_boundary.png" /></p>
 <p>这是二阶多项式的情况，更一般的多阶多项式可以表达出更复杂的判定边界。</p>
 <h2 id="_4">逻辑回归的成本函数<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <p>线性回归的成本函数是 $J(\theta) = \frac{1}{m} \sum_{i=1}^m \frac{1}{2} \left (h_\theta(x^{(i)}) - y^{(i)} \right)^2 $，如果我们按照线性回归的成本函数来计算逻辑回归的成本函数，那么我们最终会很可能会得到一个非凸函数 (non-convex function)，这样我们就无法通过梯度下降算法算出成本函数的最低值。</p>
 <p>为了让成本函数是个凸函数 (convex function)，以便容易求出成本函数的最小值，我们定义逻辑回归的成本函数如下：</p>
-<p>$$
+<div class="math">$$
 Cost(h_\theta(x), y) = \begin{cases}
-    -log(h_\theta(x)), &amp; \text{if $y$ = 1} \\
-    -log(1 - h_\theta(x)), &amp; \text{if $y$ = 0} \\
+    -log(h_\theta(x)), &amp; \text{if $y$ = 1} \\\\
+    -log(1 - h_\theta(x)), &amp; \text{if $y$ = 0} \\\\
 \end{cases}
-$$</p>
+$$</div>
 <p><strong>成本函数的解读</strong>
-如果 $y = 1, h_\theta(x) = 1$，那么成本为 $Cost = 0$；如果 $y = 1, h_\theta(x) \rightarrow 0$，那么成本将是无穷大 $Cost \rightarrow \infty$。
-如果 $y = 0, h_\theta(x) = 0$，那么成本为 $Cost = 0$；如果 $y = 0, h_\theta(x) \rightarrow 1$，那么成本将是无穷大 $Cost \rightarrow \infty$。</p>
+如果 <span class="math">\(y = 1, h_\theta(x) = 1\)</span>，那么成本为 <span class="math">\(Cost = 0\)</span>；如果 <span class="math">\(y = 1, h_\theta(x) \rightarrow 0\)</span>，那么成本将是无穷大 <span class="math">\(Cost \rightarrow \infty\)</span>。
+如果 <span class="math">\(y = 0, h_\theta(x) = 0\)</span>，那么成本为 <span class="math">\(Cost = 0\)</span>；如果 <span class="math">\(y = 0, h_\theta(x) \rightarrow 1\)</span>，那么成本将是无穷大 <span class="math">\(Cost \rightarrow \infty\)</span>。</p>
 <h4 id="_5">逻辑回归成本函数定义<a class="headerlink" href="#_5" title="Permanent link"> </a></h4>
-<p>由于 $y \in [0, 1]$ 的离散值，可以把两个成本函数合并起来：</p>
-<p>$$
+<p>由于 <span class="math">\(y \in [0, 1]\)</span> 的离散值，可以把两个成本函数合并起来：</p>
+<div class="math">$$
 J(\theta) = -\frac{1}{m} \left[ \sum_{i=1}^m y^{(i)} log(h_\theta(x^{(i)})) + (1 - y^{(i)}) log(1 - h_\theta(x^{(i)})) \right]
-$$</p>
-<p>把 $y = 0, y = 1$ 两种情况代入上式，很容易可以验证成本函数合并的等价性。</p>
+$$</div>
+<p>把 <span class="math">\(y = 0, y = 1\)</span> 两种情况代入上式，很容易可以验证成本函数合并的等价性。</p>
 <h4 id="_6">梯度下降公式<a class="headerlink" href="#_6" title="Permanent link"> </a></h4>
 <p>我们依然使用梯度下降公式来对模型进行求解。根据梯度下降算法的定义，我们使用下面的公式来进行参数迭代：</p>
-<p>$$
+<div class="math">$$
 \theta_j := \theta_j - \alpha \dfrac{\partial}{\partial \theta_j}J(\theta)
-$$</p>
+$$</div>
 <p>这里的关键是求解成本函数的偏导数。在这之前，我们先求出 Sigmoid 函数的偏导数，以便后面可以利用上：</p>
-<p>$$
+<div class="math">$$
 \begin{align}
-\sigma(x)&rsquo; &amp;= \left(\frac{1}{1+e^{-x}}\right)&rsquo; = \frac{-(1+e^{-x})&rsquo;}{(1+e^{-x})^2} = \frac{-1&rsquo;-(e^{-x})&rsquo;}{(1+e^{-x})^2} \newline
-&amp;= \frac{0-(-x)&rsquo;(e^{-x})}{(1+e^{-x})^2} = \frac{-(-1)(e^{-x})}{(1+e^{-x})^2} = \frac{e^{-x}}{(1+e^{-x})^2} \newline
+\sigma(x)' &amp;= \left(\frac{1}{1+e^{-x}}\right)' = \frac{-(1+e^{-x})'}{(1+e^{-x})^2} = \frac{-1'-(e^{-x})'}{(1+e^{-x})^2} \newline
+&amp;= \frac{0-(-x)'(e^{-x})}{(1+e^{-x})^2} = \frac{-(-1)(e^{-x})}{(1+e^{-x})^2} = \frac{e^{-x}}{(1+e^{-x})^2} \newline
 &amp;= \left(\frac{1}{1+e^{-x}}\right)\left(\frac{e^{-x}}{1+e^{-x}}\right) = \sigma(x)\left(\frac{+1-1 + e^{-x}}{1+e^{-x}}\right) \newline
 &amp;= \sigma(x)\left(\frac{1 + e^{-x}}{1+e^{-x}} - \frac{1}{1+e^{-x}}\right) \newline
 &amp;= \sigma(x)(1 - \sigma(x))
 \end{align}
-$$</p>
+$$</div>
 <p>推导出来的这个公式将在下面用上，现在我们可以来计算成本函数的偏导数了：</p>
 <p><img alt="成本函数偏导数" src="../../images/ml_partial_derivative.png" /></p>
 <p>最终得到梯度下降算法进行参数迭代的公式如下：</p>
-<p>$$
+<div class="math">$$
 \theta_j = \theta_j - \alpha \frac{1}{m} \sum_{i=1}^m \left( h_\theta(x^{(i)}) - y^{(i)} \right) x_j^{(i)}
-$$</p>
-<p>这个公式的形式和线性回归算法的参数迭代公式是一样的。当然，由于这里 $h_\theta(x) = \frac{1}{1 + e^{-\theta^T x}}$，而线性回归算法里 $h_\theta(x) = \theta^T x$。所以，两者的形式一样，但数值计算完全不同。</p>
+$$</div>
+<p>这个公式的形式和线性回归算法的参数迭代公式是一样的。当然，由于这里 <span class="math">\(h_\theta(x) = \frac{1}{1 + e^{-\theta^T x}}\)</span>，而线性回归算法里 <span class="math">\(h_\theta(x) = \theta^T x\)</span>。所以，两者的形式一样，但数值计算完全不同。</p>
 <h4 id="_7">算法优化<a class="headerlink" href="#_7" title="Permanent link"> </a></h4>
 <p>梯度下降算法的效率是比较低，优化的梯度下降算法有 Conjugate Gradient, BFGS, L-BFGS 等。这些算法比较复杂，实现这些算法是数值计算专家的工作，一般工程人员只需要大概知道这些算法是怎么优化的以及怎么使用这些算法即可。</p>
 <p>octave 里提供了 <code>fminunc</code> 函数，可以查阅文档来学习函数用法，从而学会使用优化过的梯度下降算法，以提高计算效率。</p>
 <h4 id="_8">多元分类算法<a class="headerlink" href="#_8" title="Permanent link"> </a></h4>
 <p>除了二元分类算法外，还有多元分类问题，比如需要给邮件打标签，则可能有多个标签需要考虑。这个时候需要使用 one-vs-all (one-vs-rest) 的方法。即把要分类的一种类别和其他所有类别区分开来的，这样就把多元分类问题转化为二元分类问题，这样就可以使用上文总结的所有二元分类问题的算法。</p>
-<p>针对 $y = i$，求解针对 i 的预测函数 $h_\theta^{(i)}(x)$。如果有 n 个类别，则需要求解 n 个预测函数。</p>
+<p>针对 <span class="math">\(y = i\)</span>，求解针对 i 的预测函数 <span class="math">\(h_\theta^{(i)}(x)\)</span>。如果有 n 个类别，则需要求解 n 个预测函数。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/ml.html">ml</a> on 2015-11-19(Thursday) 22:22. Tags: <a href="./tag/machine-learning.html">machine-learning</a>, </h6>
 </article>

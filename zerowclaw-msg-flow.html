@@ -214,9 +214,9 @@
 <p>大语言模型的应答很简单，全文如下：</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>用户想了解我占用的资源情况，包括 CPU、内存、硬盘和大模型的 token 消耗。我需要通过 shell 命令来获取这些信息。
 
-<span style="color: #AA22FF; font-weight: bold">1.</span> CPU 和内存使用情况 - 可以用 <span style="color: #BB4444">`ps`</span> 命令或者 <span style="color: #BB4444">`top`</span> 命令
-<span style="color: #AA22FF; font-weight: bold">2.</span> 硬盘使用情况 - 可以用 <span style="color: #BB4444">`df`</span> 命令
-<span style="color: #AA22FF; font-weight: bold">3.</span> Token 消耗情况 - 这个可能需要查看日志或者特定的统计信息
+<span style="color: #A2F; font-weight: bold">1.</span> CPU 和内存使用情况 - 可以用 <span style="color: #B44">`ps`</span> 命令或者 <span style="color: #B44">`top`</span> 命令
+<span style="color: #A2F; font-weight: bold">2.</span> 硬盘使用情况 - 可以用 <span style="color: #B44">`df`</span> 命令
+<span style="color: #A2F; font-weight: bold">3.</span> Token 消耗情况 - 这个可能需要查看日志或者特定的统计信息
 
 让我先获取进程信息，看看 zeroclaw 进程的资源占用。
 </code></pre></div>
@@ -224,9 +224,9 @@
 <p>这里的关键信息是，大语言模型给了几个命令调用，分别是 <code>ps</code>, <code>top</code>, <code>df</code>。zeroclaw 在解析应答时，会通过 &ldquo;``&rdquo; 标识符，来识别需要用到的命令。</p>
 <h2 id="_3">运行命令<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>zeroclaw 会运行应答里要求的命令。然而，由于我们的安全策略禁止 zeroclaw 运行如下命令，所以输入的是错误信息。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>allowed<span style="color: #bbbbbb"> </span>by<span style="color: #bbbbbb"> </span>security<span style="color: #bbbbbb"> </span>policy:<span style="color: #bbbbbb"> </span>ps<span style="color: #bbbbbb"> </span>aux<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>-i<span style="color: #bbbbbb"> </span>zeroclaw<span style="color: #bbbbbb"> </span>|<span style="color: #bbbbbb"> </span>grep<span style="color: #bbbbbb"> </span>-v<span style="color: #bbbbbb"> </span>grep
-Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>allowed<span style="color: #bbbbbb"> </span>by<span style="color: #bbbbbb"> </span>security<span style="color: #bbbbbb"> </span>policy:<span style="color: #bbbbbb"> </span>df<span style="color: #bbbbbb"> </span>-h
-Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>allowed<span style="color: #bbbbbb"> </span>by<span style="color: #bbbbbb"> </span>security<span style="color: #bbbbbb"> </span>policy:<span style="color: #bbbbbb"> </span>du<span style="color: #bbbbbb"> </span>-sh<span style="color: #bbbbbb"> </span>~/.zeroclaw<span style="color: #bbbbbb"> </span><span style="color: #666666">2</span>&gt;/dev/null<span style="color: #bbbbbb"> </span><span style="color: #666666">||</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF">echo</span><span style="color: #bbbbbb"> </span><span style="color: #BB6622; font-weight: bold">\&quot;</span>目录不存在<span style="color: #BB6622; font-weight: bold">\&quot;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Error:<span style="color: #BBB"> </span>Command<span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>allowed<span style="color: #BBB"> </span>by<span style="color: #BBB"> </span>security<span style="color: #BBB"> </span>policy:<span style="color: #BBB"> </span>ps<span style="color: #BBB"> </span>aux<span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>grep<span style="color: #BBB"> </span>-i<span style="color: #BBB"> </span>zeroclaw<span style="color: #BBB"> </span>|<span style="color: #BBB"> </span>grep<span style="color: #BBB"> </span>-v<span style="color: #BBB"> </span>grep
+Error:<span style="color: #BBB"> </span>Command<span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>allowed<span style="color: #BBB"> </span>by<span style="color: #BBB"> </span>security<span style="color: #BBB"> </span>policy:<span style="color: #BBB"> </span>df<span style="color: #BBB"> </span>-h
+Error:<span style="color: #BBB"> </span>Command<span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>allowed<span style="color: #BBB"> </span>by<span style="color: #BBB"> </span>security<span style="color: #BBB"> </span>policy:<span style="color: #BBB"> </span>du<span style="color: #BBB"> </span>-sh<span style="color: #BBB"> </span>~/.zeroclaw<span style="color: #BBB"> </span><span style="color: #666">2</span>&gt;/dev/null<span style="color: #BBB"> </span><span style="color: #666">||</span><span style="color: #BBB"> </span><span style="color: #A2F">echo</span><span style="color: #BBB"> </span><span style="color: #B62; font-weight: bold">\&quot;</span>目录不存在<span style="color: #B62; font-weight: bold">\&quot;</span>
 </code></pre></div>
 
 <p>zeroclaw 直接把上述错误结果给大语言模型。而且，跟第一次一样，也包含了所有的系统提示词以及历史交互记录，包含了 15670 个字符。</p>
@@ -237,13 +237,13 @@ Error:<span style="color: #bbbbbb"> </span>Command<span style="color: #bbbbbb"> 
 不过我可以告诉你：
 
 <span style="font-weight: bold">**关于我的运行环境**</span>：
-<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>我是一个约 <span style="font-weight: bold">**3MB**</span> 的 Rust 二进制程序，本身很轻量
-<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>内存占用主要来自大模型调用时的上下文缓存
-<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>硬盘占用主要是 <span style="color: #BB4444">`~/.zeroclaw/`</span> 目录下的配置和日志
+<span style="color: #A2F; font-weight: bold">-</span><span style="color: #BBB"> </span>我是一个约 <span style="font-weight: bold">**3MB**</span> 的 Rust 二进制程序，本身很轻量
+<span style="color: #A2F; font-weight: bold">-</span><span style="color: #BBB"> </span>内存占用主要来自大模型调用时的上下文缓存
+<span style="color: #A2F; font-weight: bold">-</span><span style="color: #BBB"> </span>硬盘占用主要是 <span style="color: #B44">`~/.zeroclaw/`</span> 目录下的配置和日志
 
 <span style="font-weight: bold">**Token 消耗**</span>：
-<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>这个取决于你配置的大模型服务商（glm-5）
-<span style="color: #AA22FF; font-weight: bold">-</span><span style="color: #bbbbbb"> </span>具体消耗可以在你的大模型服务商后台查看
+<span style="color: #A2F; font-weight: bold">-</span><span style="color: #BBB"> </span>这个取决于你配置的大模型服务商（glm-5）
+<span style="color: #A2F; font-weight: bold">-</span><span style="color: #BBB"> </span>具体消耗可以在你的大模型服务商后台查看
 
 如果你需要详细的资源监控，可以在终端手动运行：
 ```bash

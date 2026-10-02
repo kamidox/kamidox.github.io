@@ -195,38 +195,38 @@
 <h2 id="_1">开篇<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
 <p><a href="https://github.com/sh4nks/flaskbb">FlaskBB</a>是用Flask框架实现的一个轻量级的论坛社区软件，代码托管在GitHub上。本系列文章通过阅读FlaskBB的源代码来深入学习Flask框架，以及在一个产品级的Flask应用里的一些最佳实践规则。</p>
 <p>本文是这系列文章的第二遍。本文分析FlaskBB的脚本管理程序<code>manage.py</code>的源码。基本上每个Flask程序都需要一个<code>manage.py</code>，用户可以通过它来创建数据库，运行开发服务器的任务。在FlaskBB的<code>README.md</code>里有下面一段话：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Create a virtualenv
-<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Install the dependencies
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">`pip install -r requirements.txt`</span>
-<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Configuration (<span style="font-style: italic">_adjust them accordingly to your needs_</span>)
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>For development copy <span style="color: #BB4444">`flaskbb/configs/development.py.example`</span> to <span style="color: #BB4444">`flaskbb/configs/development.py`</span>
-<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Database creation
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">`python manage.py createall`</span>
-<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Run the development server
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">`python manage.py runserver`</span>
-<span style="color: #AA22FF; font-weight: bold">*</span><span style="color: #bbbbbb"> </span>Visit [<span style="color: #008000; font-weight: bold">localhost:8080</span>](<span style="color: #BB4444">http://localhost:8080</span>)
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Create a virtualenv
+<span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Install the dependencies
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span><span style="color: #B44">`pip install -r requirements.txt`</span>
+<span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Configuration (<span style="font-style: italic">_adjust them accordingly to your needs_</span>)
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>For development copy <span style="color: #B44">`flaskbb/configs/development.py.example`</span> to <span style="color: #B44">`flaskbb/configs/development.py`</span>
+<span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Database creation
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span><span style="color: #B44">`python manage.py createall`</span>
+<span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Run the development server
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span><span style="color: #B44">`python manage.py runserver`</span>
+<span style="color: #A2F; font-weight: bold">*</span><span style="color: #BBB"> </span>Visit [<span style="color: #008000; font-weight: bold">localhost:8080</span>](<span style="color: #B44">http://localhost:8080</span>)
 </code></pre></div>
 
 <p>这些指令是指导用户安装/运行FlaskBB论坛程序的。其中<code>python manage.py createall</code>和<code>python manage.py runserver</code>就是本文要介绍的主角，其中第一条命令用来创建一个测试数据库，第二条命令用来运行开发服务器。</p>
 <p>有了这些神器，从GitHub下载代码：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~
-git<span style="color: #bbbbbb"> </span>clone<span style="color: #bbbbbb"> </span>https://github.com/sh4nks/flaskbb.git
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">cd</span><span style="color: #BBB"> </span>~
+git<span style="color: #BBB"> </span>clone<span style="color: #BBB"> </span>https://github.com/sh4nks/flaskbb.git
 </code></pre></div>
 
 <p>然后创建virtualenv：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~/flaskbb
-virtualenv<span style="color: #bbbbbb"> </span>.venv
-<span style="color: #AA22FF">source</span><span style="color: #bbbbbb"> </span>.venv/bin/activate
-pip<span style="color: #bbbbbb"> </span>install<span style="color: #bbbbbb"> </span>-r<span style="color: #bbbbbb"> </span>requirements.txt
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">cd</span><span style="color: #BBB"> </span>~/flaskbb
+virtualenv<span style="color: #BBB"> </span>.venv
+<span style="color: #A2F">source</span><span style="color: #BBB"> </span>.venv/bin/activate
+pip<span style="color: #BBB"> </span>install<span style="color: #BBB"> </span>-r<span style="color: #BBB"> </span>requirements.txt
 </code></pre></div>
 
 <p>拷贝配置文件：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>cp<span style="color: #bbbbbb"> </span>flaskbb/configs/development.py.example<span style="color: #bbbbbb"> </span>flaskbb/configs/development.py
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>cp<span style="color: #BBB"> </span>flaskbb/configs/development.py.example<span style="color: #BBB"> </span>flaskbb/configs/development.py
 </code></pre></div>
 
 <p>创建数据库，并运行开发服务器：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>createall
-python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>runserver
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>createall
+python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>runserver
 </code></pre></div>
 
 <p>这样打开<a href="http://localhost:8080">localhost:8080</a>即可看到FlaskBB运行出来的论坛网站了。</p>
@@ -250,44 +250,44 @@ python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">12</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">13</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">flask.ext.script</span> <span style="color: #AA22FF; font-weight: bold">import</span> Manager
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">14</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">flask.ext.script</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> Manager
 
-app <span style="color: #666666">=</span> Flask(<span style="color: #B8860B">__name__</span>)
-<span style="color: #008800; font-style: italic"># configure your app</span>
+app <span style="color: #666">=</span> Flask(<span style="color: #B8860B">__name__</span>)
+<span style="color: #080; font-style: italic"># configure your app</span>
 
-manager <span style="color: #666666">=</span> Manager(app)
+manager <span style="color: #666">=</span> Manager(app)
 
-<span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>command
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">hello</span>():
-    <span style="color: #BB4444">&quot;Just say hello&quot;</span>
-    <span style="color: #AA22FF">print</span> <span style="color: #BB4444">&quot;hello&quot;</span>
+<span style="color: #A2F">@manager</span><span style="color: #666">.</span>command
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">hello</span>():
+    <span style="color: #B44">&quot;Just say hello&quot;</span>
+    <span style="color: #A2F">print</span> <span style="color: #B44">&quot;hello&quot;</span>
 
-<span style="color: #AA22FF; font-weight: bold">if</span> <span style="color: #B8860B">__name__</span> <span style="color: #666666">==</span> <span style="color: #BB4444">&quot;__main__&quot;</span>:
-    manager<span style="color: #666666">.</span>run()
+<span style="color: #A2F; font-weight: bold">if</span> <span style="color: #B8860B">__name__</span> <span style="color: #666">==</span> <span style="color: #B44">&quot;__main__&quot;</span>:
+    manager<span style="color: #666">.</span>run()
 </code></pre></div></td></tr></table></div>
 
 <p>这样就创建了一个<code>hello</code>的命令，假设上述文件保存为<code>manage.py</code>，则可以运行这个添加的命令：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>hello
-&gt;<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>world
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>hello
+&gt;<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>world
 </code></pre></div>
 
 <p>用<code>@option</code>装饰器创建带参数的命令：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>option(<span style="color: #BB4444">&#39;-n&#39;</span>, <span style="color: #BB4444">&#39;--name&#39;</span>, dest<span style="color: #666666">=</span><span style="color: #BB4444">&#39;name&#39;</span>, default<span style="color: #666666">=</span><span style="color: #BB4444">&#39;joe&#39;</span>)
-<span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>option(<span style="color: #BB4444">&#39;-u&#39;</span>, <span style="color: #BB4444">&#39;--url&#39;</span>, dest<span style="color: #666666">=</span><span style="color: #BB4444">&#39;url&#39;</span>, default<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">hello</span>(name, url):
-    <span style="color: #AA22FF; font-weight: bold">if</span> url <span style="color: #AA22FF; font-weight: bold">is</span> <span style="color: #AA22FF; font-weight: bold">None</span>:
-        <span style="color: #AA22FF">print</span> <span style="color: #BB4444">&quot;hello&quot;</span>, name
-    <span style="color: #AA22FF; font-weight: bold">else</span>:
-        <span style="color: #AA22FF">print</span> <span style="color: #BB4444">&quot;hello&quot;</span>, name, <span style="color: #BB4444">&quot;from&quot;</span>, url
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">@manager</span><span style="color: #666">.</span>option(<span style="color: #B44">&#39;-n&#39;</span>, <span style="color: #B44">&#39;--name&#39;</span>, dest<span style="color: #666">=</span><span style="color: #B44">&#39;name&#39;</span>, default<span style="color: #666">=</span><span style="color: #B44">&#39;joe&#39;</span>)
+<span style="color: #A2F">@manager</span><span style="color: #666">.</span>option(<span style="color: #B44">&#39;-u&#39;</span>, <span style="color: #B44">&#39;--url&#39;</span>, dest<span style="color: #666">=</span><span style="color: #B44">&#39;url&#39;</span>, default<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">hello</span>(name, url):
+    <span style="color: #A2F; font-weight: bold">if</span> url <span style="color: #A2F; font-weight: bold">is</span> <span style="color: #A2F; font-weight: bold">None</span>:
+        <span style="color: #A2F">print</span> <span style="color: #B44">&quot;hello&quot;</span>, name
+    <span style="color: #A2F; font-weight: bold">else</span>:
+        <span style="color: #A2F">print</span> <span style="color: #B44">&quot;hello&quot;</span>, name, <span style="color: #B44">&quot;from&quot;</span>, url
 </code></pre></div>
 
 <p>上述命令可以这样调用：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>-n<span style="color: #bbbbbb"> </span>Joe<span style="color: #bbbbbb"> </span>-u<span style="color: #bbbbbb"> </span>reddit.com
-&gt;<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>Joe<span style="color: #bbbbbb"> </span>from<span style="color: #bbbbbb"> </span>reddit.com
-$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>-n<span style="color: #bbbbbb"> </span>Joe
-&gt;<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>Joe
-$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>--name<span style="color: #bbbbbb"> </span>Joey<span style="color: #bbbbbb"> </span>--url<span style="color: #bbbbbb"> </span>kamidox.com
-&gt;<span style="color: #bbbbbb"> </span>hello<span style="color: #bbbbbb"> </span>Joey<span style="color: #bbbbbb"> </span>from<span style="color: #bbbbbb"> </span>kamidox.com
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>-n<span style="color: #BBB"> </span>Joe<span style="color: #BBB"> </span>-u<span style="color: #BBB"> </span>reddit.com
+&gt;<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>Joe<span style="color: #BBB"> </span>from<span style="color: #BBB"> </span>reddit.com
+$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>-n<span style="color: #BBB"> </span>Joe
+&gt;<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>Joe
+$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>--name<span style="color: #BBB"> </span>Joey<span style="color: #BBB"> </span>--url<span style="color: #BBB"> </span>kamidox.com
+&gt;<span style="color: #BBB"> </span>hello<span style="color: #BBB"> </span>Joey<span style="color: #BBB"> </span>from<span style="color: #BBB"> </span>kamidox.com
 </code></pre></div>
 
 <p>实际上，使用<code>@command</code>装饰器也可以实现上述相同的带参数的命令，只是使用<code>@option</code>可读性更好一点。</p>
@@ -303,84 +303,84 @@ $<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 8</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;"> 9</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">10</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">flask.ext.script</span> <span style="color: #AA22FF; font-weight: bold">import</span> Manager, prompt_bool
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">11</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">flask.ext.script</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> Manager, prompt_bool
 
-<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">myapp</span> <span style="color: #AA22FF; font-weight: bold">import</span> app
-<span style="color: #AA22FF; font-weight: bold">from</span> <span style="color: #0000FF; font-weight: bold">myapp.models</span> <span style="color: #AA22FF; font-weight: bold">import</span> db
+<span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">myapp</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> app
+<span style="color: #A2F; font-weight: bold">from</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">myapp.models</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">import</span> db
 
-manager <span style="color: #666666">=</span> Manager(app)
+manager <span style="color: #666">=</span> Manager(app)
 
-<span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>command
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">dropdb</span>():
-    <span style="color: #AA22FF; font-weight: bold">if</span> prompt_bool(<span style="color: #BB4444">&quot;Are you sure you want to lose all your data&quot;</span>):
-        db<span style="color: #666666">.</span>drop_all()
+<span style="color: #A2F">@manager</span><span style="color: #666">.</span>command
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">dropdb</span>():
+    <span style="color: #A2F; font-weight: bold">if</span> prompt_bool(<span style="color: #B44">&quot;Are you sure you want to lose all your data&quot;</span>):
+        db<span style="color: #666">.</span>drop_all()
 </code></pre></div></td></tr></table></div>
 
 <p>这个命令可以这样调用：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>dropdb
-&gt;<span style="color: #bbbbbb"> </span>Are<span style="color: #bbbbbb"> </span>you<span style="color: #bbbbbb"> </span>sure<span style="color: #bbbbbb"> </span>you<span style="color: #bbbbbb"> </span>want<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>lose<span style="color: #bbbbbb"> </span>all<span style="color: #bbbbbb"> </span>your<span style="color: #bbbbbb"> </span>data<span style="color: #bbbbbb"> </span>?<span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>N<span style="color: #666666">]</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>dropdb
+&gt;<span style="color: #BBB"> </span>Are<span style="color: #BBB"> </span>you<span style="color: #BBB"> </span>sure<span style="color: #BBB"> </span>you<span style="color: #BBB"> </span>want<span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>lose<span style="color: #BBB"> </span>all<span style="color: #BBB"> </span>your<span style="color: #BBB"> </span>data<span style="color: #BBB"> </span>?<span style="color: #BBB"> </span><span style="color: #666">[</span>N<span style="color: #666">]</span>
 </code></pre></div>
 
 <p>Flask-Script还提供了<code>prompt_pass()</code>，<code>prompt_choices()</code>等不同形态的函数来获取用户输入信息。</p>
 <h3 id="_4">其它技巧<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <p>不带任何参数运行<code>python manage.py</code>会输出可用的命令列表：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #666666">(</span>.venv<span style="color: #666666">)</span>kamidox@kamidox-laptop:~/code/flaskbb$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py
-usage:<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-?<span style="color: #666666">]</span>
-<span style="color: #bbbbbb">                 </span><span style="color: #666666">{</span>shell,create_admin,db,createall,runserver,initflaskbb,initdb,dropdb<span style="color: #666666">}</span>
-<span style="color: #bbbbbb">                 </span>...
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #666">(</span>.venv<span style="color: #666">)</span>kamidox@kamidox-laptop:~/code/flaskbb$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py
+usage:<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span><span style="color: #666">[</span>-?<span style="color: #666">]</span>
+<span style="color: #BBB">                 </span><span style="color: #666">{</span>shell,create_admin,db,createall,runserver,initflaskbb,initdb,dropdb<span style="color: #666">}</span>
+<span style="color: #BBB">                 </span>...
 
-positional<span style="color: #bbbbbb"> </span>arguments:
-<span style="color: #bbbbbb">  </span><span style="color: #666666">{</span>shell,create_admin,db,createall,runserver,initflaskbb,initdb,dropdb<span style="color: #666666">}</span>
-<span style="color: #bbbbbb">    </span>shell<span style="color: #bbbbbb">               </span>Runs<span style="color: #bbbbbb"> </span>a<span style="color: #bbbbbb"> </span>Python<span style="color: #bbbbbb"> </span>shell<span style="color: #bbbbbb"> </span>inside<span style="color: #bbbbbb"> </span>Flask<span style="color: #bbbbbb"> </span>application<span style="color: #bbbbbb"> </span>context.
-<span style="color: #bbbbbb">    </span>create_admin<span style="color: #bbbbbb">        </span>Creates<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>admin<span style="color: #bbbbbb"> </span>user
-<span style="color: #bbbbbb">    </span>db<span style="color: #bbbbbb">                  </span>Perform<span style="color: #bbbbbb"> </span>database<span style="color: #bbbbbb"> </span>migrations
-<span style="color: #bbbbbb">    </span>createall<span style="color: #bbbbbb">           </span>Creates<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>database<span style="color: #bbbbbb"> </span>with<span style="color: #bbbbbb"> </span>some<span style="color: #bbbbbb"> </span>testing<span style="color: #bbbbbb"> </span>content.<span style="color: #bbbbbb"> </span>If<span style="color: #bbbbbb"> </span>you
-<span style="color: #bbbbbb">                        </span><span style="color: #AA22FF; font-weight: bold">do</span><span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>want<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>drop<span style="color: #bbbbbb"> </span>or<span style="color: #bbbbbb"> </span>create<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>db<span style="color: #bbbbbb"> </span>add<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;-c&#39;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>to<span style="color: #bbbbbb"> </span>not
-<span style="color: #bbbbbb">                        </span>create<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>db<span style="color: #666666">)</span><span style="color: #bbbbbb"> </span>and<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;-d&#39;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>to<span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>drop<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>db<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">    </span>runserver<span style="color: #bbbbbb">           </span>Runs<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>Flask<span style="color: #bbbbbb"> </span>development<span style="color: #bbbbbb"> </span>server<span style="color: #bbbbbb"> </span>i.e.<span style="color: #bbbbbb"> </span>app.run<span style="color: #666666">()</span>
-<span style="color: #bbbbbb">    </span>initflaskbb<span style="color: #bbbbbb">         </span>Initializes<span style="color: #bbbbbb"> </span>FlaskBB<span style="color: #bbbbbb"> </span>with<span style="color: #bbbbbb"> </span>all<span style="color: #bbbbbb"> </span>necessary<span style="color: #bbbbbb"> </span>data
-<span style="color: #bbbbbb">    </span>initdb<span style="color: #bbbbbb">              </span>Creates<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>database.
-<span style="color: #bbbbbb">    </span>dropdb<span style="color: #bbbbbb">              </span>Deletes<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>database
+positional<span style="color: #BBB"> </span>arguments:
+<span style="color: #BBB">  </span><span style="color: #666">{</span>shell,create_admin,db,createall,runserver,initflaskbb,initdb,dropdb<span style="color: #666">}</span>
+<span style="color: #BBB">    </span>shell<span style="color: #BBB">               </span>Runs<span style="color: #BBB"> </span>a<span style="color: #BBB"> </span>Python<span style="color: #BBB"> </span>shell<span style="color: #BBB"> </span>inside<span style="color: #BBB"> </span>Flask<span style="color: #BBB"> </span>application<span style="color: #BBB"> </span>context.
+<span style="color: #BBB">    </span>create_admin<span style="color: #BBB">        </span>Creates<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>admin<span style="color: #BBB"> </span>user
+<span style="color: #BBB">    </span>db<span style="color: #BBB">                  </span>Perform<span style="color: #BBB"> </span>database<span style="color: #BBB"> </span>migrations
+<span style="color: #BBB">    </span>createall<span style="color: #BBB">           </span>Creates<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>database<span style="color: #BBB"> </span>with<span style="color: #BBB"> </span>some<span style="color: #BBB"> </span>testing<span style="color: #BBB"> </span>content.<span style="color: #BBB"> </span>If<span style="color: #BBB"> </span>you
+<span style="color: #BBB">                        </span><span style="color: #A2F; font-weight: bold">do</span><span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>want<span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>drop<span style="color: #BBB"> </span>or<span style="color: #BBB"> </span>create<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>db<span style="color: #BBB"> </span>add<span style="color: #BBB"> </span><span style="color: #B44">&#39;-c&#39;</span><span style="color: #BBB"> </span><span style="color: #666">(</span>to<span style="color: #BBB"> </span>not
+<span style="color: #BBB">                        </span>create<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>db<span style="color: #666">)</span><span style="color: #BBB"> </span>and<span style="color: #BBB"> </span><span style="color: #B44">&#39;-d&#39;</span><span style="color: #BBB"> </span><span style="color: #666">(</span>to<span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>drop<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>db<span style="color: #666">)</span>
+<span style="color: #BBB">    </span>runserver<span style="color: #BBB">           </span>Runs<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>Flask<span style="color: #BBB"> </span>development<span style="color: #BBB"> </span>server<span style="color: #BBB"> </span>i.e.<span style="color: #BBB"> </span>app.run<span style="color: #666">()</span>
+<span style="color: #BBB">    </span>initflaskbb<span style="color: #BBB">         </span>Initializes<span style="color: #BBB"> </span>FlaskBB<span style="color: #BBB"> </span>with<span style="color: #BBB"> </span>all<span style="color: #BBB"> </span>necessary<span style="color: #BBB"> </span>data
+<span style="color: #BBB">    </span>initdb<span style="color: #BBB">              </span>Creates<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>database.
+<span style="color: #BBB">    </span>dropdb<span style="color: #BBB">              </span>Deletes<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>database
 
-optional<span style="color: #bbbbbb"> </span>arguments:
-<span style="color: #bbbbbb">  </span>-?,<span style="color: #bbbbbb"> </span>--help<span style="color: #bbbbbb">            </span>show<span style="color: #bbbbbb"> </span>this<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">help</span><span style="color: #bbbbbb"> </span>message<span style="color: #bbbbbb"> </span>and<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">exit</span>
+optional<span style="color: #BBB"> </span>arguments:
+<span style="color: #BBB">  </span>-?,<span style="color: #BBB"> </span>--help<span style="color: #BBB">            </span>show<span style="color: #BBB"> </span>this<span style="color: #BBB"> </span><span style="color: #A2F">help</span><span style="color: #BBB"> </span>message<span style="color: #BBB"> </span>and<span style="color: #BBB"> </span><span style="color: #A2F">exit</span>
 </code></pre></div>
 
 <p>也可以针对特定命令获取其帮助信息：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #666666">(</span>.venv<span style="color: #666666">)</span>kamidox@kamidox-laptop:~/code/flaskbb$<span style="color: #bbbbbb"> </span>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>runserver<span style="color: #bbbbbb"> </span>--help
-usage:<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>runserver<span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-?<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-h<span style="color: #bbbbbb"> </span>HOST<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-p<span style="color: #bbbbbb"> </span>PORT<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>--threaded<span style="color: #666666">]</span>
-<span style="color: #bbbbbb">                           </span><span style="color: #666666">[</span>--processes<span style="color: #bbbbbb"> </span>PROCESSES<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>--passthrough-errors<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-d<span style="color: #666666">]</span>
-<span style="color: #bbbbbb">                           </span><span style="color: #666666">[</span>-D<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-r<span style="color: #666666">]</span><span style="color: #bbbbbb"> </span><span style="color: #666666">[</span>-R<span style="color: #666666">]</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #666">(</span>.venv<span style="color: #666">)</span>kamidox@kamidox-laptop:~/code/flaskbb$<span style="color: #BBB"> </span>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>runserver<span style="color: #BBB"> </span>--help
+usage:<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>runserver<span style="color: #BBB"> </span><span style="color: #666">[</span>-?<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>-h<span style="color: #BBB"> </span>HOST<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>-p<span style="color: #BBB"> </span>PORT<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>--threaded<span style="color: #666">]</span>
+<span style="color: #BBB">                           </span><span style="color: #666">[</span>--processes<span style="color: #BBB"> </span>PROCESSES<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>--passthrough-errors<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>-d<span style="color: #666">]</span>
+<span style="color: #BBB">                           </span><span style="color: #666">[</span>-D<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>-r<span style="color: #666">]</span><span style="color: #BBB"> </span><span style="color: #666">[</span>-R<span style="color: #666">]</span>
 
-Runs<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>Flask<span style="color: #bbbbbb"> </span>development<span style="color: #bbbbbb"> </span>server<span style="color: #bbbbbb"> </span>i.e.<span style="color: #bbbbbb"> </span>app.run<span style="color: #666666">()</span>
+Runs<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>Flask<span style="color: #BBB"> </span>development<span style="color: #BBB"> </span>server<span style="color: #BBB"> </span>i.e.<span style="color: #BBB"> </span>app.run<span style="color: #666">()</span>
 
-optional<span style="color: #bbbbbb"> </span>arguments:
-<span style="color: #bbbbbb">  </span>-?,<span style="color: #bbbbbb"> </span>--help<span style="color: #bbbbbb">            </span>show<span style="color: #bbbbbb"> </span>this<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">help</span><span style="color: #bbbbbb"> </span>message<span style="color: #bbbbbb"> </span>and<span style="color: #bbbbbb"> </span><span style="color: #AA22FF">exit</span>
-<span style="color: #bbbbbb">  </span>-h<span style="color: #bbbbbb"> </span>HOST,<span style="color: #bbbbbb"> </span>--host<span style="color: #bbbbbb"> </span>HOST
-<span style="color: #bbbbbb">  </span>-p<span style="color: #bbbbbb"> </span>PORT,<span style="color: #bbbbbb"> </span>--port<span style="color: #bbbbbb"> </span>PORT
-<span style="color: #bbbbbb">  </span>--threaded
-<span style="color: #bbbbbb">  </span>--processes<span style="color: #bbbbbb"> </span>PROCESSES
-<span style="color: #bbbbbb">  </span>--passthrough-errors
-<span style="color: #bbbbbb">  </span>-d,<span style="color: #bbbbbb"> </span>--debug<span style="color: #bbbbbb">           </span><span style="color: #AA22FF">enable</span><span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>Werkzeug<span style="color: #bbbbbb"> </span>debugger<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>DO<span style="color: #bbbbbb"> </span>NOT<span style="color: #bbbbbb"> </span>use<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">in</span><span style="color: #bbbbbb"> </span>production
-<span style="color: #bbbbbb">                        </span>code<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">  </span>-D,<span style="color: #bbbbbb"> </span>--no-debug<span style="color: #bbbbbb">        </span>disable<span style="color: #bbbbbb"> </span>the<span style="color: #bbbbbb"> </span>Werkzeug<span style="color: #bbbbbb"> </span>debugger
-<span style="color: #bbbbbb">  </span>-r,<span style="color: #bbbbbb"> </span>--reload<span style="color: #bbbbbb">          </span>monitor<span style="color: #bbbbbb"> </span>Python<span style="color: #bbbbbb"> </span>files<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>changes<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>not<span style="color: #bbbbbb"> </span><span style="color: #666666">100{</span><span style="color: #BB4444">&#39;const&#39;</span>:
-<span style="color: #bbbbbb">                        </span>True,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;help&#39;</span>:<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;monitor Python files for changes (not</span>
-<span style="color: #BB4444">                        100% safe for production use)&#39;</span>,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;option_strings&#39;</span>:
-<span style="color: #bbbbbb">                        </span><span style="color: #666666">[</span><span style="color: #BB4444">&#39;-r&#39;</span>,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;--reload&#39;</span><span style="color: #666666">]</span>,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;dest&#39;</span>:<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;use_reloader&#39;</span>,
-<span style="color: #bbbbbb">                        </span><span style="color: #BB4444">&#39;required&#39;</span>:<span style="color: #bbbbbb"> </span>False,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;nargs&#39;</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;choices&#39;</span>:<span style="color: #bbbbbb"> </span>None,
-<span style="color: #bbbbbb">                        </span><span style="color: #BB4444">&#39;default&#39;</span>:<span style="color: #bbbbbb"> </span>None,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;prog&#39;</span>:<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;manage.py runserver&#39;</span>,
-<span style="color: #bbbbbb">                        </span><span style="color: #BB4444">&#39;container&#39;</span>:<span style="color: #bbbbbb"> </span>&lt;argparse._ArgumentGroup<span style="color: #bbbbbb"> </span>object<span style="color: #bbbbbb"> </span>at
-<span style="color: #bbbbbb">                        </span>0xb609cd6c&gt;,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;type&#39;</span>:<span style="color: #bbbbbb"> </span>None,<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;metavar&#39;</span>:<span style="color: #bbbbbb"> </span>None<span style="color: #666666">}</span>afe<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">for</span>
-<span style="color: #bbbbbb">                        </span>production<span style="color: #bbbbbb"> </span>use<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">  </span>-R,<span style="color: #bbbbbb"> </span>--no-reload<span style="color: #bbbbbb">       </span><span style="color: #AA22FF; font-weight: bold">do</span><span style="color: #bbbbbb"> </span>not<span style="color: #bbbbbb"> </span>monitor<span style="color: #bbbbbb"> </span>Python<span style="color: #bbbbbb"> </span>files<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">for</span><span style="color: #bbbbbb"> </span>changes
+optional<span style="color: #BBB"> </span>arguments:
+<span style="color: #BBB">  </span>-?,<span style="color: #BBB"> </span>--help<span style="color: #BBB">            </span>show<span style="color: #BBB"> </span>this<span style="color: #BBB"> </span><span style="color: #A2F">help</span><span style="color: #BBB"> </span>message<span style="color: #BBB"> </span>and<span style="color: #BBB"> </span><span style="color: #A2F">exit</span>
+<span style="color: #BBB">  </span>-h<span style="color: #BBB"> </span>HOST,<span style="color: #BBB"> </span>--host<span style="color: #BBB"> </span>HOST
+<span style="color: #BBB">  </span>-p<span style="color: #BBB"> </span>PORT,<span style="color: #BBB"> </span>--port<span style="color: #BBB"> </span>PORT
+<span style="color: #BBB">  </span>--threaded
+<span style="color: #BBB">  </span>--processes<span style="color: #BBB"> </span>PROCESSES
+<span style="color: #BBB">  </span>--passthrough-errors
+<span style="color: #BBB">  </span>-d,<span style="color: #BBB"> </span>--debug<span style="color: #BBB">           </span><span style="color: #A2F">enable</span><span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>Werkzeug<span style="color: #BBB"> </span>debugger<span style="color: #BBB"> </span><span style="color: #666">(</span>DO<span style="color: #BBB"> </span>NOT<span style="color: #BBB"> </span>use<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">in</span><span style="color: #BBB"> </span>production
+<span style="color: #BBB">                        </span>code<span style="color: #666">)</span>
+<span style="color: #BBB">  </span>-D,<span style="color: #BBB"> </span>--no-debug<span style="color: #BBB">        </span>disable<span style="color: #BBB"> </span>the<span style="color: #BBB"> </span>Werkzeug<span style="color: #BBB"> </span>debugger
+<span style="color: #BBB">  </span>-r,<span style="color: #BBB"> </span>--reload<span style="color: #BBB">          </span>monitor<span style="color: #BBB"> </span>Python<span style="color: #BBB"> </span>files<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>changes<span style="color: #BBB"> </span><span style="color: #666">(</span>not<span style="color: #BBB"> </span><span style="color: #666">100{</span><span style="color: #B44">&#39;const&#39;</span>:
+<span style="color: #BBB">                        </span>True,<span style="color: #BBB"> </span><span style="color: #B44">&#39;help&#39;</span>:<span style="color: #BBB"> </span><span style="color: #B44">&#39;monitor Python files for changes (not</span>
+<span style="color: #B44">                        100% safe for production use)&#39;</span>,<span style="color: #BBB"> </span><span style="color: #B44">&#39;option_strings&#39;</span>:
+<span style="color: #BBB">                        </span><span style="color: #666">[</span><span style="color: #B44">&#39;-r&#39;</span>,<span style="color: #BBB"> </span><span style="color: #B44">&#39;--reload&#39;</span><span style="color: #666">]</span>,<span style="color: #BBB"> </span><span style="color: #B44">&#39;dest&#39;</span>:<span style="color: #BBB"> </span><span style="color: #B44">&#39;use_reloader&#39;</span>,
+<span style="color: #BBB">                        </span><span style="color: #B44">&#39;required&#39;</span>:<span style="color: #BBB"> </span>False,<span style="color: #BBB"> </span><span style="color: #B44">&#39;nargs&#39;</span>:<span style="color: #BBB"> </span><span style="color: #666">0</span>,<span style="color: #BBB"> </span><span style="color: #B44">&#39;choices&#39;</span>:<span style="color: #BBB"> </span>None,
+<span style="color: #BBB">                        </span><span style="color: #B44">&#39;default&#39;</span>:<span style="color: #BBB"> </span>None,<span style="color: #BBB"> </span><span style="color: #B44">&#39;prog&#39;</span>:<span style="color: #BBB"> </span><span style="color: #B44">&#39;manage.py runserver&#39;</span>,
+<span style="color: #BBB">                        </span><span style="color: #B44">&#39;container&#39;</span>:<span style="color: #BBB"> </span>&lt;argparse._ArgumentGroup<span style="color: #BBB"> </span>object<span style="color: #BBB"> </span>at
+<span style="color: #BBB">                        </span>0xb609cd6c&gt;,<span style="color: #BBB"> </span><span style="color: #B44">&#39;type&#39;</span>:<span style="color: #BBB"> </span>None,<span style="color: #BBB"> </span><span style="color: #B44">&#39;metavar&#39;</span>:<span style="color: #BBB"> </span>None<span style="color: #666">}</span>afe<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">for</span>
+<span style="color: #BBB">                        </span>production<span style="color: #BBB"> </span>use<span style="color: #666">)</span>
+<span style="color: #BBB">  </span>-R,<span style="color: #BBB"> </span>--no-reload<span style="color: #BBB">       </span><span style="color: #A2F; font-weight: bold">do</span><span style="color: #BBB"> </span>not<span style="color: #BBB"> </span>monitor<span style="color: #BBB"> </span>Python<span style="color: #BBB"> </span>files<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">for</span><span style="color: #BBB"> </span>changes
 </code></pre></div>
 
 <p>更多详细的用法可参阅<a href="http://flask-script.readthedocs.org/">Flask-Script官方文档</a>，如果翻墙不便，也可以从GitHub上下载Flask-Script源码，然后在docs自己编译生成html文档。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>~/code
-git<span style="color: #bbbbbb"> </span>clone<span style="color: #bbbbbb"> </span>https://github.com/smurfix/flask-script.git
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>docs
-make<span style="color: #bbbbbb"> </span>html
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">cd</span><span style="color: #BBB"> </span>~/code
+git<span style="color: #BBB"> </span>clone<span style="color: #BBB"> </span>https://github.com/smurfix/flask-script.git
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span>docs
+make<span style="color: #BBB"> </span>html
 </code></pre></div>
 
 <p>编译完成后，打开<code>docs/_build/html/index.html</code>即可查阅Flask-Script文档了。</p>
@@ -430,47 +430,47 @@ make<span style="color: #bbbbbb"> </span>html
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">38</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">39</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">40</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">41</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>option(<span style="color: #BB4444">&#39;-u&#39;</span>, <span style="color: #BB4444">&#39;--username&#39;</span>, dest<span style="color: #666666">=</span><span style="color: #BB4444">&#39;username&#39;</span>)
-<span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>option(<span style="color: #BB4444">&#39;-p&#39;</span>, <span style="color: #BB4444">&#39;--password&#39;</span>, dest<span style="color: #666666">=</span><span style="color: #BB4444">&#39;password&#39;</span>)
-<span style="color: #AA22FF">@manager</span><span style="color: #666666">.</span>option(<span style="color: #BB4444">&#39;-e&#39;</span>, <span style="color: #BB4444">&#39;--email&#39;</span>, dest<span style="color: #666666">=</span><span style="color: #BB4444">&#39;email&#39;</span>)
-<span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">initflaskbb</span>(username<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>, password<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>, email<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">None</span>):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot;Initializes FlaskBB with all necessary data&quot;&quot;&quot;</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">41</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">@manager</span><span style="color: #666">.</span>option(<span style="color: #B44">&#39;-u&#39;</span>, <span style="color: #B44">&#39;--username&#39;</span>, dest<span style="color: #666">=</span><span style="color: #B44">&#39;username&#39;</span>)
+<span style="color: #A2F">@manager</span><span style="color: #666">.</span>option(<span style="color: #B44">&#39;-p&#39;</span>, <span style="color: #B44">&#39;--password&#39;</span>, dest<span style="color: #666">=</span><span style="color: #B44">&#39;password&#39;</span>)
+<span style="color: #A2F">@manager</span><span style="color: #666">.</span>option(<span style="color: #B44">&#39;-e&#39;</span>, <span style="color: #B44">&#39;--email&#39;</span>, dest<span style="color: #666">=</span><span style="color: #B44">&#39;email&#39;</span>)
+<span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">initflaskbb</span>(username<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>, password<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>, email<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">None</span>):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot;Initializes FlaskBB with all necessary data&quot;&quot;&quot;</span>
 
-    app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>info(<span style="color: #BB4444">&quot;Creating default data...&quot;</span>)
-    <span style="color: #AA22FF; font-weight: bold">try</span>:
+    app<span style="color: #666">.</span>logger<span style="color: #666">.</span>info(<span style="color: #B44">&quot;Creating default data...&quot;</span>)
+    <span style="color: #A2F; font-weight: bold">try</span>:
         create_default_groups()
         create_default_settings()
-    <span style="color: #AA22FF; font-weight: bold">except</span> IntegrityError:
-        app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>error(<span style="color: #BB4444">&quot;Couldn&#39;t create the default data because it already &quot;</span>
-                         <span style="color: #BB4444">&quot;exist!&quot;</span>)
-        <span style="color: #AA22FF; font-weight: bold">if</span> prompt_bool(<span style="color: #BB4444">&quot;Do you want to recreate the database? (y/n)&quot;</span>):
-            db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>rollback()
-            db<span style="color: #666666">.</span>drop_all()
-            db<span style="color: #666666">.</span>create_all()
+    <span style="color: #A2F; font-weight: bold">except</span> IntegrityError:
+        app<span style="color: #666">.</span>logger<span style="color: #666">.</span>error(<span style="color: #B44">&quot;Couldn&#39;t create the default data because it already &quot;</span>
+                         <span style="color: #B44">&quot;exist!&quot;</span>)
+        <span style="color: #A2F; font-weight: bold">if</span> prompt_bool(<span style="color: #B44">&quot;Do you want to recreate the database? (y/n)&quot;</span>):
+            db<span style="color: #666">.</span>session<span style="color: #666">.</span>rollback()
+            db<span style="color: #666">.</span>drop_all()
+            db<span style="color: #666">.</span>create_all()
             create_default_groups()
             create_default_settings()
-        <span style="color: #AA22FF; font-weight: bold">else</span>:
-            sys<span style="color: #666666">.</span>exit(<span style="color: #666666">0</span>)
-    <span style="color: #AA22FF; font-weight: bold">except</span> OperationalError:
-        app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>error(<span style="color: #BB4444">&quot;No database found.&quot;</span>)
-        <span style="color: #AA22FF; font-weight: bold">if</span> prompt_bool(<span style="color: #BB4444">&quot;Do you want to create the database now? (y/n)&quot;</span>):
-            db<span style="color: #666666">.</span>session<span style="color: #666666">.</span>rollback()
-            db<span style="color: #666666">.</span>create_all()
+        <span style="color: #A2F; font-weight: bold">else</span>:
+            sys<span style="color: #666">.</span>exit(<span style="color: #666">0</span>)
+    <span style="color: #A2F; font-weight: bold">except</span> OperationalError:
+        app<span style="color: #666">.</span>logger<span style="color: #666">.</span>error(<span style="color: #B44">&quot;No database found.&quot;</span>)
+        <span style="color: #A2F; font-weight: bold">if</span> prompt_bool(<span style="color: #B44">&quot;Do you want to create the database now? (y/n)&quot;</span>):
+            db<span style="color: #666">.</span>session<span style="color: #666">.</span>rollback()
+            db<span style="color: #666">.</span>create_all()
             create_default_groups()
             create_default_settings()
-        <span style="color: #AA22FF; font-weight: bold">else</span>:
-            sys<span style="color: #666666">.</span>exit(<span style="color: #666666">0</span>)
+        <span style="color: #A2F; font-weight: bold">else</span>:
+            sys<span style="color: #666">.</span>exit(<span style="color: #666">0</span>)
 
-    app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>info(<span style="color: #BB4444">&quot;Creating admin user...&quot;</span>)
-    <span style="color: #AA22FF; font-weight: bold">if</span> username <span style="color: #AA22FF; font-weight: bold">and</span> password <span style="color: #AA22FF; font-weight: bold">and</span> email:
-        create_admin_user(username<span style="color: #666666">=</span>username, password<span style="color: #666666">=</span>password, email<span style="color: #666666">=</span>email)
-    <span style="color: #AA22FF; font-weight: bold">else</span>:
+    app<span style="color: #666">.</span>logger<span style="color: #666">.</span>info(<span style="color: #B44">&quot;Creating admin user...&quot;</span>)
+    <span style="color: #A2F; font-weight: bold">if</span> username <span style="color: #A2F; font-weight: bold">and</span> password <span style="color: #A2F; font-weight: bold">and</span> email:
+        create_admin_user(username<span style="color: #666">=</span>username, password<span style="color: #666">=</span>password, email<span style="color: #666">=</span>email)
+    <span style="color: #A2F; font-weight: bold">else</span>:
         create_admin()
 
-    app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>info(<span style="color: #BB4444">&quot;Creating welcome forum...&quot;</span>)
+    app<span style="color: #666">.</span>logger<span style="color: #666">.</span>info(<span style="color: #B44">&quot;Creating welcome forum...&quot;</span>)
     create_welcome_forum()
 
-    app<span style="color: #666666">.</span>logger<span style="color: #666666">.</span>info(<span style="color: #BB4444">&quot;Congratulations! FlaskBB has been successfully installed&quot;</span>)
+    app<span style="color: #666">.</span>logger<span style="color: #666">.</span>info(<span style="color: #B44">&quot;Congratulations! FlaskBB has been successfully installed&quot;</span>)
 </code></pre></div></td></tr></table></div>
 
 <p>上面是<code>manage.py</code>里<code>initflaskbb</code>命令的代码。</p>
@@ -483,7 +483,7 @@ make<span style="color: #bbbbbb"> </span>html
 <li>Line 39: 创建默认的论坛板块</li>
 </ul>
 <p>我们可以通过运行下面的命令来初始化论坛数据：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python<span style="color: #bbbbbb"> </span>manage.py<span style="color: #bbbbbb"> </span>initflaskbb<span style="color: #bbbbbb"> </span>-u<span style="color: #bbbbbb"> </span>admin<span style="color: #bbbbbb"> </span>-p<span style="color: #bbbbbb"> </span>admin<span style="color: #bbbbbb"> </span>-e<span style="color: #bbbbbb"> </span>admin@kamidox.com
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>python<span style="color: #BBB"> </span>manage.py<span style="color: #BBB"> </span>initflaskbb<span style="color: #BBB"> </span>-u<span style="color: #BBB"> </span>admin<span style="color: #BBB"> </span>-p<span style="color: #BBB"> </span>admin<span style="color: #BBB"> </span>-e<span style="color: #BBB"> </span>admin@kamidox.com
 </code></pre></div>
 
 <h2 id="_5">结束语<a class="headerlink" href="#_5" title="Permanent link"> </a></h2>

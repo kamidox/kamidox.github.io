@@ -200,31 +200,31 @@
 <h3 id="_2">用法<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
 <h4 id="activity">监控 Activity 泄露<a class="headerlink" href="#activity" title="Permanent link"> </a></h4>
 <p>我们经常把 Activity 当作为 Context 对象使用，在不同场合由各种对象引用 Activity。所以，Activity 泄漏是一个重要的需要检查的内存泄漏之一。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">ExampleApplication</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">extends</span><span style="color: #bbbbbb"> </span>Application<span style="color: #bbbbbb"> </span>{
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">class</span> <span style="color: #00F">ExampleApplication</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">extends</span><span style="color: #BBB"> </span>Application<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">static</span><span style="color: #bbbbbb"> </span>RefWatcher<span style="color: #bbbbbb"> </span><span style="color: #00A000">getRefWatcher</span>(Context<span style="color: #bbbbbb"> </span>context)<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span>ExampleApplication<span style="color: #bbbbbb"> </span>application<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>(ExampleApplication)<span style="color: #bbbbbb"> </span>context.<span style="color: #BB4444">getApplicationContext</span>();
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">return</span><span style="color: #bbbbbb"> </span>application.<span style="color: #BB4444">refWatcher</span>;
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">static</span><span style="color: #BBB"> </span>RefWatcher<span style="color: #BBB"> </span><span style="color: #00A000">getRefWatcher</span>(Context<span style="color: #BBB"> </span>context)<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span>ExampleApplication<span style="color: #BBB"> </span>application<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>(ExampleApplication)<span style="color: #BBB"> </span>context.<span style="color: #B44">getApplicationContext</span>();
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">return</span><span style="color: #BBB"> </span>application.<span style="color: #B44">refWatcher</span>;
+<span style="color: #BBB">    </span>}
 
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">private</span><span style="color: #bbbbbb"> </span>RefWatcher<span style="color: #bbbbbb"> </span>refWatcher;
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">private</span><span style="color: #BBB"> </span>RefWatcher<span style="color: #BBB"> </span>refWatcher;
 
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF">@Override</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onCreate</span>()<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">super</span>.<span style="color: #BB4444">onCreate</span>();
-<span style="color: #bbbbbb">        </span>refWatcher<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>LeakCanary.<span style="color: #BB4444">install</span>(<span style="color: #AA22FF; font-weight: bold">this</span>);
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">    </span><span style="color: #A2F">@Override</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">onCreate</span>()<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">super</span>.<span style="color: #B44">onCreate</span>();
+<span style="color: #BBB">        </span>refWatcher<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>LeakCanary.<span style="color: #B44">install</span>(<span style="color: #A2F; font-weight: bold">this</span>);
+<span style="color: #BBB">    </span>}
 }
 </code></pre></div>
 
 <p><code>LeakCanary.install()</code> 返回一个配置好了的 <code>RefWatcher</code> 实例。它同时安装了 <code>ActivityRefWatcher</code> 来监控 Activity 泄漏。即当 <code>Activity.onDestroy()</code> 被调用之后，如果这个 Activity 没有被销毁，logcat 就会打印出如下信息告诉你内存泄漏发生了。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>com.example.leakcanary.MainActivity<span style="color: #bbbbbb"> </span>has<span style="color: #bbbbbb"> </span>leaked:
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>GC<span style="color: #bbbbbb"> </span>ROOT<span style="color: #bbbbbb"> </span>thread<span style="color: #bbbbbb"> </span>java.lang.Thread.&lt;Java<span style="color: #bbbbbb"> </span>Local&gt;<span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>named<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;AsyncTask #1&#39;</span><span style="color: #666666">)</span>
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>references<span style="color: #bbbbbb"> </span>com.example.leakcanary.MainActivity<span style="color: #B8860B">$2</span>.this<span style="color: #B8860B">$0</span><span style="color: #bbbbbb"> </span><span style="color: #666666">(</span>anonymous<span style="color: #bbbbbb"> </span>class<span style="color: #bbbbbb"> </span>extends<span style="color: #bbbbbb"> </span>android.os.AsyncTask<span style="color: #666666">)</span>
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>leaks<span style="color: #bbbbbb"> </span>com.example.leakcanary.MainActivity<span style="color: #bbbbbb"> </span>instance
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>Reference<span style="color: #bbbbbb"> </span>Key:<span style="color: #bbbbbb"> </span>c4d32914-618d-4caf-993b-4b835c255873
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>Device:<span style="color: #bbbbbb"> </span>Genymotion<span style="color: #bbbbbb"> </span>generic<span style="color: #bbbbbb"> </span>Google<span style="color: #bbbbbb"> </span>Galaxy<span style="color: #bbbbbb"> </span>Nexus<span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span><span style="color: #666666">4</span>.2.2<span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span>API<span style="color: #bbbbbb"> </span><span style="color: #666666">17</span><span style="color: #bbbbbb"> </span>-<span style="color: #bbbbbb"> </span>720x1280<span style="color: #bbbbbb"> </span>vbox86p
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>Android<span style="color: #bbbbbb"> </span>Version:<span style="color: #bbbbbb"> </span><span style="color: #666666">4</span>.2.2<span style="color: #bbbbbb"> </span>API:<span style="color: #bbbbbb"> </span><span style="color: #666666">17</span>
-<span style="color: #bbbbbb">    </span>*<span style="color: #bbbbbb"> </span>Durations:<span style="color: #bbbbbb"> </span><span style="color: #B8860B">watch</span><span style="color: #666666">=</span>5100ms,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">gc</span><span style="color: #666666">=</span>104ms,<span style="color: #bbbbbb"> </span>heap<span style="color: #bbbbbb"> </span><span style="color: #B8860B">dump</span><span style="color: #666666">=</span>82ms,<span style="color: #bbbbbb"> </span><span style="color: #B8860B">analysis</span><span style="color: #666666">=</span>3008ms
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>com.example.leakcanary.MainActivity<span style="color: #BBB"> </span>has<span style="color: #BBB"> </span>leaked:
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>GC<span style="color: #BBB"> </span>ROOT<span style="color: #BBB"> </span>thread<span style="color: #BBB"> </span>java.lang.Thread.&lt;Java<span style="color: #BBB"> </span>Local&gt;<span style="color: #BBB"> </span><span style="color: #666">(</span>named<span style="color: #BBB"> </span><span style="color: #B44">&#39;AsyncTask #1&#39;</span><span style="color: #666">)</span>
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>references<span style="color: #BBB"> </span>com.example.leakcanary.MainActivity<span style="color: #B8860B">$2</span>.this<span style="color: #B8860B">$0</span><span style="color: #BBB"> </span><span style="color: #666">(</span>anonymous<span style="color: #BBB"> </span>class<span style="color: #BBB"> </span>extends<span style="color: #BBB"> </span>android.os.AsyncTask<span style="color: #666">)</span>
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>leaks<span style="color: #BBB"> </span>com.example.leakcanary.MainActivity<span style="color: #BBB"> </span>instance
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>Reference<span style="color: #BBB"> </span>Key:<span style="color: #BBB"> </span>c4d32914-618d-4caf-993b-4b835c255873
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>Device:<span style="color: #BBB"> </span>Genymotion<span style="color: #BBB"> </span>generic<span style="color: #BBB"> </span>Google<span style="color: #BBB"> </span>Galaxy<span style="color: #BBB"> </span>Nexus<span style="color: #BBB"> </span>-<span style="color: #BBB"> </span><span style="color: #666">4</span>.2.2<span style="color: #BBB"> </span>-<span style="color: #BBB"> </span>API<span style="color: #BBB"> </span><span style="color: #666">17</span><span style="color: #BBB"> </span>-<span style="color: #BBB"> </span>720x1280<span style="color: #BBB"> </span>vbox86p
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>Android<span style="color: #BBB"> </span>Version:<span style="color: #BBB"> </span><span style="color: #666">4</span>.2.2<span style="color: #BBB"> </span>API:<span style="color: #BBB"> </span><span style="color: #666">17</span>
+<span style="color: #BBB">    </span>*<span style="color: #BBB"> </span>Durations:<span style="color: #BBB"> </span><span style="color: #B8860B">watch</span><span style="color: #666">=</span>5100ms,<span style="color: #BBB"> </span><span style="color: #B8860B">gc</span><span style="color: #666">=</span>104ms,<span style="color: #BBB"> </span>heap<span style="color: #BBB"> </span><span style="color: #B8860B">dump</span><span style="color: #666">=</span>82ms,<span style="color: #BBB"> </span><span style="color: #B8860B">analysis</span><span style="color: #666">=</span>3008ms
 </code></pre></div>
 
 <div class="admonition notes">
@@ -232,22 +232,22 @@
 <p>LeakCanary 自动检测 Activity 泄漏只支持 Android ICS 以上版本。因为 <code>Application.registerActivityLifecycleCallbacks()</code> 是在 API 14 引入的。如果要在 ICS 之前监测 Activity 泄漏，可以重载 <code>Activity.onDestroy()</code> 方法，然后在这个方法里调用 <code>RefWatcher.watch(this)</code> 来实现。</p>
 </div>
 <h4 id="fragment">监控 Fragment 泄漏<a class="headerlink" href="#fragment" title="Permanent link"> </a></h4>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">abstract</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">BaseFragment</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">extends</span><span style="color: #bbbbbb"> </span>Fragment<span style="color: #bbbbbb"> </span>{
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">abstract</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">class</span> <span style="color: #00F">BaseFragment</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">extends</span><span style="color: #BBB"> </span>Fragment<span style="color: #BBB"> </span>{
 
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF">@Override</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">public</span><span style="color: #bbbbbb"> </span><span style="color: #00BB00; font-weight: bold">void</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">onDestroy</span>()<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">super</span>.<span style="color: #BB4444">onDestroy</span>();
-<span style="color: #bbbbbb">        </span>RefWatcher<span style="color: #bbbbbb"> </span>refWatcher<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>ExampleApplication.<span style="color: #BB4444">getRefWatcher</span>(getActivity());
-<span style="color: #bbbbbb">        </span>refWatcher.<span style="color: #BB4444">watch</span>(<span style="color: #AA22FF; font-weight: bold">this</span>);
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">    </span><span style="color: #A2F">@Override</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">public</span><span style="color: #BBB"> </span><span style="color: #0B0; font-weight: bold">void</span><span style="color: #BBB"> </span><span style="color: #00A000">onDestroy</span>()<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">super</span>.<span style="color: #B44">onDestroy</span>();
+<span style="color: #BBB">        </span>RefWatcher<span style="color: #BBB"> </span>refWatcher<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>ExampleApplication.<span style="color: #B44">getRefWatcher</span>(getActivity());
+<span style="color: #BBB">        </span>refWatcher.<span style="color: #B44">watch</span>(<span style="color: #A2F; font-weight: bold">this</span>);
+<span style="color: #BBB">    </span>}
 }
 </code></pre></div>
 
 <p>当 <code>Fragment.onDestroy()</code> 被调用之后，如果这个 fragment 实例没有被销毁，那么就会从 logcat 里看到相应的泄漏信息。</p>
 <h4 id="_3">监控其他泄漏<a class="headerlink" href="#_3" title="Permanent link"> </a></h4>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">    </span>...
-<span style="color: #bbbbbb">    </span>RefWatcher<span style="color: #bbbbbb"> </span>refWatcher<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>ExampleApplication.<span style="color: #BB4444">getRefWatcher</span>(getActivity());
-<span style="color: #bbbbbb">    </span>refWatcher.<span style="color: #BB4444">watch</span>(someObjNeedGced);
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">    </span>...
+<span style="color: #BBB">    </span>RefWatcher<span style="color: #BBB"> </span>refWatcher<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>ExampleApplication.<span style="color: #B44">getRefWatcher</span>(getActivity());
+<span style="color: #BBB">    </span>refWatcher.<span style="color: #B44">watch</span>(someObjNeedGced);
 </code></pre></div>
 
 <p>当 <code>someObjNeedGced</code> 还在内存中时，就会在 logcat 里看到内存泄漏的提示。</p>
@@ -274,8 +274,8 @@
 </ol>
 <h4 id="_5">几个有意思的代码<a class="headerlink" href="#_5" title="Permanent link"> </a></h4>
 <p><strong>如何导出 hprof 文件</strong></p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>File<span style="color: #bbbbbb"> </span>heapDumpFile<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">new</span><span style="color: #bbbbbb"> </span>File(<span style="color: #BB4444">&quot;heapdump.hprof&quot;</span>);
-Debug.<span style="color: #BB4444">dumpHprofData</span>(heapDumpFile.<span style="color: #BB4444">getAbsolutePath</span>());
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>File<span style="color: #BBB"> </span>heapDumpFile<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">new</span><span style="color: #BBB"> </span>File(<span style="color: #B44">&quot;heapdump.hprof&quot;</span>);
+Debug.<span style="color: #B44">dumpHprofData</span>(heapDumpFile.<span style="color: #B44">getAbsolutePath</span>());
 </code></pre></div>
 
 <p>可以参阅 <a href="https://github.com/square/leakcanary/blob/master/library/leakcanary-android/src/main/java/com/squareup/leakcanary/AndroidHeapDumper.java">AndroidHeapDumper.java</a> 的代码。</p>

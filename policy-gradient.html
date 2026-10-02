@@ -180,21 +180,21 @@
 <article>
 	<h2>策略梯度（Policy Gradient）深度解析与调参指南</h2>
 	<h2 id="_1">一、总览：为什么需要策略梯度？<a class="headerlink" href="#_1" title="Permanent link"> </a></h2>
-<p>在之前的讨论中，我们了解了<strong>值函数方法</strong>（如 Q-learning、DQN）。这类方法先学习“状态或状态-动作的价值”，再通过 $\arg\max$ 导出策略。但值函数方法存在明显局限：</p>
+<p>在之前的讨论中，我们了解了<strong>值函数方法</strong>（如 Q-learning、DQN）。这类方法先学习“状态或状态-动作的价值”，再通过 <span class="math">\(\arg\max\)</span> 导出策略。但值函数方法存在明显局限：</p>
 <ul>
-<li><strong>处理连续动作空间困难</strong>：$\arg\max_a Q(s,a)$ 在连续空间中无法枚举</li>
+<li><strong>处理连续动作空间困难</strong>：<span class="math">\(\arg\max_a Q(s,a)\)</span> 在连续空间中无法枚举</li>
 <li><strong>处理随机策略困难</strong>：最优策略往往是确定性的，但某些场景需要随机策略（如石头剪刀布）</li>
-<li><strong>高维动作空间效率低</strong>：动作空间巨大时，遍历所有动作计算 $\max$ 成本极高</li>
+<li><strong>高维动作空间效率低</strong>：动作空间巨大时，遍历所有动作计算 <span class="math">\(\max\)</span> 成本极高</li>
 </ul>
-<p><strong>策略梯度方法直接对策略函数 $\pi_\theta(a|s)$ 进行参数化建模</strong>，通过梯度上升直接优化策略参数 $\theta$，使其获得的期望回报最大化。它不依赖值函数作为中介，而是<strong>端到端地学习“在什么状态下做什么动作”</strong>。</p>
+<p><strong>策略梯度方法直接对策略函数 <span class="math">\(\pi_\theta(a|s)\)</span> 进行参数化建模</strong>，通过梯度上升直接优化策略参数 <span class="math">\(\theta\)</span>，使其获得的期望回报最大化。它不依赖值函数作为中介，而是<strong>端到端地学习“在什么状态下做什么动作”</strong>。</p>
 <hr />
 <h2 id="_2">二、核心原理：策略梯度定理<a class="headerlink" href="#_2" title="Permanent link"> </a></h2>
 <h3 id="1">1. 目标函数<a class="headerlink" href="#1" title="Permanent link"> </a></h3>
-<p>定义策略 $\pi_\theta$ 的期望累积折扣奖励为：</p>
-<p>$$J(\theta) = \mathbb{E}<em>{\tau \sim \pi</em>\theta} \left[ \sum_{t=0}^{T} \gamma^t r_{t} \right] = \mathbb{E}<em>{s \sim d^{\pi</em>\theta}, a \sim \pi_\theta} \left[ G_t \right]$$</p>
-<p>其中 $\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \dots)$ 是一条轨迹（trajectory）。</p>
+<p>定义策略 <span class="math">\(\pi_\theta\)</span> 的期望累积折扣奖励为：</p>
+<div class="math">$$J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \gamma^t r_{t} \right] = \mathbb{E}_{s \sim d^{\pi_\theta}, a \sim \pi_\theta} \left[ G_t \right]$$</div>
+<p>其中 <span class="math">\(\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \dots)\)</span> 是一条轨迹（trajectory）。</p>
 <h3 id="2">2. 策略梯度定理（核心公式）<a class="headerlink" href="#2" title="Permanent link"> </a></h3>
-<p>$$\nabla_\theta J(\theta) = \mathbb{E}<em>{\tau \sim \pi</em>\theta} \left[ \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot G_t \right]$$</p>
+<div class="math">$$\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot G_t \right]$$</div>
 <p><strong>物理含义拆解</strong>：</p>
 <table>
 <thead>
@@ -206,17 +206,17 @@
 </thead>
 <tbody>
 <tr>
-<td>$\nabla_\theta \log \pi_\theta(a_t|s_t)$</td>
-<td><strong>得分函数（Score Function）</strong>，表示“增加参数 $\theta$ 会让这个动作的概率增加多少”</td>
+<td><span class="math">\(\nabla_\theta \log \pi_\theta(a_t\|s_t)\)</span></td>
+<td><strong>得分函数（Score Function）</strong>，表示“增加参数 <span class="math">\(\theta\)</span> 会让这个动作的概率增加多少”</td>
 <td>方向：告诉我们应该往哪个方向调整参数</td>
 </tr>
 <tr>
-<td>$G_t$</td>
-<td><strong>累积回报</strong>，从时刻 $t$ 开始的总奖励</td>
+<td><span class="math">\(G_t\)</span></td>
+<td><strong>累积回报</strong>，从时刻 <span class="math">\(t\)</span> 开始的总奖励</td>
 <td>幅度：回报越高，这个方向调整得越多</td>
 </tr>
 <tr>
-<td>$\mathbb{E}$</td>
+<td><span class="math">\(\mathbb{E}\)</span></td>
 <td>对所有轨迹求期望</td>
 <td>稳定性：用大量样本平均来降低方差</td>
 </tr>
@@ -225,15 +225,15 @@
 <p><strong>直觉理解</strong>：如果某个动作带来了高回报，就增大该动作的概率；如果回报低，就减小。这就像训练动物——做对了给奖励（增大概率），做错了给惩罚（减小概率）。</p>
 <h3 id="3-reinforce">3. REINFORCE 算法（蒙特卡洛策略梯度）<a class="headerlink" href="#3-reinforce" title="Permanent link"> </a></h3>
 <p>最基础的策略梯度算法，每完成一条完整轨迹后更新：</p>
-<p>$$\theta \leftarrow \theta + \alpha \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) G_t$$</p>
-<p><strong>缺点</strong>：方差极大，因为 $G_t$ 的波动很大。</p>
+<div class="math">$$\theta \leftarrow \theta + \alpha \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) G_t$$</div>
+<p><strong>缺点</strong>：方差极大，因为 <span class="math">\(G_t\)</span> 的波动很大。</p>
 <hr />
 <h2 id="_3">三、降低方差的关键技术<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <h3 id="1-baseline">1. 基线（Baseline）方法<a class="headerlink" href="#1-baseline" title="Permanent link"> </a></h3>
-<p>引入基线函数 $b(s_t)$，将梯度改写为：</p>
-<p>$$\nabla_\theta J(\theta) = \mathbb{E} \left[ \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot (G_t - b(s_t)) \right]$$</p>
-<p><strong>数学保证</strong>：减去基线不改变期望梯度（因为 $\mathbb{E}[\nabla_\theta \log \pi_\theta \cdot b(s_t)] = 0$），但能显著降低方差。</p>
-<p><strong>最常用的基线</strong>：状态值函数 $V^\pi(s_t)$，即 <strong>Actor-Critic</strong> 架构。</p>
+<p>引入基线函数 <span class="math">\(b(s_t)\)</span>，将梯度改写为：</p>
+<div class="math">$$\nabla_\theta J(\theta) = \mathbb{E} \left[ \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot (G_t - b(s_t)) \right]$$</div>
+<p><strong>数学保证</strong>：减去基线不改变期望梯度（因为 <span class="math">\(\mathbb{E}[\nabla_\theta \log \pi_\theta \cdot b(s_t)] = 0\)</span>），但能显著降低方差。</p>
+<p><strong>最常用的基线</strong>：状态值函数 <span class="math">\(V^\pi(s_t)\)</span>，即 <strong>Actor-Critic</strong> 架构。</p>
 <h3 id="2-actor-critic">2. Actor-Critic 架构<a class="headerlink" href="#2-actor-critic" title="Permanent link"> </a></h3>
 <table>
 <thead>
@@ -247,32 +247,32 @@
 <tbody>
 <tr>
 <td><strong>Actor</strong></td>
-<td>策略网络 $\pi_\theta(a|s)$</td>
-<td>$\theta$</td>
-<td>最大化优势函数 $A(s,a)$</td>
+<td>策略网络 <span class="math">\(\pi_\theta(a\|s)\)</span></td>
+<td><span class="math">\(\theta\)</span></td>
+<td>最大化优势函数 <span class="math">\(A(s,a)\)</span></td>
 </tr>
 <tr>
 <td><strong>Critic</strong></td>
-<td>值函数网络 $V_\phi(s)$</td>
-<td>$\phi$</td>
+<td>值函数网络 <span class="math">\(V_\phi(s)\)</span></td>
+<td><span class="math">\(\phi\)</span></td>
 <td>最小化 TD 误差（贝尔曼误差）</td>
 </tr>
 </tbody>
 </table>
-<p><strong>优势函数</strong>：$A(s_t, a_t) = Q(s_t, a_t) - V(s_t) \approx r_t + \gamma V(s_{t+1}) - V(s_t)$（TD 残差）</p>
+<p><strong>优势函数</strong>：<span class="math">\(A(s_t, a_t) = Q(s_t, a_t) - V(s_t) \approx r_t + \gamma V(s_{t+1}) - V(s_t)\)</span>（TD 残差）</p>
 <p>梯度变为：</p>
-<p>$$\nabla_\theta J(\theta) \approx \mathbb{E} \left[ \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot A(s_t, a_t) \right]$$</p>
-<p><strong>物理含义</strong>：不再用绝对回报 $G_t$，而是用<strong>“比平均水平好多少”</strong>来衡量动作好坏。这就像绩效考核——不是看绝对值，而是看相对贡献。</p>
+<div class="math">$$\nabla_\theta J(\theta) \approx \mathbb{E} \left[ \nabla_\theta \log \pi_\theta(a_t|s_t) \cdot A(s_t, a_t) \right]$$</div>
+<p><strong>物理含义</strong>：不再用绝对回报 <span class="math">\(G_t\)</span>，而是用<strong>“比平均水平好多少”</strong>来衡量动作好坏。这就像绩效考核——不是看绝对值，而是看相对贡献。</p>
 <hr />
 <h2 id="_4">四、重要变体<a class="headerlink" href="#_4" title="Permanent link"> </a></h2>
 <h3 id="1-ppoproximal-policy-optimization">1. PPO（Proximal Policy Optimization）<a class="headerlink" href="#1-ppoproximal-policy-optimization" title="Permanent link"> </a></h3>
 <p>当前最主流的 on-policy 算法，通过<strong>截断（Clipping）</strong>限制策略更新幅度：</p>
-<p>$$L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$</p>
-<p>其中 $r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$ 是新旧策略的概率比。</p>
+<div class="math">$$L^{CLIP}(\theta) = \mathbb{E} \left[ \min \left( r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t \right) \right]$$</div>
+<p>其中 <span class="math">\(r_t(\theta) = \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}\)</span> 是新旧策略的概率比。</p>
 <p><strong>核心思想</strong>：防止策略在一次更新中变化太大，避免训练崩溃。这是 PPO 稳定性远超原始策略梯度的关键。</p>
 <h3 id="2-trpotrust-region-policy-optimization">2. TRPO（Trust Region Policy Optimization）<a class="headerlink" href="#2-trpotrust-region-policy-optimization" title="Permanent link"> </a></h3>
 <p>使用 KL 散度约束代替 PPO 的 clip：</p>
-<p>$$\max_\theta \mathbb{E} \left[ \frac{\pi_\theta(a|s)}{\pi_{\theta_{old}}(a|s)} A(s,a) \right] \quad \text{s.t.} \quad \mathbb{E} \left[ \text{KL}(\pi_{\theta_{old}}(\cdot|s) | \pi_\theta(\cdot|s)) \right] \leq \delta$$</p>
+<div class="math">$$\max_\theta \mathbb{E} \left[ \frac{\pi_\theta(a|s)}{\pi_{\theta_{old}}(a|s)} A(s,a) \right] \quad \text{s.t.} \quad \mathbb{E} \left[ \text{KL}(\pi_{\theta_{old}}(\cdot|s) \| \pi_\theta(\cdot|s)) \right] \leq \delta$$</div>
 <p>TRPO 理论更严谨，但实现复杂；PPO 是 TRPO 的工程简化版，效果相当甚至更好。</p>
 <h3 id="3-a3c-a2c">3. A3C / A2C<a class="headerlink" href="#3-a3c-a2c" title="Permanent link"> </a></h3>
 <ul>
@@ -293,13 +293,13 @@
 </thead>
 <tbody>
 <tr>
-<td>Actor 学习率 $\alpha_\theta$</td>
-<td>$10^{-4} \sim 3\times10^{-4}$</td>
+<td>Actor 学习率 <span class="math">\(\alpha_\theta\)</span></td>
+<td><span class="math">\(10^{-4} \sim 3\times10^{-4}\)</span></td>
 <td>策略更新要保守，太大容易崩溃</td>
 </tr>
 <tr>
-<td>Critic 学习率 $\alpha_\phi$</td>
-<td>$10^{-3} \sim 10^{-4}$</td>
+<td>Critic 学习率 <span class="math">\(\alpha_\phi\)</span></td>
+<td><span class="math">\(10^{-3} \sim 10^{-4}\)</span></td>
 <td>值函数可以稍快学习</td>
 </tr>
 <tr>
@@ -310,70 +310,70 @@
 </tbody>
 </table>
 <p><strong>调试步骤</strong>：
-1. 先用较小学习率（如 $10^{-4}$）确保训练稳定
+1. 先用较小学习率（如 <span class="math">\(10^{-4}\)</span>）确保训练稳定
 2. 如果收敛太慢，逐步增大（乘以 3 倍尝试）
 3. 如果出现 loss 震荡或策略突然变差，立即减小</p>
-<h3 id="2-gamma">2. 折扣因子 $\gamma$<a class="headerlink" href="#2-gamma" title="Permanent link"> </a></h3>
+<h3 id="2-gamma">2. 折扣因子 <span class="math">\(\gamma\)</span><a class="headerlink" href="#2-gamma" title="Permanent link"> </a></h3>
 <table>
 <thead>
 <tr>
 <th>场景</th>
-<th>$\gamma$ 建议</th>
+<th><span class="math">\(\gamma\)</span> 建议</th>
 <th>原因</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>稀疏奖励（如到达目标才给奖励）</td>
-<td>$0.99 \sim 0.999$</td>
+<td><span class="math">\(0.99 \sim 0.999\)</span></td>
 <td>需要长期信用分配</td>
 </tr>
 <tr>
 <td>稠密奖励（每步都有奖励）</td>
-<td>$0.9 \sim 0.98$</td>
+<td><span class="math">\(0.9 \sim 0.98\)</span></td>
 <td>避免过于关注远期奖励</td>
 </tr>
 <tr>
 <td>机器人控制（高频）</td>
-<td>$0.95 \sim 0.99$</td>
+<td><span class="math">\(0.95 \sim 0.99\)</span></td>
 <td>平衡即时与远期</td>
 </tr>
 </tbody>
 </table>
-<p><strong>注意</strong>：$\gamma$ 接近 1 时，回报的方差会急剧增大，需要配合基线或 GAE 使用。</p>
-<h3 id="3-gaegeneralized-advantage-estimation-lambda">3. GAE（Generalized Advantage Estimation）参数 $\lambda$<a class="headerlink" href="#3-gaegeneralized-advantage-estimation-lambda" title="Permanent link"> </a></h3>
+<p><strong>注意</strong>：<span class="math">\(\gamma\)</span> 接近 1 时，回报的方差会急剧增大，需要配合基线或 GAE 使用。</p>
+<h3 id="3-gaegeneralized-advantage-estimation-lambda">3. GAE（Generalized Advantage Estimation）参数 <span class="math">\(\lambda\)</span><a class="headerlink" href="#3-gaegeneralized-advantage-estimation-lambda" title="Permanent link"> </a></h3>
 <p>GAE 是平衡偏差和方差的关键：</p>
-<p>$$A_t^{GAE} = \sum_{l=0}^{\infty} (\gamma\lambda)^l \delta_{t+l}$$</p>
-<p>其中 $\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)$ 是 TD 残差。</p>
+<div class="math">$$A_t^{GAE} = \sum_{l=0}^{\infty} (\gamma\lambda)^l \delta_{t+l}$$</div>
+<p>其中 <span class="math">\(\delta_t = r_t + \gamma V(s_{t+1}) - V(s_t)\)</span> 是 TD 残差。</p>
 <table>
 <thead>
 <tr>
-<th>$\lambda$</th>
+<th><span class="math">\(\lambda\)</span></th>
 <th>效果</th>
 <th>适用场景</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>$\lambda = 0$</td>
+<td><span class="math">\(\lambda = 0\)</span></td>
 <td>纯 TD（高偏差，低方差）</td>
 <td>样本少、需要快速学习</td>
 </tr>
 <tr>
-<td>$\lambda = 1$</td>
+<td><span class="math">\(\lambda = 1\)</span></td>
 <td>纯蒙特卡洛（低偏差，高方差）</td>
 <td>样本充足、需要精确估计</td>
 </tr>
 <tr>
-<td>$\lambda = 0.95$</td>
+<td><span class="math">\(\lambda = 0.95\)</span></td>
 <td><strong>推荐默认值</strong></td>
 <td>大多数场景的平衡选择</td>
 </tr>
 </tbody>
 </table>
 <p><strong>调试步骤</strong>：
-1. 从 $\lambda = 0.95$ 开始
-2. 如果训练不稳定（奖励波动大），降低 $\lambda$ 到 0.9
+1. 从 <span class="math">\(\lambda = 0.95\)</span> 开始
+2. 如果训练不稳定（奖励波动大），降低 <span class="math">\(\lambda\)</span> 到 0.9
 3. 如果收敛慢且稳定，尝试提高到 0.98</p>
 <h3 id="4-ppo">4. PPO 特有参数<a class="headerlink" href="#4-ppo" title="Permanent link"> </a></h3>
 <table>
@@ -386,28 +386,28 @@
 </thead>
 <tbody>
 <tr>
-<td>Clip 范围 $\epsilon$</td>
-<td>$0.1 \sim 0.3$</td>
+<td>Clip 范围 <span class="math">\(\epsilon\)</span></td>
+<td><span class="math">\(0.1 \sim 0.3\)</span></td>
 <td>默认 0.2，连续控制常用 0.1</td>
 </tr>
 <tr>
-<td>更新轮数 $K$</td>
-<td>$3 \sim 10$</td>
+<td>更新轮数 <span class="math">\(K\)</span></td>
+<td><span class="math">\(3 \sim 10\)</span></td>
 <td>每条数据复用更新次数，太大容易偏离</td>
 </tr>
 <tr>
-<td>批量大小 $M$</td>
-<td>$64 \sim 4096$</td>
+<td>批量大小 <span class="math">\(M\)</span></td>
+<td><span class="math">\(64 \sim 4096\)</span></td>
 <td>取决于内存和并行度</td>
 </tr>
 <tr>
-<td>熵系数 $\beta$</td>
-<td>$0.0 \sim 0.01$</td>
+<td>熵系数 <span class="math">\(\beta\)</span></td>
+<td><span class="math">\(0.0 \sim 0.01\)</span></td>
 <td>鼓励探索，太大策略变随机</td>
 </tr>
 </tbody>
 </table>
-<p><strong>关键原则</strong>：PPO 的 clip 范围是<strong>最重要的超参数</strong>。如果策略性能突然崩溃，首先减小 $\epsilon$；如果学习太慢，适当增大。</p>
+<p><strong>关键原则</strong>：PPO 的 clip 范围是<strong>最重要的超参数</strong>。如果策略性能突然崩溃，首先减小 <span class="math">\(\epsilon\)</span>；如果学习太慢，适当增大。</p>
 <h3 id="5">5. 网络架构<a class="headerlink" href="#5" title="Permanent link"> </a></h3>
 <table>
 <thead>
@@ -465,7 +465,7 @@
 <tr>
 <td>奖励突然归零或崩溃</td>
 <td>策略更新步长太大</td>
-<td>减小学习率、减小 clip $\epsilon$</td>
+<td>减小学习率、减小 clip <span class="math">\(\epsilon\)</span></td>
 </tr>
 <tr>
 <td>奖励长期不增长</td>
@@ -475,7 +475,7 @@
 <tr>
 <td>奖励波动极大</td>
 <td>方差太大</td>
-<td>降低 $\gamma$、降低 $\lambda$、增大 batch size</td>
+<td>降低 <span class="math">\(\gamma\)</span>、降低 <span class="math">\(\lambda\)</span>、增大 batch size</td>
 </tr>
 <tr>
 <td>策略过早收敛到次优</td>
@@ -539,7 +539,7 @@
 </tr>
 <tr>
 <td><strong>关键公式</strong></td>
-<td>$\nabla_\theta J = \mathbb{E}[\nabla_\theta \log \pi_\theta \cdot G_t]$</td>
+<td><span class="math">\(\nabla_\theta J = \mathbb{E}[\nabla_\theta \log \pi_\theta \cdot G_t]\)</span></td>
 </tr>
 <tr>
 <td><strong>降低方差</strong></td>
@@ -551,7 +551,7 @@
 </tr>
 <tr>
 <td><strong>调参优先级</strong></td>
-<td>学习率 &gt; Clip 范围 &gt; GAE $\lambda$ &gt; 网络结构 &gt; 奖励塑形</td>
+<td>学习率 &gt; Clip 范围 &gt; GAE <span class="math">\(\lambda\)</span> &gt; 网络结构 &gt; 奖励塑形</td>
 </tr>
 <tr>
 <td><strong>调试原则</strong></td>
@@ -559,6 +559,68 @@
 </tr>
 </tbody>
 </table>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
 	<hr/>
 	<h6>Post by <a href="./author/joey-huang.html">Joey Huang</a> under <a href="./category/ai.html">ai</a> on 2026-10-02(Friday) 14:43. Tags: <a href="./tag/rl.html">rl</a>, </h6>
 </article>

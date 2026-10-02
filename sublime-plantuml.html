@@ -189,8 +189,8 @@
 <li>组件图</li>
 </ul>
 <p>简单地讲，我们使用 visio 画图时需要一个一个图去画，但使用 PlantUML 只需要用文字表达出图的内容，然后就可以直接生成图片。看一个最简单的例子：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>Hello,<span style="color: #bbbbbb"> </span>how<span style="color: #bbbbbb"> </span>are<span style="color: #bbbbbb"> </span>you
-Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>Fine,<span style="color: #bbbbbb"> </span>thank<span style="color: #bbbbbb"> </span>you,<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">and</span><span style="color: #bbbbbb"> </span>you<span style="color: #666666">?</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Bob<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Alice<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>Hello,<span style="color: #BBB"> </span>how<span style="color: #BBB"> </span>are<span style="color: #BBB"> </span>you
+Alice<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Bob<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>Fine,<span style="color: #BBB"> </span>thank<span style="color: #BBB"> </span>you,<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">and</span><span style="color: #BBB"> </span>you<span style="color: #666">?</span>
 </code></pre></div>
 
 <p><img alt="demo" src="http://plantuml.com/plantuml/png/SyfFKj2rKt3CoKnELR1Iy4ZDoSdNKSZ8BrT8B4fLgCmlvO980TKu0PLQARXbvgNgA9Ha9EPbWwHr51BpKa0CUm00" /></p>
@@ -216,8 +216,8 @@ Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</sp
 <p>上面的代码配置成按住 <code>Alt + d</code> 来生成 PlantUML 图片，你可以修改成你自己喜欢的按键。</p>
 <p><strong>效果检验</strong></p>
 <p>最后检验一下工作安装是否正确。打开 Sublime 输入：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>Hello,<span style="color: #bbbbbb"> </span>how<span style="color: #bbbbbb"> </span>are<span style="color: #bbbbbb"> </span>you
-Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>Fine,<span style="color: #bbbbbb"> </span>thank<span style="color: #bbbbbb"> </span>you,<span style="color: #bbbbbb"> </span><span style="color: #AA22FF; font-weight: bold">and</span><span style="color: #bbbbbb"> </span>you<span style="color: #666666">?</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>Bob<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Alice<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>Hello,<span style="color: #BBB"> </span>how<span style="color: #BBB"> </span>are<span style="color: #BBB"> </span>you
+Alice<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Bob<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>Fine,<span style="color: #BBB"> </span>thank<span style="color: #BBB"> </span>you,<span style="color: #BBB"> </span><span style="color: #A2F; font-weight: bold">and</span><span style="color: #BBB"> </span>you<span style="color: #666">?</span>
 </code></pre></div>
 
 <p>选中这些文本内容，按 Alt + d 会在当前工作目录下生成这个图片文件，同时自动弹出窗口显示图片。</p>
@@ -225,28 +225,28 @@ Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</sp
 <h3 id="_2">时序图<a class="headerlink" href="#_2" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
-title<span style="color: #bbbbbb"> </span>时序图
+title<span style="color: #BBB"> </span>时序图
 
-<span style="color: #666666">==</span><span style="color: #bbbbbb"> </span>鉴权阶段<span style="color: #bbbbbb"> </span><span style="color: #666666">==</span>
+<span style="color: #666">==</span><span style="color: #BBB"> </span>鉴权阶段<span style="color: #BBB"> </span><span style="color: #666">==</span>
 
-Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Bob<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>请求
-Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Alice<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>应答
+Alice<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Bob<span style="color: #666">:</span><span style="color: #BBB"> </span>请求
+Bob<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Alice<span style="color: #666">:</span><span style="color: #BBB"> </span>应答
 
-<span style="color: #666666">==</span><span style="color: #bbbbbb"> </span>数据上传<span style="color: #bbbbbb"> </span><span style="color: #666666">==</span>
+<span style="color: #666">==</span><span style="color: #BBB"> </span>数据上传<span style="color: #BBB"> </span><span style="color: #666">==</span>
 
-Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Bob<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>上传数据
-note<span style="color: #bbbbbb"> </span>left<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>这是显示在左边的备注
+Alice<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Bob<span style="color: #666">:</span><span style="color: #BBB"> </span>上传数据
+note<span style="color: #BBB"> </span>left<span style="color: #666">:</span><span style="color: #BBB"> </span>这是显示在左边的备注
 
-Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Canny<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>转交数据
-...<span style="color: #bbbbbb"> </span>不超过<span style="color: #bbbbbb"> </span><span style="color: #666666">5</span><span style="color: #bbbbbb"> </span>秒钟<span style="color: #bbbbbb"> </span>...
-Canny<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Bob<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>状态返回
-note<span style="color: #bbbbbb"> </span>right<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>这是显示在右边的备注
+Bob<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Canny<span style="color: #666">:</span><span style="color: #BBB"> </span>转交数据
+...<span style="color: #BBB"> </span>不超过<span style="color: #BBB"> </span><span style="color: #666">5</span><span style="color: #BBB"> </span>秒钟<span style="color: #BBB"> </span>...
+Canny<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Bob<span style="color: #666">:</span><span style="color: #BBB"> </span>状态返回
+note<span style="color: #BBB"> </span>right<span style="color: #666">:</span><span style="color: #BBB"> </span>这是显示在右边的备注
 
-Bob<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Alice<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>状态返回
+Bob<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Alice<span style="color: #666">:</span><span style="color: #BBB"> </span>状态返回
 
-<span style="color: #666666">==</span><span style="color: #bbbbbb"> </span>状态显示<span style="color: #bbbbbb"> </span><span style="color: #666666">==</span>
+<span style="color: #666">==</span><span style="color: #BBB"> </span>状态显示<span style="color: #BBB"> </span><span style="color: #666">==</span>
 
-Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>Alice<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>给自己发消息
+Alice<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>Alice<span style="color: #666">:</span><span style="color: #BBB"> </span>给自己发消息
 
 @enduml
 </code></pre></div>
@@ -265,14 +265,14 @@ Alice<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</sp
 <h3 id="_3">用例图<a class="headerlink" href="#_3" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
-left<span style="color: #bbbbbb"> </span>to<span style="color: #bbbbbb"> </span>right<span style="color: #bbbbbb"> </span>direction
-actor<span style="color: #bbbbbb"> </span>消费者
-actor<span style="color: #bbbbbb"> </span>销售员
-rectangle<span style="color: #bbbbbb"> </span>买单<span style="color: #bbbbbb"> </span>{
-消费者<span style="color: #bbbbbb"> </span><span style="color: #666666">--</span><span style="color: #bbbbbb"> </span>(买单)
-(买单)<span style="color: #bbbbbb"> </span>.<span style="color: #666666">&gt;</span><span style="color: #bbbbbb"> </span>(付款)<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>include
-(帮助)<span style="color: #bbbbbb"> </span>.<span style="color: #666666">&gt;</span><span style="color: #bbbbbb"> </span>(买单)<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>extends
-(买单)<span style="color: #bbbbbb"> </span><span style="color: #666666">--</span><span style="color: #bbbbbb"> </span>销售员
+left<span style="color: #BBB"> </span>to<span style="color: #BBB"> </span>right<span style="color: #BBB"> </span>direction
+actor<span style="color: #BBB"> </span>消费者
+actor<span style="color: #BBB"> </span>销售员
+rectangle<span style="color: #BBB"> </span>买单<span style="color: #BBB"> </span>{
+消费者<span style="color: #BBB"> </span><span style="color: #666">--</span><span style="color: #BBB"> </span>(买单)
+(买单)<span style="color: #BBB"> </span>.<span style="color: #666">&gt;</span><span style="color: #BBB"> </span>(付款)<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>include
+(帮助)<span style="color: #BBB"> </span>.<span style="color: #666">&gt;</span><span style="color: #BBB"> </span>(买单)<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>extends
+(买单)<span style="color: #BBB"> </span><span style="color: #666">--</span><span style="color: #BBB"> </span>销售员
 }
 
 @enduml
@@ -293,37 +293,37 @@ rectangle<span style="color: #bbbbbb"> </span>买单<span style="color: #bbbbbb"
 <h3 id="_4">流程图<a class="headerlink" href="#_4" title="Permanent link"> </a></h3>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
-title<span style="color: #bbbbbb"> </span>流程图
+title<span style="color: #BBB"> </span>流程图
 
-(<span style="color: #666666">*</span>)<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;步骤1处理&quot;</span>
-<span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;步骤2处理&quot;</span>
-<span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;条件1判断&quot;</span><span style="color: #bbbbbb"> </span>then
-<span style="color: #bbbbbb">    </span><span style="color: #666666">-&gt;</span>[<span style="color: #AA22FF">true</span>]<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;条件1成立时执行的动作&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;分支条件2判断&quot;</span><span style="color: #bbbbbb"> </span>then
-<span style="color: #bbbbbb">        </span><span style="color: #666666">-&gt;</span>[no]<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;条件2不成立时执行的动作&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">===</span><span style="color: #bbbbbb"> </span>中间流程汇总点1<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">else</span>
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span>[yes]<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span><span style="color: #bbbbbb"> </span>中间流程汇总点1<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span>
-<span style="color: #bbbbbb">    </span>endif
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;分支条件3判断&quot;</span><span style="color: #bbbbbb"> </span>then
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span>[yes]<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;分支条件3成立时执行的动作&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;Page.onRender ()&quot;</span><span style="color: #bbbbbb"> </span>as<span style="color: #bbbbbb"> </span>render
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #666666">===</span><span style="color: #bbbbbb"> </span>REDIRECT_CHECK<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">else</span>
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span>[no]<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;分支条件3不成立时的动作&quot;</span>
-<span style="color: #bbbbbb">        </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>render
-<span style="color: #bbbbbb">    </span>endif
-<span style="color: #AA22FF; font-weight: bold">else</span>
-<span style="color: #bbbbbb">    </span><span style="color: #666666">--&gt;</span>[<span style="color: #AA22FF">false</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span><span style="color: #bbbbbb"> </span>REDIRECT_CHECK<span style="color: #bbbbbb"> </span><span style="color: #666666">===</span>
+(<span style="color: #666">*</span>)<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;步骤1处理&quot;</span>
+<span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;步骤2处理&quot;</span>
+<span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;条件1判断&quot;</span><span style="color: #BBB"> </span>then
+<span style="color: #BBB">    </span><span style="color: #666">-&gt;</span>[<span style="color: #A2F">true</span>]<span style="color: #BBB"> </span><span style="color: #B44">&quot;条件1成立时执行的动作&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;分支条件2判断&quot;</span><span style="color: #BBB"> </span>then
+<span style="color: #BBB">        </span><span style="color: #666">-&gt;</span>[no]<span style="color: #BBB"> </span><span style="color: #B44">&quot;条件2不成立时执行的动作&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span><span style="color: #666">===</span><span style="color: #BBB"> </span>中间流程汇总点1<span style="color: #BBB"> </span><span style="color: #666">===</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">else</span>
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span>[yes]<span style="color: #BBB"> </span><span style="color: #666">===</span><span style="color: #BBB"> </span>中间流程汇总点1<span style="color: #BBB"> </span><span style="color: #666">===</span>
+<span style="color: #BBB">    </span>endif
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;分支条件3判断&quot;</span><span style="color: #BBB"> </span>then
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span>[yes]<span style="color: #BBB"> </span><span style="color: #B44">&quot;分支条件3成立时执行的动作&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;Page.onRender ()&quot;</span><span style="color: #BBB"> </span>as<span style="color: #BBB"> </span>render
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #666">===</span><span style="color: #BBB"> </span>REDIRECT_CHECK<span style="color: #BBB"> </span><span style="color: #666">===</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">else</span>
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span>[no]<span style="color: #BBB"> </span><span style="color: #B44">&quot;分支条件3不成立时的动作&quot;</span>
+<span style="color: #BBB">        </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>render
+<span style="color: #BBB">    </span>endif
+<span style="color: #A2F; font-weight: bold">else</span>
+<span style="color: #BBB">    </span><span style="color: #666">--&gt;</span>[<span style="color: #A2F">false</span>]<span style="color: #BBB"> </span><span style="color: #666">===</span><span style="color: #BBB"> </span>REDIRECT_CHECK<span style="color: #BBB"> </span><span style="color: #666">===</span>
 endif
 
-<span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;条件4判断&quot;</span><span style="color: #bbbbbb"> </span>then
-<span style="color: #bbbbbb">    </span><span style="color: #666666">-&gt;</span>[yes]<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;条件4成立时执行的动作&quot;</span>
-<span style="color: #bbbbbb">    </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;流程最后结点&quot;</span>
-<span style="color: #AA22FF; font-weight: bold">else</span>
+<span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;条件4判断&quot;</span><span style="color: #BBB"> </span>then
+<span style="color: #BBB">    </span><span style="color: #666">-&gt;</span>[yes]<span style="color: #BBB"> </span><span style="color: #B44">&quot;条件4成立时执行的动作&quot;</span>
+<span style="color: #BBB">    </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;流程最后结点&quot;</span>
+<span style="color: #A2F; font-weight: bold">else</span>
 endif
-<span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;流程最后结点&quot;</span>
-<span style="color: #666666">--&gt;</span>(<span style="color: #666666">*</span>)
+<span style="color: #666">--&gt;</span><span style="color: #BBB"> </span><span style="color: #B44">&quot;流程最后结点&quot;</span>
+<span style="color: #666">--&gt;</span>(<span style="color: #666">*</span>)
 
 @enduml
 </code></pre></div>
@@ -334,30 +334,30 @@ endif
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
 <span style="color: #A0A000">start</span>
-:<span style="color: #BB4444">&quot;步骤1处理&quot;</span>;
-<span style="color: #666666">:</span><span style="color: #BB4444">&quot;步骤2处理&quot;</span>;
-<span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(<span style="color: #BB4444">&quot;条件1判断&quot;</span>)<span style="color: #bbbbbb"> </span>then<span style="color: #bbbbbb"> </span>(<span style="color: #AA22FF">true</span>)
-<span style="color: #bbbbbb">    </span><span style="color: #666666">:</span>条件1成立时执行的动作;
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(<span style="color: #BB4444">&quot;分支条件2判断&quot;</span>)<span style="color: #bbbbbb"> </span>then<span style="color: #bbbbbb"> </span>(no)
-<span style="color: #bbbbbb">        </span><span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件2不成立时执行的动作&quot;</span>;
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">else</span>
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(<span style="color: #BB4444">&quot;条件3判断&quot;</span>)<span style="color: #bbbbbb"> </span>then<span style="color: #bbbbbb"> </span>(yes)
-<span style="color: #bbbbbb">            </span><span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件3成立时的动作&quot;</span>;
-<span style="color: #bbbbbb">        </span><span style="color: #AA22FF; font-weight: bold">else</span><span style="color: #bbbbbb"> </span>(no)
-<span style="color: #bbbbbb">            </span><span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件3不成立时的动作&quot;</span>;
-<span style="color: #bbbbbb">        </span>endif
-<span style="color: #bbbbbb">    </span><span style="color: #A0A000">endif</span>
-<span style="color: #bbbbbb">    </span>:<span style="color: #BB4444">&quot;顺序步骤3处理&quot;</span>;
+:<span style="color: #B44">&quot;步骤1处理&quot;</span>;
+<span style="color: #666">:</span><span style="color: #B44">&quot;步骤2处理&quot;</span>;
+<span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(<span style="color: #B44">&quot;条件1判断&quot;</span>)<span style="color: #BBB"> </span>then<span style="color: #BBB"> </span>(<span style="color: #A2F">true</span>)
+<span style="color: #BBB">    </span><span style="color: #666">:</span>条件1成立时执行的动作;
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(<span style="color: #B44">&quot;分支条件2判断&quot;</span>)<span style="color: #BBB"> </span>then<span style="color: #BBB"> </span>(no)
+<span style="color: #BBB">        </span><span style="color: #666">:</span><span style="color: #B44">&quot;条件2不成立时执行的动作&quot;</span>;
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">else</span>
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(<span style="color: #B44">&quot;条件3判断&quot;</span>)<span style="color: #BBB"> </span>then<span style="color: #BBB"> </span>(yes)
+<span style="color: #BBB">            </span><span style="color: #666">:</span><span style="color: #B44">&quot;条件3成立时的动作&quot;</span>;
+<span style="color: #BBB">        </span><span style="color: #A2F; font-weight: bold">else</span><span style="color: #BBB"> </span>(no)
+<span style="color: #BBB">            </span><span style="color: #666">:</span><span style="color: #B44">&quot;条件3不成立时的动作&quot;</span>;
+<span style="color: #BBB">        </span>endif
+<span style="color: #BBB">    </span><span style="color: #A0A000">endif</span>
+<span style="color: #BBB">    </span>:<span style="color: #B44">&quot;顺序步骤3处理&quot;</span>;
 endif
 
-<span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(<span style="color: #BB4444">&quot;条件4判断&quot;</span>)<span style="color: #bbbbbb"> </span>then<span style="color: #bbbbbb"> </span>(yes)
-<span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件4成立的动作&quot;</span>;
-<span style="color: #AA22FF; font-weight: bold">else</span>
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">if</span><span style="color: #bbbbbb"> </span>(<span style="color: #BB4444">&quot;条件5判断&quot;</span>)<span style="color: #bbbbbb"> </span>then<span style="color: #bbbbbb"> </span>(yes)
-<span style="color: #bbbbbb">        </span><span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件5成立时的动作&quot;</span>;
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">else</span><span style="color: #bbbbbb"> </span>(no)
-<span style="color: #bbbbbb">        </span><span style="color: #666666">:</span><span style="color: #BB4444">&quot;条件5不成立时的动作&quot;</span>;
-<span style="color: #bbbbbb">    </span>endif
+<span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(<span style="color: #B44">&quot;条件4判断&quot;</span>)<span style="color: #BBB"> </span>then<span style="color: #BBB"> </span>(yes)
+<span style="color: #666">:</span><span style="color: #B44">&quot;条件4成立的动作&quot;</span>;
+<span style="color: #A2F; font-weight: bold">else</span>
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">if</span><span style="color: #BBB"> </span>(<span style="color: #B44">&quot;条件5判断&quot;</span>)<span style="color: #BBB"> </span>then<span style="color: #BBB"> </span>(yes)
+<span style="color: #BBB">        </span><span style="color: #666">:</span><span style="color: #B44">&quot;条件5成立时的动作&quot;</span>;
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">else</span><span style="color: #BBB"> </span>(no)
+<span style="color: #BBB">        </span><span style="color: #666">:</span><span style="color: #B44">&quot;条件5不成立时的动作&quot;</span>;
+<span style="color: #BBB">    </span>endif
 endif
 stop
 @enduml
@@ -375,35 +375,35 @@ stop
 <p>我们经常使用组件图来画部署视图，或者用来画系统的拓扑结构图。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
-package<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;组件1&quot;</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>[<span style="color: #BB4444">&quot;组件1.1&quot;</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span>[<span style="color: #BB4444">&quot;组件1.2&quot;</span>]
-<span style="color: #bbbbbb">    </span>[<span style="color: #BB4444">&quot;组件1.2&quot;</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>[<span style="color: #BB4444">&quot;组件2.1&quot;</span>]
+package<span style="color: #BBB"> </span><span style="color: #B44">&quot;组件1&quot;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>[<span style="color: #B44">&quot;组件1.1&quot;</span>]<span style="color: #BBB"> </span><span style="color: #666">-</span><span style="color: #BBB"> </span>[<span style="color: #B44">&quot;组件1.2&quot;</span>]
+<span style="color: #BBB">    </span>[<span style="color: #B44">&quot;组件1.2&quot;</span>]<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>[<span style="color: #B44">&quot;组件2.1&quot;</span>]
 }
 
-node<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;组件2&quot;</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>[<span style="color: #BB4444">&quot;组件2.1&quot;</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span>[<span style="color: #BB4444">&quot;组件2.2&quot;</span>]
-<span style="color: #bbbbbb">    </span>[<span style="color: #BB4444">&quot;组件2.2&quot;</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>[负载均衡服务器]
+node<span style="color: #BBB"> </span><span style="color: #B44">&quot;组件2&quot;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>[<span style="color: #B44">&quot;组件2.1&quot;</span>]<span style="color: #BBB"> </span><span style="color: #666">-</span><span style="color: #BBB"> </span>[<span style="color: #B44">&quot;组件2.2&quot;</span>]
+<span style="color: #BBB">    </span>[<span style="color: #B44">&quot;组件2.2&quot;</span>]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>[负载均衡服务器]
 }
 
-cloud<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>[负载均衡服务器]<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>[逻辑服务器1]
-<span style="color: #bbbbbb">    </span>[负载均衡服务器]<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>[逻辑服务器2]
-<span style="color: #bbbbbb">    </span>[负载均衡服务器]<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>[逻辑服务器3]
+cloud<span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>[负载均衡服务器]<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>[逻辑服务器1]
+<span style="color: #BBB">    </span>[负载均衡服务器]<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>[逻辑服务器2]
+<span style="color: #BBB">    </span>[负载均衡服务器]<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>[逻辑服务器3]
 }
 
-database<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;MySql&quot;</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>folder<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;This is my folder&quot;</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span>[Folder<span style="color: #bbbbbb"> </span><span style="color: #666666">3</span>]
-<span style="color: #bbbbbb">    </span>}
+database<span style="color: #BBB"> </span><span style="color: #B44">&quot;MySql&quot;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>folder<span style="color: #BBB"> </span><span style="color: #B44">&quot;This is my folder&quot;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span>[Folder<span style="color: #BBB"> </span><span style="color: #666">3</span>]
+<span style="color: #BBB">    </span>}
 
-<span style="color: #bbbbbb">    </span>frame<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;Foo&quot;</span><span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span>[Frame<span style="color: #bbbbbb"> </span><span style="color: #666666">4</span>]
-<span style="color: #bbbbbb">    </span>}
+<span style="color: #BBB">    </span>frame<span style="color: #BBB"> </span><span style="color: #B44">&quot;Foo&quot;</span><span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span>[Frame<span style="color: #BBB"> </span><span style="color: #666">4</span>]
+<span style="color: #BBB">    </span>}
 }
 
-[逻辑服务器1]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>[Folder<span style="color: #bbbbbb"> </span><span style="color: #666666">3</span>]
-[逻辑服务器2]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>[Frame<span style="color: #bbbbbb"> </span><span style="color: #666666">4</span>]
-[逻辑服务器3]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>[Frame<span style="color: #bbbbbb"> </span><span style="color: #666666">4</span>]
+[逻辑服务器1]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>[Folder<span style="color: #BBB"> </span><span style="color: #666">3</span>]
+[逻辑服务器2]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>[Frame<span style="color: #BBB"> </span><span style="color: #666">4</span>]
+[逻辑服务器3]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>[Frame<span style="color: #BBB"> </span><span style="color: #666">4</span>]
 
 @enduml
 </code></pre></div>
@@ -421,26 +421,26 @@ database<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;
 <p>我们一般使用状态图来画状态机。</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>@startuml
 
-scale<span style="color: #bbbbbb"> </span><span style="color: #666666">640</span><span style="color: #bbbbbb"> </span>width
+scale<span style="color: #BBB"> </span><span style="color: #666">640</span><span style="color: #BBB"> </span>width
 
-[<span style="color: #666666">*</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>NotShooting
+[<span style="color: #666">*</span>]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>NotShooting
 
-state<span style="color: #bbbbbb"> </span>NotShooting<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>[<span style="color: #666666">*</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Idle
-<span style="color: #bbbbbb">    </span>Idle<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Processing<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>SignalEvent
-<span style="color: #bbbbbb">    </span>Processing<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Idle<span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>Finish
-<span style="color: #bbbbbb">    </span>Idle<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Configuring<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>EvConfig
-<span style="color: #bbbbbb">    </span>Configuring<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>Idle<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>EvConfig
+state<span style="color: #BBB"> </span>NotShooting<span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>[<span style="color: #666">*</span>]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Idle
+<span style="color: #BBB">    </span>Idle<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Processing<span style="color: #666">:</span><span style="color: #BBB"> </span>SignalEvent
+<span style="color: #BBB">    </span>Processing<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Idle<span style="color: #666">:</span><span style="color: #BBB"> </span>Finish
+<span style="color: #BBB">    </span>Idle<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Configuring<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>EvConfig
+<span style="color: #BBB">    </span>Configuring<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>Idle<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>EvConfig
 }
 
-state<span style="color: #bbbbbb"> </span>Configuring<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>[<span style="color: #666666">*</span>]<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>NewValueSelection
-<span style="color: #bbbbbb">    </span>NewValueSelection<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>NewValuePreview<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>EvNewValue
-<span style="color: #bbbbbb">    </span>NewValuePreview<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>NewValueSelection<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>EvNewValueRejected
-<span style="color: #bbbbbb">    </span>NewValuePreview<span style="color: #bbbbbb"> </span><span style="color: #666666">--&gt;</span><span style="color: #bbbbbb"> </span>NewValueSelection<span style="color: #bbbbbb"> </span><span style="color: #666666">:</span><span style="color: #bbbbbb"> </span>EvNewValueSaved
-<span style="color: #bbbbbb">    </span>state<span style="color: #bbbbbb"> </span>NewValuePreview<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">        </span>State1<span style="color: #bbbbbb"> </span><span style="color: #666666">-&gt;</span><span style="color: #bbbbbb"> </span>State2
-<span style="color: #bbbbbb">    </span>}
+state<span style="color: #BBB"> </span>Configuring<span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>[<span style="color: #666">*</span>]<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>NewValueSelection
+<span style="color: #BBB">    </span>NewValueSelection<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>NewValuePreview<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>EvNewValue
+<span style="color: #BBB">    </span>NewValuePreview<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>NewValueSelection<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>EvNewValueRejected
+<span style="color: #BBB">    </span>NewValuePreview<span style="color: #BBB"> </span><span style="color: #666">--&gt;</span><span style="color: #BBB"> </span>NewValueSelection<span style="color: #BBB"> </span><span style="color: #666">:</span><span style="color: #BBB"> </span>EvNewValueSaved
+<span style="color: #BBB">    </span>state<span style="color: #BBB"> </span>NewValuePreview<span style="color: #BBB"> </span>{
+<span style="color: #BBB">        </span>State1<span style="color: #BBB"> </span><span style="color: #666">-&gt;</span><span style="color: #BBB"> </span>State2
+<span style="color: #BBB">    </span>}
 }
 
 @enduml

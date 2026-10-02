@@ -216,20 +216,20 @@
 <p>进入 dida365 的用户<code>设置</code>界面，点击<code>数据备份</code>，再点击<code>生成备份</code>。这一动作会在电脑端保存一份所有你记录在 dida365 上的时间事件日志，这是个 csv 格式的文件。</p>
 <h3 id="_9">步骤三：生成统计图表<a class="headerlink" href="#_9" title="Permanent link"> </a></h3>
 <p>下载 <a href="https://github.com/kamidox/utils">Python 统计脚本</a>。安装 matplotlib, pandas 等必要的库。参考下面的 demo 代码。注释已经把用法写清楚了。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic"># dida_20151220.csv 是从 dida365.com 上导出的你的时间事件日志，可以取任意你喜欢的文件名</span>
-<span style="color: #008800; font-style: italic"># 用这个文件作为输入，创建时间事件日志对象</span>
-<span style="color: #008800; font-style: italic"># 参数 routine_duration 为每天固定的例行公事时间长度（吃，喝，拉，撒，睡，行，发呆），单位为小时</span>
-log <span style="color: #666666">=</span> DidaEventLog(<span style="color: #BB4444">&#39;dida_20151220.csv&#39;</span>, routine_duration<span style="color: #666666">=14</span>)
-<span style="color: #008800; font-style: italic"># 设定要统计的时间周期</span>
-period <span style="color: #666666">=</span> (<span style="color: #BB4444">&#39;2015-12-1&#39;</span>, <span style="color: #BB4444">&#39;2015-12-20&#39;</span>)
-<span style="color: #008800; font-style: italic"># 生成时间总览饼图</span>
-log<span style="color: #666666">.</span>pie_chart(period<span style="color: #666666">=</span>period, display_routine<span style="color: #666666">=</span><span style="color: #AA22FF; font-weight: bold">False</span>)
-<span style="color: #008800; font-style: italic"># 生成工作负荷图表</span>
-log<span style="color: #666666">.</span>workload_chart(period<span style="color: #666666">=</span>period)
-<span style="color: #008800; font-style: italic"># 生成某个主类别下的子类别的精力分配情况</span>
-log<span style="color: #666666">.</span>pie_chart_secondary(<span style="color: #BB4444">&#39;自我成长&#39;</span>, period<span style="color: #666666">=</span>period)
-<span style="color: #008800; font-style: italic"># 生成某个类别的时间投入情况，fields 参数可以是主类别也可以是子类别</span>
-log<span style="color: #666666">.</span>permanent_action_chart(fields<span style="color: #666666">=</span>[<span style="color: #BB4444">&#39;机器学习&#39;</span>, <span style="color: #BB4444">&#39;写作&#39;</span>], period<span style="color: #666666">=</span>period)
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic"># dida_20151220.csv 是从 dida365.com 上导出的你的时间事件日志，可以取任意你喜欢的文件名</span>
+<span style="color: #080; font-style: italic"># 用这个文件作为输入，创建时间事件日志对象</span>
+<span style="color: #080; font-style: italic"># 参数 routine_duration 为每天固定的例行公事时间长度（吃，喝，拉，撒，睡，行，发呆），单位为小时</span>
+log <span style="color: #666">=</span> DidaEventLog(<span style="color: #B44">&#39;dida_20151220.csv&#39;</span>, routine_duration<span style="color: #666">=14</span>)
+<span style="color: #080; font-style: italic"># 设定要统计的时间周期</span>
+period <span style="color: #666">=</span> (<span style="color: #B44">&#39;2015-12-1&#39;</span>, <span style="color: #B44">&#39;2015-12-20&#39;</span>)
+<span style="color: #080; font-style: italic"># 生成时间总览饼图</span>
+log<span style="color: #666">.</span>pie_chart(period<span style="color: #666">=</span>period, display_routine<span style="color: #666">=</span><span style="color: #A2F; font-weight: bold">False</span>)
+<span style="color: #080; font-style: italic"># 生成工作负荷图表</span>
+log<span style="color: #666">.</span>workload_chart(period<span style="color: #666">=</span>period)
+<span style="color: #080; font-style: italic"># 生成某个主类别下的子类别的精力分配情况</span>
+log<span style="color: #666">.</span>pie_chart_secondary(<span style="color: #B44">&#39;自我成长&#39;</span>, period<span style="color: #666">=</span>period)
+<span style="color: #080; font-style: italic"># 生成某个类别的时间投入情况，fields 参数可以是主类别也可以是子类别</span>
+log<span style="color: #666">.</span>permanent_action_chart(fields<span style="color: #666">=</span>[<span style="color: #B44">&#39;机器学习&#39;</span>, <span style="color: #B44">&#39;写作&#39;</span>], period<span style="color: #666">=</span>period)
 </code></pre></div>
 
 <h3 id="_10">参数说明<a class="headerlink" href="#_10" title="Permanent link"> </a></h3>

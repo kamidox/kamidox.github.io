@@ -231,17 +231,17 @@
 <h2 id="_3">状态转移表<a class="headerlink" href="#_3" title="Permanent link"> </a></h2>
 <p>我们终于把 Trie 和 DFA 联系起来了。在 DFA 里，状态转移函数一般使用<strong>状态转移表</strong>来描述。这是个二维的表格，行用来表示所有的状态集合，列用来表示输入事件集合。</p>
 <p>我们来看一个最简单的使用 Trie 描述的词典：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #bbbbbb">           </span>t<span style="color: #bbbbbb">        </span>o
-begin(<span style="color: #666666">0</span>)<span style="color: #bbbbbb"> </span><span style="color: #666666">---&gt;</span><span style="color: #bbbbbb"> </span>t(<span style="color: #666666">1</span>)<span style="color: #bbbbbb"> </span><span style="color: #666666">---&gt;</span><span style="color: #bbbbbb"> </span>to(<span style="color: #666666">2:</span>F)
-<span style="color: #bbbbbb">                   </span><span style="color: #666666">|</span>
-<span style="color: #bbbbbb">                   </span><span style="color: #666666">|</span><span style="color: #bbbbbb"> </span>e<span style="color: #bbbbbb">          </span>a
-<span style="color: #bbbbbb">                   </span><span style="color: #666666">----&gt;</span><span style="color: #bbbbbb"> </span>te(<span style="color: #666666">3</span>)<span style="color: #bbbbbb"> </span><span style="color: #666666">---&gt;</span><span style="color: #bbbbbb"> </span>tea(<span style="color: #666666">4:</span>F)
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">|</span>
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">|</span><span style="color: #bbbbbb"> </span>d
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">---&gt;</span><span style="color: #bbbbbb"> </span>ted(<span style="color: #666666">5:</span>F)
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">|</span>
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">|</span><span style="color: #bbbbbb"> </span>n
-<span style="color: #bbbbbb">                               </span><span style="color: #666666">---&gt;</span><span style="color: #bbbbbb"> </span>ten(<span style="color: #666666">6:</span>F)
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #BBB">           </span>t<span style="color: #BBB">        </span>o
+begin(<span style="color: #666">0</span>)<span style="color: #BBB"> </span><span style="color: #666">---&gt;</span><span style="color: #BBB"> </span>t(<span style="color: #666">1</span>)<span style="color: #BBB"> </span><span style="color: #666">---&gt;</span><span style="color: #BBB"> </span>to(<span style="color: #666">2:</span>F)
+<span style="color: #BBB">                   </span><span style="color: #666">|</span>
+<span style="color: #BBB">                   </span><span style="color: #666">|</span><span style="color: #BBB"> </span>e<span style="color: #BBB">          </span>a
+<span style="color: #BBB">                   </span><span style="color: #666">----&gt;</span><span style="color: #BBB"> </span>te(<span style="color: #666">3</span>)<span style="color: #BBB"> </span><span style="color: #666">---&gt;</span><span style="color: #BBB"> </span>tea(<span style="color: #666">4:</span>F)
+<span style="color: #BBB">                               </span><span style="color: #666">|</span>
+<span style="color: #BBB">                               </span><span style="color: #666">|</span><span style="color: #BBB"> </span>d
+<span style="color: #BBB">                               </span><span style="color: #666">---&gt;</span><span style="color: #BBB"> </span>ted(<span style="color: #666">5:</span>F)
+<span style="color: #BBB">                               </span><span style="color: #666">|</span>
+<span style="color: #BBB">                               </span><span style="color: #666">|</span><span style="color: #BBB"> </span>n
+<span style="color: #BBB">                               </span><span style="color: #666">---&gt;</span><span style="color: #BBB"> </span>ten(<span style="color: #666">6:</span>F)
 </code></pre></div>
 
 <p>这是本文示例图片的一小部分，这个词典只包含四个单词，分别是 to, tea, ted, ten。从 DFA 的角度来看，它总共有 7 个状态，包含一个状态为 0 的起始状态。输入事件集合是 [t, o, e, a, d, n]。可接受的终止状态集合就是上图中标注着 &ldquo;:F&rdquo; 字样的状态，就是四个有效的单词。那么上述词典所代表的 DFA 的的状态转移表长什么样呢？</p>

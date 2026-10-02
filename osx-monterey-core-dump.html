@@ -204,14 +204,14 @@ File Doesn&#39;t Exist, Will Create: tmp.entitlements
 <p>上述准备工作只需要做一次即可。</p>
 <h2 id="core-dump_1">产生 core dump<a class="headerlink" href="#core-dump_1" title="Permanent link"> </a></h2>
 <p>编写一个测试程序：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #008800">#include</span><span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic">&lt;stdlib.h&gt;</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #080">#include</span><span style="color: #BBB"> </span><span style="color: #080; font-style: italic">&lt;stdlib.h&gt;</span>
 
-<span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span><span style="color: #00A000">main</span>()<span style="color: #bbbbbb"> </span>{
-<span style="color: #bbbbbb">    </span>system(<span style="color: #BB4444">&quot;ulimit -c unlimited&quot;</span>);
+<span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span><span style="color: #00A000">main</span>()<span style="color: #BBB"> </span>{
+<span style="color: #BBB">    </span>system(<span style="color: #B44">&quot;ulimit -c unlimited&quot;</span>);
 
-<span style="color: #bbbbbb">    </span><span style="color: #00BB00; font-weight: bold">int</span><span style="color: #bbbbbb"> </span><span style="color: #666666">*</span>p<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span>(<span style="color: #00BB00; font-weight: bold">void</span><span style="color: #666666">*</span>)<span style="color: #666666">0</span>;
-<span style="color: #bbbbbb">    </span><span style="color: #666666">*</span>p<span style="color: #bbbbbb"> </span><span style="color: #666666">=</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>;
-<span style="color: #bbbbbb">    </span><span style="color: #AA22FF; font-weight: bold">return</span><span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>;
+<span style="color: #BBB">    </span><span style="color: #0B0; font-weight: bold">int</span><span style="color: #BBB"> </span><span style="color: #666">*</span>p<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span>(<span style="color: #0B0; font-weight: bold">void</span><span style="color: #666">*</span>)<span style="color: #666">0</span>;
+<span style="color: #BBB">    </span><span style="color: #666">*</span>p<span style="color: #BBB"> </span><span style="color: #666">=</span><span style="color: #BBB"> </span><span style="color: #666">0</span>;
+<span style="color: #BBB">    </span><span style="color: #A2F; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="color: #666">0</span>;
 }
 </code></pre></div>
 
@@ -230,22 +230,22 @@ test: replacing existing signature
 </code></pre></div>
 
 <p>确保有 <code>core dumped</code> 字样输出，检查 core dump 文件：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #bbbbbb"> </span>ls<span style="color: #bbbbbb"> </span>-la<span style="color: #bbbbbb"> </span>/cores
-drwxrwxrwt<span style="color: #bbbbbb">   </span><span style="color: #666666">4</span><span style="color: #bbbbbb"> </span>root<span style="color: #bbbbbb">     </span>admin<span style="color: #bbbbbb">         </span><span style="color: #666666">128</span><span style="color: #bbbbbb"> </span>Jan<span style="color: #bbbbbb"> </span><span style="color: #666666">30</span><span style="color: #bbbbbb"> </span><span style="color: #666666">10</span>:50<span style="color: #bbbbbb"> </span>.
-drwxr-xr-x<span style="color: #bbbbbb">  </span><span style="color: #666666">20</span><span style="color: #bbbbbb"> </span>root<span style="color: #bbbbbb">     </span>wheel<span style="color: #bbbbbb">         </span><span style="color: #666666">640</span><span style="color: #bbbbbb"> </span>Dec<span style="color: #bbbbbb">  </span><span style="color: #666666">8</span><span style="color: #bbbbbb"> </span><span style="color: #666666">07</span>:39<span style="color: #bbbbbb"> </span>..
--r--------<span style="color: #bbbbbb">   </span><span style="color: #666666">1</span><span style="color: #bbbbbb"> </span>kamidox<span style="color: #bbbbbb">  </span>admin<span style="color: #bbbbbb">  </span><span style="color: #666666">2968027136</span><span style="color: #bbbbbb"> </span>Jan<span style="color: #bbbbbb"> </span><span style="color: #666666">30</span><span style="color: #bbbbbb"> </span><span style="color: #666666">10</span>:50<span style="color: #bbbbbb"> </span>core.15049
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>$<span style="color: #BBB"> </span>ls<span style="color: #BBB"> </span>-la<span style="color: #BBB"> </span>/cores
+drwxrwxrwt<span style="color: #BBB">   </span><span style="color: #666">4</span><span style="color: #BBB"> </span>root<span style="color: #BBB">     </span>admin<span style="color: #BBB">         </span><span style="color: #666">128</span><span style="color: #BBB"> </span>Jan<span style="color: #BBB"> </span><span style="color: #666">30</span><span style="color: #BBB"> </span><span style="color: #666">10</span>:50<span style="color: #BBB"> </span>.
+drwxr-xr-x<span style="color: #BBB">  </span><span style="color: #666">20</span><span style="color: #BBB"> </span>root<span style="color: #BBB">     </span>wheel<span style="color: #BBB">         </span><span style="color: #666">640</span><span style="color: #BBB"> </span>Dec<span style="color: #BBB">  </span><span style="color: #666">8</span><span style="color: #BBB"> </span><span style="color: #666">07</span>:39<span style="color: #BBB"> </span>..
+-r--------<span style="color: #BBB">   </span><span style="color: #666">1</span><span style="color: #BBB"> </span>kamidox<span style="color: #BBB">  </span>admin<span style="color: #BBB">  </span><span style="color: #666">2968027136</span><span style="color: #BBB"> </span>Jan<span style="color: #BBB"> </span><span style="color: #666">30</span><span style="color: #BBB"> </span><span style="color: #666">10</span>:50<span style="color: #BBB"> </span>core.15049
 </code></pre></div>
 
 <h2 id="core-dump_2">分析 core dump<a class="headerlink" href="#core-dump_2" title="Permanent link"> </a></h2>
 <p>使用 lldb 分析 core dump：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lldb<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span>c<span style="color: #bbbbbb"> </span><span style="color: #666666">/</span>cores<span style="color: #666666">/</span>core<span style="color: #666666">.15049</span>
-(lldb)<span style="color: #bbbbbb"> </span>target<span style="color: #bbbbbb"> </span>create<span style="color: #bbbbbb"> </span><span style="color: #666666">--</span>core<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;/cores/core.15049&quot;</span>
-Core<span style="color: #bbbbbb"> </span>file<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&#39;/cores/core.15049&#39;</span><span style="color: #bbbbbb"> </span>(arm64)<span style="color: #bbbbbb"> </span>was<span style="color: #bbbbbb"> </span>loaded<span style="color: #666666">.</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>lldb<span style="color: #BBB"> </span><span style="color: #666">-</span>c<span style="color: #BBB"> </span><span style="color: #666">/</span>cores<span style="color: #666">/</span>core<span style="color: #666">.15049</span>
+(lldb)<span style="color: #BBB"> </span>target<span style="color: #BBB"> </span>create<span style="color: #BBB"> </span><span style="color: #666">--</span>core<span style="color: #BBB"> </span><span style="color: #B44">&quot;/cores/core.15049&quot;</span>
+Core<span style="color: #BBB"> </span>file<span style="color: #BBB"> </span><span style="color: #B44">&#39;/cores/core.15049&#39;</span><span style="color: #BBB"> </span>(arm64)<span style="color: #BBB"> </span>was<span style="color: #BBB"> </span>loaded<span style="color: #666">.</span>
 
-(lldb)<span style="color: #bbbbbb"> </span>bt
-<span style="color: #666666">*</span><span style="color: #bbbbbb"> </span>thread<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic">#1, stop reason = signal SIGSTOP</span>
-<span style="color: #bbbbbb">  </span><span style="color: #666666">*</span><span style="color: #bbbbbb"> </span>frame<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic">#0: 0x000000010453ff88 test`main at test.c:7:8</span>
-<span style="color: #bbbbbb">    </span>frame<span style="color: #bbbbbb"> </span><span style="color: #008800; font-style: italic">#1: 0x00000001048c90f4 dyld`start + 520</span>
+(lldb)<span style="color: #BBB"> </span>bt
+<span style="color: #666">*</span><span style="color: #BBB"> </span>thread<span style="color: #BBB"> </span><span style="color: #080; font-style: italic">#1, stop reason = signal SIGSTOP</span>
+<span style="color: #BBB">  </span><span style="color: #666">*</span><span style="color: #BBB"> </span>frame<span style="color: #BBB"> </span><span style="color: #080; font-style: italic">#0: 0x000000010453ff88 test`main at test.c:7:8</span>
+<span style="color: #BBB">    </span>frame<span style="color: #BBB"> </span><span style="color: #080; font-style: italic">#1: 0x00000001048c90f4 dyld`start + 520</span>
 (lldb)
 </code></pre></div>
 

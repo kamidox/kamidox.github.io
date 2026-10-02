@@ -208,8 +208,8 @@
 <li>运行 <code>docker pull kamidox/edgex-raspberry-pi-cross-compile</code> 下载交叉编译 Docker Image</li>
 <li>运行下述命令安装 <code>rpxc</code> 脚本</li>
 </ol>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>docker<span style="color: #bbbbbb"> </span>run<span style="color: #bbbbbb"> </span>kamidox/edgex-raspberry-pi-cross-compile<span style="color: #bbbbbb"> </span>&gt;<span style="color: #bbbbbb"> </span>~/bin/rpxc
-chmod<span style="color: #bbbbbb"> </span>+x<span style="color: #bbbbbb"> </span>~/bin/rpxc
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>docker<span style="color: #BBB"> </span>run<span style="color: #BBB"> </span>kamidox/edgex-raspberry-pi-cross-compile<span style="color: #BBB"> </span>&gt;<span style="color: #BBB"> </span>~/bin/rpxc
+chmod<span style="color: #BBB"> </span>+x<span style="color: #BBB"> </span>~/bin/rpxc
 </code></pre></div>
 
 <p>编译环境准备就绪，下载 EdgeX 源码进行编译：</p>
@@ -217,41 +217,41 @@ chmod<span style="color: #bbbbbb"> </span>+x<span style="color: #bbbbbb"> </span
 <li>下载 <a href="https://github.com/edgexfoundry/edgex-go/">edgex-go</a> 或其他的 EdgeX Device Service</li>
 <li>修改 <code>Makefile</code>，加入以下内容，这里指定了在 Docker 里交叉编译时，使用的交叉编译工具链目录</li>
 </ol>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">CC</span><span style="color: #666666">=</span>/rpxc/bin/arm-linux-gnueabihf-gcc
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">CGO_LDFLAGS</span><span style="color: #666666">=</span>--sysroot<span style="color: #666666">=</span>/rpxc/sysroot
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">CGO_CFLAGS</span><span style="color: #666666">=</span>--sysroot<span style="color: #666666">=</span>/rpxc/sysroot
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">CGO_CPPFLAGS</span><span style="color: #666666">=</span>--sysroot<span style="color: #666666">=</span>/rpxc/sysroot
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">CGO_CXXFLAGS</span><span style="color: #666666">=</span>--sysroot<span style="color: #666666">=</span>/rpxc/sysroot
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">GOOS</span><span style="color: #666666">=</span>linux
-<span style="color: #AA22FF; font-weight: bold">export </span><span style="color: #B8860B">GOARCH</span><span style="color: #666666">=</span>arm
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">CC</span><span style="color: #666">=</span>/rpxc/bin/arm-linux-gnueabihf-gcc
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">CGO_LDFLAGS</span><span style="color: #666">=</span>--sysroot<span style="color: #666">=</span>/rpxc/sysroot
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">CGO_CFLAGS</span><span style="color: #666">=</span>--sysroot<span style="color: #666">=</span>/rpxc/sysroot
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">CGO_CPPFLAGS</span><span style="color: #666">=</span>--sysroot<span style="color: #666">=</span>/rpxc/sysroot
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">CGO_CXXFLAGS</span><span style="color: #666">=</span>--sysroot<span style="color: #666">=</span>/rpxc/sysroot
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">GOOS</span><span style="color: #666">=</span>linux
+<span style="color: #A2F; font-weight: bold">export </span><span style="color: #B8860B">GOARCH</span><span style="color: #666">=</span>arm
 </code></pre></div>
 
 <p>最后，运行编译命令进行编译即可：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span>path/to/your/edgex-go
-rpxc<span style="color: #bbbbbb"> </span>--image<span style="color: #bbbbbb"> </span><span style="color: #BB4444">&quot;kamidox/edgex-raspberry-pi-cross-compile&quot;</span><span style="color: #bbbbbb"> </span>make<span style="color: #bbbbbb"> </span>build
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F">cd</span><span style="color: #BBB"> </span>path/to/your/edgex-go
+rpxc<span style="color: #BBB"> </span>--image<span style="color: #BBB"> </span><span style="color: #B44">&quot;kamidox/edgex-raspberry-pi-cross-compile&quot;</span><span style="color: #BBB"> </span>make<span style="color: #BBB"> </span>build
 </code></pre></div>
 
 <p>编译完成后，把相关的目标文件以及配置文件直接拷贝到 Raspbery Pi，运行即可：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>cd<span style="color: #bbbbbb"> </span>path<span style="color: #666666">/</span>to<span style="color: #666666">/</span>your<span style="color: #666666">/</span>edgex<span style="color: #666666">-</span>go
-scp<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span>r<span style="color: #bbbbbb"> </span>cmd<span style="color: #bbbbbb"> </span>pi<span style="color: #666666">@192.168.10.114:/</span>home<span style="color: #666666">/</span>pi
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>cd<span style="color: #BBB"> </span>path<span style="color: #666">/</span>to<span style="color: #666">/</span>your<span style="color: #666">/</span>edgex<span style="color: #666">-</span>go
+scp<span style="color: #BBB"> </span><span style="color: #666">-</span>r<span style="color: #BBB"> </span>cmd<span style="color: #BBB"> </span>pi<span style="color: #666">@192.168.10.114:/</span>home<span style="color: #666">/</span>pi
 </code></pre></div>
 
 <p>其中 Pi 的 IP 地址需要根据你的环境相应地修改。完成后，即可 ssh 登录 Raspbery Pi 运行 EdgeX 服务了。笔者制作了一个简易的启动脚本，用来启动相应的 EdgeX 服务，你可以根据实际情况增减服务。</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>pi@raspberrypi:~/edgex<span style="color: #bbbbbb"> </span>$<span style="color: #bbbbbb"> </span>cat<span style="color: #bbbbbb"> </span>start_edgex.sh
-<span style="color: #008800; font-style: italic">#!/bin/sh</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code>pi@raspberrypi:~/edgex<span style="color: #BBB"> </span>$<span style="color: #BBB"> </span>cat<span style="color: #BBB"> </span>start_edgex.sh
+<span style="color: #080; font-style: italic">#!/bin/sh</span>
 
-<span style="color: #AA22FF">export</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">EDGEX_SECURITY_SECRET_STORE</span><span style="color: #666666">=</span><span style="color: #AA22FF">false</span>
+<span style="color: #A2F">export</span><span style="color: #BBB"> </span><span style="color: #B8860B">EDGEX_SECURITY_SECRET_STORE</span><span style="color: #666">=</span><span style="color: #A2F">false</span>
 
-<span style="color: #B8860B">ROOT</span><span style="color: #666666">=</span><span style="color: #BB4444">`</span><span style="color: #AA22FF">pwd</span><span style="color: #BB4444">`</span>
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-metadata<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./core-metadata<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-data<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./core-data<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-command<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./core-command<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/support-notifications<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./support-notifications<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/support-scheduler<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./support-scheduler<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/sys-mgmt-agent<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./sys-mgmt-agent<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/sys-mgmt-executor<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./sys-mgmt-executor<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/edgex-ui-server<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./edgex-ui-server<span style="color: #bbbbbb"> </span>&amp;
-<span style="color: #AA22FF">cd</span><span style="color: #bbbbbb"> </span><span style="color: #B8860B">$ROOT</span>/cmd/device-simple<span style="color: #bbbbbb"> </span><span style="color: #666666">&amp;&amp;</span><span style="color: #bbbbbb"> </span>./device-simple<span style="color: #bbbbbb"> </span>&amp;
+<span style="color: #B8860B">ROOT</span><span style="color: #666">=</span><span style="color: #B44">`</span><span style="color: #A2F">pwd</span><span style="color: #B44">`</span>
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-metadata<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./core-metadata<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-data<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./core-data<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/core-command<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./core-command<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/support-notifications<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./support-notifications<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/support-scheduler<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./support-scheduler<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/sys-mgmt-agent<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./sys-mgmt-agent<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/sys-mgmt-executor<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./sys-mgmt-executor<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/edgex-ui-server<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./edgex-ui-server<span style="color: #BBB"> </span>&amp;
+<span style="color: #A2F">cd</span><span style="color: #BBB"> </span><span style="color: #B8860B">$ROOT</span>/cmd/device-simple<span style="color: #BBB"> </span><span style="color: #666">&amp;&amp;</span><span style="color: #BBB"> </span>./device-simple<span style="color: #BBB"> </span>&amp;
 </code></pre></div>
 
 <p>（完）</p>

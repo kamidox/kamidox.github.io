@@ -221,7 +221,7 @@
 <h3 id="_5">多线程并发的注意事项<a class="headerlink" href="#_5" title="Permanent link"> </a></h3>
 <p>当使用<code>ThreadingMixIn</code>来实现多线程并发处理请求时，需要特别注意，当处理请求的线程意外终止时，网络服务进程需要作何反应。这个类提供了一个属性<code>daemon_threads</code>来定义网络服务进程的行为。当<code>daemon_threads</code>设置为False（默认）时，表示当处理请求的线程意外终止时，网络服务进程不会退出。而当<code>daemon_threads</code>设置为True的时候，如果处理请求的线程意外终止，网络服务进程会退出。</p>
 <p>一个并发的UDP网络服务可以简单地通过下面的代码实现：</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">ThreadingUDPServer</span>(ThreadingMixIn, UDPServer): <span style="color: #AA22FF; font-weight: bold">pass</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><code><span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">ThreadingUDPServer</span>(ThreadingMixIn, UDPServer): <span style="color: #A2F; font-weight: bold">pass</span>
 </code></pre></div>
 
 <p>这里需要注意的是，<code>ThreadingMixIn</code>需要写在<code>UDPServer</code>之前，因为<code>ThreadingMixIn</code>重写了<code>UDPServer</code>类里的一些方法。具体原因可阅读Python多继承机制相关资料。</p>
@@ -282,25 +282,25 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">16</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">17</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">18</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">19</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#!/usr/bin/env python</span>
-<span style="color: #008800; font-style: italic"># -*- coding: utf-8 -*-</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">19</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">#!/usr/bin/env python</span>
+<span style="color: #080; font-style: italic"># -*- coding: utf-8 -*-</span>
 
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">SocketServer</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">SocketServer</span>
 
-<span style="color: #AA22FF; font-weight: bold">class</span> <span style="color: #0000FF">EchoRequestHandler</span>(SocketServer<span style="color: #666666">.</span>StreamRequestHandler):
-<span style="color: #bbbbbb">    </span><span style="color: #BB4444; font-style: italic">&quot;&quot;&quot; demo request handler &quot;&quot;&quot;</span>
+<span style="color: #A2F; font-weight: bold">class</span><span style="color: #BBB"> </span><span style="color: #00F">EchoRequestHandler</span>(SocketServer<span style="color: #666">.</span>StreamRequestHandler):
+<span style="color: #BBB">    </span><span style="color: #B44; font-style: italic">&quot;&quot;&quot; demo request handler &quot;&quot;&quot;</span>
 
-    <span style="color: #AA22FF; font-weight: bold">def</span> <span style="color: #00A000">handle</span>(<span style="color: #AA22FF">self</span>):
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>data <span style="color: #666666">=</span> <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>rfile<span style="color: #666666">.</span>readline()<span style="color: #666666">.</span>strip()
-        <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;</span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BB4444"> write: </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BB4444">&quot;</span> <span style="color: #666666">%</span> (<span style="color: #AA22FF">self</span><span style="color: #666666">.</span>client_address, <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>data))
-        <span style="color: #AA22FF">self</span><span style="color: #666666">.</span>wfile<span style="color: #666666">.</span>write(<span style="color: #AA22FF">self</span><span style="color: #666666">.</span>data<span style="color: #666666">.</span>upper())
+    <span style="color: #A2F; font-weight: bold">def</span><span style="color: #BBB"> </span><span style="color: #00A000">handle</span>(<span style="color: #A2F">self</span>):
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>data <span style="color: #666">=</span> <span style="color: #A2F">self</span><span style="color: #666">.</span>rfile<span style="color: #666">.</span>readline()<span style="color: #666">.</span>strip()
+        <span style="color: #A2F">print</span>(<span style="color: #B44">&quot;</span><span style="color: #B68; font-weight: bold">%s</span><span style="color: #B44"> write: </span><span style="color: #B68; font-weight: bold">%s</span><span style="color: #B44">&quot;</span> <span style="color: #666">%</span> (<span style="color: #A2F">self</span><span style="color: #666">.</span>client_address, <span style="color: #A2F">self</span><span style="color: #666">.</span>data))
+        <span style="color: #A2F">self</span><span style="color: #666">.</span>wfile<span style="color: #666">.</span>write(<span style="color: #A2F">self</span><span style="color: #666">.</span>data<span style="color: #666">.</span>upper())
 
-<span style="color: #AA22FF; font-weight: bold">if</span> <span style="color: #B8860B">__name__</span> <span style="color: #666666">==</span> <span style="color: #BB4444">&quot;__main__&quot;</span>:
-    HOST, PORT <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;localhost&#39;</span>, <span style="color: #666666">5639</span>
+<span style="color: #A2F; font-weight: bold">if</span> <span style="color: #B8860B">__name__</span> <span style="color: #666">==</span> <span style="color: #B44">&quot;__main__&quot;</span>:
+    HOST, PORT <span style="color: #666">=</span> <span style="color: #B44">&#39;localhost&#39;</span>, <span style="color: #666">5639</span>
 
-    server <span style="color: #666666">=</span> SocketServer<span style="color: #666666">.</span>TCPServer((HOST, PORT), EchoRequestHandler)
-    <span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;ECHO TCP server is running ...&quot;</span>)
-    server<span style="color: #666666">.</span>serve_forever()
+    server <span style="color: #666">=</span> SocketServer<span style="color: #666">.</span>TCPServer((HOST, PORT), EchoRequestHandler)
+    <span style="color: #A2F">print</span>(<span style="color: #B44">&quot;ECHO TCP server is running ...&quot;</span>)
+    server<span style="color: #666">.</span>serve_forever()
 </code></pre></div></td></tr></table></div>
 
 <p>客户端代码。保存为EchoTCPClient.py</p>
@@ -324,27 +324,27 @@
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">18</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">19</span>
 <span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">20</span>
-<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">21</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #008800; font-style: italic">#!/usr/bin/env python</span>
-<span style="color: #008800; font-style: italic"># -*- coding: utf-8 -*-</span>
+<span style="color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px;">21</span></pre></div></td><td class="code"><div><pre style="line-height: 125%;"><span></span><code><span style="color: #080; font-style: italic">#!/usr/bin/env python</span>
+<span style="color: #080; font-style: italic"># -*- coding: utf-8 -*-</span>
 
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">socket</span>
-<span style="color: #AA22FF; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">sys</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">socket</span>
+<span style="color: #A2F; font-weight: bold">import</span><span style="color: #BBB"> </span><span style="color: #00F; font-weight: bold">sys</span>
 
-HOST, PORT <span style="color: #666666">=</span> <span style="color: #BB4444">&#39;localhost&#39;</span>, <span style="color: #666666">5639</span>
-data <span style="color: #666666">=</span> <span style="color: #BB4444">&quot; &quot;</span><span style="color: #666666">.</span>join(sys<span style="color: #666666">.</span>argv[<span style="color: #666666">1</span>:])
+HOST, PORT <span style="color: #666">=</span> <span style="color: #B44">&#39;localhost&#39;</span>, <span style="color: #666">5639</span>
+data <span style="color: #666">=</span> <span style="color: #B44">&quot; &quot;</span><span style="color: #666">.</span>join(sys<span style="color: #666">.</span>argv[<span style="color: #666">1</span>:])
 
-sock <span style="color: #666666">=</span> socket<span style="color: #666666">.</span>socket(socket<span style="color: #666666">.</span>AF_INET, socket<span style="color: #666666">.</span>SOCK_STREAM)
+sock <span style="color: #666">=</span> socket<span style="color: #666">.</span>socket(socket<span style="color: #666">.</span>AF_INET, socket<span style="color: #666">.</span>SOCK_STREAM)
 
-<span style="color: #AA22FF; font-weight: bold">try</span>:
-    sock<span style="color: #666666">.</span>connect((HOST, PORT))
-    sock<span style="color: #666666">.</span>sendall(data <span style="color: #666666">+</span> <span style="color: #BB4444">&#39;</span><span style="color: #BB6622; font-weight: bold">\n</span><span style="color: #BB4444">&#39;</span>)
+<span style="color: #A2F; font-weight: bold">try</span>:
+    sock<span style="color: #666">.</span>connect((HOST, PORT))
+    sock<span style="color: #666">.</span>sendall(data <span style="color: #666">+</span> <span style="color: #B44">&#39;</span><span style="color: #B62; font-weight: bold">\n</span><span style="color: #B44">&#39;</span>)
 
-    received <span style="color: #666666">=</span> sock<span style="color: #666666">.</span>recv(<span style="color: #666666">1024</span>)
-<span style="color: #AA22FF; font-weight: bold">finally</span>:
-    sock<span style="color: #666666">.</span>close()
+    received <span style="color: #666">=</span> sock<span style="color: #666">.</span>recv(<span style="color: #666">1024</span>)
+<span style="color: #A2F; font-weight: bold">finally</span>:
+    sock<span style="color: #666">.</span>close()
 
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;Send:     </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BB4444">&quot;</span> <span style="color: #666666">%</span> (data))
-<span style="color: #AA22FF">print</span>(<span style="color: #BB4444">&quot;received: </span><span style="color: #BB6688; font-weight: bold">%s</span><span style="color: #BB4444">&quot;</span> <span style="color: #666666">%</span> (received))
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;Send:     </span><span style="color: #B68; font-weight: bold">%s</span><span style="color: #B44">&quot;</span> <span style="color: #666">%</span> (data))
+<span style="color: #A2F">print</span>(<span style="color: #B44">&quot;received: </span><span style="color: #B68; font-weight: bold">%s</span><span style="color: #B44">&quot;</span> <span style="color: #666">%</span> (received))
 </code></pre></div></td></tr></table></div>
 
 <p>先执行服务端<code>python EchoTCPServer.py</code>，再执行客户端<code>python EchoTCPClient.py hello SocketServer</code>。</p>
