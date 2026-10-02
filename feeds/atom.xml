@@ -378,6 +378,460 @@
 &lt;td&gt;先跑通，再调稳，最后调优；每次只改一个参数&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
+&lt;/table&gt;</content><category term="ai"></category><category term="rl"></category></entry><entry><title>DQN - Deep Q-Network</title><link href="http://kamidox.github.io/dqn.html" rel="alternate"></link><published>2026-10-02T12:43:00+08:00</published><updated>2026-10-02T12:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/dqn.html</id><summary type="html">&lt;p&gt;DQN 将深度神经网络作为函数逼近器，用来近似 Q 函数 $Q(s,a)$，并结合 Q-learning 的强化学习算法。由 DeepMind 在 2015 年提出，标志着深度学习与强化学习融合的开端。&lt;/p&gt;</summary><content type="html">&lt;h2 id="q-learning"&gt;一、Q-Learning 的瓶颈&lt;a class="headerlink" href="#q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;问题&lt;/th&gt;
+&lt;th&gt;原因&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Q 表存不下&lt;/td&gt;
+&lt;td&gt;状态×动作空间一大，表就爆炸&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;不能处理连续状态&lt;/td&gt;
+&lt;td&gt;CartPole 观测是连续值，Taxi 是离散的&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;泛化能力差&lt;/td&gt;
+&lt;td&gt;没见过的状态，Q 表里没有，就瞎猜&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;DQN 的解法：用神经网络代替 Q 表。&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Q&lt;span style="color: #666666"&gt;-&lt;/span&gt;&lt;span style="color: #A0A000"&gt;Learning&lt;/span&gt;:&lt;span style="color: #bbbbbb"&gt;  &lt;/span&gt;Q&lt;span style="color: #666666"&gt;[&lt;/span&gt;state&lt;span style="color: #666666"&gt;][&lt;/span&gt;action&lt;span style="color: #666666"&gt;]&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;8.5&lt;/span&gt;
+&lt;span style="color: #A0A000"&gt;DQN&lt;/span&gt;:&lt;span style="color: #bbbbbb"&gt;         &lt;/span&gt;Q_value&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;neural_network(&lt;span style="color: #AA22FF; font-weight: bold"&gt;state&lt;/span&gt;)&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;→&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;[&lt;/span&gt;Q(a=0), Q(a=1), ...&lt;span style="color: #666666"&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;输入一个状态，网络直接输出&lt;strong&gt;所有动作的 Q 值&lt;/strong&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="dqn"&gt;二、DQN 三大核心创新&lt;a class="headerlink" href="#dqn" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="1-experience-replay"&gt;1️⃣ Experience Replay（经验回放）&lt;a class="headerlink" href="#1-experience-replay" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Q-Learning 的问题&lt;/strong&gt;：每次拿当前一步的经验立刻更新，样本之间高度相关（连续帧几乎一样），训练不稳定。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DQN 的做法&lt;/strong&gt;：把每一步的 &lt;code&gt;(s, a, r, s', done)&lt;/code&gt; 存进一个&lt;strong&gt;回放缓冲区（Replay Buffer）&lt;/strong&gt;，训练时&lt;strong&gt;随机采样&lt;/strong&gt;一个 batch 来更新。&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Replay Buffer（容量 10000）
+┌──────────────────────────────────┐
+│ (s₁, a₁, r₁, s₁&amp;#39;, done₁)        │
+│ (s₂, a₂, r₂, s₂&amp;#39;, done₂)        │
+│ ...                              │
+│ (s₁₀₀₀₀, a, r, s&amp;#39;, done)        │
+└──────────────────────────────────┘
+         ↓ 随机采样 batch=64
+         ↓ 用来更新网络
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;好处&lt;/strong&gt;：
+- 打破时间相关性
+- 同一份经验可以反复利用
+- 数据分布更稳定&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id="2-target-network"&gt;2️⃣ Target Network（目标网络）&lt;a class="headerlink" href="#2-target-network" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：Q-Learning 更新公式里，&lt;code&gt;max Q(s', a')&lt;/code&gt; 用的就是&lt;strong&gt;正在训练的网络&lt;/strong&gt;。网络一变，目标也跟着变，训练像&amp;rdquo;追着一个移动的目标跑&amp;rdquo;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DQN 的做法&lt;/strong&gt;：维护&lt;strong&gt;两个网络&lt;/strong&gt;：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;网络&lt;/th&gt;
+&lt;th&gt;作用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Policy Network（在线网络）&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;选动作、被梯度更新&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Target Network（目标网络）&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;提供 TD Target 里的 &lt;code&gt;max Q(s', a')&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Target Network &lt;strong&gt;每隔 C 步&lt;/strong&gt;才从 Policy Network 拷贝一次权重。&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;TD Target = r + γ · max Q_target(s&amp;#39;, a&amp;#39;)
+                        ↑ 固定一段时间不变
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h3 id="3-greedy-q-learning"&gt;3️⃣ ε-Greedy 探索（和 Q-Learning 一样）&lt;a class="headerlink" href="#3-greedy-q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;hr /&gt;
+&lt;h2 id="dqn_1"&gt;三、DQN 算法流程&lt;a class="headerlink" href="#dqn_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="border: 1px solid #FF0000"&gt;初始化&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;policy_net&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;和&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;target_net&lt;span style="border: 1px solid #FF0000"&gt;（权重相同）&lt;/span&gt;
+&lt;span style="border: 1px solid #FF0000"&gt;初始化&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;replay_buffer
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;episode&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;1&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;to&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;N:
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;重置环境，得到&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;s
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;step&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;1&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;to&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;max_steps:
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;用&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;ε&lt;/span&gt;&lt;span style="color: #666666"&gt;-&lt;/span&gt;greedy&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;选动作&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;a
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;执行&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;a&lt;span style="border: 1px solid #FF0000"&gt;，得到&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;(s,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;a,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;r,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;s&lt;span style="color: #BB4444"&gt;&amp;#39;, done)&lt;/span&gt;
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;存入&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;replay_buffer
+
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="color: #008800; font-style: italic"&gt;# 从 buffer 采样训练&lt;/span&gt;
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;buffer&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;够大了&lt;/span&gt;:
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;采样&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;batch&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;个&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;(s,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;a,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;r,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;s&lt;span style="color: #BB4444"&gt;&amp;#39;, done)&lt;/span&gt;
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;用&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;policy_net&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;算&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Q(s,&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;a)
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;用&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;target_net&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;算&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #AA22FF"&gt;max&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Q(s&lt;span style="color: #BB4444"&gt;&amp;#39;, a&amp;#39;&lt;/span&gt;)
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;TD&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Target&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;r&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;+&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;γ&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;·&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #AA22FF"&gt;max&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Q(s&lt;span style="color: #BB4444"&gt;&amp;#39;, a&amp;#39;&lt;/span&gt;)&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;·&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;(&lt;span style="color: #666666"&gt;1&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;-&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;done)
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;最小化&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;MSE&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Loss:&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;(Q(s,a)&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;-&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;Target)&lt;span style="border: 1px solid #FF0000"&gt;²&lt;/span&gt;
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;&lt;span style="border: 1px solid #FF0000"&gt;更新&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;policy_net
+
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="color: #008800; font-style: italic"&gt;# 定期同步&lt;/span&gt;
+&lt;span style="color: #bbbbbb"&gt;        &lt;/span&gt;&lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;step&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;%&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;C&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;==&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #666666"&gt;0&lt;/span&gt;:
+&lt;span style="color: #bbbbbb"&gt;            &lt;/span&gt;target_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;load_state_dict(policy_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;state_dict())
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="python-cartpole-v1"&gt;四、完整 Python 实现（CartPole-v1）&lt;a class="headerlink" href="#python-cartpole-v1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="_1"&gt;依赖&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;uv&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;pip&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;install&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;torch&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;gymnasium&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;gymnasium[classic-control]&amp;quot;&lt;/span&gt;&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;numpy&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;matplotlib
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id="_2"&gt;完整代码&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;DQN on CartPole-v1&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;Python 3.12 + PyTorch + Gymnasium&lt;/span&gt;
+&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;gymnasium&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;gym&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;torch&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;torch.nn&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;nn&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;torch.optim&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;optim&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;numpy&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;np&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;random&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;from&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;collections&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; deque, namedtuple
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;from&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;itertools&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; count
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;import&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;as&lt;/span&gt; &lt;span style="color: #0000FF; font-weight: bold"&gt;plt&lt;/span&gt;
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 超参数 ====================&lt;/span&gt;
+GAMMA &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.99&lt;/span&gt;              &lt;span style="color: #008800; font-style: italic"&gt;# 折扣因子&lt;/span&gt;
+EPSILON_START &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;1.0&lt;/span&gt;       &lt;span style="color: #008800; font-style: italic"&gt;# 初始探索率&lt;/span&gt;
+EPSILON_END &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0.05&lt;/span&gt;        &lt;span style="color: #008800; font-style: italic"&gt;# 最小探索率&lt;/span&gt;
+EPSILON_DECAY &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;1000&lt;/span&gt;      &lt;span style="color: #008800; font-style: italic"&gt;# 衰减步数（线性衰减）&lt;/span&gt;
+BATCH_SIZE &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;64&lt;/span&gt;            &lt;span style="color: #008800; font-style: italic"&gt;# 采样批量&lt;/span&gt;
+MEMORY_SIZE &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;10000&lt;/span&gt;        &lt;span style="color: #008800; font-style: italic"&gt;# 回放缓冲区大小&lt;/span&gt;
+TARGET_UPDATE &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;10&lt;/span&gt;         &lt;span style="color: #008800; font-style: italic"&gt;# 每 10 个 episode 同步一次 target net&lt;/span&gt;
+LR &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;1e-3&lt;/span&gt;                  &lt;span style="color: #008800; font-style: italic"&gt;# 学习率&lt;/span&gt;
+NUM_EPISODES &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;500&lt;/span&gt;         &lt;span style="color: #008800; font-style: italic"&gt;# 训练回合数&lt;/span&gt;
+MAX_STEPS &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;500&lt;/span&gt;            &lt;span style="color: #008800; font-style: italic"&gt;# 每回合最大步数&lt;/span&gt;
+
+&lt;span style="color: #008800; font-style: italic"&gt;# 经验元组&lt;/span&gt;
+Transition &lt;span style="color: #666666"&gt;=&lt;/span&gt; namedtuple(&lt;span style="color: #BB4444"&gt;&amp;quot;Transition&amp;quot;&lt;/span&gt;,
+                         [&lt;span style="color: #BB4444"&gt;&amp;quot;state&amp;quot;&lt;/span&gt;, &lt;span style="color: #BB4444"&gt;&amp;quot;action&amp;quot;&lt;/span&gt;, &lt;span style="color: #BB4444"&gt;&amp;quot;reward&amp;quot;&lt;/span&gt;, &lt;span style="color: #BB4444"&gt;&amp;quot;next_state&amp;quot;&lt;/span&gt;, &lt;span style="color: #BB4444"&gt;&amp;quot;done&amp;quot;&lt;/span&gt;])
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== Q 网络 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;class&lt;/span&gt; &lt;span style="color: #0000FF"&gt;DQN&lt;/span&gt;(nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;Module):
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;简单的 3 层全连接网络&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;__init__&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;, state_dim, action_dim):
+        &lt;span style="color: #AA22FF"&gt;super&lt;/span&gt;()&lt;span style="color: #666666"&gt;.&lt;/span&gt;&lt;span style="color: #00A000"&gt;__init__&lt;/span&gt;()
+        &lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;net &lt;span style="color: #666666"&gt;=&lt;/span&gt; nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;Sequential(
+            nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;Linear(state_dim, &lt;span style="color: #666666"&gt;128&lt;/span&gt;),
+            nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;ReLU(),
+            nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;Linear(&lt;span style="color: #666666"&gt;128&lt;/span&gt;, &lt;span style="color: #666666"&gt;128&lt;/span&gt;),
+            nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;ReLU(),
+            nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;Linear(&lt;span style="color: #666666"&gt;128&lt;/span&gt;, action_dim),
+        )
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;forward&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;, x):
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;net(x)
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 经验回放缓冲区 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;class&lt;/span&gt; &lt;span style="color: #0000FF"&gt;ReplayBuffer&lt;/span&gt;:
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;__init__&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;, capacity):
+        &lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;buffer &lt;span style="color: #666666"&gt;=&lt;/span&gt; deque(maxlen&lt;span style="color: #666666"&gt;=&lt;/span&gt;capacity)
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;push&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;, &lt;span style="color: #666666"&gt;*&lt;/span&gt;args):
+        &lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;buffer&lt;span style="color: #666666"&gt;.&lt;/span&gt;append(Transition(&lt;span style="color: #666666"&gt;*&lt;/span&gt;args))
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;sample&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;, batch_size):
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; random&lt;span style="color: #666666"&gt;.&lt;/span&gt;sample(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;buffer, batch_size)
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;__len__&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;):
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;len&lt;/span&gt;(&lt;span style="color: #AA22FF"&gt;self&lt;/span&gt;&lt;span style="color: #666666"&gt;.&lt;/span&gt;buffer)
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== ε-贪心策略 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;select_action&lt;/span&gt;(state, policy_net, epsilon):
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;ε-贪心：以 ε 概率随机探索，否则选 Q 值最大的动作&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; random&lt;span style="color: #666666"&gt;.&lt;/span&gt;random() &lt;span style="color: #666666"&gt;&amp;lt;&lt;/span&gt; epsilon:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; random&lt;span style="color: #666666"&gt;.&lt;/span&gt;randint(&lt;span style="color: #666666"&gt;0&lt;/span&gt;, env&lt;span style="color: #666666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666666"&gt;.&lt;/span&gt;n &lt;span style="color: #666666"&gt;-&lt;/span&gt; &lt;span style="color: #666666"&gt;1&lt;/span&gt;)
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;else&lt;/span&gt;:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;with&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;no_grad():
+            state_t &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(state, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)&lt;span style="color: #666666"&gt;.&lt;/span&gt;unsqueeze(&lt;span style="color: #666666"&gt;0&lt;/span&gt;)
+            q_values &lt;span style="color: #666666"&gt;=&lt;/span&gt; policy_net(state_t)
+            &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; q_values&lt;span style="color: #666666"&gt;.&lt;/span&gt;argmax()&lt;span style="color: #666666"&gt;.&lt;/span&gt;item()
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 训练一步 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;optimize_model&lt;/span&gt;(policy_net, target_net, optimizer, memory):
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;len&lt;/span&gt;(memory) &lt;span style="color: #666666"&gt;&amp;lt;&lt;/span&gt; BATCH_SIZE:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt;
+
+    transitions &lt;span style="color: #666666"&gt;=&lt;/span&gt; memory&lt;span style="color: #666666"&gt;.&lt;/span&gt;sample(BATCH_SIZE)
+    batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; Transition(&lt;span style="color: #666666"&gt;*&lt;/span&gt;&lt;span style="color: #AA22FF"&gt;zip&lt;/span&gt;(&lt;span style="color: #666666"&gt;*&lt;/span&gt;transitions))
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 转成 tensor&lt;/span&gt;
+    state_batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(batch&lt;span style="color: #666666"&gt;.&lt;/span&gt;state, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)
+    action_batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(batch&lt;span style="color: #666666"&gt;.&lt;/span&gt;action, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;int64)&lt;span style="color: #666666"&gt;.&lt;/span&gt;unsqueeze(&lt;span style="color: #666666"&gt;1&lt;/span&gt;)
+    reward_batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(batch&lt;span style="color: #666666"&gt;.&lt;/span&gt;reward, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)
+    next_state_batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(batch&lt;span style="color: #666666"&gt;.&lt;/span&gt;next_state, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)
+    done_batch &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(batch&lt;span style="color: #666666"&gt;.&lt;/span&gt;done, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# Q(s, a) — policy_net 对&amp;quot;已选动作&amp;quot;的 Q 值&lt;/span&gt;
+    q_values &lt;span style="color: #666666"&gt;=&lt;/span&gt; policy_net(state_batch)           &lt;span style="color: #008800; font-style: italic"&gt;# (64, action_dim)&lt;/span&gt;
+    q_values &lt;span style="color: #666666"&gt;=&lt;/span&gt; q_values&lt;span style="color: #666666"&gt;.&lt;/span&gt;gather(&lt;span style="color: #666666"&gt;1&lt;/span&gt;, action_batch)  &lt;span style="color: #008800; font-style: italic"&gt;# (64, 1)&lt;/span&gt;
+    q_values &lt;span style="color: #666666"&gt;=&lt;/span&gt; q_values&lt;span style="color: #666666"&gt;.&lt;/span&gt;squeeze(&lt;span style="color: #666666"&gt;1&lt;/span&gt;)               &lt;span style="color: #008800; font-style: italic"&gt;# (64,)&lt;/span&gt;
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# max Q(s&amp;#39;, a&amp;#39;) — target_net 算下一个状态的最大 Q&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;with&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;no_grad():
+        next_q_values &lt;span style="color: #666666"&gt;=&lt;/span&gt; target_net(next_state_batch)&lt;span style="color: #666666"&gt;.&lt;/span&gt;max(&lt;span style="color: #666666"&gt;1&lt;/span&gt;)[&lt;span style="color: #666666"&gt;0&lt;/span&gt;]  &lt;span style="color: #008800; font-style: italic"&gt;# (64,)&lt;/span&gt;
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# TD Target: r + γ · max Q(s&amp;#39;, a&amp;#39;) · (1 - done)&lt;/span&gt;
+    target &lt;span style="color: #666666"&gt;=&lt;/span&gt; reward_batch &lt;span style="color: #666666"&gt;+&lt;/span&gt; GAMMA &lt;span style="color: #666666"&gt;*&lt;/span&gt; next_q_values &lt;span style="color: #666666"&gt;*&lt;/span&gt; (&lt;span style="color: #666666"&gt;1&lt;/span&gt; &lt;span style="color: #666666"&gt;-&lt;/span&gt; done_batch)
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 均方误差损失&lt;/span&gt;
+    loss &lt;span style="color: #666666"&gt;=&lt;/span&gt; nn&lt;span style="color: #666666"&gt;.&lt;/span&gt;MSELoss()(q_values, target)
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 反向传播&lt;/span&gt;
+    optimizer&lt;span style="color: #666666"&gt;.&lt;/span&gt;zero_grad()
+    loss&lt;span style="color: #666666"&gt;.&lt;/span&gt;backward()
+    optimizer&lt;span style="color: #666666"&gt;.&lt;/span&gt;step()
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== ε 衰减 ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;def&lt;/span&gt; &lt;span style="color: #00A000"&gt;decay_epsilon&lt;/span&gt;(step):
+&lt;span style="color: #bbbbbb"&gt;    &lt;/span&gt;&lt;span style="color: #BB4444; font-style: italic"&gt;&amp;quot;&amp;quot;&amp;quot;线性衰减：从 EPSILON_START 到 EPSILON_END&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;return&lt;/span&gt; EPSILON_END &lt;span style="color: #666666"&gt;+&lt;/span&gt; (EPSILON_START &lt;span style="color: #666666"&gt;-&lt;/span&gt; EPSILON_END) &lt;span style="color: #666666"&gt;*&lt;/span&gt; \
+           np&lt;span style="color: #666666"&gt;.&lt;/span&gt;exp(&lt;span style="color: #666666"&gt;-&lt;/span&gt;step &lt;span style="color: #666666"&gt;/&lt;/span&gt; EPSILON_DECAY)
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 主训练 ====================&lt;/span&gt;
+env &lt;span style="color: #666666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666666"&gt;.&lt;/span&gt;make(&lt;span style="color: #BB4444"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;)
+
+state_dim &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;observation_space&lt;span style="color: #666666"&gt;.&lt;/span&gt;shape[&lt;span style="color: #666666"&gt;0&lt;/span&gt;]   &lt;span style="color: #008800; font-style: italic"&gt;# 4&lt;/span&gt;
+action_dim &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666666"&gt;.&lt;/span&gt;n              &lt;span style="color: #008800; font-style: italic"&gt;# 2&lt;/span&gt;
+
+policy_net &lt;span style="color: #666666"&gt;=&lt;/span&gt; DQN(state_dim, action_dim)
+target_net &lt;span style="color: #666666"&gt;=&lt;/span&gt; DQN(state_dim, action_dim)
+target_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;load_state_dict(policy_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;state_dict())
+target_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;eval()  &lt;span style="color: #008800; font-style: italic"&gt;# target net 不训练&lt;/span&gt;
+
+optimizer &lt;span style="color: #666666"&gt;=&lt;/span&gt; optim&lt;span style="color: #666666"&gt;.&lt;/span&gt;Adam(policy_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;parameters(), lr&lt;span style="color: #666666"&gt;=&lt;/span&gt;LR)
+memory &lt;span style="color: #666666"&gt;=&lt;/span&gt; ReplayBuffer(MEMORY_SIZE)
+
+episode_rewards &lt;span style="color: #666666"&gt;=&lt;/span&gt; []
+global_step &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+
+&lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;&amp;quot;🚀 开始训练 DQN...&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; episode &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(NUM_EPISODES):
+    state, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;reset()
+    total_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; step &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(MAX_STEPS):
+        epsilon &lt;span style="color: #666666"&gt;=&lt;/span&gt; decay_epsilon(global_step)
+        action &lt;span style="color: #666666"&gt;=&lt;/span&gt; select_action(state, policy_net, epsilon)
+
+        next_state, reward, terminated, truncated, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; env&lt;span style="color: #666666"&gt;.&lt;/span&gt;step(action)
+        done &lt;span style="color: #666666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #AA22FF; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+        memory&lt;span style="color: #666666"&gt;.&lt;/span&gt;push(state, action, reward, next_state, done)
+
+        optimize_model(policy_net, target_net, optimizer, memory)
+
+        state &lt;span style="color: #666666"&gt;=&lt;/span&gt; next_state
+        total_reward &lt;span style="color: #666666"&gt;+=&lt;/span&gt; reward
+        global_step &lt;span style="color: #666666"&gt;+=&lt;/span&gt; &lt;span style="color: #666666"&gt;1&lt;/span&gt;
+
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; done:
+            &lt;span style="color: #AA22FF; font-weight: bold"&gt;break&lt;/span&gt;
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 定期同步 target net&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; episode &lt;span style="color: #666666"&gt;%&lt;/span&gt; TARGET_UPDATE &lt;span style="color: #666666"&gt;==&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;:
+        target_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;load_state_dict(policy_net&lt;span style="color: #666666"&gt;.&lt;/span&gt;state_dict())
+
+    episode_rewards&lt;span style="color: #666666"&gt;.&lt;/span&gt;append(total_reward)
+
+    &lt;span style="color: #008800; font-style: italic"&gt;# 打印进度&lt;/span&gt;
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;if&lt;/span&gt; (episode &lt;span style="color: #666666"&gt;+&lt;/span&gt; &lt;span style="color: #666666"&gt;1&lt;/span&gt;) &lt;span style="color: #666666"&gt;%&lt;/span&gt; &lt;span style="color: #666666"&gt;50&lt;/span&gt; &lt;span style="color: #666666"&gt;==&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;:
+        avg_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; np&lt;span style="color: #666666"&gt;.&lt;/span&gt;mean(episode_rewards[&lt;span style="color: #666666"&gt;-50&lt;/span&gt;:])
+        &lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;f&amp;quot;Episode &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;episode&lt;span style="color: #666666"&gt;+1&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;3d&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Avg Reward (last 50): &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;avg_reward&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;6.1f&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Epsilon: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;epsilon&lt;span style="color: #BB6688; font-weight: bold"&gt;:&lt;/span&gt;&lt;span style="color: #BB4444"&gt;.3f&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt; | &amp;quot;&lt;/span&gt;
+              &lt;span style="color: #BB4444"&gt;f&amp;quot;Buffer: &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;&lt;span style="color: #AA22FF"&gt;len&lt;/span&gt;(memory)&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;)
+
+env&lt;span style="color: #666666"&gt;.&lt;/span&gt;close()
+&lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;✅ 训练完成！&amp;quot;&lt;/span&gt;)
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 可视化 ====================&lt;/span&gt;
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;figure(figsize&lt;span style="color: #666666"&gt;=&lt;/span&gt;(&lt;span style="color: #666666"&gt;10&lt;/span&gt;, &lt;span style="color: #666666"&gt;5&lt;/span&gt;))
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;plot(episode_rewards, alpha&lt;span style="color: #666666"&gt;=0.3&lt;/span&gt;, label&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;Raw&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #008800; font-style: italic"&gt;# 滑动平均&lt;/span&gt;
+window &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;20&lt;/span&gt;
+smoothed &lt;span style="color: #666666"&gt;=&lt;/span&gt; np&lt;span style="color: #666666"&gt;.&lt;/span&gt;convolve(episode_rewards,
+                        np&lt;span style="color: #666666"&gt;.&lt;/span&gt;ones(window)&lt;span style="color: #666666"&gt;/&lt;/span&gt;window, mode&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;valid&amp;quot;&lt;/span&gt;)
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;plot(&lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(window&lt;span style="color: #666666"&gt;-1&lt;/span&gt;, &lt;span style="color: #AA22FF"&gt;len&lt;/span&gt;(episode_rewards)),
+         smoothed, label&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #BB4444"&gt;f&amp;quot;Moving Avg (&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;window&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;)&amp;quot;&lt;/span&gt;, linewidth&lt;span style="color: #666666"&gt;=2&lt;/span&gt;)
+
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;xlabel(&lt;span style="color: #BB4444"&gt;&amp;quot;Episode&amp;quot;&lt;/span&gt;)
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;ylabel(&lt;span style="color: #BB4444"&gt;&amp;quot;Total Reward&amp;quot;&lt;/span&gt;)
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;title(&lt;span style="color: #BB4444"&gt;&amp;quot;DQN Training on CartPole-v1&amp;quot;&lt;/span&gt;)
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;legend()
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;grid(&lt;span style="color: #AA22FF; font-weight: bold"&gt;True&lt;/span&gt;, alpha&lt;span style="color: #666666"&gt;=0.3&lt;/span&gt;)
+plt&lt;span style="color: #666666"&gt;.&lt;/span&gt;show()
+
+
+&lt;span style="color: #008800; font-style: italic"&gt;# ==================== 测试（无探索） ====================&lt;/span&gt;
+&lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #BB6622; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #BB4444"&gt;🎮 开始测试（纯贪心，ε=0）...&amp;quot;&lt;/span&gt;)
+test_env &lt;span style="color: #666666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666666"&gt;.&lt;/span&gt;make(&lt;span style="color: #BB4444"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666666"&gt;=&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;human&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #AA22FF; font-weight: bold"&gt;for&lt;/span&gt; test_ep &lt;span style="color: #AA22FF; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #AA22FF"&gt;range&lt;/span&gt;(&lt;span style="color: #666666"&gt;3&lt;/span&gt;):
+    state, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;reset()
+    total_reward &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #666666"&gt;0&lt;/span&gt;
+    done &lt;span style="color: #666666"&gt;=&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;False&lt;/span&gt;
+
+    &lt;span style="color: #AA22FF; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #AA22FF; font-weight: bold"&gt;not&lt;/span&gt; done:
+        &lt;span style="color: #AA22FF; font-weight: bold"&gt;with&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;no_grad():
+            state_t &lt;span style="color: #666666"&gt;=&lt;/span&gt; torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;tensor(state, dtype&lt;span style="color: #666666"&gt;=&lt;/span&gt;torch&lt;span style="color: #666666"&gt;.&lt;/span&gt;float32)&lt;span style="color: #666666"&gt;.&lt;/span&gt;unsqueeze(&lt;span style="color: #666666"&gt;0&lt;/span&gt;)
+            action &lt;span style="color: #666666"&gt;=&lt;/span&gt; policy_net(state_t)&lt;span style="color: #666666"&gt;.&lt;/span&gt;argmax()&lt;span style="color: #666666"&gt;.&lt;/span&gt;item()
+        state, reward, terminated, truncated, _ &lt;span style="color: #666666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;step(action)
+        total_reward &lt;span style="color: #666666"&gt;+=&lt;/span&gt; reward
+        done &lt;span style="color: #666666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #AA22FF; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+    &lt;span style="color: #AA22FF"&gt;print&lt;/span&gt;(&lt;span style="color: #BB4444"&gt;f&amp;quot;Test Episode &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;test_ep&lt;span style="color: #666666"&gt;+1&lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;: Total Reward = &lt;/span&gt;&lt;span style="color: #BB6688; font-weight: bold"&gt;{&lt;/span&gt;total_reward&lt;span style="color: #BB6688; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #BB4444"&gt;&amp;quot;&lt;/span&gt;)
+
+test_env&lt;span style="color: #666666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="_3"&gt;五、运行结果你应该看到什么&lt;a class="headerlink" href="#_3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;🚀 开始训练 DQN...
+
+Episode  50 | Avg Reward (last 50):   22.4 | Epsilon: 0.606 | Buffer: 3200
+Episode 100 | Avg Reward (last 50):   45.8 | Epsilon: 0.367 | Buffer: 6400
+Episode 150 | Avg Reward (last 50):   89.2 | Epsilon: 0.222 | Buffer: 9600
+Episode 200 | Avg Reward (last 50):  156.3 | Epsilon: 0.134 | Buffer: 10000
+Episode 250 | Avg Reward (last 50):  198.7 | Epsilon: 0.081 | Buffer: 10000
+...
+Episode 500 | Avg Reward (last 50):  500.0 | Epsilon: 0.050 | Buffer: 10000
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;前期&lt;/strong&gt;：ε 大，随机探索，杆子很快倒，reward 低&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中期&lt;/strong&gt;：开始学到&amp;rdquo;往哪边倒就往哪边推&amp;rdquo;，reward 逐渐涨&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;后期&lt;/strong&gt;：ε 降到 0.05，几乎纯贪心，能稳定撑满 500 步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2 id="dqn-vs-q-learning"&gt;六、DQN vs Q-Learning 对比&lt;a class="headerlink" href="#dqn-vs-q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;Q-Learning&lt;/th&gt;
+&lt;th&gt;DQN&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Q 值存储&lt;/td&gt;
+&lt;td&gt;表格&lt;/td&gt;
+&lt;td&gt;神经网络&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;状态空间&lt;/td&gt;
+&lt;td&gt;只能离散&lt;/td&gt;
+&lt;td&gt;连续/离散都行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;泛化&lt;/td&gt;
+&lt;td&gt;无&lt;/td&gt;
+&lt;td&gt;有（网络参数共享）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;样本效率&lt;/td&gt;
+&lt;td&gt;低（用一次就丢）&lt;/td&gt;
+&lt;td&gt;高（经验回放复用）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;训练稳定性&lt;/td&gt;
+&lt;td&gt;稳定&lt;/td&gt;
+&lt;td&gt;需要 Target Network&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;代码复杂度&lt;/td&gt;
+&lt;td&gt;简单&lt;/td&gt;
+&lt;td&gt;中等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h2 id="dqn_2"&gt;七、DQN 的后续改进（知道就好）&lt;a class="headerlink" href="#dqn_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;改进&lt;/th&gt;
+&lt;th&gt;解决什么问题&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Double DQN&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;Target 高估 Q 值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Dueling DQN&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;把 Q 拆成 V + A，更好估计状态价值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Prioritized Replay&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;重要经验多采样&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Noisy Nets&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;用参数噪声代替 ε-greedy&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Rainbow&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;以上全用上，SOTA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr /&gt;
+&lt;h2 id="_4"&gt;八、关键概念速查&lt;a class="headerlink" href="#_4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;概念&lt;/th&gt;
+&lt;th&gt;一句话&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Q Network&lt;/td&gt;
+&lt;td&gt;输入状态，输出每个动作的 Q 值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Replay Buffer&lt;/td&gt;
+&lt;td&gt;经验池，随机采样打破相关性&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Target Network&lt;/td&gt;
+&lt;td&gt;提供稳定的 TD Target&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TD Error&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Q(s,a)&lt;/code&gt; 和 &lt;code&gt;r + γ·max Q(s',a')&lt;/code&gt; 的差&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Off-policy&lt;/td&gt;
+&lt;td&gt;用 ε-greedy 探索的数据来训练贪心策略&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
 &lt;/table&gt;</content><category term="ai"></category><category term="rl"></category></entry><entry><title>Q-Learning 算法原理及示例</title><link href="http://kamidox.github.io/q-learning.html" rel="alternate"></link><published>2026-10-02T10:43:00+08:00</published><updated>2026-10-02T10:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/q-learning.html</id><summary type="html">&lt;p&gt;一文讲清楚 Q-Learning 算法原理，并通过一个可运行的案例，直观感受算法成果&lt;/p&gt;</summary><content type="html">&lt;h2 id="q-learning"&gt;一、直觉：Q-Learning 到底在干嘛？&lt;a class="headerlink" href="#q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id="_1"&gt;核心思想一句话&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
 &lt;blockquote&gt;
@@ -8982,77 +9436,4 @@ PKG_CONFIG_PATH:&lt;span style="color: #bbbbbb"&gt; &lt;/span&gt;&lt;span style=
 &lt;li&gt;增加单元测试工具集&lt;/li&gt;
 &lt;li&gt;增加一键部署到 GitHub Pages 功能&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;项目地址是 &lt;a href="https://github.com/kamidox/react-babel-webpack-boilerplate"&gt;kamidox/react-babel-webpack-boilerplate&lt;/a&gt;，如果你认同这里阐述的开发理念，可以作为 React 项目的开发起点。&lt;/p&gt;</content><category term="web"></category><category term="react"></category></entry><entry><title>微信小程序原理</title><link href="http://kamidox.github.io/weapp-principle.html" rel="alternate"></link><published>2016-11-05T07:52:00+08:00</published><updated>2016-11-05T07:52:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2016-11-05:/weapp-principle.html</id><summary type="html">&lt;p&gt;微信小程序使用了前端技术栈 JavaScript/WXML/WXSS。它背后的原理是怎么样的呢？&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;写在前面&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;微信小程序使用了前端技术栈 JavaScript/WXML/WXSS。但和常规的前端开发又有一些区别：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;JavaScript: 微信小程序的 JavaScript 运行环境即不是 Browser 也不是 Node.js。它运行在微信 App 的上下文中，不能操作 Browser context 下的 DOM，也不能通过 Node.js 相关接口访问操作系统 API。所以，严格意义来讲，微信小程序并不是 Html5，虽然开发过程和用到的技术栈和 Html5 是相通的。&lt;/li&gt;
-&lt;li&gt;WXML: 作为微信小程序的展示层，并不是使用 Html，而是自己发明的基于 XML 语法的描述。&lt;/li&gt;
-&lt;li&gt;WXSS: 用来修饰展示层的样式。官方的描述是 “ WXSS (WeiXin Style Sheets) 是一套样式语言，用于描述 WXML 的组件样式。WXSS 用来决定 WXML 的组件应该怎么显示。” “我们的 WXSS 具有 CSS 大部分特性&amp;hellip;我们对 CSS 进行了扩充以及修改。”基于 CSS2 还是 CSS3？大部分是哪些部分？是否支持 CSS3 里的动画？不得而知。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;在微信小程序官方文档上，有下面这段话：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;微信小程序运行在三端：iOS、Android 和 用于调试的开发者工具&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在 iOS 上，小程序的 javascript 代码是运行在 JavaScriptCore 中&lt;/li&gt;
-&lt;li&gt;在 Android 上，小程序的 javascript 代码是通过 X5 内核来解析&lt;/li&gt;
-&lt;li&gt;在 开发工具上， 小程序的 javascript 代码是运行在 nwjs（chrome内核） 中&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们先从开发工具谈起。&lt;/p&gt;
-&lt;h2 id="_2"&gt;开发工具&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;小程序的 javascript 代码运行在 nwjs 中。nwjs 是什么鬼呢？官方介绍是这样写的：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;NW.js (previously known as node-webkit) lets you call all Node.js modules directly from DOM and enables a new way of writing applications with all Web technologies.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;a href="http://nwjs.io"&gt;nwjs&lt;/a&gt; 合并 Browser 和 Node.js 的运行时，可以使用前端开发技术来开发跨平台的应用程序。借助 Node.js 访问操作系统原生 API 的能力，可以开发中跨平台的应用程序。微信小程序开发工具就是使用 nwjs 开发的。如果你是 Mac 用户，进入目录 &lt;code&gt;/Applications/wechatwebdevtools.app/Contents/Resources/app.nw/app&lt;/code&gt; 可以看到开发工具的实现代码，当然代码是经过混淆的。网上流行的破解版本开发工具原理上就是修改这里面的代码。&lt;/p&gt;
-&lt;p&gt;与此类似的，一个更火的项目是 &lt;a href="http://electron.atom.io"&gt;Electron&lt;/a&gt;，由 GitHub 推出的，它也是把 Browser 和 Node.js 结合，用来开发跨平台的应用程序。程序员们应该听说过 &lt;a href="https://atom.io"&gt;Atom&lt;/a&gt; 这个编辑器界的后起之秀。包括微软拥抱开源社区的编辑器 &lt;a href="http://code.visualstudio.com"&gt;vscode&lt;/a&gt; 也是使用 Electron 开发的。&lt;/p&gt;
-&lt;h3 id="electron-vs-nwjs"&gt;Electron vs nwjs&lt;a class="headerlink" href="#electron-vs-nwjs" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;这两个平台有什么区别？为什么微信选择 nwjs 呢？我们不妨猜一猜。&lt;/p&gt;
-&lt;p&gt;从技术角度来讲：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;应用程序入口不同：Electron 入口是一个 javascript 脚本，脚本里要自己负责创建浏览器窗口，加载 html 页面。而 nwjs 的入口就是一个 html 页面，框架自己会创建浏览器窗口来显示这个 html 页面。&lt;/li&gt;
-&lt;li&gt;Node.js 集成方式不同：Electron 直接使用 Node.js 的共享库，不需要修改 Chromium 代码。而 nwjs 为了集成 Node.js ，需要修改 Chromium 代码，以便在浏览器里能通过 Node.js 访问系统原生 API。&lt;/li&gt;
-&lt;li&gt;Multi-Context: nwjs 有多个上下文，一个是浏览器的上下文，用来访问 Browser 相关 API，比如操作 DOM ，另外一个是 Node 上下文，用来访问操作系统 API。Electron 没有使用多个上下文，对开发者更友好。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;从应用角度来讲：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;打包后的文件大小：Electron 打包后文件会比 nwjs 小不少。一个 18M 的程序，使用 Electron 打包后是 117M，而使用 nwjs 打包后的程序是 220M。微信小程序开发工具打包后是 219M (v0.10.102800)。没有亲测，评价来源参考文档。&lt;/li&gt;
-&lt;li&gt;代码保护：Electron 只支持代码混淆来保护，而 nwjs 把核心代码放在 V8 引擎里，不但可以保护代码，还可以提高执行效率。&lt;/li&gt;
-&lt;li&gt;开源社区活跃度：Electron 应该是完胜的。看看&lt;a href="http://electron.atom.io/apps/"&gt;使用 Electron 构建的应用程序&lt;/a&gt;就知道了。而据说 nwjs 的开发文档有些都没有及时更新。&lt;/li&gt;
-&lt;li&gt;应用程序启动时间：Electron 会稍微快一点。没有亲测，评价来源参考文档。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;从这个分析猜测，微信选择 nwjs 的原因可能是出于代码保护。毕竟开发工具可以上传小程序，有些接口和数据需要比较严密的保护。哪位大牛可以挖挖看哪些代码被保护起来了。&lt;/p&gt;
-&lt;h2 id="_3"&gt;真机运行环境&lt;a class="headerlink" href="#_3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;下面内容完全是猜测的，如有言中，实属运气。&lt;/p&gt;
-&lt;p&gt;微信小程序的运行环境应该更类似 ReactNative 之类，而不是纯 Html5。两者最大的不同在于，ReactNative 的界面是由原生控件渲染出来的，而 Html5 的界面是由浏览器内核渲染出来的。两者在性能上有较大的差异，感兴趣的可以参阅我的另外一篇文章&lt;a href="http://www.jianshu.com/p/2b4926fa45df"&gt;《跨平台 App 开发技术方案汇总》&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;原理上，小程序是如何在微信 App 里运行的呢？&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;微信 App 里包含 javascript 运行引擎。&lt;/li&gt;
-&lt;li&gt;微信 App 里包含了 WXML/WXSS 处理引擎，最终会把界面翻译成系统原生的控件，并展示出来。这样做的目的是为了提供和原生 App 性能相当的用户体验。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们来意淫一下小程序加载运行的过程：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;用户点击打开一个小程序&lt;/li&gt;
-&lt;li&gt;微信 App 从微信服务器下载这个小程序&lt;/li&gt;
-&lt;li&gt;分析 &lt;code&gt;app.json&lt;/code&gt; 得到应用程序的配置信息（导航栏，窗口样式，包含的页面列表等）&lt;/li&gt;
-&lt;li&gt;加载并运行 &lt;code&gt;app.js&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;加载并显示在 &lt;code&gt;app.json&lt;/code&gt; 里配置的第一个页面&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;这个只是从开发者眼中看到的一个简化版的过程，实际过程应该比这要复杂得多，涉及到浏览器线程（就是运行我们的逻辑层代码 app.js 等的线程）和 AppService 线程之间的交互。从官方网站上的一个图片可以看出端倪：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="生命周期" src="https://mp.weixin.qq.com/debug/wxadoc/dev/image/mina-lifecycle.png" /&gt;&lt;/p&gt;
-&lt;p&gt;至于微信 App 是如何与小程序的逻辑层 javascript 交互的呢？可以简单地归纳如下：&lt;/p&gt;
-&lt;p&gt;JavaScript 是脚本语言，可以在运行时解释并执行。微信 App 里包含了一个 JavaScript 引擎，由它来负责执行逻辑层的 JavaScript 代码。那么 JavaScript 调用的小程序相关 API 怎么实现的呢？答案是最终会被翻译成实现在微信 App 里的原生接口。比如开发者调用 &lt;code&gt;wx.getLocation(OBJECT)&lt;/code&gt; 获取当前地理位置，微信 App 里的 JavaScript 引擎在执行这个代码时，会去调用微信 App 里实现的原生接口来获取地理位置坐标。&lt;/p&gt;
-&lt;p&gt;感兴趣的朋友可以阅读我之前推荐过的一篇文章&lt;a href="http://www.jianshu.com/p/978c4bd3a759"&gt;《React Native 从入门到原理》&lt;/a&gt;。文章分析的虽然是 ReactNative，但实际上原理是相通的。&lt;/p&gt;
-&lt;h2 id="_4"&gt;总结&lt;a class="headerlink" href="#_4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;微信小程序最大的好处是不需要做设备适配，只要微信能运行，小程序就能运行。小程序虽然是一个封闭形态下的前端开发技术，但借助微信的巨大影响力，几乎所有人都在往里面冲。微信小程序太火了，内测火，公测更火。内测刚出来，就有人用微信小程序实现了商城，并开源。感叹一下：你的热情，就像一把火，燃烧了整个沙漠。&lt;/p&gt;
-&lt;p&gt;作为开发者，提几个不足：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;不支持从 node_modules 中加载模块。这样无形中就把 npm 排除在外了。从开发生态角度，这个应该是微信小程序下一步要重点解决的问题吧。&lt;/li&gt;
-&lt;li&gt;开发工具自带的代码编辑器还是太简陋了。不知道为什么微信要重复发明轮子。理论上，给流行的代码编辑器 (sublime/atom/vscode etc.) 开发个插件。然后用户直接到小程序后台上传提交审核就好了。程序员是挑剔到近乎偏执的物种，代码编辑器又是程序员时刻打交道的工具，要做好实属不易。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id="_5"&gt;参考文档&lt;a class="headerlink" href="#_5" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;https://github.com/electron/electron/blob/master/docs/development/atom-shell-vs-node-webkit.md&lt;/li&gt;
-&lt;li&gt;https://www.akawebdesign.com/2015/05/06/electron-vs-nwjs/&lt;/li&gt;
-&lt;li&gt;https://www.akawebdesign.com/2015/11/02/electron-vs-nwjs-part-2/&lt;/li&gt;
-&lt;/ol&gt;</content><category term="weapp"></category><category term="weapp"></category></entry></feed>
+&lt;p&gt;项目地址是 &lt;a href="https://github.com/kamidox/react-babel-webpack-boilerplate"&gt;kamidox/react-babel-webpack-boilerplate&lt;/a&gt;，如果你认同这里阐述的开发理念，可以作为 React 项目的开发起点。&lt;/p&gt;</content><category term="web"></category><category term="react"></category></entry></feed>
