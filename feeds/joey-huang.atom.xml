@@ -440,7 +440,7 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="rl"/></entry><entry><title>DQN - Deep Q-Network</title><link href="http://kamidox.github.io/dqn.html" rel="alternate"/><published>2026-10-02T12:43:00+08:00</published><updated>2026-10-02T12:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/dqn.html</id><summary type="html">&lt;p&gt;DQN 将深度神经网络作为函数逼近器，用来近似 Q 函数 &lt;span class="math"&gt;\(Q(s,a)\)&lt;/span&gt;，并结合 Q-learning 的强化学习算法。由 DeepMind 在 2015 年提出，标志着深度学习与强化学习融合的开端。&lt;/p&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>DQN - Deep Q-Network</title><link href="http://kamidox.github.io/dqn.html" rel="alternate"/><published>2026-10-02T12:43:00+08:00</published><updated>2026-10-02T12:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/dqn.html</id><summary type="html">&lt;p&gt;DQN 将深度神经网络作为函数逼近器，用来近似 Q 函数 &lt;span class="math"&gt;\(Q(s,a)\)&lt;/span&gt;，并结合 Q-learning 的强化学习算法。由 DeepMind 在 2015 年提出，标志着深度学习与强化学习融合的开端。&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -956,7 +956,7 @@ Episode 500 | Avg Reward (last 50):  500.0 | Epsilon: 0.050 | Buffer: 10000
 &lt;td&gt;用 ε-greedy 探索的数据来训练贪心策略&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</content><category term="ai"/><category term="rl"/></entry><entry><title>Q-Learning 算法原理及示例</title><link href="http://kamidox.github.io/q-learning.html" rel="alternate"/><published>2026-10-02T10:43:00+08:00</published><updated>2026-10-02T10:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/q-learning.html</id><summary type="html">&lt;p&gt;一文讲清楚 Q-Learning 算法原理，并通过一个可运行的案例，直观感受算法成果&lt;/p&gt;</summary><content type="html">&lt;h2 id="q-learning"&gt;一、直觉：Q-Learning 到底在干嘛？&lt;a class="headerlink" href="#q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;/table&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>Q-Learning 算法原理及示例</title><link href="http://kamidox.github.io/q-learning.html" rel="alternate"/><published>2026-10-02T10:43:00+08:00</published><updated>2026-10-02T10:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-02:/q-learning.html</id><summary type="html">&lt;p&gt;一文讲清楚 Q-Learning 算法原理，并通过一个可运行的案例，直观感受算法成果&lt;/p&gt;</summary><content type="html">&lt;h2 id="q-learning"&gt;一、直觉：Q-Learning 到底在干嘛？&lt;a class="headerlink" href="#q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;h3 id="_1"&gt;核心思想一句话&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h3&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Q-Learning 是在学一张表（Q-Table），表里每个格子回答一个问题：&lt;/strong&gt;
@@ -1335,7 +1335,7 @@ Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="rl"/></entry><entry><title>强化学习中的值函数与 Q 函数</title><link href="http://kamidox.github.io/v-q-function.html" rel="alternate"/><published>2026-10-01T23:43:00+08:00</published><updated>2026-10-01T23:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-01:/v-q-function.html</id><summary type="html">&lt;p&gt;一文讲清楚强化学习中的值函数和 Q 函数&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;一、总览：它们解决什么问题？&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>强化学习中的值函数与 Q 函数</title><link href="http://kamidox.github.io/v-q-function.html" rel="alternate"/><published>2026-10-01T23:43:00+08:00</published><updated>2026-10-01T23:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-10-01:/v-q-function.html</id><summary type="html">&lt;p&gt;一文讲清楚强化学习中的值函数和 Q 函数&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;一、总览：它们解决什么问题？&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;在强化学习（RL）中，智能体（Agent）通过与环境交互来学习&lt;strong&gt;“在某个状态下，做什么动作最好”&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;值函数（Value Function）和 Q 函数（Action-Value Function / Q-function）就是用来&lt;strong&gt;量化“好”的程度&lt;/strong&gt;的数学工具，是 RL 决策的核心依据。&lt;/p&gt;
 &lt;hr /&gt;
@@ -1613,7 +1613,7 @@ Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="rl"/></entry><entry><title>当了一天的通缉犯</title><link href="http://kamidox.github.io/20260911.html" rel="alternate"/><published>2026-09-11T19:44:00+08:00</published><updated>2026-09-11T19:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-11:/20260911.html</id><summary type="html">&lt;p&gt;活了大半辈子了，和警察打交道的次数，一个手都数得过来。没想到，这次当了一天的通缉犯。&lt;/p&gt;</summary><content type="html">&lt;p&gt;2026 年 9 月 10 日早上 9:43 分，收到公司门岗保安的电话，说有两个交警在楼下找我，要我马上下去。&lt;/p&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>当了一天的通缉犯</title><link href="http://kamidox.github.io/20260911.html" rel="alternate"/><published>2026-09-11T19:44:00+08:00</published><updated>2026-09-11T19:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-11:/20260911.html</id><summary type="html">&lt;p&gt;活了大半辈子了，和警察打交道的次数，一个手都数得过来。没想到，这次当了一天的通缉犯。&lt;/p&gt;</summary><content type="html">&lt;p&gt;2026 年 9 月 10 日早上 9:43 分，收到公司门岗保安的电话，说有两个交警在楼下找我，要我马上下去。&lt;/p&gt;
 &lt;p&gt;挂完电话，我一脸狐疑，盘算着各种可能性。还没想清楚，远远地看到两个警察站在公司保安室。警察问了我的姓名后，打开挂在胸前的执法摄像头，一副采集“呈堂证供“的架势。第一句话，用非常严肃的语气，拷问道：昨天早上在吕岭路，发生了什么事情？&lt;/p&gt;
 &lt;p&gt;我被他的架势镇住了，大概讲了经过。警察二话不说，继续质问：为什么不接我们的电话？昨天我们联系了你一天，也打给你老婆，都不接。现在，有人报案，你被怀疑肇事逃逸，现在要暂扣你的车。&lt;/p&gt;
 &lt;p&gt;就这样，不由分说，把车子扣了，叫来一辆挂车运走了。我站在原地，在风中凌乱。&lt;/p&gt;
@@ -2536,7 +2536,7 @@ $$&lt;/div&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="ai"/></entry><entry><title>横竖都是赢，姿势最重要：聊聊职业发展的“横竖”哲学</title><link href="http://kamidox.github.io/20260906.html" rel="alternate"/><published>2026-09-06T09:44:00+08:00</published><updated>2026-09-06T09:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-06:/20260906.html</id><summary type="html">&lt;p&gt;有些人认为，要有深度，有些人认为要有广度。大部分人的职业路径，是先有深度，再有广度。到底是深度好，还是广度好，还是要两者兼修？&lt;/p&gt;</summary><content type="html">&lt;p&gt;刚毕业那会儿，我最怕被问到职业规划。&lt;/p&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>横竖都是赢，姿势最重要：聊聊职业发展的“横竖”哲学</title><link href="http://kamidox.github.io/20260906.html" rel="alternate"/><published>2026-09-06T09:44:00+08:00</published><updated>2026-09-06T09:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-06:/20260906.html</id><summary type="html">&lt;p&gt;有些人认为，要有深度，有些人认为要有广度。大部分人的职业路径，是先有深度，再有广度。到底是深度好，还是广度好，还是要两者兼修？&lt;/p&gt;</summary><content type="html">&lt;p&gt;刚毕业那会儿，我最怕被问到职业规划。&lt;/p&gt;
 &lt;p&gt;每次面试，HR 都会笑眯眯地抛出这个问题，而我总会在心里疯狂吐槽：我连明天中午吃啥都没想好，你让我规划未来三十年？&lt;/p&gt;
 &lt;p&gt;后来我发现，不只是我，很多刚入行的朋友都在纠结同一个问题：职业到底应该走“深度”还是“广度”？是像钉子一样往一个地方死磕（竖），还是像八爪鱼一样到处沾点（横）？&lt;/p&gt;
 &lt;p&gt;今天咱们就来聊聊这个“横竖”问题。&lt;/p&gt;
@@ -2929,7 +2929,7 @@ small_control &lt;span style="color: #666"&gt;=&lt;/span&gt; (&lt;span style="co
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="ai"/></entry><entry><title>大模型这东西，比村口算命的都玄</title><link href="http://kamidox.github.io/ai-feeling.html" rel="alternate"/><published>2026-09-05T17:43:00+08:00</published><updated>2026-09-05T17:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-05:/ai-feeling.html</id><summary type="html">&lt;p&gt;网上宣传的大模型无所不能，而大部分人用完，觉得也就那样。这是为什么？&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;大模型这东西，比村口算命的都玄&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>大模型这东西，比村口算命的都玄</title><link href="http://kamidox.github.io/ai-feeling.html" rel="alternate"/><published>2026-09-05T17:43:00+08:00</published><updated>2026-09-05T17:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-05:/ai-feeling.html</id><summary type="html">&lt;p&gt;网上宣传的大模型无所不能，而大部分人用完，觉得也就那样。这是为什么？&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;大模型这东西，比村口算命的都玄&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;前两天刷到个帖子，说大模型马上要取代程序员了，评论区一堆人瑟瑟发抖，好像明天就得去送外卖似的。&lt;/p&gt;
 &lt;p&gt;我寻思着，这帮人是不是压根没用过啊？&lt;/p&gt;
 &lt;p&gt;今天咱就聊聊，为啥网上吹得天花乱坠的AI，你上手一用就觉得——&amp;ldquo;就这？&amp;rdquo;&lt;/p&gt;
@@ -3405,7 +3405,7 @@ max_iterations&lt;span style="color: #666"&gt;=5_000&lt;/span&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="ai"/><category term="ai"/></entry><entry><title>zeroclaw 消息处理流程</title><link href="http://kamidox.github.io/zerowclaw-msg-flow.html" rel="alternate"/><published>2026-04-04T11:43:00+08:00</published><updated>2026-04-04T11:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-04-04:/zerowclaw-msg-flow.html</id><summary type="html">&lt;p&gt;通过分析一个完事的消息处理流程，探究 zeroclaw 如何处理用户消息。&lt;/p&gt;</summary><content type="html">&lt;h2 id="zeroclaw"&gt;zeroclaw 简绍&lt;a class="headerlink" href="#zeroclaw" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>zeroclaw 消息处理流程</title><link href="http://kamidox.github.io/zerowclaw-msg-flow.html" rel="alternate"/><published>2026-04-04T11:43:00+08:00</published><updated>2026-04-04T11:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-04-04:/zerowclaw-msg-flow.html</id><summary type="html">&lt;p&gt;通过分析一个完事的消息处理流程，探究 zeroclaw 如何处理用户消息。&lt;/p&gt;</summary><content type="html">&lt;h2 id="zeroclaw"&gt;zeroclaw 简绍&lt;a class="headerlink" href="#zeroclaw" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;Openclaw 爆火，让 xxclaw 系列开源软件如雨后春笋般冒出来。我们选择 &lt;a href="https://github.com/zeroclaw-labs/zeroclaw.git"&gt;zerowclaw&lt;/a&gt; 来进行研究。&lt;/p&gt;
 &lt;p&gt;zeroclaw 用 rust 语言实现，&lt;strong&gt;资源占用极小&lt;/strong&gt;。编译出来的二进制可执行文件才 14MB，运行时 idle 状态占用内存 5MB。可以轻松地在树莓派 3B+ 上运行。对命令 &lt;code&gt;zeroclaw status&lt;/code&gt; 几乎是瞬间就有响应。&lt;/p&gt;
 &lt;p&gt;反观 openclaw，使用 TypeScript + NodeJS  实现，编译完的可执行程序 622MB，运行时 idle 状态占用内存 415MB。输入 &lt;code&gt;openclaw status&lt;/code&gt; 要等 5s 以上才有反应。&lt;/p&gt;
