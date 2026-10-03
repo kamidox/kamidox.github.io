@@ -1613,7 +1613,243 @@ Episode 2000 | Avg Reward:    12.5 | Avg Steps:  25.0 | Epsilon: 0.010
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>当了一天的通缉犯</title><link href="http://kamidox.github.io/20260911.html" rel="alternate"/><published>2026-09-11T19:44:00+08:00</published><updated>2026-09-11T19:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-11:/20260911.html</id><summary type="html">&lt;p&gt;活了大半辈子了，和警察打交道的次数，一个手都数得过来。没想到，这次当了一天的通缉犯。&lt;/p&gt;</summary><content type="html">&lt;p&gt;2026 年 9 月 10 日早上 9:43 分，收到公司门岗保安的电话，说有两个交警在楼下找我，要我马上下去。&lt;/p&gt;
+&lt;/script&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>Gymnasium 快速上手指南</title><link href="http://kamidox.github.io/gymnasium.html" rel="alternate"/><published>2026-09-15T22:43:00+08:00</published><updated>2026-09-15T22:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-15:/gymnasium.html</id><summary type="html">&lt;p&gt;强化学习是如何和环境交互的？一篇文章快速带你入门。&lt;/p&gt;</summary><content type="html">&lt;p&gt;强化学习生态一般分两层：环境接口层（Gymnasium / PettingZoo）和算法/训练层（SB3 / CleanRL / Tianshou / RLlib / TorchRL 等）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Gymnasium 不是算法库，是“环境接口标准”&lt;/strong&gt;——它负责 &lt;code&gt;reset / step / observation / reward / done&lt;/code&gt;，不负责 PPO/DQN。&lt;/p&gt;
+&lt;p&gt;几乎所有的开源强化学习框架，都支持 Gymnasium。我们用一篇文章，快速入门 Gymnasium。一步步跟着做，出问题丢给 Agent 帮你解释，帮你解决。也可以参考&lt;a href="https://github.com/kamidox/rl-lab"&gt;我的代码&lt;/a&gt;。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="0"&gt;第 0 步：建环境（一次就好）&lt;a class="headerlink" href="#0" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F"&gt;cd&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;rl-env
+uv&lt;span style="color: #BBB"&gt; &lt;/span&gt;venv&lt;span style="color: #BBB"&gt; &lt;/span&gt;.venv
+&lt;span style="color: #A2F"&gt;source&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;rl-env/.venv/bin/activate
+uv&lt;span style="color: #BBB"&gt; &lt;/span&gt;pip&lt;span style="color: #BBB"&gt; &lt;/span&gt;install&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;gymnasium[classic-control]&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;后面再按需装：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;uv&lt;span style="color: #BBB"&gt; &lt;/span&gt;pip&lt;span style="color: #BBB"&gt; &lt;/span&gt;install&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;gymnasium[box2d]&amp;quot;&lt;/span&gt;&lt;span style="color: #BBB"&gt;      &lt;/span&gt;&lt;span style="color: #080; font-style: italic"&gt;# LunarLander&lt;/span&gt;
+uv&lt;span style="color: #BBB"&gt; &lt;/span&gt;pip&lt;span style="color: #BBB"&gt; &lt;/span&gt;install&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;gymnasium[mujoco]&amp;quot;&lt;/span&gt;&lt;span style="color: #BBB"&gt;     &lt;/span&gt;&lt;span style="color: #080; font-style: italic"&gt;# 连续控制&lt;/span&gt;
+uv&lt;span style="color: #BBB"&gt; &lt;/span&gt;pip&lt;span style="color: #BBB"&gt; &lt;/span&gt;install&lt;span style="color: #BBB"&gt; &lt;/span&gt;stable-baselines3&lt;span style="color: #BBB"&gt;       &lt;/span&gt;&lt;span style="color: #080; font-style: italic"&gt;# 后面训练用&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="1"&gt;第 1 步：跑通“随机智能体”&lt;a class="headerlink" href="#1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;human&amp;quot;&lt;/span&gt;)
+obs, info &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;reset(seed&lt;span style="color: #666"&gt;=42&lt;/span&gt;)
+
+done &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;False&lt;/span&gt;
+total_reward &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #666"&gt;0&lt;/span&gt;
+
+&lt;span style="color: #A2F; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;not&lt;/span&gt; done:
+    action &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666"&gt;.&lt;/span&gt;sample()  &lt;span style="color: #080; font-style: italic"&gt;# 随机动作&lt;/span&gt;
+    obs, reward, terminated, truncated, info &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;step(action)
+    total_reward &lt;span style="color: #666"&gt;+=&lt;/span&gt; reward
+    done &lt;span style="color: #666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #A2F; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;随机策略总回报:&amp;quot;&lt;/span&gt;, total_reward)
+env&lt;span style="color: #666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;✅ 目标：看到小车乱动、杆子倒下
+✅ 记住这 5 个返回值：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;obs, reward, terminated, truncated, info = env.step(action)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;terminated&lt;/code&gt; = 任务失败/成功
+&lt;code&gt;truncated&lt;/code&gt; = 超时（不是算法概念，是人为截断）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2 id="2-space"&gt;第 2 步：搞懂 Space&lt;a class="headerlink" href="#2-space" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;observation_space:&amp;quot;&lt;/span&gt;, env&lt;span style="color: #666"&gt;.&lt;/span&gt;observation_space)
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;action_space:&amp;quot;&lt;/span&gt;, env&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space)
+
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;采样观测:&amp;quot;&lt;/span&gt;, env&lt;span style="color: #666"&gt;.&lt;/span&gt;observation_space&lt;span style="color: #666"&gt;.&lt;/span&gt;sample())
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;采样动作:&amp;quot;&lt;/span&gt;, env&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666"&gt;.&lt;/span&gt;sample())
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;你要能回答：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CartPole 观测是几维？（4 维）&lt;/li&gt;
+&lt;li&gt;动作是离散还是连续？（离散 0/1）&lt;/li&gt;
+&lt;li&gt;Pendulum 为什么不一样？（连续动作）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;再跑：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;Pendulum-v1&amp;quot;&lt;/span&gt;)
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(env&lt;span style="color: #666"&gt;.&lt;/span&gt;observation_space)
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(env&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="3"&gt;第 3 步：写“规则策略”，不是学习&lt;a class="headerlink" href="#3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;CartPole 启发式规则：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;human&amp;quot;&lt;/span&gt;)
+obs, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;reset()
+
+done &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;False&lt;/span&gt;
+&lt;span style="color: #A2F; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;not&lt;/span&gt; done:
+    &lt;span style="color: #080; font-style: italic"&gt;# obs = [x, x_dot, theta, theta_dot]&lt;/span&gt;
+    _, _, theta, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; obs
+    action &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #666"&gt;0&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;if&lt;/span&gt; theta &lt;span style="color: #666"&gt;&amp;lt;&lt;/span&gt; &lt;span style="color: #666"&gt;0&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;else&lt;/span&gt; &lt;span style="color: #666"&gt;1&lt;/span&gt;
+    obs, reward, terminated, truncated, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;step(action)
+    done &lt;span style="color: #666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #A2F; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+env&lt;span style="color: #666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;✅ 目标：
+你开始“用观测决定动作”，这就是 &lt;strong&gt;policy 的雏形&lt;/strong&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="4-q-learning"&gt;第 4 步：用手写 Q-Learning（离散环境）&lt;a class="headerlink" href="#4-q-learning" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;先用离散环境：&lt;strong&gt;Taxi / FrozenLake&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pip&lt;span style="color: #BBB"&gt; &lt;/span&gt;install&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;gymnasium[toy-text]&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;文件：&lt;a href="taxi_qlearning.py"&gt;&lt;code&gt;taxi_qlearning.py&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;建 Q 表：&lt;code&gt;Q[s, a]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;epsilon-greedy&lt;/code&gt; 选动作&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Q[s,a] += lr * (r + gamma*max(Q[s']) - Q[s,a])&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;跑 10000 步&lt;/li&gt;
+&lt;li&gt;看回报从 0 涨到稳定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一步非常关键：
+&lt;strong&gt;你会真正理解 reward / episode / discount / exploration&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;延伸阅读：&lt;a href="./q-learning.md"&gt;什么是 Q-Learning 算法？&lt;/a&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="5-dqn-cartpole"&gt;第 5 步：用 DQN 训练 CartPole&lt;a class="headerlink" href="#5-dqn-cartpole" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;文件：&lt;a href="cartpole/cartpole_dqn.py"&gt;cartpole_dqn.py&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;延伸阅读：&lt;a href="dqn.md"&gt;什么是 DQN 算法？&lt;/a&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="6-stable-baselines3-cartpole"&gt;第 6 步：用 Stable-Baselines3 训练 CartPole&lt;a class="headerlink" href="#6-stable-baselines3-cartpole" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;文件：&lt;a href="cartpole/cartpole_sb3_ppo.py"&gt;cartpole_sb3_ppo.py&lt;/a&gt;&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+&lt;span style="color: #A2F; font-weight: bold"&gt;from&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;stable_baselines3&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt; PPO
+
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;🚀 开始训练...&amp;quot;&lt;/span&gt;)
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;)
+model &lt;span style="color: #666"&gt;=&lt;/span&gt; PPO(&lt;span style="color: #B44"&gt;&amp;quot;MlpPolicy&amp;quot;&lt;/span&gt;, env, verbose&lt;span style="color: #666"&gt;=1&lt;/span&gt;)
+model&lt;span style="color: #666"&gt;.&lt;/span&gt;learn(total_timesteps&lt;span style="color: #666"&gt;=20_000&lt;/span&gt;)
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #B62; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #B44"&gt;✅ 训练完成！&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;&amp;quot;&lt;/span&gt;&lt;span style="color: #B62; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #B44"&gt;🎮 开始测试...&amp;quot;&lt;/span&gt;)
+test_env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;human&amp;quot;&lt;/span&gt;)
+
+&lt;span style="color: #A2F; font-weight: bold"&gt;for&lt;/span&gt; test_ep &lt;span style="color: #A2F; font-weight: bold"&gt;in&lt;/span&gt; &lt;span style="color: #A2F"&gt;range&lt;/span&gt;(&lt;span style="color: #666"&gt;3&lt;/span&gt;):
+    obs, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666"&gt;.&lt;/span&gt;reset()
+    done &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;False&lt;/span&gt;
+    total_reward &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #666"&gt;0&lt;/span&gt;
+
+    &lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;f&amp;quot;&lt;/span&gt;&lt;span style="color: #B62; font-weight: bold"&gt;\n&lt;/span&gt;&lt;span style="color: #B44"&gt;--- Test Episode &lt;/span&gt;&lt;span style="color: #B68; font-weight: bold"&gt;{&lt;/span&gt;test_ep&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #666"&gt;+&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #666"&gt;1&lt;/span&gt;&lt;span style="color: #B68; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #B44"&gt; ---&amp;quot;&lt;/span&gt;)
+    &lt;span style="color: #A2F; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;not&lt;/span&gt; done:
+        action, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; model&lt;span style="color: #666"&gt;.&lt;/span&gt;predict(obs, deterministic&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;True&lt;/span&gt;)
+        obs, reward, terminated, truncated, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; test_env&lt;span style="color: #666"&gt;.&lt;/span&gt;step(action)
+        total_reward &lt;span style="color: #666"&gt;+=&lt;/span&gt; reward
+        done &lt;span style="color: #666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #A2F; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+    &lt;span style="color: #A2F"&gt;print&lt;/span&gt;(&lt;span style="color: #B44"&gt;f&amp;quot;Total Reward: &lt;/span&gt;&lt;span style="color: #B68; font-weight: bold"&gt;{&lt;/span&gt;total_reward&lt;span style="color: #B68; font-weight: bold"&gt;}&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;&lt;/span&gt;)
+
+env&lt;span style="color: #666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="7-stable-baselines3-pendulum"&gt;第 7 步：用 Stable-Baselines3 训练 Pendulum&lt;a class="headerlink" href="#7-stable-baselines3-pendulum" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;详见 &lt;a href="pendulum/README.md"&gt;pendulum&lt;/a&gt;，总共 4 节课：环境解剖 → SAC 训练 → 手写 DDPG → 可视化演示&lt;/p&gt;
+&lt;p&gt;✅ 到这里你已经“跑通 RL 全流程”了&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="8-wrapper"&gt;第 8 步：学 Wrapper（很重要）&lt;a class="headerlink" href="#8-wrapper" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;常见 Wrapper：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Monitor&lt;/code&gt;：记录回报&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RecordVideo&lt;/code&gt;：录视频&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NormalizeObservation&lt;/code&gt; / &lt;code&gt;NormalizeReward&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FrameStack&lt;/code&gt;：图像任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+&lt;span style="color: #A2F; font-weight: bold"&gt;from&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium.wrappers&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt; RecordVideo
+
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;CartPole-v1&amp;quot;&lt;/span&gt;, render_mode&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;rgb_array&amp;quot;&lt;/span&gt;)
+env &lt;span style="color: #666"&gt;=&lt;/span&gt; RecordVideo(env, video_folder&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #B44"&gt;&amp;quot;videos&amp;quot;&lt;/span&gt;, episode_trigger&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;lambda&lt;/span&gt; x: &lt;span style="color: #A2F; font-weight: bold"&gt;True&lt;/span&gt;)
+
+obs, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;reset()
+done &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;False&lt;/span&gt;
+&lt;span style="color: #A2F; font-weight: bold"&gt;while&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;not&lt;/span&gt; done:
+    obs, reward, terminated, truncated, _ &lt;span style="color: #666"&gt;=&lt;/span&gt; env&lt;span style="color: #666"&gt;.&lt;/span&gt;step(env&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space&lt;span style="color: #666"&gt;.&lt;/span&gt;sample())
+    done &lt;span style="color: #666"&gt;=&lt;/span&gt; terminated &lt;span style="color: #A2F; font-weight: bold"&gt;or&lt;/span&gt; truncated
+
+env&lt;span style="color: #666"&gt;.&lt;/span&gt;close()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;hr /&gt;
+&lt;h2 id="9-gymnasium"&gt;第 9 步：写自己的 Gymnasium 环境（入门完成）&lt;a class="headerlink" href="#9-gymnasium" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;最小自定义环境：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gym&lt;/span&gt;
+&lt;span style="color: #A2F; font-weight: bold"&gt;from&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;gymnasium&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt; spaces
+&lt;span style="color: #A2F; font-weight: bold"&gt;import&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;numpy&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;as&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F; font-weight: bold"&gt;np&lt;/span&gt;
+
+&lt;span style="color: #A2F; font-weight: bold"&gt;class&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00F"&gt;MyGridEnv&lt;/span&gt;(gym&lt;span style="color: #666"&gt;.&lt;/span&gt;Env):
+    &lt;span style="color: #A2F; font-weight: bold"&gt;def&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00A000"&gt;__init__&lt;/span&gt;(&lt;span style="color: #A2F"&gt;self&lt;/span&gt;):
+        &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;action_space &lt;span style="color: #666"&gt;=&lt;/span&gt; spaces&lt;span style="color: #666"&gt;.&lt;/span&gt;Discrete(&lt;span style="color: #666"&gt;2&lt;/span&gt;)  &lt;span style="color: #080; font-style: italic"&gt;# 0=左, 1=右&lt;/span&gt;
+        &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;observation_space &lt;span style="color: #666"&gt;=&lt;/span&gt; spaces&lt;span style="color: #666"&gt;.&lt;/span&gt;Box(&lt;span style="color: #666"&gt;0&lt;/span&gt;, &lt;span style="color: #666"&gt;10&lt;/span&gt;, (&lt;span style="color: #666"&gt;1&lt;/span&gt;,), np&lt;span style="color: #666"&gt;.&lt;/span&gt;float32)
+
+    &lt;span style="color: #A2F; font-weight: bold"&gt;def&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00A000"&gt;reset&lt;/span&gt;(&lt;span style="color: #A2F"&gt;self&lt;/span&gt;, seed&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;None&lt;/span&gt;, options&lt;span style="color: #666"&gt;=&lt;/span&gt;&lt;span style="color: #A2F; font-weight: bold"&gt;None&lt;/span&gt;):
+        &lt;span style="color: #A2F"&gt;super&lt;/span&gt;()&lt;span style="color: #666"&gt;.&lt;/span&gt;reset(seed&lt;span style="color: #666"&gt;=&lt;/span&gt;seed)
+        &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #666"&gt;0&lt;/span&gt;
+        &lt;span style="color: #A2F; font-weight: bold"&gt;return&lt;/span&gt; np&lt;span style="color: #666"&gt;.&lt;/span&gt;array([&lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x], dtype&lt;span style="color: #666"&gt;=&lt;/span&gt;np&lt;span style="color: #666"&gt;.&lt;/span&gt;float32), {}
+
+    &lt;span style="color: #A2F; font-weight: bold"&gt;def&lt;/span&gt;&lt;span style="color: #BBB"&gt; &lt;/span&gt;&lt;span style="color: #00A000"&gt;step&lt;/span&gt;(&lt;span style="color: #A2F"&gt;self&lt;/span&gt;, action):
+        &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x &lt;span style="color: #666"&gt;+=&lt;/span&gt; &lt;span style="color: #666"&gt;1&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;if&lt;/span&gt; action &lt;span style="color: #666"&gt;==&lt;/span&gt; &lt;span style="color: #666"&gt;1&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;else&lt;/span&gt; &lt;span style="color: #666"&gt;-1&lt;/span&gt;
+        &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F"&gt;int&lt;/span&gt;(np&lt;span style="color: #666"&gt;.&lt;/span&gt;clip(&lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x, &lt;span style="color: #666"&gt;0&lt;/span&gt;, &lt;span style="color: #666"&gt;10&lt;/span&gt;))
+
+        reward &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #666"&gt;1.0&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;if&lt;/span&gt; &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x &lt;span style="color: #666"&gt;==&lt;/span&gt; &lt;span style="color: #666"&gt;10&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;else&lt;/span&gt; &lt;span style="color: #666"&gt;0.0&lt;/span&gt;
+        terminated &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x &lt;span style="color: #666"&gt;==&lt;/span&gt; &lt;span style="color: #666"&gt;10&lt;/span&gt;
+        truncated &lt;span style="color: #666"&gt;=&lt;/span&gt; &lt;span style="color: #A2F; font-weight: bold"&gt;False&lt;/span&gt;
+        &lt;span style="color: #A2F; font-weight: bold"&gt;return&lt;/span&gt; np&lt;span style="color: #666"&gt;.&lt;/span&gt;array([&lt;span style="color: #A2F"&gt;self&lt;/span&gt;&lt;span style="color: #666"&gt;.&lt;/span&gt;x], dtype&lt;span style="color: #666"&gt;=&lt;/span&gt;np&lt;span style="color: #666"&gt;.&lt;/span&gt;float32), reward, terminated, truncated, {}
+
+&lt;span style="color: #080; font-style: italic"&gt;# 注册&lt;/span&gt;
+gym&lt;span style="color: #666"&gt;.&lt;/span&gt;register(&lt;span style="color: #B44"&gt;&amp;quot;MyGrid-v0&amp;quot;&lt;/span&gt;, entry_point&lt;span style="color: #666"&gt;=&lt;/span&gt;MyGridEnv)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;然后：&lt;/p&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;env &lt;span style="color: #666"&gt;=&lt;/span&gt; gym&lt;span style="color: #666"&gt;.&lt;/span&gt;make(&lt;span style="color: #B44"&gt;&amp;quot;MyGrid-v0&amp;quot;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;✅ 能做到这一步 = &lt;strong&gt;Gymnasium 入门完成&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;延伸阅读：
+1. 官方文档 &lt;a href="https://gymnasium.farama.org/tutorials/gymnasium_basics/environment_creation/"&gt;Make your own custom environment&lt;/a&gt;.
+2. 官方文档 &lt;a href="[gymnasium.md](https://gymnasium.farama.org/introduction/create_custom_env/)"&gt;Create a Custom Environment&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2 id="_1"&gt;推荐练习顺序（别跳）&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;CartPole 随机&lt;/li&gt;
+&lt;li&gt;CartPole 规则策略&lt;/li&gt;
+&lt;li&gt;Taxi / FrozenLake + Q-Learning&lt;/li&gt;
+&lt;li&gt;CartPole + PPO（SB3）&lt;/li&gt;
+&lt;li&gt;Pendulum + SAC（连续动作）&lt;/li&gt;
+&lt;li&gt;Wrapper&lt;/li&gt;
+&lt;li&gt;自定义环境&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;gym.make_vec&lt;/code&gt; 多环境并行&lt;/li&gt;
+&lt;li&gt;CleanRL 读 PPO 源码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2 id="_2"&gt;一句话路线图&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
+&lt;div class="codehilite" style="background: #f8f8f8"&gt;&lt;pre style="line-height: 125%;"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Gymnasium 基础
+→ 随机/规则策略
+→ Q-Learning
+→ SB3 训练
+→ Wrapper
+→ 自定义环境
+→ 向量环境
+→ 读 CleanRL / 写自己的 RL 算法
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="rl"/><category term="rl"/></entry><entry><title>当了一天的通缉犯</title><link href="http://kamidox.github.io/20260911.html" rel="alternate"/><published>2026-09-11T19:44:00+08:00</published><updated>2026-09-11T19:44:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2026-09-11:/20260911.html</id><summary type="html">&lt;p&gt;活了大半辈子了，和警察打交道的次数，一个手都数得过来。没想到，这次当了一天的通缉犯。&lt;/p&gt;</summary><content type="html">&lt;p&gt;2026 年 9 月 10 日早上 9:43 分，收到公司门岗保安的电话，说有两个交警在楼下找我，要我马上下去。&lt;/p&gt;
 &lt;p&gt;挂完电话，我一脸狐疑，盘算着各种可能性。还没想清楚，远远地看到两个警察站在公司保安室。警察问了我的姓名后，打开挂在胸前的执法摄像头，一副采集“呈堂证供“的架势。第一句话，用非常严肃的语气，拷问道：昨天早上在吕岭路，发生了什么事情？&lt;/p&gt;
 &lt;p&gt;我被他的架势镇住了，大概讲了经过。警察二话不说，继续质问：为什么不接我们的电话？昨天我们联系了你一天，也打给你老婆，都不接。现在，有人报案，你被怀疑肇事逃逸，现在要暂扣你的车。&lt;/p&gt;
 &lt;p&gt;就这样，不由分说，把车子扣了，叫来一辆挂车运走了。我站在原地，在风中凌乱。&lt;/p&gt;
@@ -4054,42 +4290,4 @@ xtrabackup&lt;span style="color: #BBB"&gt; &lt;/span&gt;--prepare&lt;span style=
 &lt;p&gt;此外，可以直接在小程序中查看 E 大的投资收益情况，按年收益回顾，资产配置图（旭日图）等等。&lt;/p&gt;
 &lt;h2 id="_5"&gt;写在最后&lt;a class="headerlink" href="#_5" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
 &lt;p&gt;广大开黑车的 E 粉们。你们是如何管理现金的？如何定义每 1 份的资金大小？每 1 份的资金量，是变化的，还是固定的？是否考虑复利因素？欢迎留言说说你的想法。&lt;/p&gt;
-&lt;p&gt;（完）&lt;/p&gt;</content><category term="wealth"/><category term="我的投资账本"/></entry><entry><title>我的投资账本小程序功能对应关系索引</title><link href="http://kamidox.github.io/20230210.html" rel="alternate"/><published>2023-02-10T23:43:00+08:00</published><updated>2023-02-10T23:43:00+08:00</updated><author><name>Joey Huang</name></author><id>tag:kamidox.github.io,2023-02-10:/20230210.html</id><summary type="html">&lt;p&gt;我的投资账本小程序 UI 大调整&lt;/p&gt;</summary><content type="html">&lt;h2 id="_1"&gt;写在前面&lt;a class="headerlink" href="#_1" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;“我的投资账本”小程序终于迎来了 UI 大改版，把“资产记录”和“交易记录”合并起来，升级为“投资账户”。&lt;/p&gt;
-&lt;p&gt;以前经常被问：为什么要分两个账户列表？为什么资产记录那边的“累计收益”和交易记录那边的“累计收益”不同？&lt;/p&gt;
-&lt;p&gt;我解释得口干舌燥，依然被质疑。这下好了，账户统一了，也更自然了。&lt;/p&gt;
-&lt;p&gt;我还没来得及享受成就感，老用户纷纷表示：&lt;strong&gt;UI 变化太大了，都不习惯了，XXX 功能找不到在哪了&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;请容许我先哭一会儿。&lt;/p&gt;
-&lt;h2 id="_2"&gt;最舒服的记账方式&lt;a class="headerlink" href="#_2" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;最舒服的记账方式，应该是券商软件来做。只需要转入/转出资金，然后买入/卖出，券商就可以根据这些数据，算出所有的历史收益，以及资产配置。但券商没有动力做这些东西。&lt;/p&gt;
-&lt;p&gt;所以，对“我的投资账本”小程序来说，最舒服的记账姿势，就是手动记录入金，出金，以及买入，卖出。然后小程序每天根据市值变动，自动记账，自动统计历史收益曲线，自动呈现资产配置旭日图。&lt;/p&gt;
-&lt;p&gt;未来，甚至可以根据市场估值，持仓情况，以及你的持仓品种，给出操作建议。&lt;/p&gt;
-&lt;p&gt;这，就是把“资产记录”和“交易记录”合并起来的最底层逻辑。&lt;/p&gt;
-&lt;p&gt;当然，目前离最舒服的记账方式还有一定的距离，最主要的原因是无法保证“当日盈亏”计算的准确性。有下面一些原因：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;交易记录没有及时记录。&lt;/li&gt;
-&lt;li&gt;现金理财之类的收益，没有统计在内。比如账户现金产生的利息。&lt;/li&gt;
-&lt;li&gt;分红个人所得税没有统计在内。&lt;/li&gt;
-&lt;li&gt;如果你持有港股或美股，账本小程序使用的汇率中间价和券商软件使用的汇率实时价不同，会导致市值计算有差异。&lt;/li&gt;
-&lt;li&gt;持有的场外基金价格没有及时更新，收益没有统计进来。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;如果你不追求精确，只追求“模糊的正确”，那么上述问题都不是什么大问题。基本上可以享受“最舒服的记账”姿势了。如果你追求账户的精确性，那么依然可以手动输入资产来校准。&lt;/p&gt;
-&lt;h2 id="_3"&gt;功能对应&lt;a class="headerlink" href="#_3" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;为了推销底层逻辑，功能对应还是放在了最后。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;问题一&lt;/strong&gt;：原来的“&lt;strong&gt;实验室功能&lt;/strong&gt;”里可以导入&lt;strong&gt;资产记录，交易记录，转账记录&lt;/strong&gt;，还可以&lt;strong&gt;根据交易记录生成资产记录&lt;/strong&gt;，现在这些功能去哪了？&lt;/p&gt;
-&lt;p&gt;一图胜千言：打开账户界面，右上角的菜单即可找到。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="数据导入" src="../../images/20230210_1.png" /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;问题二&lt;/strong&gt;：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;原来的“历史收益回顾”和“资产配置旭日图”功能去哪了？&lt;/li&gt;
-&lt;li&gt;原来“资产记录”和“转账记录”去哪了？&lt;/li&gt;
-&lt;li&gt;原来的“持仓品种”，“已清仓品种”去哪了？&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;打开投资账户界面，往下拉，即可看到：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="资产列表" src="../../images/20230210_2.png" /&gt;&lt;/p&gt;
-&lt;h2 id="_4"&gt;写在最后&lt;a class="headerlink" href="#_4" title="Permanent link"&gt; &lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;对不起，都是我的错，UI 变化这么大，给老用户造成了很大的困扰。但请相信，我花了无数个夜晚调整 UI，目的绝对不是为了给你们添堵，而是从底层逻辑角度，让投资记账更方便，姿势更舒服。我也知道，已经植入大脑的东西，已经习惯了的东西，改变起来确实很困难，也需要时间。&lt;/p&gt;
-&lt;p&gt;但我需要你们一如即往的信任和支持。&lt;/p&gt;
-&lt;p&gt;正如小程序用户群里的的一位热心网友说的：我从来不评论 UI 设计，Joey 做什么，我就用什么。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;这份信任，重如泰山，无论如何不能辜负。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;（完）&lt;/p&gt;</content><category term="wealth"/><category term="我的投资账本"/></entry></feed>
